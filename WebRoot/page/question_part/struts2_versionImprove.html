@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>struts2版本升级</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;"> 
+背景:接到集团文,struts2在2.2.3以下版本(不含2.2.3)存在远程攻击漏洞,集团统一要求将struts2统一升级到struts2.2.3以上版本(含2.2.3版本)
+
+实施:
+1).将x-work核心包升级到x-work-core-2.2.3.jar 
+2).将struts2核心包升级到struts-core-2.2.3.jar
+3).将基于struts2的spring插件包升级到struts2-spring-plugin-2.2.3.jar
+
+经过测试以及后续升级后在项目的使用过程中发现需要注意的点:
+1).struts2重定向配置
+<result name="success" type="redirect-action">
+<param name="actionName">index</param>
+</result> 
+将type="redirect-action"修改为type="redirectAction"
+2).使用struts标签<s:property value="text"/>展示后出现乱码【由于在使用过程中发现用户品牌的联动下拉框出现中文乱码】
+由于struts2.2.3版本escape 的默认值为true，即不解析html代码，直接将其输出 .
+所以会出现中文乱码,若要避免中文乱码,应该加上escape="false",即<:property value="text"  escape="false"/>  
+	
+</pre> 
+</body>
+</html>

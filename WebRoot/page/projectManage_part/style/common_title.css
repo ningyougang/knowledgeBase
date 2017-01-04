@@ -1,0 +1,139 @@
+/* 标题样式 1 */
+.AI_common_title1{ /* 标题背景 */
+	background:url(../images/common_title_bg.gif) repeat-x 0 0;
+	border-left:1px solid #609bd2;
+	border-right:1px solid #609bd2;
+	clear:both;
+	height:24px;
+	overflow:hidden;
+}
+.AI_common_title1 h2{ /* 标题文字 */   
+	background:url(../images/title_icon.gif) no-repeat 3px 6px;
+	color:#fff;
+	line-height:24px;
+	text-indent:20px;
+	float:left;
+}
+.AI_common_title1 span{ /* 标题右侧收缩按钮 */ 
+	cursor:hand;
+	display:block;
+	float:right;
+	margin-right:10px;
+	margin-top:5px;
+}
+
+/* 标题样式 2 */
+.AI_common_title2{ /* 标题背景 */
+	background:url(../images/common_title_bg.gif) repeat-x 0 -44px;
+	border-left:1px solid #aacbee;
+	border-right:1px solid #aacbee;
+	height:24px;
+	overflow:hidden;
+}
+.AI_common_title2 h2{ /* 标题文字 */ 
+    color:#333;
+	background:url(../images/title_icon.gif) no-repeat 3px 6px;
+	line-height:24px;
+	text-indent:20px;
+	float:left;
+}
+.AI_common_title2 h3{ /* 标题文字 */ 
+    color:#333;
+	line-height:24px;
+	text-indent:20px;
+	float:left;
+}
+.AI_common_title2 span{ /* 标题右侧收缩按钮 */
+	cursor:hand;
+	display:block;
+	float:right;
+	margin-right:10px;
+	margin-top:5px;
+}
+
+/* 标题样式 3 */
+.AI_common_title3{ /* 标题背景 */ 
+	background:url(../images/common_title_bg.gif) repeat-x 0 -88px;
+	border-left:1px solid #aaccef;
+	border-right:1px solid #aaccef;
+	height:25px;
+	overflow:hidden;
+}
+.AI_common_title3 h2{ /* 标题文字 */   
+	background:url(../images/title_icon.gif) no-repeat 3px -18px;
+	color:#333;
+	line-height:24px;
+	text-indent:20px;
+	float:left;
+}
+.AI_common_title3 span{ /* 标题右侧收缩按钮 */
+	cursor:hand;
+	display:block;
+	float:right;
+	margin-right:10px;
+	margin-top:5px;	
+}
+
+/* 标题样式 4 */
+.AI_common_title4{ /* 标题背景 */ 
+	background:url(../images/common_title_bg.gif) repeat-x 0 -133px;
+	height:23px;
+	overflow:hidden;
+	margin-right:7px;
+}
+.AI_common_title4 h2{ /* 标题文字 */ 
+    color:#fff;
+	line-height:23px;
+	text-indent:10px;
+	float:left;
+	font-weight:bold;
+}
+.AI_common_title4 span{ /* 标题右侧收缩按钮 */
+	cursor:hand;
+	display:block;
+	float:right;
+	margin-right:10px;
+	margin-top:5px;
+}
+/* 收缩图标1 向右 */
+.shrinkage_right_ico1{
+	background:url(../images/shrinkage_right_ico1.gif) no-repeat 0 0;
+	height:11px;
+	width:11px;	
+}
+/* 收缩图标1 向下 */
+.shrinkage_down_ico1{
+	background:url(../images/shrinkage_down_ico1.gif) no-repeat 0 0;
+	height:11px;
+	width:11px;	
+}
+
+/* 收缩图标2 向右 */
+.shrinkage_right_ico2{
+	background:url(../images/shrinkage_right_ico2.gif) no-repeat 0 0;
+	height:11px;
+	width:11px;	
+}
+/* 收缩图标2 向下 */
+.shrinkage_down_ico2{
+	background:url(../images/shrinkage_down_ico2.gif) no-repeat 0 0;
+	height:11px;
+	width:11px;	
+}
+
+/* vgop标题样式 */
+.navTitle{
+	background: url(../images/tab_gb.gif) repeat-x left bottom;
+	height:25px;
+	padding-bottom:3px;
+	margin:5px 0px;
+	width:100%;
+}
+.navTitle .title{
+	background: url(../images/icon_title.gif) no-repeat left top;
+	display:inline-block;
+	float:left;
+	padding-left: 20px;
+	height:17px;
+	line-height:17px;
+}

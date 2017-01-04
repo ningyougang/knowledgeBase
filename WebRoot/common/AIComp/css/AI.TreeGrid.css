@@ -1,0 +1,162 @@
+.AITreeGrid{
+	font-size:9pt;
+	color:#666666;
+	overflow:hidden;
+	position:relative;
+}
+.AITreeGrid span.moveLeft{
+	float:right;
+	margin-top:-30px;
+	margin-top:0px !important;
+
+	width:16px;
+	cursor:pointer;
+	background:url(../images/ico/move_left.gif);
+}
+.AITreeGrid span.moveRight{
+	float:right;
+	margin-top:0px !important;
+	margin-top:-15px;
+	width:16px;
+	cursor:pointer;
+	background:url(../images/ico/move_right.gif);
+}
+.AITreeGrid span.moveRight2{
+	width:16px;
+	position:absolute;
+	right:1px;
+	cursor:pointer;
+	background:url(../images/ico/move_right.gif);
+}
+.AITreeGrid div.headDiv{
+	height:23px;
+	border:0px solid #D9D9D9;
+	padding-right:17px !important;
+	border-width:1px 1px 0px 1px;
+	background: url(../images/grid_th_bg.gif) repeat-x scroll;
+}
+.AITreeGrid div.headDiv2{
+	height:23px;
+	border:0px solid #D9D9D9;
+	border-width:1px 1px 0px 1px;
+	background: url(../images/grid_th_bg.gif) repeat-x scroll;
+}
+.AITreeGrid div.headTable th{
+	padding:0px;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	text-align:left;
+	font-weight:bold;
+	overflow: hidden;
+}
+.AITreeGrid div.headTable{
+	float:left;
+	width:100%;
+	overflow: hidden;
+}
+.AITreeGrid div.headTable table{
+	border-collapse: collapse;
+	table-layout:fixed;
+	width:100%;
+}
+.AITreeGrid div.headTable th{
+	border:0px solid #D9D9D9;
+	border-width:0 1px 0 0;
+	height:23px;
+}
+.AITreeGrid td.loading{
+	background:#ffffcc;
+}
+.AITreeGrid td.loading div{
+	padding-left:25px;
+	background:url(../images/loading.gif) no-repeat left center;
+	width:150px;
+}
+.AITreeGrid div.dataDiv{
+	clear:left;
+	background:#fff;
+	overflow-y:scroll !important;
+	overflow-y:auto; 
+	overflow-x:hidden;
+	padding-right:0px !important;
+	padding-right:17px;
+	border:0px solid #D9D9D9;
+	border-width: 0px 1px 1px 1px;
+}
+.AITreeGrid div.dataTable{
+	width:100%;
+	margin-right:-25px;
+}
+.AITreeGrid div.dataTable table{
+	margin-bottom:10px;
+	border:1px solid #D9D9D9;
+	width:100%;
+	table-layout:fixed;
+	border-collapse: collapse;
+	border-width:0 0 1px 0;
+}
+.AITreeGrid div.dataTable tr.even{
+	background: #fff;
+}
+.AITreeGrid div.dataTable tr.odd{
+	background:#F7F7F7;/**#f8fbfc*/
+}
+.AITreeGrid div.dataTable tr.over{
+	background:#ecfbd4;
+}
+.AITreeGrid div.dataTable tr.selected{
+	background: #d5effc url(../images/hl.png) repeat-x top;
+}
+.AITreeGrid div.dataTable td{
+	border:1px solid #D9D9D9;
+	height:25px;
+	text-align:left;
+	border-width: 0 1px 1px 0;
+}
+.AITreeGrid div.dataTable td.over{
+	background:#ecfbd4;
+}
+.AITreeGrid div.dataTable td.sel{
+	background:#ecfbd4;
+}
+.AITreeGrid span.leaf{
+	background: url(../images/ico/leaf.gif) no-repeat left center ;
+	padding-left:20px;
+}
+.AITreeGrid span.expander{
+	background: url(../images/ico/icon_expand.gif) no-repeat left center ;
+	cursor: pointer;
+	padding-left:20px;
+}
+.AITreeGrid span.shrinker{
+	background: url(../images/ico/icon_shrink.gif) no-repeat left center ;
+	padding-left:20px;
+	cursor: pointer;
+}
+.AITreeGrid div.bottomBar{
+	height: 5px;
+	clear:left;
+	overflow:hidden;
+	text-align:center;
+	border:1px solid #D9D9D9;
+	border-width:0 1px 1px 1px;
+	cursor:row-resize;
+	background: url(../images/wbg.gif) repeat-x scroll 0 -1px;
+}
+.AITreeGrid div.bottomBar span{
+	border-bottom:1px solid #AAAAAA;
+	border-top:1px solid #AAAAAA;
+	display:block;
+	height:1px;
+	margin:1px auto;
+	overflow:hidden;
+	width:20px;
+}
+.AITreeGrid span.up{
+	background: url(../images/ico/arrow_up.gif) no-repeat left center ;
+	padding-left:20px;
+}
+.AITreeGrid span.dowm{
+	background: url(../images/ico/arrow_down.gif) no-repeat left center ;
+	padding-left:20px;
+}

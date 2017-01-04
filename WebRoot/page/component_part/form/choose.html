@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>双向选择器</title>
+<!--此双向选择器在jquery-1.6的基础上--> 
+<link rel="stylesheet" type="text/css" href="../../../common/operaMasks/css/default/om-default.css" /> 
+<script type="text/javascript" src="../../../common/operaMasks/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../common/operaMasks/js/operamasks-ui.min.js"></script> 
+		<script>
+$(document).ready(function() {
+            $('#selector').omItemSelector({
+                availableTitle : '可选择省份',
+                selectedTitle : '已选择省份',
+                dataSource : [
+                    {text:'北京市',value:'beijing'},{text:'天津市',value:'tianjin'},
+                    {text:'重庆市',value:'chongqing'},{text:'上海市',value:'shanghai'},
+                    {text:'河北省',value:'hebei'},{text:'山西省',value:'shanxi'},
+                    {text:'辽宁省',value:'liaoning'},{text:'吉林省',value:'jilin'}
+                ],
+                value:['beijing','tianjin'], 
+                autoSort:true,
+                width:250,
+        				height:150
+            });
+        });
+
+		</script>
+	<body>
+<div id="selector" ></div>		
+</br>
+<button onclick="javascript:alert($('#selector').omItemSelector('value'));">获取值</button>  
+<font color='red'>目前该组件在IE6、IE7、IE8、IE9浏览器下均存在全选选不完全的BUG，待修复后在使用</font>
+</br>
+<iframe src="../../../common/operaMasks/docs/symbols/omItemSelector.html" height="300px" width="1000px"></iframe>
+	</body>
+</html>

@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Cookie工具类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>cookie介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+浏览器与WEB服务器之间是使用HTTP协议进行通信的；而HTTP协议是无状态协议。也就是说，当某个用户发出页面请求时，WEB服务器只是简单的进行响应，然后就关闭与该用户的连接。因此当一个请求发送到WEB服务器时，无论其是否是第一次来访，服务器都会把它当作第一次来对待，这样的不好之处可想而知。为了弥补这个缺陷，Netscape开发出了cookie这个有效的工具来保存某个用户的识别信息，   它是一种WEB服务器通过浏览器在访问者的硬盘上存储信息的手段。   它是服务器发送给浏览器的体积很小的纯文本信息。 
+
+定义：cookie是Web浏览器存储的少量命名数据，它与某个特定的网页和网站关联在一起。cookie实际上和某一网站和网页关联的，保存用户一定信息的文本文件。 
+
+Cookie是当你浏览某网站时，网站存储在你机器上的一个小文本文件，它记录了你的用户ID，密码、浏览过的网页、停留的时间等信息，当你再次来到该网站时，网站通过读取Cookie，得知你的相关信息，就可以做出相应的动作，如在页面显示欢迎你的标语，或者让你不用输入ID、密码就直接登录等等。你可以在IE的“工具/Internet选项”的“常规”选项卡中，选择“设置/查看文件”，查看所有保存到你电脑里的Cookie。这些文件通常是以user@domain格式命名的，user是你的本地用户名，domain是所访问的网站的域名。如果你使用NetsCape浏览器，则存放在“C:/PROGRAMFILES/NETSCAPE/USERS/”里面，与IE不同的是，NETSCAPE是使用一个Cookie 文件记录所有网站的Cookies。 
+
+当在浏览器地址栏中键入了一个Web站点的URL，浏览器会向该Web站点发送一个读取网页的请求，并将结果在显示器上显示。这时该网页在你的电脑上寻找Amazon网站设置的Cookie文件，如果找到，浏览器会把Cookie文件中的数据连同前面输入的URL一同发送到Amazon服务器。服务器收到Cookie数据，就会在他的数据库中检索你的ID，你的购物记录、个人喜好等信息，并记录下新的内容，增加到数据库和Cookie文件中去。如果没有检测到Cookie或者你的Cookie信息与数据库中的信息不符合，则说明你是第一次浏览该网站，服务器的CGI程序将为你创建新的ID信息，并保存到数据库中。 Cookie是利用了网页代码中的HTTP头信息进行传递的，浏览器的每一次网页请求，都可以伴随Cookie传递，例如，浏览器的打开或刷新网页操作。服务器将Cookie添加到网页的HTTP头信息中，伴随网页数据传回到你的浏览器，浏览器会根据你电脑中的Cookie设置选择是否保存这些数据。如果浏览器不允许Cookie保存，则关掉浏览器后，这些数据就消失。Cookie在电脑上保存的时间是不一样的，这些都是由服务器的设置不同决定得。Cookie有一个Expires（有效期）属性，这个属性决定了Cookie的保存时间，服务器可以通过设定Expires字段的数值，来改变Cookie的保存时间。如果不设置该属性，那么Cookie只在浏览网页期间有效，关闭浏览器，这些Cookie自动消失，绝大多数网站属于这种情况。通常情况下，Cookie包含Server、Expires、Name、value这几个字段，其中对服务器有用的只是Name和value字段，Expires等字段的内容仅仅是为了告诉浏览器如何处理这些Cookies。 
+
+</div>
+
+
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+package com.asiainfo.base.util;
+
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
+public class CookiesUtil extends HttpServlet {
+
+	private static final long serialVersionUID = -6639115418446699746L;
+
+	public synchronized static String getCookieValue(
+			HttpServletRequest request, String sName) throws ServletException,
+			IOException {
+		String cookieVal = "";
+		if (StringUtils.isNotEmpty(sName)) {
+			Cookie[] c = request.getCookies();
+			if (c != null && c.length > 0) {
+				for (int i = 0; i < c.length; i++) {
+					if (c[i].getName().equals(sName)) {
+						String sValue = c[i].getValue();
+						if (sValue != null) {
+							cookieVal = URLDecoder.decode(sValue, "UTF-8");
+						}
+					}
+				}
+			}
+		}
+		return cookieVal;
+	}
+
+	public synchronized static void setCookieValue(
+			HttpServletResponse response, String sName, String sValue,Integer expireDays)
+			throws ServletException, IOException {
+		if (StringUtils.isEmpty(sName) || StringUtils.isEmpty(sValue))
+			return;
+		Cookie c = new Cookie(sName, URLEncoder.encode(sValue, "UTF-8"));
+		c.setPath("/");//所有该网站下的网页均可以访问
+		c.setMaxAge(expireDays==null?-1:expireDays*24*60*60);//-1:浏览器窗口关闭即失效
+		response.addCookie(c);
+	}
+
+	public synchronized static void delCookieValue(HttpServletRequest request,
+			HttpServletResponse response, String sName)
+			throws ServletException, IOException {
+		if (StringUtils.isEmpty(sName))
+			return;
+		Cookie[] c = request.getCookies();
+		if (c != null) {
+			for (int i = 0; i < c.length; i++) {
+				if (c[i].getName().equals(sName)) {
+					c[i].setPath("/");
+					c[i].setMaxAge(0);
+					response.addCookie(c[i]);
+				}
+			}
+		}
+	}
+}
+</pre>
+</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>linux简单命令</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>Unix/linux介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+1.UNIX是商业软件,UNIX系统大多是与硬件配套的,Unix主要有Sun 的Solaris、IBM的AIX,　HP的HP-UX，以及x86平台的的SCO Unix/Unixware</br>
+2.Linux介绍:</br>
+是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。</br>
+它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，</br>
+是一个性能稳定的多用户网络操作系统。</br>
+Linux操作系统诞生于1991 年的10 月5 日（这是第一次正式向外公布的时间）。Linux存在着许多不同的Linux版本，但它们都使用了Linux内核。</br>
+Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、视频游戏控制台、台式计算机、大型机和超级计算机。</br>
+严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于Linux内核，</br>
+并且使用GNU 工程各种工具和数据库的操作系统。</br>
+linux的发行版本比较常用的有</br>
+Redhat系列,如包括:Red Hat Enterprise Linux(收费)、Fedora(免费)、centos(出自redhat源码)等</br>
+Debian系列,如包括:Debian,Ubuntu等。</br>
+其他的还包括slakeware Linux系列，国内红旗系列,Turbo系列等</br>
+3.联系</br>
+Unix的历史久于linux. Linux的思想源于Unix,Linux是一种外观和性能与UNIX相同或更好的操作系统，但Linux不源于任何版本的UNIX的源代码，</br>
+并不是UNIX，而是一个类似于UNIX的产品。Linux产品成功的模仿了UNIX系统和功能.在网络管理能力和安全方面，使用过Linux的人都承认</br>
+Linux与UNIX很相似。UNIX系统一直被用做高端应用或服务器系统，因此拥有一套完善的网络管理机制和规则， Linux沿用了这些出色的规则，</br>
+使网络的可配置能力很强，为系统管理提供了极大的灵活性</br>
+4.RedHat Linux两大产品：AS和ES的区别</br>
+Redhat有两大Linux产品系列，其一是免费的Fedora Core系列主要用于桌面版本，提供了较多新特性的支持。另外一个产品系列是收费的Enterprise系列，</br>
+这个系列分成：AS/ES/WS等分支，他们都是redhat企业级Linux，简称为 RHEL 。</br>
+AS</br>
+超级服务器版（Advanced Server），是企业linux解决方案中最高端的产品，他在标准Linux内核的基础上，做了性能上的增强，</br>
+并提高了可靠性，集成了众多常见服务器的驱动程序。可轻松识别IBM/DELL/HP等常见机架式服务器的磁盘阵列卡等设备。
+支持大于2个以上的cpu和8GB的内存</br>
+ES</br>
+企业服务器（Enterprise Server），AS的精简版本。他支持1-2个cpu和小于8GB的内存。</br>
+AS和ES在大多数程序包上并无区别，只在内核等少数软件包上有差异。AS和ES的售价差别比较大，</br>
+通常ES用在随服务器一同购买的OEM版本中例如购买DELL服务器，搭配的Linux会是ES系列。如果要搭配AS系列，则需要多花数千元</br>
+WS</br>
+工作站服务版（Workstation Server），ES的进一步简化版，主要针对企业内部的桌面办公市场，国内较少采用WS是桌面应用的最佳环境。</br>
+它包含各种常用的桌面应用软件(Office工具，邮件，即时信息，浏览器等)，可以运行各种客户-服务器配置工具，</br>
+软件开发工具和各种应用软件(例如EDA和Oil/Gas应用软件, 但它不提供网络服务功能(如DNS和DHCP)，它只适合作客户端应用。</br>
+AS、ES功能上没有什么区别，无论x86，还是Itanium版，RHEL的后三张盘完全一样，也就是说，软件包完全一样。第一张盘实际上没有什么软件包的，</br>
+只是启用安装程序，确定安装文件包而已，只是在服务级别，支持的CPU数量和内存数量上有区别。</br>
+</div>
+<div class="AI_common_title1">
+	<h2>linux入门/常用命令</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+linux入门:<a href="doc/linux入门.ppt">linux入门.ppt</a></br>
+linux指令:<a href="doc/Linux系统简单命令.ppt">Linux系统简单命令.ppt</a></br>
+</div>
+
+<div class="AI_common_title1">
+	<h2>我的整理(仅适合我自己)</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1、关机/重启
+shutdown(shutdown -h now:立即停止)
+reboot(重启)
+2、磁盘/文件/文件夹
+fdisk -l(查看各磁盘以及各磁盘的分区情况)
+df -h:查看各分区挂载情况
+ls(罗列文件、目录)
+pwd(查看当前工作目录)
+cd(改变目录,change directory) 
+mkdir(创建目录,make)
+rmdir(删除目录,remove)
+cp(拷贝)   
+scp远程单个文件复制:scp /home/space/music/1.mp3 root@www.cumt.edu.cn:/home/root/others/music
+scp远程:覆盖文件夹scp -r /etc/pki/rpm-gpg root@192.168.205.19:/etc/pki/
+mv(剪切,重命名)
+rf -rf XX(f表示递归、f表示强制)
+vi(没有则新建) 
+sed(不用打开vi,直接在线编辑,注意:-i参数表示直接就保存了，不加只是让你看一下)
+   删除:sed -i '2d' example-----删除example文件的第二行。sed '2,$d' example-----删除example文件的第二行到末尾所有行。
+        sed -i '$d' example-----删除example文件的最后一行。sed '/test/'d example-----删除example文件所有包含test的行。
+   替换:sed -i 's/test/mytest/g' example-----在整行范围内把test替换为mytest。如果没有g标记，则只有每行第一个匹配的test被替换成mytest。 
+        如果在vi里直接替换，需要加上“%”号，如:%s/test/mytest/g    
+touch(直接新建)
+more(向前翻页查看(ctrl+f),只能向下搜索)
+less(类似more，但是可以向上、向下翻页(ctrl+b))
+cat(1.合并 2.一次查看全部内容)  
+head(从头看N行,N默认20行,可以指定) 
+tail(从结尾看N行,N默认20行，可以指定),tail -f XXX:动态查看
+ln(创建连接),如 ln a.txt b(硬链接，a.txt删除掉 b内容还有) ln -s a.txt b(软的，a.txt删除掉,b就没有了,类似windows的快捷方式)
+
+针对vi的光标定位
+1.行内光标定位:0:开始           $:行内结束
+2.屏幕光标定位:H:屏幕开始       L:屏幕结束
+3.文件光标定位:gg(1G):文件开始  G:文件结束
+向下移动5行:5向下箭头，以此类推.....
+
+搜寻与取代
+/:向下寻找 ,n:继续向下寻找 (shift+n)N:继续向上寻找 
+?:向上寻找
+替换 :n1,n2s/word1/word2/g
+删除当前行 dd，删除5行:5dd，删除光标所在行到第一行的数据:d1G，删除光标所在行到最后一行的数据:dG
+删除光标所在处到该行开始:d0，删除光标所在处到该行结尾:d$
+
+3、系统管理：用户/用户组/赋权/防火墙
+useradd testuser [-g 指定用户组](在/home下创建文件夹testuser)
+passwd testuser[指定密码]
+usermod  -g  组名  用户名  更改用户所属用户组
+groupadd/groupdel
+su testuser，切换用户/可以让普通用户拥有超级管理员权限，需要知道密码。sudo:不需要知道密码
+chmod 777 testuser (-rwxrwxrwx 第一位表示文件or文件夹标识，后面9位表示权限[前三位表示拥有者，中间3位表示同组的人，最后3位表示其他人])
+chown testuser a.txt  修改所有者
+4、查找、统计
+whereis ls(查找ls的路径)
+find pathname -options [-name -print -exec -ok ...](在给定目录下查找文件)
+grep 在指定的文本文件中查找文本，匹配行
+whereis，如whereis ls(ls从哪里来)  echo $PATH 
+/(在more/cat一个文件后，在里面向下查找，光标会定位)
+?(在more/cat一个文件后，在里面向上查找，光标会定位)
+col:过滤控制字符
+|:管道，上一个命令的结果做为下一个命令的输入，如ls -l *|grep "^-"|wc -l，统计目录下文件的个数
+wc:统计 -l:行数统计
+awk:分析工具，格式:awk [-F  field-separator]  'commands'  input-file(s)
+    awk工作流程是这样的：读入有'\n'换行符分割的一条记录，然后将记录按指定的域分隔符划分域，填充域，$0则表示所有域,$1表示第一个域,
+    $n表示第n个域。默认域分隔符是"空白键" 或 "[tab]键"；举例:last -n 5 | awk  '{print $1}'(最近登录的5个用户)、
+    cat /etc/passwd |awk  -F ':'  '{print $1}' (只是显示/etc/passwd的账户)   
+    keystone service-list | awk '/ image / {print $2}'(打印keysonte服务列表中含有image行且是第二列的字段)  
+tcpdump -n -tttt -i eth0 dst 8.8.8.10 and port  80 (tcp抓包、统计与分析)
+tcpdump常用命令地址:http://www.cnblogs.com/ggjucheng/archive/2012/01/14/2322659.html
+5.安装、卸载、启动
+ /etc/profile:登陆启动环境变量。
+ rpm -qa:查看所有rpm安装的包 
+ rpm -ivh XX:安装
+ rpm -e XX:卸载 
+ 配置服务默认启动：init.d(自动启动)、rc.local(启动初始化完成后) chkconfig(启动级别) -区别不清楚，请查证。
+6.linux-基于网络层的防火墙+NAT:netfilter/iptables
+ netfilter:内核空间,iptables:用户空间(通过iptables定义规则，该规则被netfilter识别，与tcp/ip打交道)
+ http://blog.csdn.net/huguohu2006/article/details/6453522
+ 
+ 有点类似于ipvs/ipvsadm，ipvs是工作在内核空间中，ipvsadm在上面定义负载均衡规则。ipvs与netfilter不能同时使用
+7.磁盘、分区相关
+分区:fdisk -l    fdisk /dev/sda   fdisk /dev/sda4
+在分区上创建文件系统:mkfs -t ext3 /dev/sda1
+挂载:mount /dev/... /usr/lib/..       umonut /dev/...或umount /usr/lib/..     mount -l。重启丢失，需要写入到/etc/fstab
+磁盘空间以及挂载情况:df
+
+其他:
+底层拷贝(比cp拷贝更底层) dd:备份分区表:dd if=/dev/sda of=/root/mbr.bak bs=256 count=2
+8、其他
+ps -aux | grep "^apache" | awk '{print $2}' | xargs -i kill -9 {}   //杀死进程
+ps -aux | grep "^keystone" | awk '{print $2}' | xargs -i kill -9 {}
+hostname -F /etc/hostname:在不重启linux服务器的情况下,使/etc/hostname文件生效;如果不知道通过man cmd或者cmd --help或者度娘
+linux下查看磁盘I/O速度:http://blog.chinaunix.net/uid-24250828-id-3239100.html、当然也可以通过查看其产片参数
+tar:在linux方便管理，将各种文件或文件夹统一管理的一种格式，没有进行压缩，如果要压缩需要调用压缩命令(gzip 、bzip2 、compress )。
+tar命令详解
+-c: 建立压缩档案
+-x：解压
+-t：查看内容
+-r：向压缩归档文件末尾追加文件
+-u：更新原压缩包中的文件
+这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。
+
+下面的参数是根据需要在压缩或解压档案时可选的。
+-z：有gzip属性的
+-j：有bz2属性的
+-Z：有compress属性的
+-v：显示所有过程
+-O：将文件解开到标准输出
+
+参数-f是必须的
+
+查看
+tar -tf aaa.tar.gz   在不解压的情况下查看压缩包的内容
+
+压缩
+tar –cvf jpg.tar *.jpg //将目录里所有jpg文件打包成tar.jpg
+tar –zcvf jpg.tar.gz *.jpg //将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz
+tar –jcvf jpg.tar.bz2 *.jpg //将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，生成一个bzip2压缩过的包，命名为jpg.tar.bz2
+tar –Zcvf jpg.tar.Z *.jpg   //将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，生成一个umcompress压缩过的包，命名为jpg.tar.Z
+
+解压
+tar –xvf file.tar //解压 tar包
+tar -zxvf file.tar.gz //解压tar.gz
+tar -jxvf file.tar.bz2 //解压 tar.bz2tar
+</pre>
+</div>
+
+</body>
+</html>

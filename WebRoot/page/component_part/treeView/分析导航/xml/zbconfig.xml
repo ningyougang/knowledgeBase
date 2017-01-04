@@ -1,0 +1,42 @@
+﻿<config>
+	<eparchy>
+			<label name="出帐总收入" id="kpi_value01" order="0" dflag="1" min="0" max="100" alarm="40"/>
+			<label name="出账ARUP" id="kpi_value02" order="0" dflag="0" min="0" max="200" alarm="150"/>
+			<label name="语音收入" id="kpi_value03" order="0" dflag="0" min="0" max="200" alarm="150"/>
+			<label name="短信收入" id="kpi_value04" order="0" dflag="1" min="0" max="10000" alarm="8000"/>
+			<label name="彩信收入" id="kpi_value05" order="0" dflag="1"/>
+			<label name="到达用户数" id="kpi_value06" order="0" dflag="1"/>
+			<label name="新增用户数" id="kpi_value07" order="0" dflag="1"/>
+			<label name="活动用户数" id="kpi_value08" order="0" dflag="1"/>
+			<label name="离网用户数" id="kpi_value09" order="1" dflag="1"/>
+			<label name="零次用户数" id="kpi_value10" order="1" dflag="1"/>
+			<label name="中高端用户数" id="kpi_value11" order="0" dflag="0"/>
+	</eparchy>
+	<city>
+			<label name="出帐总收入" id="kpi_value01" order="0" dflag="1"  min="0" max="500" alarm="400"/>
+			<label name="出账ARUP" id="kpi_value02" order="0" dflag="0"/>
+			<label name="语音收入" id="kpi_value03" order="0" dflag="0"/>
+			<label name="短信收入" id="kpi_value04" order="0" dflag="1" min="0" max="500" alarm="450"/>
+			<label name="彩信收入" id="kpi_value05" order="0" dflag="1"/>
+			<label name="到达用户数" id="kpi_value06" order="0" dflag="1"/>
+			<label name="新增用户数" id="kpi_value07" order="0" dflag="1"/>
+			<label name="活动用户数" id="kpi_value08" order="0" dflag="1"/>
+			<label name="离网用户数" id="kpi_value09" order="1" dflag="1"/>
+			<label name="零次用户数" id="kpi_value10" order="1" dflag="1"/>
+			<label name="中高端用户数" id="kpi_value11" order="0" dflag="0"/>
+	</city>
+	<channel>
+			<label name="签约放号" id="kpi_value01" order="0" dflag="1"  min="0" max="1000" alarm="400"/>
+			<label name="增值业务办理量" id="kpi_value02" order="0" dflag="1"/>
+			<label name="缴费数量" id="kpi_value03" order="0" dflag="0"/>
+			<label name="缴费金额" id="kpi_value04" order="0" dflag="0"/>
+			<label name="业务受理总量" id="kpi_value05" order="0" dflag="1"/>
+			<label name="业务受理总金额" id="kpi_value06" order="0" dflag="1"/>
+			<label name="业务办理用户数" id="kpi_value07" order="0" dflag="1"/>
+			<label name="新增用户数" id="kpi_value08" order="0" dflag="1"/>
+			<label name="本月离网用户数" id="kpi_value09" order="1" dflag="1"/>
+			<label name="有价卡销售数量" id="kpi_value10" order="0" dflag="1"/>
+			<label name="收入金额" id="kpi_value11" order="0" dflag="0"/>
+			<label name="欠费金额" id="kpi_value11" order="1" dflag="0"/>
+	</channel>
+</config>

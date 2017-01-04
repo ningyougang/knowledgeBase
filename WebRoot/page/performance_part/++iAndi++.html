@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>String用法注意事项</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;">
+总而言之，++i 是一个左值,而i++是一个右值，。
+加深印象，上述的两条语句可以用下面两个函数表示。
+i++ 为
+function () {
+tmp = i;
+i = tmp + 1;
+return tmp;
+}
+++i 为
+function () {
+i = i + 1;
+return i;
+}
+很明显++i没有临时变量这一步骤,++i的性能优于i++.
+个人观点：但是现在的硬件水平比较高,两者的差异应该不是很大.
+</pre>
+</body>
+</html>

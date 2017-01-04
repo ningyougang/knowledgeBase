@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cas-sso-question</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;">
+环境
+操作系统:windows
+JDK版本:jdk1.6
+web服务器:tomcat5.5
+web工程:sso工程(sso)、门户工程(vgop)、业务运营工程(buop)[备注:sso表示sso-server,vgop和buop是两个子应用]
+
+报错日志:
+2013-03-07 10:26:00.011 [NAME: ID: IP:]  [com.asiainfo.auditLog.AuditLogger:DEBUG 110] 日志记录线程开始保存日志.....
+2013-03-07 10:26:00.011 [NAME: ID: IP:]  [com.asiainfo.auditLog.AuditLogger:DEBUG 115] 日志记录线程成功保存日志.....
+2013-03-07 10:26:09.116 [NAME: ID: IP:]  [com.ai.sso.client.CASReceipt:ERROR 59] com.ai.sso.client.CASAuthenticationException: Unable to validate ProxyTicketValidator [[com.ai.sso.client.ProxyTicketValidator proxyList=[null] [com.ai.sso.client.ServiceTicketValidator casValidateUrl=[https://vgop.sh.cmcc:8443/sso/serviceValidate] ticket=[ST-7-Qt31Db1jN22yFrcKxw1A] service=[http%3A%2F%2Fywyy.vgop.sh.cmcc%2Fbuop%2FinitIndex.action%3Ftheme%3Ddefault] renew=false]]]
+2013-03-07 10:26:09.117 [NAME: ID: IP:]  [com.ai.sso.client.filter.CASFilter:ERROR 435] com.ai.sso.client.CASAuthenticationException: Unable to validate ProxyTicketValidator [[com.ai.sso.client.ProxyTicketValidator proxyList=[null] [com.ai.sso.client.ServiceTicketValidator casValidateUrl=[https://vgop.sh.cmcc:8443/sso/serviceValidate] ticket=[ST-7-Qt31Db1jN22yFrcKxw1A] service=[http%3A%2F%2Fywyy.vgop.sh.cmcc%2Fbuop%2FinitIndex.action%3Ftheme%3Ddefault] renew=false]]]
+
+在现场模拟调试发现有可能以下3个原因
+1.sso服务端所在的web服务器指向的证书错误 
+在tomcatX.X/conf/server.xml所在的配置https协议的地方 
+<Connector port="8443" maxHttpHeaderSize="8192"
+               maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+               enableLookups="false" disableUploadTimeout="true"
+               acceptCount="100" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS" 
+               keystoreFile="D:/JavaProject/tomcat5.5/conf/server.keystore" keystorePass="changeit"/> 
+                
+keystoreFile="D:/JavaProject/tomcat5.5/conf/server.keystore"
+在这里keystoreFile指向的证书server.keystore有可能被更换(备注:server.keystore可以理解为含有密钥的证书)
+解决方案:重新生成证书
+keytool -genkey -alias tomcat-server-vgop -keyalg RSA -validity 3600 -keypass changeit -storepass 
+changeit -keystore D:\myKeyStore\server.keystore
+
+
+2.sso客户端应用所在的JDK没有导入服务器端证书
+方式A:需要拷贝到%JAVA_HOME%\jre\lib\security\下，原来的备份
+keytool -import -trustcacerts -alias tomcat-server-vgop -file D:\myKeyStore\server.cer -keystore D:\myKeyStore\cacerts -storepass changeit
+方式B:采用追加模式，建议用该种处理方式
+keytool -import -keystore D:\JavaProject\JDK1.6\jre\lib\security\cacerts -file D:/myKeyStore/server-buop.cer -alias tomcat-server-vgop
+               
+3.sso服务端、sso客户端应用没有配置ip到域名的映射关系(在windows环境可以在c:\windows\system32\drivers\etc\hosts进行修改)
+10.9.236.104  vgop.sh.cmcc
+10.9.236.121  ywyy.vgop.sh.cmcc                                                      
+</pre> 
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>数据分组下拉框</title>
+		<link rel="stylesheet" type="text/css"
+			href="../../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/AI.Comp.js"></script>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+	</head>
+	<body>
+		<script type="text/javascript">
+			SyntaxHighlighter.all();
+			var dimPhaseAndStatus = [
+				{"val":40001,"pid":-1,"txt":"需求","children":[
+					{"val":50001,"pid":40001,"txt":"访谈开始","leaf":true},
+					{"val":50002,"pid":40001,"txt":"访谈完成","leaf":true},
+					{"val":50003,"pid":40001,"txt":"分析开始","leaf":true},
+					{"val":50004,"pid":40001,"txt":"分析评审","leaf":true},
+					{"val":50005,"pid":40001,"txt":"分析修改","leaf":true},
+					{"val":50006,"pid":40001,"txt":"分析完成","leaf":true}
+				],"leaf":false},
+				{"val":40002,"pid":-1,"txt":"设计","children":[
+					{"val":50007,"pid":40002,"txt":"设计开始","leaf":true},
+					{"val":50008,"pid":40002,"txt":"设计评审","leaf":true},
+					{"val":50009,"pid":40002,"txt":"设计修改","leaf":true},
+					{"val":50010,"pid":40002,"txt":"设计完成","leaf":true}
+				],"leaf":false},
+				{"val":40003,"pid":-1,"txt":"开发","children":[
+					{"val":50011,"pid":40003,"txt":"开发开始","leaf":true},
+					{"val":50012,"pid":40003,"txt":"开发完成","leaf":true}
+				],"leaf":false},
+				{"val":40004,"pid":-1,"txt":"测试","children":[
+					{"val":50013,"pid":40004,"txt":"测试开始","leaf":true},
+					{"val":50014,"pid":40004,"txt":"测试完成","leaf":true}
+				],"leaf":false},
+				{"val":40005,"pid":-1,"txt":"上线","children":[
+					{"val":50015,"pid":40005,"txt":"上线开始","leaf":true},
+					{"val":50016,"pid":40005,"txt":"上线完成","leaf":true}
+				],"leaf":false},
+				{"val":40006,"pid":-1,"txt":"维护","children":[
+					{"val":50017,"pid":40006,"txt":"转维护前","leaf":true},
+					{"val":50018,"pid":40006,"txt":"转维护中","leaf":true},
+					{"val":50019,"pid":40006,"txt":"转维护完成","leaf":true}
+				],"leaf":false}];
+		</script>
+		<h1>
+			数据分组下拉框--效果展示
+		</h1>
+		<div class="effect">
+			单选:<div id="phaseStatusTypeId" name="phaseStatusTypeId" class="AI-Comp"
+				type="combox" ds="dimPhaseAndStatus" showstyle="group"
+				multisel="false" value="" showall="true" alltxt="--请选择-" allval="-1"></div>
+			多选:<div id="phaseStatusTypeId2" name="phaseStatusTypeId2" class="AI-Comp"
+				type="combox" ds="dimPhaseAndStatus" showstyle="group"
+				multisel="true" value="" showall="true" alltxt="--请选择-" allval="-1"></div>
+		</div>
+		<h1>
+			使用解释
+		</h1>
+		<p>
+			引用的JS和CSS
+		</p>
+		<pre class="brush:js;">
+			<link rel="stylesheet" type="text/css"
+				href="common/AIComp/css/AI.Comp.css" />
+			<script type="text/javascript"
+				src="common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+			<script type="text/javascript" src="common/AIComp/script/AI.Comp.js"></script>
+		</pre>
+		<p>
+			下拉数据源(JSON格式)
+		</p>
+		<pre class="brush:js;">
+			var dimPhaseAndStatus = [
+				{"val":40001,"pid":-1,"txt":"需求","children":[
+					{"val":50001,"pid":40001,"txt":"访谈开始","leaf":true},
+					{"val":50002,"pid":40001,"txt":"访谈完成","leaf":true},
+					{"val":50003,"pid":40001,"txt":"分析开始","leaf":true},
+					{"val":50004,"pid":40001,"txt":"分析评审","leaf":true},
+					{"val":50005,"pid":40001,"txt":"分析修改","leaf":true},
+					{"val":50006,"pid":40001,"txt":"分析完成","leaf":true}
+				],"leaf":false},
+				{"val":40002,"pid":-1,"txt":"设计","children":[
+					{"val":50007,"pid":40002,"txt":"设计开始","leaf":true},
+					{"val":50008,"pid":40002,"txt":"设计评审","leaf":true},
+					{"val":50009,"pid":40002,"txt":"设计修改","leaf":true},
+					{"val":50010,"pid":40002,"txt":"设计完成","leaf":true}
+				],"leaf":false},
+				{"val":40003,"pid":-1,"txt":"开发","children":[
+					{"val":50011,"pid":40003,"txt":"开发开始","leaf":true},
+					{"val":50012,"pid":40003,"txt":"开发完成","leaf":true}
+				],"leaf":false},
+				{"val":40004,"pid":-1,"txt":"测试","children":[
+					{"val":50013,"pid":40004,"txt":"测试开始","leaf":true},
+					{"val":50014,"pid":40004,"txt":"测试完成","leaf":true}
+				],"leaf":false},
+				{"val":40005,"pid":-1,"txt":"上线","children":[
+					{"val":50015,"pid":40005,"txt":"上线开始","leaf":true},
+					{"val":50016,"pid":40005,"txt":"上线完成","leaf":true}
+				],"leaf":false},
+				{"val":40006,"pid":-1,"txt":"维护","children":[
+					{"val":50017,"pid":40006,"txt":"转维护前","leaf":true},
+					{"val":50018,"pid":40006,"txt":"转维护中","leaf":true},
+					{"val":50019,"pid":40006,"txt":"转维护完成","leaf":true}
+				],"leaf":false}];
+		</pre>
+		<p>
+			使用(无需额外的调用JS)
+		</p>
+		<pre class="brush:html;">
+			&lt;div id="phaseStatusTypeId" name="phaseStatusTypeId" class="AI-Comp"
+				type="combox" ds="dimPhaseAndStatus" showstyle="group"
+				multisel="false" value="" showall="true" alltxt="--请选择-" allval="-1"&gt;&lt;/div&gt;
+		</pre>
+		<p>
+			属性说明
+		</p>
+		<pre class="brush:js;">
+			class		必须为AI-Comp
+			ds 			JSON数据ID
+			type		组件的类型
+						combox	表示下拉框
+			allowFilter	是否允许过滤
+			showall
+			alltxt		未选择时的中文展示
+			allval		未选择时的value值
+			multisel	是否多选
+			showstyle	显示类型
+						group 	分组显示
+						tree	树形显示
+			cascade		联动对应的下级ID
+		</pre>
+		<p>
+			方法说明
+		</p>
+		<pre class="brush:js;">
+                       创建对象        var comtmp = new AI.Comp.Combox({
+			                               el:'combox1',					
+			                               showAll:true,
+			                               ds:arr,//eval("[{txt:'M902',val:58920140},{txt:'T105',val:86202159}]")
+			                               multisel : true,
+			                               allowfilter : true,
+			                               value:arrayDimLevel2Str,
+			                               id:'combox1'
+		                          });
+                       获取对象        AI.getComp('id').getValue()
+ 
+ 
+                       获取对象的值    AI.getComp('id').getValue().val (单个) 或AI.getComp('id').getValue()[i].val (数组需要遍历)
+                       销毁对象        AI.getComp('id').destory()
+
+		</pre>
+	</body>
+</html>

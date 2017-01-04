@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart outCnvBaseFont='Arial' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  
+	   bgColor='222222' borderColor='222222'>
+      <set label='新增占有率' value='1' />
+	  <set label='新增用户数' value='3' />
+	  <set label='离网用户数' value='15' />
+	  <set label='增值业务办理量' value='2' />
+	  <set label='签约放号数' value='5' />
+	  <styles>
+	    <definition>
+	      <style name='MyFirstFontStyle' type='font' font='Verdana' 
+	          size='12' color='FF0000' bgColor='FFFFDD' borderColor='666666' />
+	      <style name='MyFirstGlow' type='Glow' color='FF5904' alpha='75' />
+	    </definition>
+	    <application>
+	       <apply toObject='CAPTION' styles='MyFirstFontStyle'/>
+	       <apply toObject='XAXISNAME' styles='MyFirstGlow,MyFirstFontStyle' />
+	       <apply toObject='YAXISNAME' styles='MyFirstGlow' />
+	       <apply toObject='LABEL' styles='MyFirstFontStyle' />
+	    </application>
+	 </styles>
+</chart>

@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>nginx负载均衡</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>简介</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<pre class="brush:xml">
+nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件(IMAP/POP3)代理服务器，并在一个BSD-like 协议下发行。
+由俄罗斯的程序设计师Igor Sysoev所开发，最初供俄国大型的入口网站及搜寻引擎Rambler（俄文：Рамблер）使用。
+其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好.
+目前中国大陆使用nginx网站用户有：新浪、网易、 腾讯等。
+
+nginx的负载均衡策略可以划分为两大类：内置策略和扩展策略。
+内置策略包含加权轮询和ip hash，在默认情况下这两种策略会编译进nginx内核，只需在nginx配置中指明参数即可。
+扩展策略有很多，如fair、通用hash、consistent hash，sticky(支持Session sticky) 等，默认不编译进nginx内核。
+
+Nginx代码完全用C语言从头写成，已经移植到许多体系结构和操作系统，包括：Linux、FreeBSD、Solaris、Mac OS X、AIX
+以及Microsoft Windows。Nginx有自己的函数库，并且除了zlib、PCRE和OpenSSL之外，标准模块只使用系统C库函数。
+而且，如果不需要或者考虑到潜在的授权冲突，可以不使用这些第三方库。
+
+在高连接并发的情况下，Nginx是Apache服务器不错的替代品：Nginx在美国是做虚拟主机生意的老板们经常选择的软件平台之一。
+能够支持高达 50,000 个并发连接数的响应，感谢Nginx为我们选择了 epoll and kqueue作为开发模型
+
+其他:nginx还可以做为web服务器、反向代理服务器、电子邮箱服务器、静态文件服务器(如访问静态的html、静态图片)
+
+心得:1.笔者用eclipse调试了一款基于java的反向代理的开源代码库(j2ep)，得出反向代理流程为:当用户访问代理服务时，将截获其请求，
+将请求头的信息重新组装在加上自己的代理头信息(如via、x-forward-For、x-forward-host、x-forward-server)，
+在通过httpclient在发起一次http请求到真实server，代理服务器接收响应，对响应头做重新组装
+（针对某些如302重定向的应答做特殊处理)，返回给浏览器。
+    2.与lvs的区别:通过这个流程可以看到，代理重新发起了次http请求，然后lvs的NAT是直接在网络层修改报文IP，
+DR是在数据链路层修改MAC地址，还是原来的tcp请求。所以LVS不会产生流量 
+    3.tcp代理，需要第三方模块:http://yaoweibin.github.io/nginx_tcp_proxy_module/README.html
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>nginx安装部署文档</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+安装部署下载:<a href="doc/nginx+keepalived搭建.docx">nginx+keepalived搭建.docx</a>
+</div>
+
+<div class="AI_common_title1">
+	<h2>nginx根据域名做转发、根据应用名做转发</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+1.根据域名做转发
+server
+{
+listen 10000;
+server_name *.newtouch.cn;
+if ($http_host ~* "^(.*?)\.newtouch\.cn:10001$") {
+    set $domain $1;
+   }
+location / {
+    if ($domain ~* "test1") {
+       proxy_pass http://www.baidu.com;
+    }
+    if ($domain ~* "test2") {
+       proxy_pass http://www.sohu.com;
+    }
+   proxy_pass http://www.sohu.com;
+   proxy_redirect off;
+   proxy_set_header Host $host;
+   proxy_set_header X-Real-IP $remote_addr;
+   proxy_set_header X-Forwarded-Host $host;
+   proxy_set_header X-Forwarded-Server $host;
+   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+   }
+}
+2.根据应用名做转发
+server
+{
+listen 10000;
+server_name *.newtouch.cn;
+location ^~ /temp1/ {
+        proxy_pass   http://www.baidu.com/;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+location ^~ /temp2/ {
+        proxy_pass   http://www.sohu.com/;
+   			proxy_redirect off;
+   			proxy_set_header Host $host;
+   			proxy_set_header X-Real-IP $remote_addr;
+  		  proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}
+
+以下三个参数是做重定向时，地址做转化，由后台真实服务器的地址变为nginx自己的地址
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-Host $host;    
+proxy_set_header X-Forwarded-Server $host;
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>nginx-其他配置</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+1.nginx-动静分离 
+如在/etc/nginx/sites-enabled/default下的server{}里添加
+
+ #upstream
+ upstream dynamic {
+   server localhost:8080 weight=1 max_fails=2 fail_timeout=30s;
+ }
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server ipv6only=on;
+
+        root /usr/front/resources/;
+        index page/item/indexPane.html;
+        
+         #将/下的动态内容请求到动态服务器
+			  location / {
+				    proxy_connect_timeout   3;
+				    proxy_send_timeout      30;
+				    proxy_read_timeout      30;
+				    proxy_redirect off;
+				    proxy_set_header Host $host;
+				    proxy_set_header X-Real-IP $remote_addr;
+				    proxy_set_header X-Forwarded-Host $host;
+				    proxy_set_header X-Forwarded-Server $host;
+				    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+				    proxy_pass http://dynamic;
+				}
+
+			 #动态内容访问本地磁盘(有可能挂载远程的分布式文件系统)
+			 location ~ ^/(lib|css|js|images|fonts|page|test|upload)/.*$ {
+			    root /usr/front/resources/;
+			    index page/login/registe.html;
+			    expires 3d;
+			 }
+ 
+			 #首页
+			 location ~ ^/$ {
+			    root /usr/front/resources/;
+			    index page/login/registe.html;
+			    expires 3d;
+			 }
+ }
+ 
+ 2.nginx作为反向代理服务器-文件上传-错误信息:413 Request Entity Too Large
+ 打开nginx主配置文件nginx.conf，找到http{}段，增加 client_max_body_size的相关设置, 这个值默认是1m，可以增加到8m以增加提高文件大小限制；
+ 我设置成了
+       client_max_body_size     8m;
+       client_body_buffer_size  128k;
+       proxy_connect_timeout    600;
+       proxy_read_timeout       600;
+       proxy_send_timeout       6000;
+       proxy_buffer_size        16k;
+       proxy_buffers            4 64k;
+       proxy_busy_buffers_size 64k;
+       proxy_temp_file_write_size 64k;
+参考:http://blog.csdn.net/kobejayandy/article/details/17094369
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>nginx相关文章阅读</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+1.nginx架构初探  <br/>
+http://tengine.taobao.org/book/chapter_2.html#connection   http://blog.csdn.net/ysu108/article/details/7570571(select epoll不懂)<br/>
+2.nginx、apache区别<br/>
+http://blog.csdn.net/yankai0219/article/details/8018275	<br/>
+3.nginx中变量$host与$http_host联系:</br>
+http://stackoverflow.com/questions/15414810/whats-the-difference-of-host-and-http-host-in-nginx<br/>
+<br/>
+个人对nginx与apache的工作方式理解:<br/>
+apache:一个请求来到apache,会为这个请求分配1个新的进程(或从进程池找一个空闲的进程),该进程会为当前请求生成1个新的线程,</br>
+随着请求的增多,会生成很多的进程(或线程),在多进程(或多线程)竞争CPU资源的时候,会造成cpu资源的极大浪费,</br>
+,因为在多进程(或多线程)之间工作时，cpu上下文切换会消耗很多的cpu资源。</br></br>
+nginx:nginx采用master主进程和多个worker(与cpu核数一致)进程工作的模式，一个请求发到nginx,nginx-worker进程会竞争这个请求，</br>
+同时一个work进程只有</br>一个主线程,为了满足1个主线程服务多个请求,nginx采用了异步非阻塞的事件模型(循环处理多个准备好的事件)
+</div>
+</body>
+</html>

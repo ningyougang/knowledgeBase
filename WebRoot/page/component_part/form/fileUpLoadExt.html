@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>文件批量上传</title>
+		<link rel="stylesheet" type="text/css" href="../../../common/ext/UploadDialog/css/ext-all.css" />
+   	  	<link rel="stylesheet" type="text/css" href="../../../common/ext/UploadDialog/css/Ext.ux.UploadDialog.css" />
+
+		<script type="text/javascript" src="../../../common/ext/UploadDialog/ext-base.js"></script>
+		<script type="text/javascript" src="../../../common/ext/UploadDialog/ext-all.js"></script>
+ 	  	<script type="text/javascript" src="../../../common/ext/UploadDialog/locale/ru.utf-8_zh.js"></script>
+	  	<script type="text/javascript" src="../../../common/ext/UploadDialog/Ext.ux.UploadDialog.js"></script>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+
+	</head>
+	<body>
+		<script type="text/javascript">
+			 function openUpLoad(){
+			 //Ext.apply属性继承或拷贝
+			 Ext.apply(Ext.ux.UploadDialog.Dialog.prototype.i18n, {
+					title : '文件上传',
+					state_col_title : '状态',
+					state_col_width : 70,
+					filename_col_title : '文件名',
+					filename_col_width : 230,
+					note_col_title : '备注',
+					note_col_width : 150,
+					add_btn_text : '添加',
+					add_btn_tip : '添加文件到上传列表',
+					remove_btn_text : '删除',
+					remove_btn_tip : '从上传列表中上传文件',
+					reset_btn_text : '重置',
+					reset_btn_tip : '重置文件上传列表',
+					upload_btn_start_text : '开始上传',
+					upload_btn_stop_text : '停止上传',
+					upload_btn_start_tip : '开始上传',
+					upload_btn_stop_tip : '停止上传',
+					close_btn_text : '关闭',
+					close_btn_tip : '关闭上传窗口',
+					progress_waiting_text : '等待……',
+					progress_uploading_text : '正在上传: {0} / {1} 上传成功',
+					error_msgbox_title : '错误信息',
+					permitted_extensions_join_str : ',',
+					err_file_type_not_permitted : '错误的文件类型，应该为: {1}',
+					note_queued_to_upload : '等待上传',
+					note_processing : '上传中……',
+					note_upload_failed : '上传失败',
+					note_upload_success : '上传成功',
+					note_upload_error : '上传出错',
+					note_aborted : '忽略',
+					note_canceled : '取消'
+				});
+
+			var dialog = new Ext.ux.UploadDialog.Dialog({
+				title : '代码提交单入库',
+				url : 'system/upLoad.action', // 这里我用struts2做后台处理
+				//post_var_name : 'uploadFiles',// 这里是自己定义的，默认的名字叫file
+				width : 550,
+				height : 300,
+				minWidth : 450,
+				minHeight : 300,
+				draggable : true,
+				resizable : true,
+				// autoCreate: true,
+				constraintoviewport : true,
+				permitted_extensions : [ 'xls' ],// 只能上传文本文件
+				modal : true,
+				reset_on_hide : false,
+				allow_close_on_upload : false, // 关闭上传窗口是否仍然上传文件
+				// upload_autostart: true //是否自动上传文件
+				upload_autostart : false
+			});
+
+			dialog.show(); // 'show-button'		
+			 }
+				
+			SyntaxHighlighter.all();
+		</script> 
+		
+		<h1>
+			批量上传前台组件--效果展示
+		</h1>
+		<div class="effect">
+       			<input type="button"		value="上传" onclick="javascript:openUpLoad()"/>             
+                </div>	
+		<h1>
+			使用解释
+		</h1>             
+			<pre class="brush:js;">
+1.页面中引入相关js与css,注意ext版本,这里我用的是2.1
+		<link rel="stylesheet" type="text/css" href="../../../common/ext/UploadDialog/css/ext-all.css" />
+   	  	<link rel="stylesheet" type="text/css" href="../../../common/ext/UploadDialog/css/Ext.ux.UploadDialog.css" />
+		<script type="text/javascript" src="../../../common/ext/UploadDialog/ext-base.js"></script>
+		<script type="text/javascript" src="../../../common/ext/UploadDialog/ext-all.js"></script>
+ 	  	<script type="text/javascript" src="../../../common/ext/UploadDialog/locale/ru.utf-8_zh.js"></script>
+	  	<script type="text/javascript" src="../../../common/ext/UploadDialog/Ext.ux.UploadDialog.js"></script>	
+2.页面上点击button或者初始化直接弹出上传窗口.
+ 		//Ext.apply属性继承或拷贝
+		 Ext.apply(Ext.ux.UploadDialog.Dialog.prototype.i18n, {
+					title : '文件上传',
+					state_col_title : '状态',
+					state_col_width : 70,
+					filename_col_title : '文件名',
+					filename_col_width : 230,
+					note_col_title : '备注',
+					note_col_width : 150,
+					add_btn_text : '添加',
+					add_btn_tip : '添加文件到上传列表',
+					remove_btn_text : '删除',
+					remove_btn_tip : '从上传列表中上传文件',
+					reset_btn_text : '重置',
+					reset_btn_tip : '重置文件上传列表',
+					upload_btn_start_text : '开始上传',
+					upload_btn_stop_text : '停止上传',
+					upload_btn_start_tip : '开始上传',
+					upload_btn_stop_tip : '停止上传',
+					close_btn_text : '关闭',
+					close_btn_tip : '关闭上传窗口',
+					progress_waiting_text : '等待……',
+					progress_uploading_text : '正在上传: {0} / {1} 上传成功',
+					error_msgbox_title : '错误信息',
+					permitted_extensions_join_str : ',',
+					err_file_type_not_permitted : '错误的文件类型，应该为: {1}',
+					note_queued_to_upload : '等待上传',
+					note_processing : '上传中……',
+					note_upload_failed : '上传失败',
+					note_upload_success : '上传成功',
+					note_upload_error : '上传出错',
+					note_aborted : '忽略',
+					note_canceled : '取消'
+				});
+
+			var dialog = new Ext.ux.UploadDialog.Dialog({
+				title : '代码提交单入库',
+				url : 'system/upLoad.action', // 这里我用struts2做后台处理
+				//post_var_name : 'uploadFiles',// 这里是自己定义的，默认的名字叫file
+				width : 550,
+				height : 300,
+				minWidth : 450,
+				minHeight : 300,
+				draggable : true,
+				resizable : true,
+				// autoCreate: true,
+				constraintoviewport : true,
+				permitted_extensions : [ 'xls' ],// 只能上传文本文件
+				modal : true,
+				reset_on_hide : false,
+				allow_close_on_upload : false, // 关闭上传窗口是否仍然上传文件
+				// upload_autostart: true //是否自动上传文件
+				upload_autostart : false
+			});
+
+			dialog.show(); // 'show-button'			
+3.后台接收文件,这里以struts2为例(注意加文件上传的拦截器,struts2通过拦截器来实现文件上传,默认用的是apache的fileUpLoad组件)
+			<action name="upLoad" method="upLoad" class="****Action">
+				<interceptor-ref name="defaultStack" />
+			</action>			
+4.java-action代码
+			public class ***Action extends BaseAction{
+	
+				private final static Logger log = Logger.getLogger(***Action.class);
+
+				private File file;//struts2用相应的对象用来接收,具体如何传入到File属性，请参考相关的拦截器.
+
+				public File getFile() {
+					return file;
+				}
+
+				public void setFile(File file) {
+					this.file = file;
+				}	
+	
+				public String upLoad() throws Exception{
+				/*
+				*处理文件的逻辑
+				*/
+				String result= "{'success':true,'message':'解析成功'}";//"{'success':false,'message':'解析失败的原因'}"
+				HttpServletResponse response = ServletActionContext.getResponse();
+				response.setContentType("text/html;charset=UTF-8");
+				response.getWriter().write(result);
+				return null;
+	}
+
+}
+</pre>
+  </body>
+</html>

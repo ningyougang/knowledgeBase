@@ -1,0 +1,143 @@
+yum install zlib-devel zlib
+
+zlib-devel-1.2.3-29.el6.x86_64.rpm
+zlib-1.2.3-29.el6.x86_64.rpm
+
+http://192.168.1.181:9425
+master********************************************************
+
+1、添加mfs组 
+#groupadd mfs 
+2、新增系统用户mfs 
+#useradd -g mfs mfs 
+3、切换目录 
+#cd /usr/src 
+4、解包归档文件 
+#tar -zxvf mfs-1.6.15.tar.gz 
+5、进入安装目录 
+#cd mfs-1.6.15 
+6、配置 
+#./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs --disable-mfschunkserver --disable-mfsmount 
+7、编译并安装 
+#make 
+#make install
+8、配置目录 
+/etc/mfs
+#cp mfsmaster.cfg.dist mfsmaster.cfg 
+#cp mfsmetalogger.cfg.dist mfsmetalogger.cfg 
+#cp mfsexports.cfg.dist mfsexports.cfg
+	192.168.1.182(0/24)            /    rw,alldirs,maproot=0
+9、metadata、changelog目录
+/var/lib/mfs    #cp  metadata.mfs.empty metadata.mfs
+10、修改hosts	/etc/hosts
+192.168.1.181   mfsmaster
+启动
+/usr/sbin/mfsmaster start
+停止
+停止chunk server 进程: /usr/sbin/mfschunkserver -s
+停止 metalogger 进程: /usr/sbin/mfsmetalogger -s
+在所有客户端用Unmount 命令先卸载文件系统(本例将是: umount /mnt/mfs)
+停止主控 master server 进程: /usr/sbin/mfsmaster -s
+CGI监控
+/usr/sbin/mfscgiserv
+
+meet question 
+文件锁定 无法写 没权限写	chown -R mfs:mfs /var/lib/mfs
+
+Backup server (metalogger)***********************************
+
+1、 创建组mfs 
+#groupadd mfs 
+2、创建用户mfs 
+#useradd -g mfs mfs 
+3、切换目录 
+#cd /usr/src 
+4、解包归档文件 
+#tar -zxvf mfs-1.6.15.tar.gz 
+5、切换目录 
+#cd mfs-1.6.15 
+6、配置 
+#./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs --disable-mfschunkserver --disable-mfsmount 
+7、编译及安装 
+#make 
+#make install 
+8、产生配置文件 
+#cd /etc 
+#cp mfsmetalogger.cfg.dist mfsmetalogger.cfg 
+ 
+类似地，修改/etc/hosts文件，增加下面的行： 
+192.168.1.1   mfsmaster  
+
+#/usr/sbin/mfsmetalogger start
+
+//备份工作原理
+metarestore程序是根据metalogger中定期下载的metadata和changelog来恢复master挂掉时刻master所记录的整个mfs的信息。
+
+备份服务器 恢复master(在master上操作)
+usr/sbin/./metarestore -a
+usr/sbin/./mfsmaster
+
+
+chunk********************************************************
+
+#groupadd mfs 
+#useradd -g mfs mfs 
+#cd /usr/src 
+#tar -zxvf mfs-1.6.15.tar.gz 
+#cd mfs-1.6.15 
+#./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs --disable-mfsmaster  --disable-mfsmount
+#make 
+#make install
+#cd /etc/  
+#cp  mfschunkserver.cfg.dist mfschunkserver.cfg  
+#cp  mfshdd.cfg.dist mfshdd.cfg 
+	/mnt/mfschunks1  
+	/mnt/mfschunks2
+if mfs没权限rw chunk区
+	#chown -R mfs:mfs /mnt/mfschunks1 
+	#chown -R mfs:mfs /mnt/mfschunks2 
+修改hosts	/etc/hosts
+192.168.1.181   mfsmaster
+启动
+#/usr/sbin/mfschunkserver start
+
+client*******************************************************
+
+#cd /usr/src 
+#tar -zxvf fuse-2.8.3.tar.gz 
+#cd fuse-2.8.3 
+#./configure --prefix=/usr
+#make
+#make install
+export  PKG_CONFIG_PATH=/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+
+安装客户端软件 mfsmount 的步骤:
+#cd /usr/src
+#tar -zxvf mfs-1.6.15.tar.gz
+#cd mfs-1.6.15
+#./configure --prefix=/usr/local --sysconfdir=/etc --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs --disable-mfsmaster --disable-mfschunkserver --enable-mfsmount
+#make 
+#make install 
+ 
+修改文件/etc/hosts ，增加如下的文本行: 
+192.168.1.181   mfsmaster 
+ 
+假定客户端的挂接点是/mnt/mfs，我们将以下面的指令来使用MooseFS分布式共享文件系统: 
+1、 创建挂接点 
+#mkdir -p /mnt/mfs 
+2、开始挂接操作 
+
+***********ldconfig		动态链接库管理命令（创建 libfuse.so.2链接）
+#/usr/bin/mfsmount /mnt/mfs -H mfsmaster 
+ 
+ 
+执行命令df -h |grep mfs 检查分区情况，可能的输出如下: 
+/storage/mfschunks/mfschunks1 
+                      2.0G   69M  1.9G   4% /mnt/mfschunks1 
+/storage/mfschunks/mfschunks2 
+                      2.0G   69M  1.9G   4% /mnt/mfschunks2 
+mfs#mfsmaster:9421    3.2G     0  3.2G   0% /mnt/mfs
+
+
+***********设置fuse启动时自动装载，在/etc/rc.local文件的后面增加如下一行：
+modprobe fuse

@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="../css/cssreset.css" />
+		<link rel="stylesheet" type="text/css"
+			href="../css/AI.Comp.Combox.css" />
+		<link rel="stylesheet" type="text/css" href="../css/AI.Comp.css" />
+		<link rel="stylesheet" type="text/css" href="../css/AI.ICO.css" />
+		<link rel="stylesheet" type="text/css" href="../css/AI.Comp.Panel.css" />
+		<script type="text/javascript"
+			src="../script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../script/lib/jquery/jquery.json.js"></script>
+		<script type="text/javascript"
+			src="../script/lib/jquery/tree/jquery.tree.min.js"></script>
+		<script type="text/javascript"
+			src="../script/lib/jquery/tree/jquery.tree.checkbox.js"></script>
+		<script type="text/javascript"
+			src="../script/lib/jquery/tree/jquery.tree.checkbox.js"></script>
+		<script type="text/javascript" src="../script/AI.Core.js"></script>
+		<script type="text/javascript" src="../script/AI.Component.js"></script>
+		<script type="text/javascript" src="../script/AI.Comp.Combox.js"></script>
+		<script type="text/javascript" src="../script/AI.Comp.Panel.js"></script>
+		<script type="text/javascript" src="../script/AI.Comp.FilterPanel.js"></script>
+		<script type="text/javascript" src="../script/AI.Comp.ComboxPanel.js"></script>
+		<script type="text/javascript" src="../script/AI.Comp.TreePanel.js"></script>
+		<style type="text/css">
+			.test{
+				margin-top:10px;
+				margin-left:10px;
+				width:100%;
+			}
+			.test2 {
+				float: left;
+				clear: both;
+				margin:5px;
+			}
+			button{
+				border: 1px solid lightblue;
+				margin: 5px;
+				cursor: pointer;
+				background: ghostwhite;
+			}
+			.left{
+				clear: both;
+				float: left;
+			}
+			.title{
+				color: blue;
+				font-weight: bold;
+			}
+		</style>
+		<script type="text/javascript">
+		    var ua = navigator.userAgent.toLowerCase();
+		    var isOpera = ua.indexOf("opera") > -1;
+		    var isIE = !isOpera && ua.indexOf("msie") > -1;
+		    var isIE7 = !isOpera && ua.indexOf("msie 7") > -1;
+			if(isIE && !isIE7){
+		        try{
+		            document.execCommand("BackgroundImageCache", false, true);
+		        }catch(e){}
+		    }
+		    
+		    var combox1,combox2,combox3,combox4,combox5,combox6,combox7,combox8,combox9,combox10,combox11,combox12,combox20;	
+			$(document).ready(function(){
+				combox1=new AI.Comp.Combox({
+					el:'combox1',
+					onchange:function(data){
+						AI.log("选择数据改变=="+data);
+					},					
+					submitFields:{txt:'combox1Name'},
+					showAll:true,
+					allTxt:'全部品牌',
+					store:[{
+								val : '1001',
+								txt : '全球通'
+							}, {
+								val : '2001',
+								txt : '神州行'
+							}, {
+								val : '3001',
+								txt : '动感地带'
+							}, {
+								val : '4001',
+								txt : '测试111'
+							}, {
+								val : '5001',
+								txt : '测试111'
+							}, {
+								val : '6001',
+								txt : '测试111'
+							}, {
+								val : '7001',
+								txt : '测试111'
+							}, {
+								val : '8001',
+								txt : '测试111'
+							}, {
+								val : '9001',
+								txt : '测试111'
+							}, {
+								val : '1201',
+								txt : '测试111'
+							}, {
+								val : '11001',
+								txt : '测试111'
+							}, {
+								val : '111001',
+								txt : '测试111'
+							}, {
+								val : '1111001',
+								txt : '测试111'
+							}, {
+								val : '333001',
+								txt : '测试111'
+							}, {
+								val : '34001',
+								txt : '测试111'
+							}],
+					id:'combox1'
+				});	
+				var combox2=new AI.Comp.Combox({
+					el:'combox2',
+					id:'combox2',
+					allowFilter:true,
+					store:[{
+								val : '1001',
+								txt : '全球通'
+							}, {
+								val : '2001',
+								txt : '神州行'
+							}, {
+								val : '3001',
+								txt : '动感地带'
+							}]					
+				});	
+				var combox3=new AI.Comp.Combox({
+					el:'combox3',
+					id:'combox3',
+					showICO:true,
+					value:'-999',
+					store:[{
+								val : '1001',
+								txt : '全球通',
+								ico:'ico1'
+							}, {
+								val : '2001',
+								txt : '神州行',
+								ico:'ico2'
+							}, {
+								val : '3001',
+								txt : '动感地带',
+								ico:'ico3'
+							}]
+				});	
+				combox4=new AI.Comp.Combox({
+					el:'combox4',
+					submitFields:{txt:'combox1Name'},
+					multiSel:true,
+					showAll:true,
+					onchange:function(data){
+						AI.log("选择数据改变=="+data);
+					},
+					value:'2001,3001',
+					store:[{
+								val : '1001',
+								txt : '全球通',
+								ico:'ico1'
+							}, {
+								val : '2001',
+								txt : '神州行',
+								ico:'ico2'
+							}, {
+								val : '3001',
+								txt : '动感地带',
+								ico:'ico3'
+							}],
+					allowFilter:true,
+					showICO:true,				
+					id:'combox4'
+				});			
+				combox5=new AI.Comp.Combox({
+					el:'combox5',
+					id:'combox5',
+					showICO:true,
+					showStyle:'group',
+					multiSel:true,
+					allowFilter:true,
+					store:[{
+						val:'-1',
+						txt:'全球通',
+						children:[{
+							val:'test1',
+							txt:'测试一'
+						},{
+							val:'test2',
+							txt:'测试二'						
+						},{
+							val:'test13',
+							txt:'测试二'						
+						},{
+							val:'test12',
+							txt:'测试二'						
+						},{
+							val:'test112',
+							txt:'测试二'						
+						}]
+					},{
+						val:'-2',
+						txt:'神州行',
+						children:[{
+							val:'test3',
+							txt:'测试三'
+						},{
+							val:'test4',
+							txt:'测试四'						
+						}]
+					},{
+						val:'-3',
+						txt:'动感地带',
+						children:[{
+							val:'test5',
+							txt:'测试五'
+						},{
+							val:'test6',
+							txt:'测试六'						
+						}]
+					}]
+				});
+				combox7=new AI.Comp.Combox({
+					el:'combox7',
+					id:'combox7',
+					allowFilter:true
+				});							
+				combox6=new AI.Comp.Combox({
+					el:'combox6',
+					id:'combox6',
+					allowFilter:true,
+					cascade:combox7,
+					showAll:true,
+					store:[{
+								val : '1001',
+								txt : '全球通',
+								children:[{
+									val:'10011',
+									txt:'全球通测试1'
+								},{
+									val:'10012',
+									txt:'全球通测试2'
+								},{
+									val:'10013',
+									txt:'全球通测试3'
+								},{
+									val:'10014',
+									txt:'全球通测试4'
+								},{
+									val:'10015',
+									txt:'全球通测试5'
+								},{
+									val:'10016',
+									txt:'全球通测试6'
+								},{
+									val:'10017',
+									txt:'全球通测试7'
+								},{
+									val:'10018',
+									txt:'全球通测试8'
+								},{
+									val:'10019',
+									txt:'全球通测试9'
+								},{
+									val:'100110',
+									txt:'全球通测试10'
+								},{
+									val:'100111',
+									txt:'全球通测试11'
+								}]
+							}, {
+								val : '2001',
+								txt : '神州行',
+								children:[{
+									val:'20011',
+									txt:'神州行测试1'
+								},{
+									val:'20012',
+									txt:'神州行测试2'
+								},{
+									val:'20013',
+									txt:'神州行测试3'
+								},{
+									val:'20014',
+									txt:'神州行测试4'
+								},{
+									val:'20015',
+									txt:'神州行测试5'
+								},{
+									val:'20016',
+									txt:'神州行测试6'
+								},{
+									val:'20017',
+									txt:'神州行测试7'
+								}]
+							}, {
+								val : '3001',
+								txt : '动感地带',
+								children:[{
+									val:'30011',
+									txt:'动感地带1'
+								}]
+							
+							}]					
+				});	
+				combox9=new AI.Comp.Combox({
+					el:'combox9',
+					showICO:true,
+					asyn:true,
+					initLoad:false,
+					url:'../data/combox2.json',
+					allowFilter:true,
+					id:'combox9'
+				});						
+				combox8=new AI.Comp.Combox({
+					el:'combox8',
+					showICO:true,
+					allowFilter:true,
+					url:'../data/combox.json',
+					asyn:true,
+					cascade:combox9,
+					id:'combox8'
+				});	
+				combox11=new AI.Comp.ComboxPanel({
+					el:'combox11',
+					showICO:true,
+					allowFilter:true,
+					multiSel:true,
+					url:'../data/combox.json',
+					asyn:true,
+					id:'combox11'
+				});
+				combox12=new AI.Comp.ComboxPanel({
+					el:'combox12',
+					showICO:true,
+					multiSel:true,
+					id:'combox12'
+				});
+				combox10=new AI.Comp.Combox({
+					el:'combox10',
+					showStyle:'tree',
+					showICO:true,
+					multiSel:false,
+					allowFilter:true,
+					url:'../data/test.json',
+					asyn:true,
+					id:'combox10'
+				});		
+				combox20=new AI.Comp.Combox({
+					el:'combox20',
+					showStyle:'tree',
+					showICO:true,
+					multiSel:true,
+					allowFilter:true,
+					url:'../data/test.json',
+					asyn:true,
+					id:'combox20'
+				});	
+			});	
+		</script>
+	</head>
+	<body>
+		<div class="test">
+			<div class="test2">
+				<h1 class="title">普通下拉框：</h1>
+				<div id="combox1"></div>
+ 				<div class="left">
+					<button onclick="combox1.addItem({val:'-111',txt:'添加数据测试'});">
+						add
+					</button>
+					<button onclick="combox1.removeItem({val:'1001'});">
+						remove
+					</button>
+					<button onclick="combox1.removeItem();">
+						removeAll
+					</button>
+					<button onclick="alert($.toJSON(combox1.getValue()));">
+						getValue
+					</button>
+					<button onclick="combox1.selectByIndex(2);">
+						selectByIndex
+					</button>
+					<button onclick="combox1.selectByValue('1001');">
+						selectByValue
+					</button>
+					<button onclick="combox1.reset();">
+						cancelSel
+					</button>
+				</div>	
+			</div>
+			<div class="test2">
+				<h1 class="title">过滤功能的下拉框：</h1>
+				<div id="combox2"></div>
+			</div>
+			<div class="test2">
+				<h1 class="title">带图标的下拉框：</h1>
+				<div id="combox3"></div>
+			</div>
+			<div class="test2">
+				<h1 class="title">多选框下拉框：</h1>
+				<div id="combox4"></div>
+				<div class="left">
+					<button
+						onclick="combox4.addItem({val:'-111',ico:'ico2',txt:'添加数据测试'});">
+						add
+					</button>
+					<button onclick="combox4.removeItem({val:'1001'});">
+						remove
+					</button>
+					<button onclick="combox4.removeItem();">
+						removeAll
+					</button>
+					<button onclick="alert($.toJSON(combox4.getValue()));">
+						getValue
+					</button>
+					<button onclick="combox4.selectByIndex(2);">
+						selectByIndex
+					</button>
+					<button onclick="combox4.selectByValue('1001,3001');">
+						selectByValue
+					</button>
+					<button onclick="combox4.reset();">
+						cancelSel
+					</button>
+				</div>
+			</div>
+			<div class="test2">
+				<h1 class="title">分组下拉框：</h1>
+				<div id="combox5"></div>
+			</div>
+			<div class="test2">
+				<h1 class="title">联动下拉框：</h1>
+				<div id="combox6" style="float: left;"></div>
+				<div id="combox7" style="float: left;margin-left:5px;"></div>
+			</div>
+			<div class="test2">
+				<h1 class="title">异步加载的下拉框：</h1>
+				<div id="combox8" style="float: left;"></div>
+				<div id="combox9" style="float: left;margin-left:5px;"></div>
+			</div>
+			<div class="test2">
+				<h1 class="title">树状下拉框：</h1>
+				<div id="combox10" style="float:left;"></div>
+				<div id="combox20" style="float: left;margin-left:5px;"></div>
+			</div>
+			<div class="test2">
+				<h1 class="title">列表：</h1>
+				<div id="combox11" style="float:left;"></div>
+				<div style="float:left;margin-top:50px;">
+					<button onclick="combox12.addItem((combox11.getValue()));">&gt;&gt;</button><br/>
+					<button onclick="combox12.removeItem((combox12.getValue()));">&lt;&lt;</button>
+				</div>
+				<div id="combox12" style="float: left;margin-left:5px;"></div>
+			</div>
+			<div class="AI-Debug" id="AI_Debug"></div>
+		</div>
+	</body>
+</html>

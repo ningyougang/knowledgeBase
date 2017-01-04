@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>服务器主动推送技术comet</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>服务器主动推送技术comet介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+传统模式的 Web 系统以客户端发出请求、服务器端响应的方式工作。这种方式并不能满足很多现实应用的需求，譬如：
+•监控系统：后台硬件热插拔、LED、温度、电压发生变化；
+•即时通信系统：其它用户登录、发送信息；
+•即时报价系统：后台数据库内容发生变化；
+最原始的解决方案包含以下2种
+1.在HTML头部HEAD里加入META元信息实现HTML自动刷新：
+把下面的代码加入<head>区域中：
+<meta http-equiv="refresh" content="200"> 
+content的值单位是秒，上面的200指每隔200秒刷新一次页面.
+评价:显然该方法已经严重落伍，会造成用户体验严重不好，会刷新当前页面。
+2.利用js的setTimeout函数每隔一定时间向后台发送数据(在一些书籍中又称为"短轮询或简单轮询")
+<script language="JavaScript"> 
+function myrefresh() 
+{ 
+window.location.reload(); 
+} 
+//setTimeout('myrefresh()',1000); //指定1秒刷新一次 
+</script> 
+评价:对用户来说，该方法还算可以，体验上还过得去，只是对后台服务器的压力比较大。
+</pre>
+
+</div>
+<div class="AI_common_title1">
+	<h2>comet解决方案</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+comet中文名叫“彗星”，在IT技术中，表示服务器主动推送信息到浏览器的技术统称，由多种实现方式
+
+1.方案A:基于http长连接的ajax长轮询(long-polling)
+该技术的实现需要满足两个点
+1).ajax:该技术的出现使得浏览器不用刷新页面，而是直接通过xmlHttpRequest对象与服务器交互，异步获取数据，提升用户体验
+2).http长连接，特别是servlet3.0规范实施以来，服务器可以长期保持1个http连接,等待有数据了才将数据推送给浏览器。
+备注:这里面的http长连接是指这个http连接的时间比较长，一般在30s以上.而http协议的长连接是指为了解决网络传输效率问题
+多个http请求在底层(osi第4层)对应1个tcp连接,需要客户端和服务器端同时支持,客户端connection:keep-alive(http1.1默认如此)
+服务器端需要指定content-length:XXX(我们查看www.sohu.com的请求就是这样)
+下图为“基于http长连接的ajax长询”的http请求过程
+</pre>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/ajax-long-polling.jpg"></img>
+<pre class="brush:java;">
+从上图中可以看出,基于http长连接的ajax长轮询的在实现上需要满足以下的三个点
+1.服务器端会阻塞请求直到有数据传递或超时才返回。
+2.客户端 JavaScript 响应处理函数会在处理完服务器返回的信息后，再次发出请求，重新建立连接。
+3.当客户端处理接收的数据、重新建立连接时，服务器端可能有新的数据到达；这些信息会被服务器端保存直到客户端重新建立连接，
+客户端会一次把当前服务器端所有的信息取回。
+
+代码如下:
+客户端代码:
+function receive(){
+     $.ajax({
+   	 type: "POST",
+   	 url:  'http://localhost:8080/hci/privatechat?sender=ningyougang&receiver=robot',
+  	 success: function(msg){
+        //do your work(拿到msg后对你的页面进行dom操作)
+        receive();
+     }
+	});	
+  }	
+  
+服务器端代码:(备注:服务器要支持servlet3.0规范，可以使用tomcat7.0)
+servlet的doPost方法
+protected final void doPost(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {    
+			AsyncContext asyncContext = request.startAsync(request, response);
+			ServletResponse response = asyncContext.getResponse(); 
+			//这里采用阻塞队列来获取信息,如果在指定时间没有获取到，则程序继续往下走,最后关闭asyncContext
+			Message message = messageQueue.poll(MESSAGE_TIMEOUT, TIMEUNIT);
+			if(null != message){
+				ServletResponse response = asyncContext.getResponse(); 
+				response.getWriter().write(message.getBody());
+				response.getWriter().flush();
+			}
+			asyncContext.complete();
+}
+
+评价:强烈建议使用该方案,无论对服务器的压力，还是浏览器兼容都不会有问题。
+使用注意事项:(参考IBM官网:http://www.ibm.com/developerworks/cn/web/wa-lo-comet/、http://www.ibm.com/developerworks/cn/java/j-lo-comet/)
+目前只罗列了两种,更多可以参考上述的官网
+1).不要在同一客户端同时使用超过两个的 HTTP 长连接
+这是因为 HTTP 1.1 规范中规定，客户端不应该与服务器端建立超过两个的 HTTP 连接， 新的连接会被阻塞。而 IE 在实现中严格遵守了这种规定。
+HTTP 1.1 对两个长连接的限制，会对使用了长连接的 Web 应用带来如下现象：在客户端如果打开超过两个的 IE 窗口去访问同一个使用了长连接的 Web 服务器，
+第三个 IE 窗口的 HTTP 请求被前两个窗口的长连接阻塞。
+
+所以在开发长连接的应用时， 必须注意在使用了多个 frame 的页面中，不要为每个 frame 的页面都建立一个 HTTP 长连接，
+这样会阻塞其它的 HTTP 请求，在设计上考虑让多个 frame 的更新共用一个长连接。
+2).服务器端的性能和可扩展性
+
+
+
+
+2.方案B:基于 Iframe的流(streaming)方式
+下图为“基于Iframe流模式”的http请求过程
+</pre>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/iframe-streaming.jpg"></img>
+<pre class="brush:java;">
+根据http请求过程，不难写出客户端和服务器端代码	
+客户端代码:
+<head>
+<script language="javascript">
+	function receive(data){
+		//do your work	
+	}
+</script>
+</head>
+<body>
+	<iframe src="指向后台服务网的ajax地址"></iframe>
+</body>
+
+服务器端代码:
+protected final void doPost(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {    
+  		AsyncContext asyncContext = request.startAsync(request, response);
+			ServletResponse response = asyncContext.getResponse(); 
+			//这里采用阻塞队列来获取信息,如果在指定时间没有获取到，则程序继续往下走,注意asyncContext没有关闭
+			while(true)
+			Message message = messageQueue.poll(MESSAGE_TIMEOUT, TIMEUNIT);
+			if(null != message){
+				ServletResponse response = asyncContext.getResponse(); 
+				response.getWriter().write("拼写页面中已经定义好的javascript执行字符串,将获取的message放入js方法参数中,有点类似于JSONP");
+				response.getWriter().flush();
+			}
+}
+评价:存在页面左下角一直加载的情况，而且浏览器的兼容也存在问题，不建议使用
+
+3).websocket
+待写
+4).基于flash
+待写
+
+其他:pushlet框架也对服务器推送技术做了封装,有兴趣可以研究
+</pre>
+</div>
+</body>
+</html>

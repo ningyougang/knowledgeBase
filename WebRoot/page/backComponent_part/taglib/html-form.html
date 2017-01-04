@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>html-表单</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>html总体介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+超文本标记语言，即HTML(Hypertext Markup Language)，是用于描述网页文档的一种标记语言。它和一般文本的不同的是，一个HTML文件不仅包含文本内容，
+还包含一些Tag，中文称"标记"。 
+
+HTML是一种规范，一种标准，它通过标记符号来标记要显示的网页中的各个部分。
+网页文件本身是一种文本文件，通过在文本文件中添加标记符，可以告诉浏览器如何显示其中的内容(如：文字如何处理，画面如何安排，图片如何显示等)。
+浏览器按顺序阅读网页文件，然后根据标记符解释和显示其标记的内容，对书写出错的标记将不指出其错误，
+且不停止其解释执行过程，编制者只能通过显示效果来分析出错原因和出错部位。
+但需要注意的是，对于不同的浏览器，对同一标记符可能会有不完全相同的解释因而可能会有不同的显示效果。 　　
+HTML之所以称为超文本标记语言，是因为文本中包含了所谓“超级链接”点。所谓超级链接，就是一种URL指针，通过激活（点击）它，
+可使浏览器方便地获取新的网页。这也是HTML获得广泛应用的最重要的原因之一。 　　
+
+网页的本质就是HTML，通过结合使用其他的Web技术(如：脚本语言、CGI、组件等)，可以创造出功能强大的网页。
+因而，HTML是Web编程的基础，也就是说万维网是建立在超文本基础之上的.
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>html交互性的表单元素效果演示</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+一般文本隐藏域:<input type="hidden" name="" id=""  value=""></input></br>
+一般文本输入框:<input type="text" name="" id="" value="请输入"></input></br>
+文本密码输入框:<input type="password" name="" id="" value="abc"></input></br>
+多行文本输入框:<textarea name="" id="" value=""></textarea></br>
+&nbsp;&nbsp;&nbsp;&nbsp;单选按钮输入:<input type="radio" name="aRadio" checked="true" id="" >男性</input><input type="radio" name="aRadio" id="" >女性</input></br>
+复选框多选输入:<input type="checkbox" name="aCheck" checked="true" id="" >选择A</input><input type="checkbox" name="aCheck" id="" >选择B</input>
+</input><input type="checkbox" name="aCheck" id="">选择C</input></br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下拉选择框:<select name="" id=""><option value="选择A">选择A</option><option value="选择B">选择B</option></select></br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;文件上传:<input type="file" name="aCheck" id=""></input></br>
+&nbsp;&nbsp;&nbsp;&nbsp;表单元素提交:<form action="" method="get"></form>
+</div>
+<div class="AI_common_title1">
+	<h2>html-表单元素-代码示例(大小写有点问题)</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:html;">
+一般文本隐藏域
+<input type="hidden" name="" id=""  value=""></input>
+
+一般文本输入框
+<input type="text" name="" id="" value="请输入" class=""></input>
+
+文本密码输入框
+<input type="password" name="" id="" value="abc"></input>
+
+多行文本输入框
+<textarea name="" id="" value=""></textarea>
+
+单选按钮输入
+<input type="radio" name="aRadio" checked="true" id="">男性</input>
+<input type="radio" name="aRadio" id="">女性</input>
+复选框多选输入
+<input type="checkbox" name="aCheck" checked="true" id="">选择A</input>
+<input type="checkbox" name="aCheck" id="">选择B</input>
+<input type="checkbox" name="aCheck" id="">选择C</input>
+
+下拉选择框
+<select name="" id="">
+<option value="选择A">选择A</option>
+<option value="选择B">选择B</option>
+</select>
+
+文件上传
+<input type="file" name="aCheck" id=""></input>
+
+表单元素提交
+<form action="" method="get"></form>
+action:请求的服务器路径
+method:get/post,两者的区别为:
+1.把传递的请求参数放在URL里以明文方式发送，用户可以在浏览器地址栏里可以进行参数值查看.
+  post是通过HTTP post机制，将表单的请求参数放在HTML HEADER内传送到服务器。用户看不到这个过程。
+2.get传送的数据量较小，不能大于2KB。post传送的数据量较大，一般被默认为不受限制。但理论上，IIS4中最大量为80KB，IIS5中为100KB。
+3.get安全性非常低，post安全性较高。但是执行效率却比Post方法好。 
+
+建议：
+1.get方式的安全性较Post方式要差些，包含机密信息的话，建议用Post数据提交方式；
+2.在做数据查询时，建议用Get方式；而在做数据添加、修改或删除时，建议用Post方式；
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>html布局标签</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:html;">
+<table><caption>标题</caption>
+<tr><th>列头</th><td>内容</td></tr>
+</table>
+属性解释:
+width:宽度,支持像素和百分比两种方式;   
+height:高度；   
+border:边框像素；  
+align:对齐方式(左对齐、居左、右对齐，默认左对齐);
+cellpadding:单个TD里的内容到边框的距离;
+cellspacing:两个TD之间的距离;
+background:背景图片;
+bgcolor:背景颜色;
+class:样式;
+id:表格的唯一标识,用javascript(juqery),可以对该表格进行操作;
+其他:th一般用于表头，默认加粗
+
+<div></div>
+CSS盒子模型:什么是CSS的盒子模式呢？为什么叫它是盒子？先说说我们在网页设计中常听的属性名：
+内容(content)、填充(padding)、边框(border)、边界(margin)， CSS盒子模式都具备这些属性.
+这些属性我们可以把它转移到我们日常生活中的盒子（箱子）上来理解，日常生活中所见的盒子也就是能装东西的一种箱子，也具有这些属性，所以叫它盒子模式。
+那么内容(CONTENT)就是盒子里装的东西；而填充(PADDING)就是怕盒子里装的东西（贵重的）损坏而添加的泡沫或者其它抗震的辅料；
+边框(BORDER)就是盒子本身了；至于边界(MARGIN)则说明盒子摆放的时候的不能全部堆在一起，要留一定空隙保持通风，同时也为了方便取出。
+在网页设计上，内容常指文字、图片等元素，但是也可以是小盒子（DIV嵌套），与现实生活中盒子不同的是，现实生活中的东西一般不能大于盒子，
+否则盒子会被撑坏的，而CSS盒子具有弹性，里面的东西大过盒子本身最多把它撑大，但它不会损坏的。填充只有宽度属性，
+可以理解为生活中盒子里的抗震辅料厚度，而边框有大小和颜色之分，我们又可以理解为生活中所见盒子的厚度以及这个盒子是用什么颜色材料做成的，
+边界就是该盒子与其它东西要保留多大距离。
+具体相关的div的相关绝对定位、相对定位和CSS的属性以及取值请参阅相关的书籍.
+
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>html其他标签</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:html;">
+<marquee>滚动marquee</marquee>
+属性解释
+behavior:滚动行为,取值包括scroll(普通滚动，默认)、alternate(来回滚动)、slide(滑动一次)
+direction:滚动方向,取值包括left(默认)、right、up、down
+width:宽度
+height:高度
+bgcolor:背景颜色
+scrollamount:移动速度
+scrolldelay:两次移动的间隔时间
+onmouseover:鼠标移动上去的触发事件
+
+字体标记<h1></h1>.....<h6></h6>(越大越小)
+<font></font>
+
+链接标记<a href="" target=""></a>
+href:链接的URL
+target:链接目标，取值包括:_self(当前窗口)、_blank(打开新页)、_top、_parent、"frame的名称"
+
+基础定位标记<base href=""/>
+href:所有后续的相对定位以href的值为准，如果不写，默认情况下为当前主机的上下文为准.
+
+框架标记<frameset rows/cols="50,*"><frame></frame><frame></frame></frameset>
+frameset是框架标记，一个网页被划分成几个块，每个块为不同的网页文件,frame必须在frameset里使用
+frameset里面还能嵌入frameset。嵌套框架,框架可以进行多层嵌套
+
+内部帧标记<iframe></iframe>
+IFRAME属于html内嵌网页,布局灵活,强烈建议用iframe结合div/css定位替换框架
+
+无序列表<ul type="disc/circle/square"><li></li></ul>
+type:无序列表类型，取值包含disc(黑色实心圆)、circle(空心圆)、square(实心方框)
+
+有序列表<ol type="" start=""><li></li></ol>
+type:表示字母还是数字，如a，1等
+start:初始值，只能为整数
+</pre>
+</div>
+</body>
+</html>

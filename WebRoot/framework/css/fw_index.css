@@ -1,0 +1,111 @@
+/* CSS Document */
+*{
+	margin:0;
+	padding:0;
+	font-size:12px;
+}
+ul,li{
+	list-style-type: none;
+}
+body,html{
+	background:#fff;
+	height:100%;
+}
+
+/* head */
+#fw_index_head{
+	background:url(../images/fw_head_bg.jpg) no-repeat 0 0;
+	display:block;
+	height:60px;
+}
+/* header nav */
+#fw_main_nav{
+	background:url(../images/fw_nav_bg.jpg) repeat-x 0 0;
+	height:34px;
+	margin-bottom:2px;
+}
+/* ×ó¼ýÍ· */
+.fw_nav_left,.fw_nav_right{
+	background:url(../images/nav_left_1.jpg) no-repeat;
+	cursor:pointer;
+	float:left;
+	height:36px;
+	width:21px;
+}
+/* ÖÐ¼ä²¿·Ö */
+ul.fw_nav_main{
+	background:url(../images/fw_nav_bg.jpg) repeat-x 0 0;
+	float:left;
+	height:36px;
+}
+ul.fw_nav_main li{
+	background:url(../images/fw_nav_line.jpg) no-repeat 100% 0;
+	float:left;
+	font-family:"Î¢ÈíÑÅºÚ";
+	
+}
+ul.fw_nav_main li a{
+	color:#ccc;
+	display:block;
+	float:left;
+	height:28px;
+	line-height:28px;
+	padding-left:25px;
+	padding-right:25px;
+	text-decoration:none;
+}
+ul.fw_nav_main li a:hover{
+	background:url(../images/nav_hover_bg.jpg) repeat-x;
+	color:#fff;
+	display:block;
+}
+/* ÓÒ¼ýÍ· */
+.nav_right{
+	background:url(../images/nav_right_1.jpg) no-repeat;
+	float:right;
+}
+
+/* ×ó²à */
+#fw_left_menu{
+	background:#ffffcc;
+	clear:right;
+	float:left;
+	padding-bottom:50px;
+	width:180px;
+	overflow:auto;
+	height:500px;
+	scrollbar-face-color: #fefefe;
+	scrollbar-shadow-color: #c4cfcd;
+	scrollbar-highlight-color: #c4cfcd;
+	scrollbar-3dlight-color: #f6f6f6;
+	scrollbar-darkshadow-color: #f6f6f6;
+	scrollbar-track-color: #f6f6f6;
+	scrollbar-arrow-color: #c4cfcd;
+}
+#fw_left_menu h2{
+	background:url(../images/fw_left_t.jpg) no-repeat;
+	color:#fff;
+	display:block;
+	height:22px;
+	line-height:24px;
+	text-indent:18px;
+}
+#fw_left_menu h3{
+	border-bottom:1px dotted #cbcbcb;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	margin:0 auto;
+	width:170px;
+}
+#fw_left_menu h3 a{
+	color:#2c5598;
+	display:block;
+	font-weight:normal;
+	height:26px;
+	line-height:26px;
+	text-decoration:none;
+	text-indent:16px;	
+}
+#fw_left_menu h3 a:hover{
+	background:#f9e28d;
+	color:#333;
+}

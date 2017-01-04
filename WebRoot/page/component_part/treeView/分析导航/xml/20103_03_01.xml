@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月话务量分区域分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='话务量' SYAxisName='增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0">
+
+<categories>
+ 	<category label='芜湖'/>
+	<category label='阜阳'/>
+	<category label='合肥'/>
+	<category label='六安'/>
+	<category label='宿州'/>
+	<category label='巢湖'/>
+	<category label='黄山'/>
+	<category label='亳州'/>
+	<category label='池州'/>
+	<category label='滁州'/>
+	<category label='安庆'/>
+	<category label='蚌埠'/>
+	<category label='淮北'/>
+	<category label='宣城'/>
+	<category label='铜陵'/>
+	<category label='马鞍山'/>
+	<category label='淮南'/>
+</categories>
+ 
+<dataset seriesName="话务量" color="AFD8F8">
+  	<set value='343955622'/>
+	<set value='594424321'/>
+	<set value='1058804293'/>
+	<set value='365927171'/>
+	<set value='405202671'/>
+	<set value='253826987'/>
+	<set value='135260274'/>
+	<set value='340156581'/>
+	<set value='129018886'/>
+	<set value='381454578'/>
+	<set value='372969689'/>
+	<set value='311900183'/>
+	<set value='235746418'/>
+	<set value='259990624'/>
+	<set value='103084169'/>
+	<set value='160660866'/>
+	<set value='288716252'/>
+</dataset>
+	 
+<dataset lineThickness="2" seriesName="增长率" parentYAxis="S" >
+  	<set value='37.1574'/>
+	<set value='35.0131'/>
+	<set value='34.6288'/>
+	<set value='33.4522'/>
+	<set value='32.7266'/>
+	<set value='31.9151'/>
+	<set value='31.1846'/>
+	<set value='30.9256'/>
+	<set value='30.0120'/>
+	<set value='29.2233'/>
+	<set value='29.0491'/>
+	<set value='29.0233'/>
+	<set value='28.2638'/>
+	<set value='26.2193'/>
+	<set value='23.7742'/>
+	<set value='23.1138'/>
+	<set value='21.0489'/>
+</dataset>
+</chart>

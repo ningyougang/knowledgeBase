@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>linux安装/卸载</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+<body>
+
+<div class="AI_common_title1">
+	<h2>背景</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+记得当年在用源码安装的时候，一般要进行如下三部曲./configure 、make、make install。如果不顺利，需要花费很长的时间,</br>
+其原因为需要自己手动解决软件包之间的依赖关系。后来出现了在线安装/升级的命令yum/apt-get。安装软件非常轻松。</br>
+yum:Redhat系列的在线安装/升级命令，支持linux中的Redhat、Centos、Fedora等。</br>
+apt-get:Debian系列的在线安装/升级命令,支持linux中的Debian、Ubuntu等</br>
+下面站在linux-RedHat和Debian两者不同系列的基础上来讲解软件的安装/升级/卸载</br>
+</div>
+
+
+<div class="AI_common_title1">
+	<h2>具体比较</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+一、RedHat 系列
+1 rpm包的安装/升级/卸载（备注:rpm一般是编译后的二进制格式的安装文件,红帽子对其进行打包处理,src.rpm源代码的安装方法请到网上查阅）
+  安装：rpm -ivh *.rpm 
+  查看：rpm -q packagename（该package是否已经安装）、rpm -qa | grep tomcat4（查看所有的rpm安装包中，是否有tomcat安装包匹配行）
+        rpm -qf /etc/yum.conf(查看某个文件是哪个包产生)、rpm -ql xxx（查看XXX包安装到哪个目录下）
+  卸载：rpm -e packgename。（卸载之前，一般要查看下）
+2 yum包的在线安装/升级/卸载,解决依赖。自动安装到：/etc（配置）、/usr/bin（可执行）、/usr/lib（使用的动态函数库）、/usr/share（文档）
+  安装：yum install xxx
+  更新：yum update（更新所有的rpm包）、yum install XXX(更新指定的rpm包)
+  移除：yum remove xxx
+  清除已经安装过的档案（/var/cache/yum/）：yum clean all
+  搜寻：yum search xxx
+  列出所有档案：yum list
+  查询档案讯息：yum info xxx
+3 tar（如带压缩格式:.tar.gz）(说明:tar在linux将文件或文件夹进行合并，没有压缩；为了传输效率，.tar文件还会进一步压缩为.tar.gz等
+  所以tar命令加参数 -z或-j还会在打成tar后在调用压缩命令生成.tar.gz或.tar.bzip2)
+  压缩：tar -zcvf XXX.tar.gz XXX(tar的具体用法请参考基本命令) 
+  解压：tar -zxvf XXX.tar.gz 
+  检查：./configure
+  编译：make
+  安装：make install
+  卸载：make uninstall
+二、Debian 系列
+1 deb包的安装/升级/卸载
+  安装: dpkg -i package.deb
+  查看: dpkg -l (列出所有的包)、dpkg -S /etc/yum.conf(查看该文件是哪个包产生)
+  卸载: dpkg -r 包名、dpkg -P 包名；区别（-r表示完全清除一个已安装的包裹，即remove 只是删掉数据和可执行文件，
+                purge 另外还删除所有的配置文件）
+2 apt-get的在线安装/升级/卸载,解决依赖
+  安装：sudo apt-get install package （sudo表示当前用户拥有root权限）、sudo apt-get --reinstall install package(重新安装)、-f：修复安装
+  卸载: sudo apt-get remove package、apt-get --purge remove package(删除的同时清除配置) 
+  升级: sudo apt-get update （更新源）、apt-get upgrade（更新已安装的包）、sudo apt-get dist-upgrade （升级系统）
+        sudo apt-get build-dep package （安装相关的编译环境）
+  其他：aptitude与apt-get类似，对于Server版， 推荐使用aptitude来查看，安装、删除deb包（具体的命令格式请查看文档） 
+  
+问题解答:
+1.jdk-linux-i586.bin与jdk-linux-i586-rpm.bin安装方面有什么区别?
+ 1.linux软件发布形式:
+  1.1不公开源代码，只发布二进制可执行程序，这类程序一般会以bin来标记(类似windows下的exe)； 
+  1.2二进制安装程序和源代码一起发布，二进制程序文件以bin.rpm标记（以RedHat包为例），源代码以source.rpm标记。 
+  1.3直接发布源码,类似XXX.tar.gz.
+ 2.安装 
+  2.1 jdk-linux-i586-rpm.bin,先赋权,在执行(通过./jdk-linux-i586-rpm.bin来执行),执行后会生成rpm打包的安装文件 可以使用命令 rpm -ivh xxx.rpm 来安装。
+      只能在redhat系的发行版上使用 (RHEL,FC,centOS)
+  2.2 jdk-linux-i586.bin,先赋权,在执行(通过./jdk-linux-i586.bin来执行),运行后会直接把所有文件解压到当前目录的jdk子目录下   
+  2.3 XXX.tar.gz源码安装。
+     2.3.1  tar -zxvf XXX.tar.gz:将XXX.tar.gz解压到XXX
+     2.3.2  ./configure  --参数 :检查系统是否符合安装需求,软件的组态设置文件,产生对应平台的Makefile 
+     2.3.3  make :根据Makefile的内容 编译出符合平台的可执行文件
+     2.3.4  make install :安装编译成功的软件 
+     2.3.5  make clean :  清除编译成功的obj and binary
+</pre>
+</div>
+
+</body>
+</html>

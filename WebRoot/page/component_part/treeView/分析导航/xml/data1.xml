@@ -1,0 +1,20 @@
+  <?xml version="1.0" encoding="gbk" ?> 
+- <chart caption="" outCnvBaseFont="Arial" outCnvBaseFontSize="12" outCnvBaseFontColor="ffffff" bgColor="222222" borderColor="222222">
+  <set label="10月" value="20" /> 
+  <set label="11月" value="40" /> 
+  <set label="12月" value="35" /> 
+  <set label="1月" value="50" /> 
+  <set label="2月" value="45" /> 
+  <set label="3月" value="52" /> 
+- <styles>
+- <definition>
+  <style name="MyFirstFontStyle" type="font" font="Verdana" size="12" color="FF0000" bgColor="FFFFDD" borderColor="666666" /> 
+  <style name="MyFirstGlow" type="Glow" color="FF5904" alpha="75" /> 
+  </definition>
+- <application>
+  <apply toObject="CAPTION" styles="MyFirstGlow" /> 
+  <apply toObject="XAXISNAME" styles="MyFirstGlow,MyFirstFontStyle" /> 
+  <apply toObject="YAXISNAME" styles="MyFirstGlow" /> 
+  </application>
+  </styles>
+  </chart>

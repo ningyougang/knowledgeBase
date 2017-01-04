@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>JS通用函数</title>
+		<link rel="stylesheet" type="text/css"
+			href="../../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/AI.Comp.js"></script> 
+			<script language="javascript">
+ function trimTest(){
+ 	   alert('剔除两边空格( 123 ):' + ('  123 ').trim().length);
+ 	}
+  function isTrueTest(){
+  	 alert("AI.isTrue(true):" + AI.isTrue(true));
+  }  
+    function isFunctionTest(){
+  	 alert("AI.isFunction(true):" + AI.isFunction(true));
+  } 
+    function isNumberTest(){
+  	 alert("AI.isNumber(1.2):" + AI.isNumber(1.2));
+  }
+     function isStringTest(){
+  	 alert("AI.isString('1.2'):" + AI.isString('1.2'));
+  }
+  function checkSpecailCharTest (){
+	alert("AI.isSpecailChar('abcd\''):" + AI.isSpecailChar('abcd\'') + "==="+"AI.isSpecailChar('abcd1234'):" + AI.isSpecailChar('abcd1234') );
+  }
+  function checkMailTest (){
+		 alert("AI.isMail('ningyougang_ok@126.com'):" + AI.isMail("ningyougang_ok@126.com"));
+  }
+
+  //  手机号码验证，验证13系列和150-159、180、185、186、187、188、189几种号码，长度11位
+	function checkMobileTest() {  
+	 alert("AI.isMobile(15401894292):" + AI.isMobile(15401894292));
+	} 
+	function checkDateTest(){
+		alert("new Date(Date.parse(\"2012/12/14\".replace(\"-\", \"/\")))<=new Date(Date.parse(\"2012/12/15\".replace(\"-\",\"/\"))):" + new Date(Date.parse("2012/12/14".replace("-", "/")))<=new Date(Date.parse("2012/12/15".replace("-", "/"))))
+	}
+  function checkCookieTest()
+ {     
+ 	     alert("开始设置cookie,键=a,值=b,有效期=12days");
+ 	     AI.setCookie("a","b",12);
+ 	     alert("获取cookie的值[键=a]:" + AI.getCookie("a"));  
+ 	     alert("开始删除cookie[键=a]");
+			 AI.delCookie("a");  
+       alert("删除cookie[键=a]后,再次通过cookie获取,验证值是否存在:" + AI.getCookie("a"));
+ 	}
+ 	</script>
+
+	</head>
+	<body>
+<button onclick="trimTest();">剔除两边空格</button>  
+<button onclick="isFunctionTest();">是否为函数</button> 
+<button onclick="isTrueTest();">判断是否为真</button> 		
+<button onclick="isNumberTest();">判断是否为数字(整数和浮点)</button> 		
+<button onclick="isStringTest();">判断是否为字符串</button></br>
+<button onclick="checkSpecailCharTest();">判断是否含有特殊字符</button> 	
+<button onclick="checkMailTest();">验证mail</button> 	
+<button onclick="checkMobileTest();">验证手机号码</button> 	
+<button onclick="checkDateTest();">日期比较</button> 	
+<button onclick="checkCookieTest();">cookie设置/删除/再次获取</button> 	
+	</body>
+</html>
+

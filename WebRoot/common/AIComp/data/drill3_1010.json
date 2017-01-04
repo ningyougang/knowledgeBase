@@ -1,0 +1,9 @@
+[{
+			id : '10001',
+			title : '测试',
+			desc : '测试',
+			value : 31233,
+			cycle : 0.97,
+			same : 0.65,
+			allowdrill:true
+		}]

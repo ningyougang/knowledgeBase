@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>redis</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>简介</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、
+zset(sorted set --有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，
+而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。
+区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。
+Redis 是一个高性能的key-value数据库。 redis的出现，很大程度补偿了memcached这类key/value存储的不足，
+在部分场合可以对关系数据库起到很好的补充作用。它提供了Java，C/C++，C#，PHP，JavaScript，Perl，Object-C，Python，Ruby，Erlang等客户端，
+使用很方便。[1] 
+Redis支持主从同步。数据可以从主服务器向任意数量的从服务器上同步，从服务器可以是关联其他从服务器的主服务器。
+这使得Redis可执行单层树复制。从盘可以有意无意的对数据进行写操作。由于完全实现了发布/订阅机制，
+。同步对读取操作的可扩展性和数据冗余很有帮助。
+
+与Memcached比较
+1.网络IO模型方面：Memcached是多线程，分为监听线程、worker线程，引入锁，带来了性能损耗。Redis使用单线程的IO复用模型，
+将速度优势发挥到最大，也提供了较简单的计算功能 
+2.内存管理方面：Memcached使用预分配的内存池的方式，带来一定程度的空间浪费 并且在内存仍然有很大空间时，
+新的数据也可能会被剔除，而Redis使用现场申请内存的方式来存储数据，不会剔除任何非临时数据 Redis更适合作为存储而不是cache 
+3.数据的一致性方面：Memcached提供了cas命令来保证.而Redis提供了事务的功能，可以保证一串 命令的原子性，中间不会被任何操作打断 
+4. 存储方式方面：Memcached只支持简单的key-value存储，不支持枚举，不支持持久化和复制等功能
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>文档</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+用户session同步到redis:<a href="doc/用户session同步到redis.docx">用户session同步到redis.docx</a></br>
+</div>
+
+<div class="AI_common_title1">
+	<h2>经验总结</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+经验总结(个人未尝试):
+1.要进行Master-slave配置，出现服务故障时可以支持切换。 
+2.在master侧禁用数据持久化，只需在slave上配置数据持久化。 
+3.物理内存+虚拟内存不足，这个时候dump一直死着，时间久了机器挂掉。这个情况就是灾难！ 
+4.当Redis物理内存使用超过内存总容量的3/5时就会开始比较危险了，就开始做swap,内存碎片大 
+5.当达到最大内存时，会清空带有过期时间的key，即使key未到过期时间. 
+6.redis与DB同步写的问题，先写DB，后写redis，因为写内存基本上没有问题
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java访问redis代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java">
+	下载java客户端jar:jedis-2.0.0.jar，代码需要更好的封装，待补充
+	
+	public static void main(String[] args) {
+		Jedis jredis = new Jedis("192.168.202.149", 6379);  
+		//jredis.del("foo");
+		//jredis.set("foo", "bar");
+		//String value = jredis.get("671683E391037EE5B157B988D8F48505");
+		//jredis.del("590F3E6C5B34AC35CB58962F1DEE8C5B");
+		//String value = jredis.get("51BFC6985AECCB03D889BBE4123FB1E6");
+		jredis.del("51BFC6985AECCB03D889BBE4123FB1E6");
+       // System.out.println(value); 
+
+	}
+</pre>
+</div>
+</body>
+</html>

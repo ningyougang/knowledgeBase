@@ -1,0 +1,25 @@
+
+<nodes>
+  <node nodeid="" x="34" y="375" title="总体收入分析" content="" parentid="" children="7" source="20103_03.xml" fcType="MSLine">
+    <node nodeid="0" x="284" y="50" title="各地市收入" content="  可查询单月和累计收入&&" parentid="" children="0" source="20101_01.xml" fcType="MSCombiDY2D" 
+    			paraLabelArr="单月收入|累计收入|目标完成情况报表@" paraValueArr="20101_01.xml|20101_01_01.xml|20101_01_02.xml" />
+    <node nodeid="1" x="284" y="150" title="分品牌收入" content="" parentid="" children="1" source="20102_02.xml" fcType="MSCombiDY2D">
+      <node nodeid="10" x="534" y="150" title="各品牌优惠比例套餐排名" content="" parentid="1" children="0" fcType="MSLine"/>
+    </node>
+    <node nodeid="2" x="284" y="250" title="二级账目收入明细情况" content="  可查询二级账目的收入明细信息&&" parentid="" children="1" source="20102_03.xml" fcType="MSCombiDY2D"
+    			paraLabelArr="二级账目总收入|增值业务收入|月租收入|语音收入|其他收入" paraValueArr="20102_03.xml|20102_03_01.xml|20102_03_02.xml|20102_03_04.xml|20102_03_03.xml">
+      <node nodeid="20" x="534" y="250" title="三级账目收入明细" content="" parentid="2" children="0" fcType="MSCombiDY2D"/>
+    </node>
+    <node nodeid="3" x="284" y="350" title="数据业务使用流量" content="  数据业务GPS流量及收入同比增长信息&&" parentid="" children="0"  source="20102_04.xml" fcType="MSCombiDY2D"/>
+    <node nodeid="4" x="284" y="450" title="MOU分析" content="" parentid="" children="0" source="20102_05.xml" fcType="MSCombiDY2D"/>
+    <node nodeid="5" x="284" y="550" title="新增用户收入" content="" parentid="" children="1" source="20102_06.xml" fcType="MSCombiDY2D">
+      <node nodeid="50" x="534" y="550" title="分区域分析" content="" parentid="5" children="0" source="20102_06_01.xml" fcType="MSCombiDY2D"/>
+    </node>
+    <node nodeid="6" x="284" y="700" title="存量用户收入" content="" parentid="" children="2" fcType="MSCombiDY2D" source="20102_07.xml">
+      <node nodeid="60" x="534" y="650" title="离网减少收入" content="" parentid="6" children="0" fcType="MSCombiDY2D" source="20102_07_01.xml"/>
+      <node nodeid="61" x="534" y="750" title="收入降低用户情况" content="" parentid="6" children="0" fcType="MSCombiDY2D"/>
+    </node>
+  </node>
+</nodes>
+
+

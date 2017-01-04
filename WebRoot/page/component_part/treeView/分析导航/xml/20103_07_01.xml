@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月新增用户分地域分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='新增收入' SYAxisName='新增收入占比' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="1">
+
+<categories>
+ 	<category label='合肥'/>
+	<category label='芜湖'/>
+	<category label='马鞍山'/>
+	<category label='巢湖'/>
+	<category label='黄山'/>
+	<category label='池州'/>
+	<category label='铜陵'/>
+	<category label='宣城'/>
+	<category label='亳州'/>
+	<category label='六安'/>
+	<category label='安庆'/>
+	<category label='宿州'/>
+	<category label='阜阳'/>
+	<category label='蚌埠'/>
+	<category label='淮北'/>
+	<category label='滁州'/>
+	<category label='淮南'/>
+</categories>
+ 
+<dataset seriesName="新增收入" color="AFD8F8">
+  	<set value='11525063.00'/>
+	<set value='3391312.00'/>
+	<set value='1665467.00'/>
+	<set value='2885007.00'/>
+	<set value='1302954.00'/>
+	<set value='1236157.00'/>
+	<set value='997660.00'/>
+	<set value='2409552.00'/>
+	<set value='3030866.00'/>
+	<set value='3430390.00'/>
+	<set value='3736509.00'/>
+	<set value='3281275.00'/>
+	<set value='4520589.00'/>
+	<set value='2304273.00'/>
+	<set value='1464696.00'/>
+	<set value='2744909.00'/>
+	<set value='1775057.00'/>
+</dataset>
+ 
+<dataset lineThickness="2" seriesName="新增收入占比" parentYAxis="S" >
+    <set value='0.0509'/>
+	<set value='0.0480'/>
+	<set value='0.0458'/>
+	<set value='0.0443'/>
+	<set value='0.0437'/>
+	<set value='0.0430'/>
+	<set value='0.0422'/>
+	<set value='0.0404'/>
+	<set value='0.0404'/>
+	<set value='0.0404'/>
+	<set value='0.0398'/>
+	<set value='0.0380'/>
+	<set value='0.0363'/>
+	<set value='0.0355'/>
+	<set value='0.0340'/>
+	<set value='0.0333'/>
+	<set value='0.0311'/>
+</dataset>
+</chart>

@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分页标签</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>分页标签</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>	
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+1.编写标签处理器类
+package com.asiainfo.base.taglib;
+
+import java.util.Enumeration;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.views.jsp.StrutsBodyTagSupport;
+
+import com.asiainfo.base.extend.page.PaginationBean;
+
+
+
+/**
+ * @version 2.0
+ * @created 2010-01-19 15:12:20
+ * 
+ */
+
+public class AIPaginationTag extends StrutsBodyTagSupport {
+
+	private static final long serialVersionUID = -5119588621284705166L;
+
+	private String pageBean;
+
+	private String action;
+
+	private String jsFunction;
+
+	private int count = 5;
+
+	private String id;
+
+	private String cssClass;
+
+	private int limit = PaginationBean.DEFAULT_PAGINATION_ROWS;
+
+	private final String DEFAULT_JS_FUNCTION = "goPage";
+	
+	private final static String PAGINATIONFORM_PREFIX ="_paginationForm_";
+	
+	private final static String JS_FUNCTION_PREFIX="javascript:";
+	
+	private String _jsFunc;
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count=count;
+	}
+
+	public String getCssClass() {
+		return cssClass;
+	}
+
+	public void setCssClass(String cssClass) {
+		this.cssClass = cssClass;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getJsFunction() {
+		return jsFunction;
+	}
+
+	public void setJsFunction(String jsFunction) {
+		this.jsFunction = jsFunction;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public String getPageBean() {
+		return pageBean;
+	}
+
+	public void setPageBean(String pageBean) {
+		this.pageBean = pageBean;
+	}
+
+	@Override
+	public int doEndTag() throws JspException {
+		Object obj = this.getStack().findValue(this.getPageBean());
+		if (obj == null) {
+			obj = this.pageContext.getAttribute(this.getPageBean());
+		}
+		if (obj == null) {
+			obj = this.pageContext.getRequest()
+					.getAttribute(this.getPageBean());
+		}
+		if (obj == null) {
+			obj = this.pageContext.getSession()
+					.getAttribute(this.getPageBean());
+		}
+		if (obj == null) {
+			return SKIP_BODY;
+		}
+		PaginationBean paginationBean = (PaginationBean) obj;
+		int curPageIndex = paginationBean.getCurPageIndex();
+		int firstPageIndex = paginationBean.getFirstPageIndex();
+		int prePageIndex = paginationBean.getPrePageIndex();
+		int lastPageIndex= paginationBean.getLastPageIndex();
+		int nextPageIndex = paginationBean.getNextPageIndex();
+		int totalCount= paginationBean.getTotalCount();
+		int pageSize = paginationBean.getPageSize();
+		int limit = this.getLimit();
+		int totalPageCount = paginationBean.getTotalPageCount();
+		int curPageNo = 1;
+		if (curPageIndex > 0) {
+			curPageNo = curPageIndex / limit + 1;
+		}
+		int pageNoBegin = 0;
+		int pageNoEnd = 0;
+		if (totalPageCount > this.count) {
+			if (curPageNo < this.count) {
+				pageNoBegin = 1;
+				pageNoEnd = this.count;
+			} else {
+				if (curPageNo + this.count / 2 < totalPageCount) {
+					pageNoBegin = curPageNo - this.count / 2;
+					pageNoEnd = curPageNo + this.count / 2;
+				} else {
+					pageNoBegin = totalPageCount - this.count + 1;
+					pageNoEnd = totalPageCount;
+				}
+				if (pageNoEnd > totalPageCount) {
+					pageNoEnd = totalPageCount;
+				}
+			}
+		} else {
+			pageNoBegin = 1;
+			pageNoEnd = totalPageCount;
+		}
+		JspWriter out = this.pageContext.getOut();
+		StringBuffer jsFuncBuff = new StringBuffer();
+		jsFuncBuff.append(StringUtils.isEmpty(this.getJsFunction())?"":this.getJsFunction());
+		try {
+			if (jsFuncBuff.length() < 1) {
+				jsFuncBuff.append(this.DEFAULT_JS_FUNCTION).append("_").append(this.getId());
+				out.println(addScript());
+			}
+			jsFuncBuff.insert(0, JS_FUNCTION_PREFIX);
+			_jsFunc = jsFuncBuff.toString();
+			out.println(addGoGivenPageScript());
+			String cssClass= StringUtils.isEmpty(this.getCssClass())?"":this.getCssClass();
+			out.println("<div class=\"pagination " +cssClass+ "\" >");
+			out.println("<form id=\""+AIPaginationTag.PAGINATIONFORM_PREFIX+this.getId()+"\" action=\""+this.getAction()+"\" method=\"post\">");
+			out.println(this.addPaginationParameter());
+			out.println("<ul>");
+			if(totalPageCount>1&&curPageNo>1){
+				out.println("<li><a href=\" " + _jsFunc +"("+firstPageIndex+","+limit+")"+ "\" class=\"first\" title=\"首页\">&nbsp;</a></li>");
+			}else{
+				out.println("<li><a class=\"firstdisabled\">&nbsp;</a></li>");
+			}
+			if(totalPageCount>0&&curPageNo>1){
+				out.println("<li><a href=\" " + _jsFunc +"("+prePageIndex+","+limit+")"+"\" class=\"prev\" title=\"上一页\">&nbsp;</a></li>");
+			}else{
+				out.println("<li><a class=\"prevdisabled\">&nbsp;</a></li>");
+			}
+			if(totalPageCount>0){
+				if(pageNoBegin>1){
+					out.println("<li>...</li>");
+				}
+				for(int i = pageNoBegin;i<=pageNoEnd;i++){
+					if(i==curPageNo){
+						out.println("<li><a class=\"currently\">"+i+"</a></li>");
+					}else{
+						int pageIndex = paginationBean.getIndexByPage(i);
+						out.println("<li><a href=\" " + _jsFunc +"("+pageIndex+","+limit+")"+ "\" title=\""+"转到第"+i+"页"+"\">"+i+"</a></li>");
+					}
+				}
+				if (pageNoEnd < totalPageCount) {
+					out.println("<li>...</li>");
+				}
+			}
+			if(totalPageCount>0&&curPageNo<totalPageCount){
+				out.println("<li><a href=\" " + _jsFunc + "("+nextPageIndex+","+limit+")"+"\" class=\"next\" title=\"下一页\">&nbsp;</a></li>");
+			}else{
+				out.println("<li><a class=\"nextdisabled\">&nbsp;</a></li>");
+			}
+			if(totalPageCount>1&&totalPageCount>curPageNo){
+				out.println("<li><a href=\" " + _jsFunc +"("+lastPageIndex+","+limit+")"+ "\" class=\"last\" title=\"末页\">&nbsp;</a></li>");
+			}else{
+				out.println("<li><a class=\"lastdisabled\">&nbsp;</a></li>");
+			}
+			out.println("</ul>");
+			out.println("<p>总共<span class=\"number\">"+totalCount+"</span>条记录</p>");
+			out.println("<p>每页显示<span class=\"number\">"+pageSize+"</span>条记录</p>");
+			out.println("<p>共<span id=\"_totalPageCount_\" class=\"number\">"+totalPageCount+"</span>页</p>");
+			out.println("<p>转到第<input id=\"_givenPageNo_"+this.getId()+"\" type=\"text\" class=\"borderNo\" value=\""+curPageNo+"\"></input>页</p><span class=\"pagego\"><a href=\"javascript:goGivenPage_"+this.getId()+"();\" title=\"跳转\">GO</a></span>");
+			out.print("</form");
+			out.println("</div>");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return EVAL_PAGE;
+	}
+
+	private String addGoGivenPageScript() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("<script type=\"text/javascript\">\n");
+		buffer.append("function goGivenPage_").append(this.getId()).append("(){\n");
+		buffer.append("var _id='_givenPageNo_").append(this.getId()).append("';\n");
+		buffer.append("var _input=document.getElementById(_id);\n");
+		buffer.append("if(_input){");
+		buffer.append("var _limit=").append(this.getLimit()).append(";\n");
+		buffer.append("var _lastPageNo= eval(document.getElementById('_totalPageCount_').innerHTML);\n");
+		buffer.append("var _pageNo=_input.value;\n");
+		buffer.append("if(_pageNo&&_pageNo!=''&&(!isNaN(_pageNo) && !/^\\s+$/.test(_pageNo))){\n" );
+		buffer.append("if(_pageNo<1){_pageNo=1;}else if(_pageNo>_lastPageNo){_pageNo=_lastPageNo;}\n");
+		buffer.append("var _start=(_pageNo-1)*_limit;\n");
+		buffer.append(_jsFunc.substring(JS_FUNCTION_PREFIX.length())+"(_start,_limit);\n");
+		buffer.append("}");
+		buffer.append("}");
+		buffer.append("}\n");
+		buffer.append("</script>");
+		return buffer.toString();
+	}
+
+	@Override
+	public int doStartTag() throws JspException {
+		return super.doStartTag();
+	}
+
+	private String addScript() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("<script type=\"text/javascript\">").append("\n");
+		buffer.append("function " ).append(this.DEFAULT_JS_FUNCTION).append("_").append(
+				this.getId()).append("(start,limit){").append("\n");
+		buffer.append("var form=document.getElementById(\"").append(AIPaginationTag.PAGINATIONFORM_PREFIX)
+			.append(this.getId()).append("\");\n");
+		buffer.append("form.start.value=start;\n");
+		buffer.append("form.limit.value=limit;\n");
+		buffer.append("form.submit();\n");
+		buffer.append("}\n</script>\n");
+		return buffer.toString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private String addPaginationParameter() {
+		Enumeration<String> enumParamName =pageContext.getRequest().getParameterNames();
+		StringBuffer buffer = new StringBuffer();
+		while (enumParamName.hasMoreElements()) {
+			String paramName = (String) enumParamName.nextElement();
+			String paramValue = this.pageContext.getRequest().getParameter(paramName);
+			if(paramName.equals("start")||paramName.equals("limit")) continue;
+			buffer.append("<input type=\"hidden\" name=\"" + paramName + "\" value=\""+ paramValue + "\"/>").append("\n");				
+		}
+		buffer.append("<input type=\"hidden\" name=\"start\" />").append("\n");
+		buffer.append("<input type=\"hidden\" name=\"limit\" />").append("\n");
+		return buffer.toString();
+	}
+
+}
+
+2.编写枚举描述符文件AIPage.tld(放于WEB-INFO目录下或子目录下)
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+	<description>AsiaInfo分页标签</description>
+	<display-name>AI-PAGE</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>aipage</short-name>
+	<uri>/AsiaInfo-Page</uri>
+	<tag>
+		<description>分页标签</description>
+		<name>pagination</name>
+		<tag-class>com.asiainfo.base.taglib.AIPaginationTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<description>PaginationBean对象</description>
+			<name>pageBean</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>跳转URL</description>
+			<name>action</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>分页标签ID</description>
+			<name>id</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>每页显示条数</description>
+			<name>limit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>点击分页时调用的JS函数</description>
+			<name>jsFunction</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>CSS样式定义</description>
+			<name>cssClass</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>		
+		<attribute>
+			<description>显示页码条数</description>
+			<name>count</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+
+3.在jsp文件头部引入标签库,在页面上引用标签(注意,如果有多个标签,可以将多个标签的引入放入1个类似tld.inc文件里)
+头部引入:
+<%@ taglib prefix="AI" uri="/AsiaInfo-Page" %>
+页面书写标签(strtus2框架执向的页面):
+<AI:pagination action="campMonit/initMainCampMonit.action" pageBean="paginationBean" id="planCamp"></AI:pagination>
+</pre>
+</p>
+</div>
+
+
+</body>
+</html>

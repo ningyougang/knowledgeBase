@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>spring框架</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+
+<!--  -->
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />	
+
+
+<!-- AIComp 组件所需js及css start -->
+		<link rel="stylesheet" type="text/css"
+			href="../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../common/AIComp/script/AI.Comp.js"></script>
+<!-- AIComp 组件所需js及css end -->
+
+
+<!-- Syntax 组件导入js及样式 start-->
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();
+		</script>
+<!-- Syntax 组件导入js及样式 end-->
+
+		
+	</head>
+<body>
+	<div class="AI_common_title1">
+		<h2>AXIS </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+<p>axis1.4所需要的jar如下：</p>
+<pre class="brush:java;">
+axis-ant.jar
+axis.jar
+commons-discovery-0.2.jar
+commons-logging-1.0.4.jar
+jaxrpc.jar
+log4j-1.2.8.jar
+saaj.jar
+tools.jar
+wsdl4j-1.5.1.jar
+</pre>
+<p><b>axis1.4简单例子</b></p>
+<p>一.建立java web工程</p>
+<p>二、导入axis1.4所需要jar</p>
+<p>三、修改web.xml如下</p>
+<pre class="brush:java">
+	<servlet-name>AxisServlet</servlet-name>
+	    <servlet-class>
+	        org.apache.axis.transport.http.AxisServlet
+	    </servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <url-pattern>/servlet/AxisServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <url-pattern>*.jws</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <!-- <url-pattern>/services/*</url-pattern> -->
+	    <url-pattern>/webservice/*</url-pattern>
+	</servlet-mapping>
+</pre>
+<p>四、WEB-INF下建立文件server-config.wsdd文件，此文件是axis的配置文件。内容如下：</p>
+<pre class="brush:xml">
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+ <globalConfiguration>
+  <parameter name="sendMultiRefs" value="true"/>
+  <parameter name="disablePrettyXML" value="true"/>
+  <parameter name="adminPassword" value="admin"/>
+  <parameter name="attachments.Directory" value="D:\YXproject\tomcat\webapps\vgop\WEB-INF\attachments"/>
+  <parameter name="dotNetSoapEncFix" value="true"/>
+  <parameter name="enableNamespacePrefixOptimization" value="false"/>
+  <parameter name="sendXMLDeclaration" value="true"/>
+  <parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <parameter name="sendXsiTypes" value="true"/>
+  <requestFlow>
+   <handler type="java:org.apache.axis.handlers.JWSHandler">
+    <parameter name="scope" value="session"/>
+   </handler>
+   <handler type="java:org.apache.axis.handlers.JWSHandler">
+    <parameter name="scope" value="request"/>
+    <parameter name="extension" value=".jwr"/>
+   </handler>
+  </requestFlow>
+ </globalConfiguration>
+ <handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+ <handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+ <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ <service name="AdminService" provider="java:MSG">
+  <parameter name="allowedMethods" value="AdminService"/>
+  <parameter name="enableRemoteAdmin" value="false"/>
+  <parameter name="className" value="org.apache.axis.utils.Admin"/>
+  <namespace>http://xml.apache.org/axis/wsdd/</namespace>
+ </service>
+ <service name="Version" provider="java:RPC">
+  <parameter name="allowedMethods" value="getVersion"/>
+  <parameter name="className" value="org.apache.axis.Version"/>
+ </service>
+ 
+<!-- -------- -->
+ <service name="testWebService" provider="java:RPC">
+  	<parameter name="allowedMethods" value="sayHello"/>
+  	<parameter name="className" value="webservice.TestWebService"/>
+ </service>
+ 
+ 
+ 
+ <transport name="http">
+  <requestFlow>
+   <handler type="URLMapper"/>
+   <handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+  </requestFlow>
+  <parameter name="qs:list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <parameter name="qs:wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+  <parameter name="qs.list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <parameter name="qs.method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <parameter name="qs:method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <parameter name="qs.wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+ </transport>
+ <transport name="local">
+  <responseFlow>
+   <handler type="LocalResponder"/>
+  </responseFlow>
+ </transport>
+</deployment>
+
+</pre>
+<p>五、测试：</p>
+<pre class="brush:xml;">
+	http://localhost：8080/myaxis/webservice/testWebService?wsdl
+</pre>
+	</div>
+</body>
+</html>

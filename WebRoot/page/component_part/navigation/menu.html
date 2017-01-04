@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>菜单导航</title>
+<!--此组件在jquery-1.6的基础上--> 
+<link rel="stylesheet" type="text/css" href="../../../common/operaMasks/css/default/om-default.css" /> 
+<script type="text/javascript" src="../../../common/operaMasks/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../common/operaMasks/js/operamasks-ui.min.js"></script>  
+<style> 
+html, body {font-family: "Arial","Helvetica","Verdana","sans-serif"; font-size : 12px; width: 98%; height: 96%; margin: 0;padding: 0}
+</style>
+<script>
+$(document).ready(function(){
+      $('#contextMenu').omMenu({
+          minWidth : 130,
+          maxWidth : 280, 
+          contextMenu : true,
+          dataSource : [{'id':'001',label:'节点一',seperator:true},
+                        {'id':'002',label:'节点二',children:[
+                                  {id:'002001',label:'节点二',
+                                     children:[
+																	             {id:'002001001',label:'节点a'},                        
+																             	 {id:'002001002',label:'节点b'}                                              
+                                               ]},
+                                  {id:'002002',label:'节点二'}
+                                   ]
+                        }
+                       ]
+      });
+ 			$('#contextMenu_test').bind('contextmenu',function(e){
+          $('#contextMenu').omMenu('show',e);
+      })
+
+  });
+		</script>
+	<body>
+   <div id="contextMenu_test" style="border: 1px solid red; width: 200px;height: 50px;">这里点击右键</div>
+   <div id="contextMenu" style="border: 1px solid gray; width: 100px;height: 50px;display: none;"></div>
+</br>
+<iframe src="../../../common/operaMasks/docs/symbols/omMenu.html" height="350px" width="1000px"></iframe>
+</body>
+</html>

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title>饼状图</title>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>			
+		<script type="text/javascript" src='../../../common/fusionCharts/FusionCharts.js'></script>
+		<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script type="text/javascript">SyntaxHighlighter.all();</script>		
+		<script language="javascript">			$(document).ready(function(){
+				var chart = new FusionCharts("../../../common/fusionCharts/flash/Pie2D.swf", "pie2DChartId", "100%", "250", "0", "0");
+				//chart.setDataXML(xmldata);
+			   	chart.setDataURL("../../../common/fusionCharts/data/pie2D.xml");	 
+			   	chart.setTransparent(true);   
+			   	chart.render("pie2DDiv");
+			});	</script>	</head>
+	<body>
+		<div id="pie2DDiv"></div>
+
+<pre class="brush:js;">
+使用说明:
+1.确保系统中引入相关js
+<script type="text/javascript" src='../../../common/fusionCharts/FusionCharts.js'></script>
+<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+
+2.从服务器端获取xml串(此处模拟的是本地的1个xml文件)
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='0' yAxisMinValue='0' numDivLines='8' adjustDiv='0'>
+	<SET label='动感地带(M-Zone)' value='1190041.0' />
+	<SET label='神州行' value='1170361.0' />
+	<SET label='全球通' value='4675001.0' />
+	<SET label='随E行' value='323432.0' />
+	<SET label='其他' value='113324.0' />
+</chart> 
+
+备注:在vgop中是通过生成二位数组(标题+数据),在将其转化为xml  
+(1)生成含标题和数据的二维数据
+String[] title =  new String[]{"品牌名称","KPI值"};
+String[][] data ---> [[全球通, 1132648.0], [动感地带, 1128585.0]];
+String[][] fusionChartData = ArrayUtil.addRow(data, title, 0); ->[[品牌名称, KPI值],[全球通, 1132648.0], [动感地带, 1128585.0]];
+(2)使用系统的通用工具类 ,将 fusionChartData 转化为图表属性,在生成xml
+ChartProperty cp = ChartPropertyUtil.generate(fusionChartData); //通过传入的 fusionChartData ,生成ChartProperty(主要含data、rowKey、colKey等) 
+cp.setMutilCol(false); //程序也可以自动计算[可选]
+String xmlData = chart4Flash.getXMLNoScript(cp); 
+xmlData = xmlData.split("\n")[1].replaceAll("\"", "'").replaceAll("\n","").replaceAll("\r", ""); //由于生成的串中含"<?xml version="1.0" encoding="UTF-8"?>/r/n"需要去掉
+
+3.调用FusionChart.js提供的方法,将xml串(或文件填充到flash进行展示)
+<script language="javascript">			
+     $(document).ready(function(){
+	var chart = new FusionCharts("../../../common/fusionCharts/flash/Pie2D.swf", "pie2DChartId", "100%", "250", "0", "0");
+	//chart.setDataXML(xmldata);
+	chart.setDataURL("../../../common/fusionCharts/data/pie2D.xml");
+	chart.setTransparent(true);   
+	chart.render("pie2DDiv");
+     });	
+   </script>
+
+4.亦可以调用扩展function showFusionChart(chartswf,divname,xmldata,chartid,width,height)来进行展示fusionChart  
+如:showFusionChart("common/flash/MSLine.swf","trendChart","<%=request.getAttribute("chartXML")%>",null,"100%",280);  
+此方法在FusionChart.js里有封装,如下
+function showFusionChart(chartswf,divname,xmldata,chartid,width,height){
+
+  var div=$('#'+divname).css('border',0).css("padding","0").css("margin","0");
+ 
+  if(chartid==null){
+  	chartid=divname;
+  }
+  if(width==null){
+  	width=div.width();
+  }
+  if(height==null){
+  	height=div.height();
+  }
+  var chart = new FusionCharts(chartswf,chartid, width,height, "0", "0");
+  chart.setTransparent(true);   
+  chart.setDataXML(xmldata);
+  chart.render(divname);
+  return width;
+ } 
+</pre>	
+</body>
+</html>

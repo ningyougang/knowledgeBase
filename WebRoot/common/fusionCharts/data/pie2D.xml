@@ -1,0 +1,16 @@
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='0' yAxisMinValue='0' numDivLines='8' adjustDiv='0'>
+	<SET label='动感地带(M-Zone)' value='1190041.0' />
+	<SET label='神州行' value='1170361.0' />
+	<SET label='全球通' value='4675001.0' />
+	<SET label='随E行' value='323432.0' />
+	<SET label='其他' value='113324.0' />
+</chart>

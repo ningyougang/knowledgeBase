@@ -1,0 +1,26 @@
+@charset "utf-8";
+#scrollbar {
+    width:800px;	
+	height:200px;
+	border:1px solid #84a2c0;
+	overflow:auto;
+	/* 滚动条样式 */
+	scrollbar-face-color: #fefefe;
+	scrollbar-shadow-color: #c4cfcd;
+	scrollbar-highlight-color: #c4cfcd;
+	scrollbar-3dlight-color: #f6f6f6;
+	scrollbar-darkshadow-color: #f6f6f6;
+	scrollbar-track-color: #f6f6f6;
+	scrollbar-arrow-color: #c4cfcd;
+}
+
+
+
+
+
+
+
+
+
+
+

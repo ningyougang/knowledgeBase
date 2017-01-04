@@ -1,0 +1,65 @@
+[{
+			id : '20001',
+			title : '陈仓区',
+			desc : '陈仓区',
+			value : 31233,
+			cycle : 0.97,
+			same : 0.65,
+			allowdrill:true
+		}, {
+			id : '20002',
+			title : '岐山区',
+			desc : '岐山区',
+			value : 12342,
+			cycle : 0.77,
+			same : -0.01,
+			allowdrill:true
+		}, {
+			id : '20003',
+			title : '凤翔区',
+			desc : '凤翔区',
+			value : 12343,
+			cycle : 0.64,
+			same : 0.15,
+			allowdrill:true
+		}, {
+			id : '20004',
+			title : '扶风县',
+			desc : '扶风县',
+			value : 13241,
+			cycle : -0.07,
+			same : -0.05,
+			allowdrill:true
+		}, {
+			id : '20005',
+			title : '眉县',
+			desc : '眉县',
+			value : 13414,
+			cycle : 0.56,
+			same : 0.03,
+			allowdrill:true
+		}, {
+			id : '20006',
+			title : '陇县',
+			desc : '陇县',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '20007',
+			title : '凤县',
+			desc : '凤县',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '20008',
+			title : '千阳县',
+			desc : '千阳县',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}]

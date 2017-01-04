@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>java-rmi</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>jdbc通信</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+jdbc介绍:
+JDBC, 全称为Java DataBase Connectivity standard, 它是一个面向对象的应用程序接口（API）, 通过它可访问各类关系数据库。
+JDBC也是java核心类库的一部分。JDBC的最大特点是它独立于具体的关系数据库。与ODBC (Open Database Connectivity)类似,
+JDBC API 中定义了一些Java类分别用来表示与数据库的连接（connections）, SQL语句（SQL statements）, 结果集（result sets）
+以及其它的数据库对象, 使得Java程序能方便地与数据库交互并处理所得的结果。使用JDBC, 所有Java程序（包括Java applications , 
+applets和servlet）都能通过SQL语句或存储在数据库中的过程（stored procedures）来存取数据库。
+要通过JDBC来存取某一特定的数据库，必须有相应的JDBC driver，它往往是由生产数据库的厂家提供，是连接JDBC API与具体数据库
+之间的桥梁。通常，Java程序首先使用JDBC API来与JDBC Driver Manager交互，由JDBC Driver Manager载入指定的JDBC drivers,
+以后就可以通过JDBC API来存取数据库。
+
+连接池:
+jdbc是提供给java访问数据库的连接方式，在任何时候都可以创建，而在实际应用中，因为创建连接和销毁连接都会有系统
+（创建时间、内存等）的损耗，为了减少这种损耗，在系统启动时就创建一定数量的jdbc连接，在需要使用时派发一个连接，
+使用完以后收回，而不再需要临时创建，那么这些jdbc连接就统称为数据库连接池。
+
+个人理解jdbc数据源与连接池的关系
+数据源(DataSource)即数据来源,调用DataSource.getConnection(),即可获取一个连接,而无需关心连到哪个数据库,用户名/密码是什么.
+这比DriverManager.getConnection(url, user, password)要先进多了.我们就通过这个DataSource.getConnection()方法来弄清什么是数据源与连接池.
+DataSource有两种实现方式
+1.直连数据库方式 
+当调用DataSource.getConnection()时,其实它调用的是DriverManager.getConnection(url, user, password)来获取一个Connection,
+Connection使用完后被close,断开与数据库的连接,我们称这总方式是直连数据库,因为每次都需要重新建立与数据库之间的连接,
+而并没有把之前的Connection保留供下次使用.
+2.池化连接方式 
+可以说这种方式就是使用了连接池技术.DataSource内部封装了一个连接池,当你获取DataSource的时候,
+它已经敲敲的与数据库建立了多个Connection,并将这些Connection放入了连接池,此时调用DataSource.getConnection()
+它从连接池里取一个Connection返回,Connection使用完后被close,但这个close并不是真正的与数据库断开连接,
+而是告诉连接池"我"已经被使用完,"你"可以把我分配给其它"人"使用了.就这样连接池里的Connection被循环利用,
+避免了每次获取Connection时重新去连接数据库.
+
+DataSource与连接池的关系是:DataSource利用连接池缓存Connection,以达到系统效率的提升,资源的重复利用.
+而连接池它可以单独存在,不需要依靠DataSource来获取连接,你可以直接调用连接池提供的方法来获取连接.
+</pre>
+</div><div class="AI_common_title1">
+	<h2>代码示例</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+一、不带连接池的数据源
+1.最原始的jdbc的连接写法,由jdk本身提供(%JAVA_HOME%/jre/rt.jar)(备注：没有考虑异常、边界)
+Class.forName(driverName);
+Connection conn = DriverManager.getConnection(url,user,password);
+Statement stmt = conn.createStatement();
+stmt.executeUpdate(sql);//执行insert,update,delete操作
+ResultSet rs = stmt.executeQuery(sql);
+//PreparedStatement pstmt = conn.prepareStatement(sql);
+//pstmt.executeUpdate();
+conn.close();
+stmt.close();
+rs.close();
+
+2.spring提供的DriverManagerDataSource(org.springframework.jdbc.datasource.DriverManagerDataSource)
+DriverManagerDataSource ds = new DriverManagerDataSource();       
+ds.setDriverClassName("XXX");       
+ds.setUrl("XXX");       
+ds.setUsername("XX");      
+ds.setPassword("XX");
+Connection conn = dataSource.getConnection();
+对应的xml配置
+<bean
+     id="dataSource"
+     class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+     <property name="driverClassName"><value>${jdbc.driverClassName}</value></property>
+     <property name="url"><value>${jdbc.url}</value></property> 
+     <property name="username"><value>${jdbc.username}</value></property> 
+     <property name="password"><value>${jdbc.password}</value></property> 
+</bean>
+
+二、带连接池的数据源
+1.apache-dbcp(需要引入commons-dbcp、commons-pool这两个jar包)
+BasicDataSource ds = new BasicDataSource();  
+ds.setDriverClassName("XXX");  
+ds.setUsername("XXX");  
+ds.setPassword("XXX");  
+ds.setUrl("XXX");  
+Connection conn = ds.getConnection();
+对应的xml配置
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close">
+  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  <property name="url" value="jdbc:mysql://192.168.1.182:3306/da_b2c?useUnicode=true&amp;characterEncoding=utf8" />
+  <property name="username" value="XX" />
+  <property name="password" value="XX" />
+  <property name="removeAbandoned" value="true" />
+  <property name="removeAbandonedTimeout" value="60" />
+  <property name="validationQuery" value="select 1 from dual" />
+  <property name="testOnBorrow" value="true" />
+</bean>
+
+2.c3p0:是一个开放源代码的JDBC连接池，它在lib目录中与Hibernate一起发布,包括了实现jdbc3和jdbc2扩展规范说明的Connection 
+ 和Statement 池的DataSources 对象。
+ComboPooledDataSource ds=new ComboPooledDataSource();
+ds.setDriverClass("com.mysql.jdbc.Driver");
+ds.setUser("root");
+ds.setPassword("321478");
+ds.setMaxPoolSize(40);
+ds.setMinPoolSize(2);
+ds.setMaxStatement(180);
+Connection conn =ds.getConnection();
+对应的xml配置
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"	destroy-method="close" >
+		<property name="driverClass" value="${orm.myBatis.jdbc.driverClassName}"/>
+		<property name="jdbcUrl" value="${orm.myBatis.jdbc.url}"/>
+		<property name="user" value="${orm.myBatis.jdbc.username}"/>
+		<property name="password" value="${orm.myBatis.jdbc.password}"/>
+		
+		<property name="initialPoolSize" value="10"/>
+		<property name="minPoolSize" value="10"/>
+		<property name="maxPoolSize" value="30"/>
+		<property name="acquireIncrement" value="5"/>
+		<property name="maxIdleTime" value="10"/>
+		<property name="maxStatements" value="0"/>		
+</bean> 
+
+3.BoneCP，具体情况参考官方网站:http://jolbox.com/
+//设置连接池配置信息  
+BoneCPConfig config = new BoneCPConfig();  
+config.setJdbcUrl("jdbc:mysql:///jobeet");   
+config.setUsername("root");   
+config.setPassword("jeri");  
+//数据库连接池的最小连接数  
+config.setMinConnectionsPerPartition(5);  
+//数据库连接池的最大连接数  
+config.setMaxConnectionsPerPartition(10);  
+config.setPartitionCount(1);  
+connectionPool = new BoneCP(config);  
+//从数据库连接池获取一个数据库连接  
+connection = connectionPool.getConnection();
+4.其他的如proxool、阿里巴巴的Druid 略。
+三、jndi数据源(跟上面类似，只是先配置在web应用服务器里，如tomcat的context.xml配置，websphere、weblogic当然也可以，在通过jndi来引用)
+举例:在%TOMCAT_HOME%/conf/context.xml加入如下配置(在编写代码前,还需要把数据驱动jar，数据源驱动包(如dbcp相关的驱动包)
+放到%TOME_HOME%/common/lib下)
+<Resource 
+name="jta/db2Test"
+auth="Container"
+factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+type="javax.sql.DataSource"
+driverClassName="com.ibm.db2.jcc.DB2Driver"
+url="jdbc:db2://10.9.144.51:50000/tapp"
+username="dvjt" 
+password="sysdev4321"
+removeAbandoned="true"
+removeAbandonedTimeout="600"
+logAbandoned="true"
+initialSize="0"
+testOnBorrow="true"
+testWhileIdle="true"
+validationQuery="select current date from sysibm.sysdummy1"
+maxActive="5" 
+maxIdle="2"
+maxWait="-1"/>
+java代码
+Context ctx=new InitialContext();
+//通过JNDI查找DataSource
+DataSource ds=(DataSource)ctx.lookup("java:comp/env/jta/db2Test");
+conn=ds.getConnection();		
+如果用spring的JndiObjectFactoryBean来配置数据源
+<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+			<property name="jndiName" value="java:comp/env/jta/vgop" />
+</bean>
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>性能比较、技术选型</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+模拟多线程测试,实验结论(个人没有亲自动手测试，参考:http://blog.sina.com.cn/s/blog_662e56ec010169z5.html)
+
+性能结论:BoneCP的性能最好，dbcp、c3p0、proxool比较接近.但是没有明显的差距
+技术选型结论:BoneCP性能最好，但是稳定性不是很好。bonecp在数据库重启之后无法自动连接,c3p0可以做到这点。
+在亚信、包括后来公司的很多项目中，用的是dbcp和c3p0.
+所以综合性能和稳定性来考虑，建议用dbcp或c3p0,两者均可以.
+</pre>
+</div>
+</body>
+</html>

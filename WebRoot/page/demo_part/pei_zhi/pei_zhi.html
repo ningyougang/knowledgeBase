@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>业务健康度配置</title>
+<style type="text/css">
+body{ font-size:12px;}
+*{ margin:0; padding:0;}
+
+#commonTitle{
+    height:24px;
+	line-height:24px;
+	background:url(images/title_repeat_bg.gif) repeat-x 0 0;
+}
+#commonTitle h2{
+    font-size:12px;
+	color:#313131;
+	font-weight:normal;
+	background:url(images/title_repeat_bg.gif) no-repeat 10px -98px;
+	text-indent:20px;
+}
+
+/* button */
+a.button{
+    background:url(images/btn_bg_l.gif) no-repeat;
+	line-height:20px;
+	text-decoration:none;
+	display:block;
+	float:left;
+	margin-left:12px;
+	margin-right:12px;
+}
+a.button span{
+    background:url(images/btn_bg_r.gif) no-repeat top right;
+	line-height:20px;
+	display:block;
+	text-align:center;
+	word-break:keep-all;
+	padding-left:16px;
+	padding-right:16px;
+	color:#585858;
+}
+a.button:hover span{
+	color:#585858;
+}
+
+/* tab */
+.tabMain{
+    width:100%;
+	margin-top:10px;
+	margin-bottom:10px;
+	border-top:none;	
+}
+.tabTitle{
+	float:left;
+	padding:0;
+	height:24px;
+	position:relative;
+	z-index:100;
+	border-bottom:none;
+	background:url(images/h-tab_normal_l.gif) left top  no-repeat;
+	margin-right:1px;
+}
+.tabTitle a{
+	display:block;
+	line-height:21px;
+	text-decoration:none;
+	float:left;
+	background:url(images/h-tab_normal_r.gif) right top  no-repeat;
+	padding:3px 30px 0;
+	color:#012d50;
+}
+.tabTitle.current{
+    background:url(images/h-tab_current_l.gif) left top  no-repeat;
+}
+.tabTitle a.current{
+	color:black;
+	background:url(images/h-tab_current_r.gif) right top  no-repeat;
+}
+
+.tabContent{    
+	border:1px solid #b0cfec;
+	clear:both;
+	margin-top:-1px;
+	padding-bottom:10px;
+}
+.clear{ clear:both;}
+
+/* condition条件 */
+.condition{
+    width:200px;
+	float:left;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+.conditionBtn{
+    margin:10px auto;
+}
+.condition ul{
+    width:200px;
+	height:190px;
+	border:1px solid #c5cfce;
+	overflow:auto;
+	float:left;
+	margin-top:10px;
+	padding:1px;
+	scrollbar-face-color: #fefefe; 
+	scrollbar-shadow-color: #c4cfcd; 
+	scrollbar-highlight-color: #c4cfcd; 
+	scrollbar-3dlight-color: #f6f6f6; 
+	scrollbar-darkshadow-color: #f6f6f6; 
+	scrollbar-track-color: #f6f6f6; 
+	scrollbar-arrow-color: #c4cfcd;	
+
+}
+.condition ul li{
+    height:22px;
+	line-height:22px;
+	overflow:hidden;
+	display:block;
+	color:#545454;
+	text-indent:10px;
+}
+.condition ul li:hover{
+    height:22px;
+	color:#fff;
+	background:url(images/title_repeat_bg.gif) repeat-x 0 -124px;
+}
+
+/* right */
+.rightContent{
+    margin-left:210px;
+	margin-top:10px;
+}
+.rightContent h5{
+    line-height:50px;
+	text-indent:10px;
+	font-size:12px;
+	height:30px;
+	overflow:hidden;
+	color:#000;
+	font-weight:normal;
+}
+
+
+.rightContentTab{
+    width:95%;
+	height:160px;
+	color:#1f376d;
+	line-height:28px;
+	margin-left:10px;
+	margin-top:10px;
+	border:1px solid #c5cfce;
+	padding-left:10px;	
+}
+
+.rightTable{
+    width:90%;
+	color:#1f376d;
+	line-height:28px;
+	margin-left:10px;
+	margin-top:10px;
+  
+}
+
+.contentBorder{
+    height:280px;
+    border:1px solid #aacbee;
+	padding:10px;
+}
+
+</style>
+</head>
+
+<body>
+<div id="commonTitle">
+    <h2>配置界面</h2>
+</div>
+
+
+<div class="tabMain">
+	<div class="tabTitle current"><a href="#nogo" class="current">日清业务量预警单</a></div>
+	<div class="tabTitle"><a href="#nogo">客户办理业务集中度预警</a></div>
+	<div class="tabTitle"><a href="#nogo">客户沉默度预警</a></div>
+	<div class="tabTitle"><a href="#nogo">客户信息查询预警</a></div>
+	<div class="tabContent">
+		<div class="condition">
+		    <ul>
+			    <li>开户业务</li>
+				<li>客户信息修改</li>
+				<li>转易通卡</li>
+				<li>预付费过户</li>
+				<li>停复机</li>
+				<li>语音业务开通/取消</li>
+				<li>积分兑换</li>
+				<li>终端营销活动</li>
+				<li>停复机</li>
+				<li>语音业务开通/取消</li>
+			</ul>
+			<a href="#" class="conditionBtn button"><span>新增业务类型</span></a>
+		</div>
+		<div  class="rightContent">
+		   <h5>预警阈值：</h5>
+		   <div class="rightContentTab">
+		   <table width="100%" border="0" cellpadding="0" cellspacing="0">
+		      <tr>
+			    <td>
+		       <table border="0" cellspacing="0" cellpadding="0">
+				  <tr>
+					<td>日监控：</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				  </tr>
+				  <tr>
+					<td>蓝色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				  <tr>
+					<td>黄色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				  <tr>
+					<td>橙色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				  <tr>
+					<td>红色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				</table></td>
+				<td width="20">&nbsp;</td>
+				<td>
+			   <table border="0" cellspacing="0" cellpadding="0">
+				  <tr>
+					<td>月监控：</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				  </tr>
+				  <tr>
+					<td>蓝色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				  <tr>
+					<td>黄色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				  <tr>
+					<td>橙色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				  <tr>
+					<td>红色预警：</td>
+					<td><input name="" type="text" /></td>
+					<td><a href="#" class="button"><span>修改</span></a></td>
+				  </tr>
+				</table>
+				</td>
+			  </tr>
+		   </table>
+		   </div>
+		   <table width="30%" border="0" cellspacing="0" cellpadding="0" class="rightTable">
+			  <tr>
+				<td width="11%">包含业务操作：</td>
+				<td width="7%"><select name=""></select></td>
+				<td width="41%"><a href="#" class="button"><span>修改</span></a></td>
+				<td width="41%">&nbsp;</td>
+			  </tr>
+			  <tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td><a href="#" class="button"><span>提交</span></a><a href="#" class="button"><span>恢复</span></a></td>
+			  </tr>
+			</table>
+
+		</div>
+		
+
+			
+		<div class="clear"></div>	
+	</div>
+</div>
+
+<div class="contentBorder">
+    <table width="48%" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+		<td width="38%"><input name="" type="text" /></td>
+		<td width="15%">开户业务</td>
+		<td width="47%">已配置操作</td>
+	  </tr>
+	  <tr>
+		<td><div class="condition">
+		    <ul>
+			    <li>开户业务</li>
+				<li>客户信息修改</li>
+				<li>转易通卡</li>
+				<li>预付费过户</li>
+				<li>停复机</li>
+				<li>语音业务开通/取消</li>
+				<li>积分兑换</li>
+				<li>终端营销活动</li>
+				<li>停复机</li>
+				<li>语音业务开通/取消</li>
+			</ul>
+		</div></td>
+		<td><a href="#" class="button"><span>添加</span></a><br />
+		<p>&nbsp;</p>
+		<a href="#" class="button"><span>删除</span></a></td>
+		<td><div class="condition">
+		    <ul>
+			    <li>开户业务</li>
+				<li>客户信息修改</li>
+				<li>转易通卡</li>
+				<li>预付费过户</li>
+				<li>停复机</li>
+				<li>语音业务开通/取消</li>
+				<li>积分兑换</li>
+				<li>终端营销活动</li>
+				<li>停复机</li>
+				<li>语音业务开通/取消</li>
+			</ul>
+		</div></td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td><a href="#" class="button conditionBtn"><span>更新</span></a></td>
+	  </tr>
+	</table>
+
+	   
+</div>
+
+</body>
+</html>

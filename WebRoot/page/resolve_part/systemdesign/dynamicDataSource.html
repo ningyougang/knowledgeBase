@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>spring动态数据源切换</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>spring动态数据源切换</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:html;">
+在软件系统中，有可能完成某个任务，需要先后连接两个不同的数据库来完成各自的操作，这就需要动态数据源切换。
+spring提供了org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource这个抽象类来帮助我们完成这种切换动作。
+在实现中，我们需要书写自己的动态数据源切换类来继承AbstractRoutingDataSource，并实现	
+protected Object determineCurrentLookupKey() {
+  //return "数据源对应的id",一般这里可以利用ThreadLocal(类似Map)这种变量保存"数据源id"
+}
+</pre>
+<font color='red'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注:如果将切换数据源的代码写在spring事务控制的service里，有的时候切换数据源切不回去,其根本原因是由spring的事务造成的，与spring的版本没有关系
+</font>
+</div>
+
+<div class="AI_common_title1">
+	<h2>相关配置文件,java代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+<!-- Spring 配置覆盖器,在这里用于配置jdbc的数据库链接url、username、password,在文件中可以通过${配置文件中的key}来引用-->
+<bean id="propertyConfigurer"
+   class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="WEB-INF/conf/jdbc.properties" />
+</bean>
+
+<bean id="DB77"
+	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="${vgop.db.driverClass}" />
+	<property name="url" value="${vgop.db.url}"/>
+	<property name="username" value="${vgop.db.username}" />
+	<property name="password" value="${vgop.db.password}" />
+</bean>
+
+<bean id="DB84"
+	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="${vgop.db.driverClass}" />
+	<property name="url" value="${wlan.db.url}"/>
+	<property name="username" value="${wlan.db.username}" />
+	<property name="password" value="${wlan.db.password}" />
+</bean>
+
+<bean id="dataSource"
+	class="com.asiainfo.base.dataSource.DynamicDataSource">
+	<property name="targetDataSources">
+		<map key-type="java.lang.String">
+			<entry key="DB77" value-ref="DB77" />
+			<entry key="DB84" value-ref="DB84" />
+		</map>
+	</property>
+	<property name="defaultTargetDataSource" ref="DB77" />
+</bean>
+
+//java代码(DynamicDataSource.java)
+package com.asiainfo.base.dataSource;
+
+import java.sql.SQLException;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+public class DynamicDataSource extends AbstractRoutingDataSource {
+
+	/**
+	 * 记录动态数据源数组
+	 */
+	public static final String[] DS = new String[]{"DB77","DB84"};
+	
+	public static final String DS_DEF = "DB77";
+	
+	public static final String DS_84 = "DB84";
+
+	@Override
+	protected Object determineCurrentLookupKey() {
+		return  DbContextHolder.getDbType();
+	}
+
+	public boolean isWrapperFor(Class<?> iface) throws SQLException {
+		return false;
+	}
+
+	public <T> T unwrap(Class<T> iface) throws SQLException {
+		return null;
+	}
+}
+
+//java代码(DbContextHolder.java,线程局部用于变量,用于在线程生命周期保存数据源key)
+package com.asiainfo.base.dataSource;
+
+public class DbContextHolder {
+	private static final ThreadLocal contextHolder = new ThreadLocal();
+
+	@SuppressWarnings("unchecked")
+	public static void setDbType(String dbType) {
+		contextHolder.set(dbType);
+	}
+
+	public static String getDbType() {
+		return (String) contextHolder.get();
+	}
+
+	public static void clearDbType() {
+		contextHolder.remove();
+	}
+}
+
+//一般来讲可以考虑面向切面来实现动态切换
+//spring配置文件
+<bean id="dataSourceInterceptor" class="com.asiainfo.base.dataSource.DataSourceInterceptorImpl" />
+<aop:config>
+	<aop:aspect id="interceptor" ref="dataSourceInterceptor" >
+		<aop:pointcut id="loadDimOption" expression="execution(* com.asiainfo.vgop.dim.dao.impl.DimConfigDaoImpl.loadDimOption(..))" />  
+		<aop:before pointcut-ref="loadDimOption" method="changeDataSourceBefore"  />  
+      	<aop:after pointcut-ref="loadDimOption" method="changeDataSourceAfter"/>   
+	</aop:aspect> 
+</aop:config>
+
+//DataSourceInterceptorImpl, 用于拦截
+package com.asiainfo.base.dataSource;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
+import com.asiainfo.vgop.dim.domain.DimConfig;
+
+public class DataSourceInterceptorImpl extends AbstractDataSourceInterceptor {
+
+	private static Logger logger = Logger.getLogger(DataSourceInterceptorImpl.class);
+	
+	/**
+	 * 切入点-之前
+	 */
+	public void changeDataSourceBefore(JoinPoint jp) throws Exception {
+		try {
+			if(jp.getArgs().length > 0){
+				for(Object o : jp.getArgs()){
+					if(o instanceof DimConfig && StringUtils.isNotEmpty(((DimConfig)o).getDataSource())){
+						if(ArrayUtils.contains(DynamicDataSource.DS, ((DimConfig)o).getDataSource().toUpperCase())) {
+							logger.debug("before:切换数据源:"+((DimConfig)o).getDataSource());
+							DbContextHolder.setDbType(((DimConfig)o).getDataSource().toUpperCase());
+							break;
+						}
+					}else{
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			DbContextHolder.clearDbType();
+			throw new Exception("切换数据源出错,返回默认数据源" + e.getMessage());
+		}
+	}
+	
+	/**
+	 * 切入点-之后
+	 */
+	public void changeDataSourceAfter(JoinPoint jp) throws Exception {
+		try {
+			logger.debug("after:切换默认数据源");
+			DbContextHolder.clearDbType();
+		} catch (Exception e) {
+			DbContextHolder.clearDbType();
+			throw new Exception("切换默认数据源出错,请检查数据源" + e.getMessage());
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+	
+}
+
+</pre>
+
+</div>
+
+</body>
+</html>

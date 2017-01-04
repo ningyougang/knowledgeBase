@@ -1,0 +1,43 @@
+[{
+			id : '100001',
+			title : '自营厅',
+			desc : '自营厅',
+			value : 31233,
+			cycle : 0.97,
+			same : 0.65
+		}, {
+			id : '100002',
+			title : '合作厅',
+			desc : '合作厅',
+			value : 12342,
+			cycle : 0.77,
+			same : -0.01
+		}, {
+			id : '100003',
+			title : '专营店',
+			desc : '专营店',
+			value : 12343,
+			cycle : 0.64,
+			same : 0.15
+		}, {
+			id : '100004',
+			title : '体验店',
+			desc : '体验店',
+			value : 13241,
+			cycle : -0.07,
+			same : -0.05
+		}, {
+			id : '100005',
+			title : '外包厅',
+			desc : '外包厅',
+			value : 13414,
+			cycle : 0.56,
+			same : 0.03
+		}, {
+			id : '100006',
+			title : '指定授权店',
+			desc : '指定授权店',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13
+		}]

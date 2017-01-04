@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DB2-sql行读次数高</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;">
+SQL行读次数高
+环境:
+操作系统:aix
+数据库服务器:DB2
+
+执行SQL:
+select distinct a.camp_id from  AIMPTL.sms_push a inner join  AIMPTL.nb_camp_plan_info b on a.camp_id = b.camp_id 
+where a.status = 0 and b.campmode_type in (3,5)   
+union all
+select distinct a.camp_id from  AIMPTL.SMS_PUSH a inner join AIMDATA.MTL_CAMP_SEGINFO b on a.camp_id = b.campseg_id 
+where a.status = 0  
+union all 
+select distinct a.camp_id from AIMPTL.sms_push a inner join  DB2VGOP.VGOP_CAMP_BASE_INFO  b on a.camp_id = b.MS_CODE 
+where a.status = 0 with ur
+SQL业务逻辑:从sms_push表中找出没有完全被推送给营销管理平台的营销方案ID 
+问题查证:通过在后台(不能在questCenter里)执行相关sql命令,查找出行读性次数的SQL  
+解决方案:通过查看,AIMPTL.sms_push表的数据量高峰时高达1个亿.通过过多的关联、union操作， 
+势必会造成sql行读次数高.对整个数据库的I/O、cpu 均有较大的资源占用.所以可以采用不用关联sms_push表，
+直接对各个营销活动基本信息表操查询操作，在通过营销活动执行的有效时间来判断  
+
+说明-该问题暴露出来: 
+1.做前端的同事对SQL性能调优的敏感程度不高.
+2.缺乏对SQL性能问题的排查手段.
+3.缺乏对性能测试的足够重视、缺乏性能测试手段.
+</pre>
+</body>
+</html>

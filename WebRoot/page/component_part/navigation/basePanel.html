@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>面板</title>
+<!--此组件在jquery-1.6的基础上--> 
+<link rel="stylesheet" type="text/css" href="../../../common/operaMasks/css/default/om-default.css" /> 
+<script type="text/javascript" src="../../../common/operaMasks/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../common/operaMasks/js/operamasks-ui.min.js"></script>  
+
+<script type="text/javascript">
+$(function() {  
+            var panel = $("#panel").omPanel({
+                width:'500px',
+                height:'180px',
+                header: true,
+                title:'苹果公司简介',
+                tools:[
+                      	{
+                           iconCls:["tool-min","tool-min-hover"],
+                    		handler:function(){panel.omPanel("close"); $("#show").show();}
+                		},
+                        {
+                		    iconCls:["tool-help","tool-help-hover"],
+                		    handler:function(){alert("请求帮助。");}
+                }]
+            });
+            
+ //panel.omPanel("open");
+        });
+    
+    </script>
+
+	<body>
+<div id="panel">
+	   	<p style="text-indent:2em">
+	   		苹果公司（Apple Inc.，NASDAQ：AAPL，LSE：ACP），原称苹果电脑公司（Apple Computer, Inc.）总部位于美国加利福尼亚的库比蒂诺，核心业务是电子科技产品，目前全球电脑市场占有率为7.96%。苹果的Apple II于1970年代助长了个人电脑革命，其后的Macintosh接力于1980年代持续发展。最知名的产品是其出品的Apple II、Macintosh电脑、iPod音乐播放器、iTunes商店、iPhone手机和iPad平板电脑等。它在高科技企业中以创新而闻名。
+	   	</p>
+   	</div>
+</br>
+<iframe src="../../../common/operaMasks/docs/symbols/omPanel.html" height="350px" width="1000px"></iframe>
+</body>
+</html>

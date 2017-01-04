@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户日志系统设计</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>用户日志信息记录的作用</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<p>
+	在大型的软件项目中,不但要跟踪程序日志的记录,进行问题查证.同时也需要对用户的登录、注销、操作日志进行记录.一方面可以跟踪用户登录、注销行为,如在IP地址、浏览器类型、访问端口、访问服务器等信息进行准确定位,
+	另一方面可以针对操作日志,分析出经常使用的业务,不经常使用的业务,针对不经常使用业务进行问题查证,提升业务质量
+	</p>
+</div>
+
+
+
+<div class="AI_common_title1">
+	<h2>用户日志设计流程图</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<img src="./images/用户日志流程.bmp"/>
+	</br>
+<p> 
+对日志的操作前的信息跟踪与调用action、日志信息保存,可以采用AOP面向切面的思想来考虑。而struts2中的拦截器实现了这一思想,可以考虑采用
+struts2的拦截器来实现.示例代码如下</br> 
+<pre class="brush:js;">
+public class UserLogInterceptor implements Interceptor{ 
+    //日志拦截器需要实现的方法
+   public  String intercept(ActionInvocation invocation) throws Exception {
+
+          //利用ThreadLocal,将日志信息的部分参数如执行开始时间等信息保存到线程局部变量里  
+           ThreadLocal实例.set(日志信息bean);           
+           //调用action 
+          String result = invocation.invoke();           
+           //补充完整日志信息bean(如执行结束时间),调用日志模块,保存日志信息(登录|注销实时保存、操作日志利用线程池的思想来保存) 
+           日志模块.save(日志信息bean);     
+           return result;
+  }
+}
+</pre></p></div>
+<div class="AI_common_title1">
+	<h2>用户日志表结构设计、日志模块线程池批量处理类图</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+ <div style='float:left;'><img src="./images/用户日志表结构设计.bmp"/>  </div><div><img src="./images/日志模块类图.bmp"/> </div>
+<div  style='float:left;'>
+  <p>
+1.AuditLoggerManager为单例类，里面维护一个日志操作器的Vector.</br>
+1>.保存单个日志，到池子中取个可用的日志操作器，来进行单个保存。</br>
+2>.当保存批量日志时，遍历池子中的所有日志操作器进行批量保存。</br>
+2.IAuditLogRecorder为日志操作器接口。</br>
+1>.保存单个日志，就是将该日志bean放到list里，只有操作最大值时，才进行批量保存。</br>
+2>.保存批量日志，则直接进行批量保存。</br>
+3.可以设置定时器，每隔多少时间，进行批量保存日志。</br>
+4.总结</br>
+目前该思路是从VGOP项目里进行了提炼，目前总体来说，日志信息统计准确，运行性能良好！</br>
+不足的地方是该日志拦截器与安全拦截器进行了合并,从面向对象的角度出发,是有所欠缺的。如果站在项目开发分工的角度上，也不利于分工。
+所以最好将控制权限的拦截器和日志拦截器进行分离.
+
+  </p>
+</div>
+</div>
+
+
+
+
+</body>
+</html>

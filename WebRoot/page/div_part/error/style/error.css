@@ -1,0 +1,33 @@
+﻿@charset "utf-8";
+/* 报错页面 */
+.AI_error{
+	background:url(../images/error_bg.jpg) no-repeat 0 0;
+	display:block;
+	height:229px;
+	overflow:hidden;
+	width:443px;
+}
+.AI_error h4{
+    color:#000;
+	font-size:14px;
+	position:relative;
+	left:173px;
+	top:109px;
+}
+.AI_error h4 span{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:bold;
+}
+a.AI_error_back_btn{
+	background:#f00 url(../images/error_back_btn.jpg) no-repeat 0 0;
+	display:block;
+	height:29px;
+	left:173px;
+	position:relative;
+	top:146px;
+	width:88px;
+}
+a.AI_error_back_btn:hover{
+	background:#f00 url(../images/error_back_btn.jpg) no-repeat 0 -29px;
+}

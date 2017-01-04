@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DIV常见变形问题</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css" />
+<link type="text/css" rel="stylesheet" href="style/question.css" />
+</head>
+
+<body>
+<h1>DIV常见变形问题－浮动：</h1>
+
+<p>错位展示如(图一)所示，区域2的内容浮动到区域1的右侧</p>
+<img src="images/question1_1.gif" />
+<br />
+<br />
+<p>正常展示如(图二)所示：</p>
+<img src="images/question1_2.gif" /><br />
+
+<p>解决方案：<br />
+在区域1下方添加清除浮动 &lt;div style=&quot;clear:both;&quot;&gt;&lt;/div&gt;<br />
+例如：<br />
+&lt;div&gt;区域1&lt;/div&gt;<br />
+&lt;div style=&quot;clear:both;&quot;&gt;&lt;/div&gt;<br />
+&lt;div&gt;区域2&lt;/div&gt;
+</p>
+</body>
+</html>

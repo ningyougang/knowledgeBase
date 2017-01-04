@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>XML解析技术 </title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+
+<!--  -->
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />	
+
+
+<!-- AIComp 组件所需js及css start -->
+		<link rel="stylesheet" type="text/css"
+			href="../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../common/AIComp/script/AI.Comp.js"></script>
+<!-- AIComp 组件所需js及css end -->
+
+
+<!-- Syntax 组件导入js及样式 start-->
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();
+		</script>
+<!-- Syntax 组件导入js及样式 end-->
+
+		
+	</head>
+<body>
+	<div class="AI_common_title1">
+		<h2>XML解析技术 </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<p>
+	XML现在已经成为一种通用的数据交换格式,它的平台无关性,语言无关性,系统无关性,给数据集成与交互带来了极大的方便。
+	对于XML本身的语法知识与技术细节,需要阅读相关的技术文献,这里面包括的内容有DOM(Document Object Model),
+	DTD(Document Type Definition),SAX(Simple API for XML),XSD(Xml Schema Definition),
+	XSLT(Extensible Stylesheet Language Transformations),
+	具体可参阅w3c官方网站文档http://www.w3.org获取更多信息。 <br/>
+	XML在不同的语言里解析方式都是一样的,只不过实现的语法不同而已。基本的解析方式有两种,一种叫SAX，另一种叫DOM。SAX是基于事件流的解析,DOM是基于XML文档树结构的解析。<br/>
+	下边将对Java解析XML的4中技术（DOM、SAX、JDOM、DOM4J）详细介绍：
+	</p>
+	</div>
+	<div class="AI_common_title1">
+		<h2>DOM（JAXP Crimson 解析器） </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	
+	<div class="AI_one_layout_border">
+	<p>
+	DOM 是用与平台和语言无关的方式表示 XML 文档的官方 W3C 标准。DOM 是以层次结构组织的节点或信息片断的集合。这个层次结构允许开发人员在树中寻找特定信息。分析该结构通常需要加载整个文档和构造层次结构，然后才能做任何工作。由于它是基于信息层次的，因而 DOM 被认为是基于树或基于对象的。DOM 以及广义的基于树的处理具有几个优点。首先，由于树在内存中是持久的，因此可以修改它以便应用程序能对数据和结构作出更改。它还可以在任何时候在树中上下导航，而不是像 SAX 那样是一次性的处理。DOM 使用起来也要简单得多。
+	</p>
+	<p>
+	另一方面，对于特别大的文档，解析和加载整个文档可能很慢且很耗资源，因此使用其他手段来处理这样的数据会更好。这些基于事件的模型，比如 SAX。 
+	</p>
+	<pre class="brush:java;">
+	
+	package com.test; 
+
+　　import java.io.*; 
+　　import java.util.*; 
+　　import org.w3c.dom.*; 
+　　import javax.xml.parsers.*; 
+
+　　public class MyXMLReader{ 
+
+　　public static void main(String arge[]){ 
+　　long lasting =System.currentTimeMillis(); 
+　　try{ 
+　　　File f=new File("data_10k.xml"); 
+　　　DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance(); 
+　　　DocumentBuilder builder=factory.newDocumentBuilder(); 
+　　　Document doc = builder.parse(f); 
+　　　NodeList nl = doc.getElementsByTagName("VALUE"); 
+　　　for (int i=0;i＜nl.getLength();i++){ 
+　　　　System.out.print("车牌号码:" + doc.getElementsByTagName("NO").item(i).getFirstChild().getNodue()); 
+　　　　System.out.println(" 车主地址:" + doc.getElementsByTagName("ADDR").item(i).getFirstChild().getNodue()); 
+　　} 
+　　}catch(Exception e){ 
+　　　e.printStackTrace(); 
+　　} 
+　　System.out.println("运行时间："+(System.currentTimeMillis() - lasting)+" 毫秒"); 
+　　} 
+　　}
+	
+	
+	</pre>
+	</div>
+	
+		<div class="AI_common_title1">
+		<h2>SAX  </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+		
+	<div class="AI_one_layout_border">
+	<p>
+	SAX这种处理的优点非常类似于流媒体的优点。分析能够立即开始，而不是等待所有的数据被处理。
+	而且，由于应用程序只是在读取数据时检查数据，因此不需要将数据存储在内存中。这对于大型文档来说是个巨大的优点。
+	事实上，应用程序甚至不必解析整个文档；它可以在某个条件得到满足时停止解析。一般来说，SAX 还比它的替代者 DOM 快许多。
+	</p>
+	<p><b>选择 DOM 还是选择 SAX ？</b> </p>
+	<p>
+	对于需要自己编写代码来处理 XML 文档的开发人员来说，选择 DOM 还是 SAX 解析模型是一个非常重要的设计决策。DOM 采用建立树形结构的方式访问 XML 文档，而 SAX 采用的事件模型。 
+	</p>
+	<p>
+    DOM 解析器把 XML 文档转化为一个包含其内容的树，并可以对树进行遍历。用 DOM 解析模型的优点是编程容易，开发人员只需要调用建树的指令，
+	然后利用navigation APIs访问所需的树节点来完成任务。可以很容易的添加和修改树中的元素。
+	然而由于使用 DOM 解析器的时候需要处理整个 XML 文档，所以对性能和内存的要求比较高，尤其是遇到很大的 XML 文件的时候。
+	由于它的遍历能力，DOM 解析器常用于 XML 文档需要频繁的改变的服务中。
+		
+	</p>
+	<p><b>总结：</b></p>
+	<p>
+	SAX 解析器采用了基于事件的模型，它在解析 XML 文档的时候可以触发一系列的事件，当发现给定的tag的时候，它可以激活一个回调方法，告诉该方法制定的标签已经找到。SAX 对内存的要求通常会比较低，因为它让开发人员自己来决定所要处理的tag。特别是当开发人员只需要处理文档中所包含的部分数据时，SAX 这种扩展能力得到了更好的体现。但用 SAX 解析器的时候编码工作会比较困难，而且很难同时访问同一个文档中的多处不同数据。
+	</p>
+	<pre class="brush:java">
+	Bean文件： 
+
+　　package com.test; 
+　　import org.xml.sax.*; 
+　　import org.xml.sax.helpers.*; 
+　　import javax.xml.parsers.*; 
+
+　　public class MyXMLReader extends DefaultHandler { 
+
+　　java.util.Stack tags = new java.util.Stack(); 
+
+　　public MyXMLReader() { 
+　　super(); 
+　　} 
+
+　　public static void main(String args[]) { 
+　　long lasting = System.currentTimeMillis(); 
+　　try { 
+　　　SAXParserFactory sf = SAXParserFactory.newInstance(); 
+　　　SAXParser sp = sf.newSAXParser(); 
+　　　MyXMLReader reader = new MyXMLReader(); 
+　　　sp.parse(new InputSource("data_10k.xml"), reader); 
+　　} catch (Exception e) { 
+　　　e.printStackTrace(); 
+　　} 
+　　System.out.println("运行时间：" + (System.currentTimeMillis() - lasting) + " 毫秒"); 
+　　} 
+
+　　public void characters(char ch[], int start, int length) throws SAXException { 
+　　String tag = (String) tags.peek(); 
+　　if (tag.equals("NO")) { 
+　　　System.out.print("车牌号码：" + new String(ch, start, length)); 
+　　} 
+　　if (tag.equals("ADDR")) { 
+　　System.out.println(" 地址:" + new String(ch, start, length)); 
+　　} 
+　　} 
+
+　　public void startElement( 
+　　String uri, 
+　　String localName, 
+　　String qName, 
+　　Attributes attrs) { 
+　　tags.push(qName); 
+　　} 
+　　}
+	
+	</pre>
+	
+	</div>
+	
+	
+	<div class="AI_common_title1">
+		<h2>JDOM  </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+		
+	<div class="AI_one_layout_border">
+	<p>JDOM 的目的是成为 Java 特定文档模型，它简化与 XML 的交互并且比使用 DOM 实现更快。由于是第一个 Java 特定模型，JDOM 一直得到大力推广和促进。正在考虑通过“Java 规范请求 JSR-102”将它最终用作“Java 标准扩展”。从 2000 年初就已经开始了 JDOM 开发。</p>
+	<p>JDOM 与 DOM 主要有两方面不同。首先，JDOM 仅使用具体类而不使用接口。这在某些方面简化了 API，但是也限制了灵活性。第二，API 大量使用了 Collections 类，简化了那些已经熟悉这些类的 Java 开发者的使用。</p>
+	<p>JDOM 文档声明其目的是“使用 20%（或更少）的精力解决 80%（或更多）Java/XML 问题”（根据学习曲线假定为 20%）。JDOM 对于大多数 Java/XML 应用程序来说当然是有用的，并且大多数开发者发现 API 比 DOM 容易理解得多。JDOM 还包括对程序行为的相当广泛检查以防止用户做任何在 XML 中无意义的事。然而，它仍需要您充分理解 XML 以便做一些超出基本的工作（或者甚至理解某些情况下的错误）。这也许是比学习 DOM 或 JDOM 接口都更有意义的工作。</p>
+	<p>JDOM 自身不包含解析器。它通常使用 SAX2 解析器来解析和验证输入 XML 文档（尽管它还可以将以前构造的 DOM 表示作为输入）。它包含一些转换器以将 JDOM 表示输出成 SAX2 事件流、DOM 模型或 XML 文本文档。JDOM 是在 Apache 许可证变体下发布的开放源码。</p>
+	<pre class="brush:java">
+	Bean文件： 
+
+　　package com.test; 
+
+　　import java.io.*; 
+　　import java.util.*; 
+　　import org.jdom.*; 
+　　import org.jdom.input.*; 
+
+　　public class MyXMLReader { 
+
+　　public static void main(String arge[]) { 
+　　long lasting = System.currentTimeMillis(); 
+　　try { 
+　　　SAXBuilder builder = new SAXBuilder(); 
+　　　Document doc = builder.build(new File("data_10k.xml")); 
+　　　Element foo = doc.getRootElement(); 
+　　　List allChildren = foo.getChildren(); 
+　　　for(int i=0;i＜allChildren.size();i++) { 
+　　　　System.out.print("车牌号码:" + ((Element)allChildren.get(i)).getChild("NO").getText()); 
+　　　　System.out.println(" 车主地址:" + ((Element)allChildren.get(i)).getChild("ADDR").getText()); 
+　　　} 
+　　} catch (Exception e) { 
+　　　e.printStackTrace(); 
+　　} 
+　　System.out.println("运行时间：" + (System.currentTimeMillis() - lasting) + " 毫秒"); 
+　　} 
+　　} 
+	
+	</pre>
+	</div>
+	
+	<div class="AI_common_title1">
+		<h2>DOM4J </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+		
+	<div class="AI_one_layout_border">
+	<p>虽然 DOM4J 代表了完全独立的开发结果，但最初，它是 JDOM 的一种智能分支。它合并了许多超出基本 XML 文档表示的功能，包括集成的 XPath 支持、XML Schema 支持以及用于大文档或流化文档的基于事件的处理。它还提供了构建文档表示的选项，它通过 DOM4J API 和标准 DOM 接口具有并行访问功能。从 2000 下半年开始，它就一直处于开发之中。</p>
+	<p>为支持所有这些功能，DOM4J 使用接口和抽象基本类方法。DOM4J 大量使用了 API 中的 Collections 类，但是在许多情况下，它还提供一些替代方法以允许更好的性能或更直接的编码方法。直接好处是，虽然 DOM4J 付出了更复杂的 API 的代价，但是它提供了比 JDOM 大得多的灵活性。</p>
+	<p>在添加灵活性、XPath 集成和对大文档处理的目标时，DOM4J 的目标与 JDOM 是一样的：针对 Java 开发者的易用性和直观操作。它还致力于成为比 JDOM 更完整的解决方案，实现在本质上处理所有 Java/XML 问题的目标。在完成该目标时，它比 JDOM 更少强调防止不正确的应用程序行为。</p>
+	<p>DOM4J 是一个非常非常优秀的Java XML API，具有性能优异、功能强大和极端易用使用的特点，同时它也是一个开放源代码的软件。如今你可以看到越来越多的 Java 软件都在使用 DOM4J 来读写 XML，特别值得一提的是连 Sun 的 JAXM 也在用 DOM4J。</p>
+	<pre class="brush:java">
+	package com.test; 
+
+　　import java.io.*; 
+　　import java.util.*; 
+　　import org.dom4j.*; 
+　　import org.dom4j.io.*; 
+
+　　public class MyXMLReader { 
+
+　　public static void main(String arge[]) { 
+　　long lasting = System.currentTimeMillis(); 
+　　try { 
+　　　File f = new File("data_10k.xml"); 
+　　　SAXReader reader = new SAXReader(); 
+　　　Document doc = reader.read(f); 
+　　　Element root = doc.getRootElement(); 
+　　　Element foo; 
+　　　for (Iterator i = root.elementIterator("VALUE"); i.hasNext();) { 
+　　　　foo = (Element) i.next(); 
+　　　　System.out.print("车牌号码:" + foo.elementText("NO")); 
+　　　　System.out.println(" 车主地址:" + foo.elementText("ADDR")); 
+　　　} 
+　　} catch (Exception e) { 
+　　　e.printStackTrace(); 
+　　} 
+　　System.out.println("运行时间：" + (System.currentTimeMillis() - lasting) + " 毫秒"); 
+　　} 
+　　}
+	
+	</pre>
+			
+	</div>
+	
+		<div class="AI_common_title1">
+		<h2>总结 </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+		
+	<div class="AI_one_layout_border">
+	<p>JDOM 和 DOM 在性能测试时表现不佳，在测试 10M 文档时内存溢出。在小文档情况下还值得考虑使用 DOM 和 JDOM。虽然 JDOM 的开发者已经说明他们期望在正式发行版前专注性能问题，但是从性能观点来看，它确实没有值得推荐之处。另外，DOM 仍是一个非常好的选择。DOM 实现广泛应用于多种编程语言。它还是许多其它与 XML 相关的标准的基础，因为它正式获得 W3C 推荐（与基于非标准的 Java 模型相对），所以在某些类型的项目中可能也需要它（如在 JavaScript 中使用 DOM）。</p>
+	<p>SAX表现较好，这要依赖于它特定的解析方式。一个 SAX 检测即将到来的XML流，但并没有载入到内存（当然当XML流被读入时，会有部分文档暂时隐藏在内存中）。</p>
+	<p>无疑，DOM4J是这场测试的获胜者，目前许多开源项目中大量采用 DOM4J，例如大名鼎鼎的 Hibernate 也用 DOM4J 来读取 XML 配置文件。如果不考虑可移植性，那就采用DOM4J吧！</p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='31152' yAxisMinValue='468' numDivLines='8'
+	adjustDiv='0'>
+	<categories>
+		<category label='台湾省' />
+		<category label='香港' />
+		<category label='日本' />
+		<category label='韩国' />
+		<category label='新加坡' />
+		<category label='菲律宾' />
+		<category label='美国/加拿大' />
+		<category label='马来西亚' />
+		<category label='印度尼西亚' />
+		<category label='德国' />
+		<category label='意大利' />
+		<category label='英国' />
+		<category label='荷兰' />
+		<category label='澳门' />
+		<category label='法国' />
+		<category label='西班牙' />
+		<category label='澳大利亚' />
+		<category label='泰国' />
+		<category label='印度' />
+		<category label='瑞典' />
+		<category label='瑞士' />
+		<category label='比利时' />
+		<category label='乌克兰' />
+		<category label='沙特阿拉伯' />
+		<category label='俄罗斯' />
+		<category label='尼日利亚' />
+		<category label='土耳其' />
+		<category label='丹麦' />
+		<category label='埃及' />
+		<category label='以色列' />
+	</categories>
+	<dataset seriesName='' Color='F1683C' anchorBorderColor='F1683C'
+		anchorBgColor='F1683C'>
+		<set value='28320.0' />
+		<set value='25317.0' />
+		<set value='12214.0' />
+		<set value='8965.0' />
+		<set value='7007.0' />
+		<set value='6037.0' />
+		<set value='4083.0' />
+		<set value='3893.0' />
+		<set value='3849.0' />
+		<set value='3302.0' />
+		<set value='3275.0' />
+		<set value='2911.0' />
+		<set value='2005.0' />
+		<set value='1920.0' />
+		<set value='1875.0' />
+		<set value='1647.0' />
+		<set value='1478.0' />
+		<set value='1190.0' />
+		<set value='989.0' />
+		<set value='783.0' />
+		<set value='754.0' />
+		<set value='744.0' />
+		<set value='677.0' />
+		<set value='661.0' />
+		<set value='632.0' />
+		<set value='610.0' />
+		<set value='547.0' />
+		<set value='528.0' />
+		<set value='497.0' />
+		<set value='493.0' />
+	</dataset>
+</chart>

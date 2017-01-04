@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='2月数据业务分析报表' outCnvBaseFont='Arial' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='流量增长率' SYAxisName='收入增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0">
+	<categories>
+	 	<category label='巢湖'/>
+		<category label='宣城'/>
+		<category label='池州'/>
+		<category label='安庆'/>
+		<category label='淮南'/>
+		<category label='芜湖'/>
+		<category label='滁州'/>
+		<category label='蚌埠'/>
+		<category label='亳州'/>
+		<category label='六安'/>
+		<category label='马鞍山'/>
+		<category label='黄山'/>
+		<category label='宿州'/>
+		<category label='铜陵'/>
+		<category label='阜阳'/>
+		<category label='合肥'/>
+		<category label='淮北'/>
+	</categories>
+ 
+	<dataset seriesName="GPRS流量增长率" color="AFD8F8">
+	  	<set value="0.86710000"/>
+		<set value="0.84510000"/>
+		<set value="0.88340000"/>
+		<set value="0.85110000"/>
+		<set value="0.88500000"/>
+		<set value="0.85990000"/>
+		<set value="0.82030000"/>
+		<set value="0.85040000"/>
+		<set value="0.84790000"/>
+		<set value="0.82960000"/>
+		<set value="0.83390000"/>
+		<set value="0.79630000"/>
+		<set value="0.86320000"/>
+		<set value="0.84750000"/>
+		<set value="0.88750000"/>
+		<set value="0.85810000"/>
+		<set value="0.85870000"/>
+	</dataset>
+	 
+	<dataset lineThickness="2" seriesName="GPRS收入增长率" parentYAxis="S" >
+	    <set value='0.2782'	/>
+		<set value='0.2428' />
+		<set value='0.0956' />
+		<set value='0.0887' />
+		<set value='0.0045' />
+		<set value='-0.0081'/>
+		<set value='-0.0174'/>
+		<set value='-0.0249'/>
+		<set value='-0.0915'/>
+		<set value='-0.1476'/>
+		<set value='-0.1688'/>
+		<set value='-0.1874'/>
+		<set value='-0.2723'/>
+		<set value='-0.2738'/>
+		<set value='-0.2973'/>
+		<set value='-0.3378'/>
+		<set value='-0.4005'/>
+	</dataset>
+</chart>

@@ -1,0 +1,580 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>JSON系列</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+
+<!--  -->
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />	
+
+
+<!-- AIComp 组件所需js及css start -->
+		<link rel="stylesheet" type="text/css"
+			href="../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../common/AIComp/script/AI.Comp.js"></script>
+<!-- AIComp 组件所需js及css end -->
+
+
+<!-- Syntax 组件导入js及样式 start-->
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();
+		</script>
+<!-- Syntax 组件导入js及样式 end-->
+
+		
+	</head>
+<body>
+	<div class="AI_common_title1">
+		<h2>JSON介绍</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	
+		<pre class="brush:xml">
+		1.）JSON定义：
+		JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，易于阅读和编写，同时也易于机器解析和生成。
+		它基于ECMA262语言规范（1999-12第三版）中JavaScript编程语言的一个子集。
+		JSON采用与编程语言无关的文本格式，但是也使用了类C语言（包括C， C++， C#， Java， JavaScript， Perl， Python等）的习惯，
+		这些特性使JSON成为理想的数据交换格式。
+		
+		2.）JSON的结构基于下面两点：
+		
+		(1). "名称/值"对的集合，不同语言中，
+		它被理解为对象(object)，记录(record)，结构(struct)，字典(dictionary)，哈希表(hash table)，键列表(keyed list)等
+		(2). 值的有序列表 多数语言中被理解为数组(array)
+		
+		3.）JSON使用：
+		
+		JSON以一种特定的字符串形式来表示 JavaScript 对象。
+		如果将具有这样一种形式的字符串赋给任意一个 JavaScript 变量，那么该变量会变成一个对象引用，而这个对象就是字符串所构建出来的。
+		
+		4.)示例演示：
+		
+		这里假设我们需要创建一个User对象，并具有以下属性：用户ID ,用户名 ,用户Email
+		
+		您可以使用以下JSON形式来表示User对象：
+		
+		(1)分析
+		
+		{"UserID":11, "Name":"Truly", "Email":""};
+		然后如果把这一字符串赋予一个JavaScript变量，那么就可以直接使用对象的任一属性了。
+		
+		完整代码:
+		<script>
+		   var User = {"UserID":147, "Name":"Truly", "Email":""};
+		   //alert(User.UserID);//结果是147
+		   //alert(User["Name"]);//结果是Truly --这是调用的两种方式
+		</script>
+		
+		(2)分析
+		
+		实际使用时可能更复杂一点，比如我们为Name定义更详细的结构，使它具有FirstName和LastName：
+		
+		{"UserID":11, "Name":{"FirstName":"Truly","LastName":"Zhu"}, "Email":""}
+		
+		完整代码:
+		<script>
+		var User = {"UserID":11, "Name":{"FirstName":"Truly","LastName":"Zhu"}, "Email":""};
+		//alert(User.Name.FirstName);
+		//alert(User["Name"]["FirstName"]); //结果是Truly --它们的效果是一样的
+		</script>
+		
+		(3)分析
+		
+		现在我们增加一个新的需求，我们某个页面需要一个用户列表，而不仅仅是一个单一的用户信息，那么这里就需要创建一个用户列表数组。
+		下面代码演示了使用JSON形式定义这个用户列表：
+		
+		[
+		{"UserID":11, "Name":{"FirstName":"Truly","LastName":"Zhu"}, "Email":""},
+		{"UserID":12, "Name":{"FirstName":"Jeffrey","LastName":"Richter"}, "Email":""},
+		{"UserID":13, "Name":{"FirstName":"Scott","LastName":"Gu"}, "Email":""}
+		]
+		
+		完整代码:
+		<script>
+		var UserList = [
+		   {"UserID":11, "Name":{"FirstName":"Truly","LastName":"Zhu"}, "Email":""},
+		   {"UserID":12, "Name":{"FirstName":"Jeffrey","LastName":"Richter"}, "Email":""},
+		   {"UserID":13, "Name":{"FirstName":"Scott","LastName":"Gu"}, "Email":""}
+		];
+		//alert(UserList[0].Name.FirstName);
+		</script>
+		
+		5.）归纳小结：
+		
+		(1).对象是属性、值对的集合。一个对象的开始于“{”，结束于“}”。每一个属性名和值间用“:”提示，属性间用“,”分隔。
+		(2).数组是有顺序的值的集合。一个数组开始于"["，结束于"]"，值之间用","分隔。
+		(3).值可以是引号里的字符串、数字、true、false、null，也可以是对象或数组。这些结构都能嵌套。
+		(4).字符串和数字的定义和C或Java基本一致。
+		(5).JSON 提供了一种优秀的面向对象的方法，以便将元数据缓存到客户机上。
+		(6).JSON 帮助分离了验证数据和逻辑。
+		(7).JSON 帮助为 Web 应用程序提供了 Ajax 的本质。
+		</pre>
+	</div>
+	<div class="AI_common_title1">
+		<h2>JSON-第三方开源库介绍</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<pre class="brush:xml">
+	  json-lib-X.X.X-jdk15.jar，如json-lib-2.2.1-jdk15.jar
+          1.里面有个很重要的JSON接口，两个重要的实现类JSONObject(实现了Map接口)、JSONArray(实现了List接口)
+          2.JSONSerializer可以实现普通java对象到JSON对象的双向转化
+          3.JSONConfig(配合JsonBeanProcessor、JsonValueProcessor)可以在转化过程中进行如排除属性、属性值的格式化等
+	</pre>
+	</div>
+	<div class="AI_common_title1">
+		<h2>在JSON-第三方开源库基础上封装好的工具类</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:xml">
+
+//下面的类单独拿出来用要报错，必须加入相关的JSONConfig的继承类和相关继承的JsonBeanProcessor、JsonValueProcessor
+
+package com.asiainfo.base.util.json;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.util.StringUtils;
+/**
+ * 
+ * @author lyman
+ * 
+ */
+public class JSONUtils {
+
+	private static final String TREE_ID_FIELD = "id";
+
+	private static final String TREE_PID_FIELD = "pid";
+
+	private static final String TREE_NAME_FIELD = "name";
+
+	/**
+	 * 转化为分页所需要的json数据结构{total:1000,root:[{},{},....,{}]}
+	 * @param total 记录总数
+	 * @param root  当前页面的记录 [{...},{...}...]
+	 * @return 分页需要的json字符串供页面解析展示
+	 */
+	public static String pageJson(int total, String root) {
+		String json = "";
+		if (total == 0) {
+			json = "{\"total\":0,\"root\":[]}";
+		}
+		json = "{\"total\":" + total + ",\"root\":" + root + "}";
+		return json;
+	}
+
+	/**
+	 * 将集合对象转化为JSON字符串[{"label":"label","value":"value"}]
+	 * @param source 待转化的list对象
+	 * @return json字符串
+	 */
+	public static String listToJson(List source) {
+		try {
+			if (null == source || source.isEmpty()) {
+				return "{}";
+			}
+			String json = null;
+			JsonConfig config = new ExtendJsonConfig();
+			if (source.get(0) instanceof Map) {
+				json = JSONArray.fromObject(source,config).toString();
+			} else {
+				json=JSONArray.fromObject(source,config).toString();
+			}
+			return json.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * 将java对象转化为JSON字符串{"label":"label","value":"value"}
+	 * @param obj 待转化的java对象
+	 * @return json字符串
+	 */
+	public static String BeanToJson(Object obj) {
+		try {
+			if (null == obj ) {
+				return "{}";
+			}
+			String json = null;
+			JsonConfig config = new ExtendJsonConfig();
+			json = JSONObject.fromObject(obj,config).toString();
+			return json.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 将List<Map>转化为树形结构json字符串[{"name":"头节点1","pid":"-1","id":"1","allowDrag":false,"children":[{"name":"节点11","pid":"1","id":"11","leaf":true}]},{"name":"头节点2","pid":"-1","id":"2","leaf":true}]
+	 * @param list<Map> 待转化为树形结构json的list,注意取数据时,Map里面的key要大写,即map.put("ID","IDvalue")、map.put("PID","PIDvalue")[稍微有点缺陷]
+	 * @param rootId 树形头结点的值,如-1
+	 * @param excludeField 需要过滤的字段,即过滤掉不需要在json串里打印的字段
+	 * @param idField 当前节点的ID字段的Field名称
+	 * @param pidField 当前节点的父ID字段的Field名称
+	 * @param nameField  当前节点的名称字段的Field名称
+	 * @return 转化List<Map>得到对应的树形结构json字符串(key转化为小写)
+	 * @throws Exception
+	 * 特殊备注1.针对true、false:对于值为字符串类型的"true",则json串为"true",如果为真实的Boolean类型，则为true;leaf属性是动态计算出来的,为boolean类型的true
+	 *        2.转化为json串后,所有的key均变为小写.
+	 *        3.增加特殊字段allowDrag,即还有子节点是不允许拖拽,无子节点时允许拖拽.
+	 */
+	public static String treeToJson(List<Map> list, String rootId,
+			String excludeField[], String idField, String pidField,
+			String nameField) throws Exception {
+		List resultList = new ArrayList();
+		JSONArray jsonArray = new JSONArray();
+		List<Map> tempList = getChildrenByPid(list, rootId, pidField);
+		for (Map map : tempList) {
+			JSONObject jsonObject = fillJsonObjByTreeBean(map, idField,
+					pidField, nameField, excludeField);
+			jsonObject = addChildrenNode(list, jsonObject, map, idField,
+					pidField, nameField, excludeField);
+			jsonArray.add(jsonObject);
+		}
+		return jsonArray.toString();
+	}
+	
+	/**
+	 * 将List<Map>转化为树形结构json字符串[{"name":"头节点1","pid":"-1","id":"1","children":[{"name":"节点11","pid":"1","id":"11","leaf":true}]},{"name":"头节点2","pid":"-1","id":"2","leaf":true}]
+	 * @param rootId 树形头结点的值,如-1
+	 * @param includeField 需要在json串里显示的字段,不能为空,否则报空指针
+	 * @param idField 当前节点的ID字段的Field名称
+	 * @param pidField 当前节点的父ID字段的Field名称
+	 * @param nameField 当前节点的名称字段的Field名称
+	 * @return 转化List<Map>得到对应的树形结构json字符串(key的大小写与includeField数组里的字段保持不变)
+	 * 特殊备注1.针对true、false:对于值为字符串类型的"true",则json串为"true",如果为真实的Boolean类型，则为true;leaf属性是动态计算出来的,为boolean类型的true
+	 *        2.转化为json串后,所有的key与includeField数组里的字段保持不变.
+	 *        3.去掉特殊字段allowDrag
+	 *        4.字段leaf字段的计算，保留treeToJson中有子节点为false的逻辑,同时增加没有子节点,当有值且值为1时为true,当有值且值不为1时为false,值为空时为true
+	 */
+	public static String treeToJson2(List<Map> list, String rootId,
+			String[] includeField, String idField, String pidField,
+			String nameField) throws Exception {
+		List resultList = new ArrayList();
+		JSONArray jsonArray = new JSONArray();
+		List<Map> tempList = getChildrenByPid(list, rootId, pidField);
+		for (Map map : tempList) {
+			JSONObject jsonObject = fillJsonObjByTreeBean2(map, idField,
+					pidField, nameField, includeField);
+			jsonObject = addChildrenNode2(list, jsonObject, map, idField,
+					pidField, nameField, includeField);
+			jsonArray.add(jsonObject);
+		}
+		return jsonArray.toString();
+	}
+	
+	/**
+	 * 将Map转化为JSONObject
+	 * @param map 待转化的map
+	 * @param idField 当前节点的ID字段的Field名称
+	 * @param pidField 当前节点的父ID字段的Field名称
+	 * @param nameField 当前节点的名称字段的Field名称
+	 * @param excludeField  不需要在json串里显示的字段
+	 * @return 返回JSONObject((不在excludeField数组里))
+	 * @throws Exception
+	 */
+	private static JSONObject fillJsonObjByTreeBean(Map map, String idField,
+			String pidField, String nameField, String[] excludeField)
+			throws Exception {
+		JSONObject jsonObj = new JSONObject();
+		Set<Map.Entry> set = map.entrySet();
+		JsonConfig config = new ExtendJsonConfig();
+		if (!StringUtils
+				.hasText(String.valueOf(map.get(idField.toUpperCase())))
+				|| !StringUtils.hasText(String.valueOf(map.get(pidField
+						.toUpperCase())))
+				|| !StringUtils.hasText(String.valueOf(map.get(nameField
+						.toUpperCase())))) {
+			throw new Exception("树形结构Map的Key值必须存在[" + idField + "] ["
+					+ pidField + "] [" + nameField + "]!");
+		}
+		for (Map.Entry entry : set) {
+			if (StringUtils.hasText(String.valueOf(entry.getValue()))) {
+				String key = String.valueOf(entry.getKey()).toLowerCase();
+				if (ArrayUtils.indexOf(excludeField, key) == -1) {
+					jsonObj.element(String.valueOf(entry.getKey())
+							.toLowerCase(), entry.getValue(),config);
+				}
+			}
+		}
+		return jsonObj;
+	}
+	
+	/**
+	 * 根据传入的jsonObject追加该jsonObject下面的所有子节点(递归)
+	 * @param list 需要遍历的list
+	 * @param jsonObject 待追加的jsonObject
+	 * @param map 与待追加jsonObject对应的map
+	 * @param idField 当前节点的ID字段的Field名称
+	 * @param pidField 当前节点的父ID字段的Field名称
+	 * @param nameField 当前节点的名称字段的Field名称
+	 * @param includeField 需要在json串里显示的字段
+	 * @return 追加之后的jsonObject(含递归计算出来的)
+	 * @throws Exception
+	 * 特殊备注:1.增加特殊字段allowDrag,即还有子节点是不允许拖拽,无子节点时允许拖拽.
+	 *         2.字段leaf字段的计算，保留treeToJson中有子节点为false的逻辑,同时增加没有子节点,当有值且值为1时为true,当有值且值不为1时为false,值为空时为true
+	 */
+	private static JSONObject addChildrenNode(List<Map> list,
+			JSONObject jsonObject, Map map, String idField, String pidField,
+			String nameField, String[] excludeField) throws Exception {
+		List<Map> nodeList = getChildrenByPid(list, String.valueOf(map
+				.get(idField.toUpperCase())), pidField);
+		if (nodeList == null) {
+			return null;
+		}
+		List children = new ArrayList();
+		for (Map mapItem : nodeList) {
+			JSONObject jsonObj = fillJsonObjByTreeBean(mapItem, idField,
+					pidField, nameField, excludeField);
+			children.add(jsonObj);
+			addChildrenNode(list, jsonObj, mapItem, idField, pidField,
+					nameField, excludeField);
+		}
+		if (children.size() > 0) {
+			jsonObject.element("allowDrag", Boolean.FALSE);
+			jsonObject.element("children", children);
+		}else{
+			jsonObject.element("leaf", Boolean.TRUE);
+		}
+		return jsonObject;
+	}
+
+
+	/**
+	 * 将Map转化为JSONObject
+	 * @param map  待转化的Map
+	 * @param idField 当前节点的ID字段的Field名称
+	 * @param pidField 当前节点的父ID字段的Field名称
+	 * @param nameField 当前节点的名称字段的Field名称
+	 * @param includeField 需要在json串里显示的字段
+	 * @return 返回JSONObject(在includeField数组里)
+	 * @throws Exception
+	 */
+	private static JSONObject fillJsonObjByTreeBean2(Map map, String idField,
+			String pidField, String nameField, String[] includeField)
+			throws Exception {
+		JSONObject jsonObj = new JSONObject();
+		Set<Map.Entry> set = map.entrySet();
+		JsonConfig config = new ExtendJsonConfig();
+		if (!StringUtils
+				.hasText(String.valueOf(map.get(idField.toUpperCase())))
+				|| !StringUtils.hasText(String.valueOf(map.get(pidField
+						.toUpperCase())))
+				|| !StringUtils.hasText(String.valueOf(map.get(nameField
+						.toUpperCase())))) {
+			throw new Exception("树形结构Map的Key值必须存在[" + idField + "] ["
+					+ pidField + "] [" + nameField + "]!");
+		}
+		for (Map.Entry entry : set) {
+			if (StringUtils.hasText(String.valueOf(entry.getValue()))) {
+				String key = String.valueOf(entry.getKey()).toLowerCase();
+				for (String includeKey : includeField) {
+					if (key.equalsIgnoreCase(includeKey)) {
+						Object value = entry.getValue();
+						if (value != null
+								&& ("true".equalsIgnoreCase(value.toString()) || "false"
+										.equalsIgnoreCase(value.toString()))) {
+							value = Boolean.parseBoolean(value.toString());
+						}
+						jsonObj.element(includeKey, value, config);
+						break;
+					}
+				}
+			}
+		}
+		return jsonObj;
+	}
+	/**
+	 * 根据传入的jsonObject追加该jsonObject下面的所有子节点(递归)
+	 * @param list 需要遍历的list
+	 * @param jsonObject 待追加的jsonObject
+	 * @param map 与待追加jsonObject对应的map
+	 * @param idField 当前节点的ID字段的Field名称
+	 * @param pidField 当前节点的父ID字段的Field名称
+	 * @param nameField 当前节点的名称字段的Field名称
+	 * @param includeField 需要在json串里显示的字段
+	 * @return 追加之后的jsonObject(含递归计算出来的)
+	 * @throws Exception
+	 * 特殊备注:1.去掉特殊字段allowDrag
+	 *         2.字段leaf字段的计算，保留treeToJson中有子节点为false的逻辑,同时增加没有子节点,当有值且值为1时为true,当有值且值不为1时为false,值为空时为true
+	 */
+	 private static JSONObject addChildrenNode2(List<Map> list,
+				JSONObject jsonObject, Map map, String idField, String pidField,
+				String nameField, String[] includeField) throws Exception {
+			List<Map> nodeList = getChildrenByPid(list, String.valueOf(map
+					.get(idField.toUpperCase())), pidField);
+			if (nodeList == null) {
+				return null;
+			}
+			List children = new ArrayList();
+			for (Map mapItem : nodeList) {
+				JSONObject jsonObj = fillJsonObjByTreeBean2(mapItem, idField,
+						pidField, nameField, includeField);
+				children.add(jsonObj);
+				addChildrenNode2(list, jsonObj, mapItem, idField, pidField,
+						nameField, includeField);
+			}
+			if (children.size() > 0) {
+				jsonObject.element("children", children);
+				jsonObject.element("leaf", Boolean.FALSE);
+			} else {
+				if (map.get("LEAF") != null) {
+					if (String.valueOf(map.get("LEAF")).equals("1")) {
+						jsonObject.element("leaf", Boolean.TRUE);
+					} else {
+						jsonObject.element("leaf", Boolean.FALSE);
+					}
+				} else {
+					jsonObject.element("leaf", Boolean.TRUE);
+				}
+			}
+			return jsonObject;
+		}
+
+
+	/**
+	 * 将List<Map>按照默认的id、pid、name字段返回json字符串
+	 * @param list待转化的List<Map>
+	 * @param rootId 树形头结点的值,如-1
+	 * @param excludeField 不需要显示的json字段
+	 * @return 返回json字符串
+	 * @throws Exception
+	 */
+	public static String treeToJson(List<Map> list, String rootId,
+			String[] excludeField) throws Exception {
+		return treeToJson(list, rootId, excludeField, TREE_ID_FIELD,
+				TREE_PID_FIELD, TREE_NAME_FIELD);
+	}
+
+	/**
+	 * 将List<Map>按照默认的id、pid、name字段返回json字符串
+	 * @param list待转化的List<Map>
+	 * @param rootId 树形头结点的值,如-1
+	 * @return 返回json字符串(所有的字段均显示)
+	 * @throws Exception
+	 */
+	public static String treeToJson(List<Map> list, String rootId)
+			throws Exception {
+		return treeToJson(list, rootId, new String[] {}, TREE_ID_FIELD,
+				TREE_PID_FIELD, TREE_NAME_FIELD);
+	}
+
+	/**
+	 * 将Object(如Map、普通bean转换为JSONObject，将List<Map>、List<普通Bean>转化为JSONArray
+	 * @param object 待转化的对象
+	 * @param excludeProperty 需要排除的属性
+	 * @return 返回JSON子类的实例对象
+	 */
+	public static JSON jsonExclude(Object object, String[] excludeProperty) {
+		JsonConfig config = new ExtendJsonConfig();
+		NamedPropertyFilter filter = new NamedPropertyFilter(excludeProperty);
+		filter.setExclude(true);
+		config.setJsonPropertyFilter(filter);
+		JSON json = JSONSerializer.toJSON(object, config);
+		return json;
+	}
+
+	/**
+	 * 将Object(如Map、普通bean转换为JSONObject，将List<Map>、List<普通Bean>转化为JSONArray
+	 * @param object 待转化的对象
+	 * @param includePropertys 需要显示的属性
+	 * @return 返回JSON子类的实例对象
+	 */
+	public static JSON jsonInclude(Object o, String[] includePropertys) {
+		JsonConfig config = new ExtendJsonConfig();
+		NamedPropertyFilter filter = new NamedPropertyFilter(includePropertys);
+		filter.setExclude(false);
+		config.setJsonPropertyFilter(filter);
+		JSON json = JSONSerializer.toJSON(o, config);
+		return json;
+	}
+
+	// 按名称过滤属性
+	private static class NamedPropertyFilter implements PropertyFilter {
+		private String[] names;
+
+		private boolean exclude = true;
+
+		public void setExclude(boolean exclude) {
+			this.exclude = exclude;
+		}
+
+		public NamedPropertyFilter(String[] names) {
+			this.names = names;
+		}
+
+		public NamedPropertyFilter(String[] names, boolean exclude) {
+			this.names = names;
+			this.exclude = exclude;
+		}
+
+		public boolean apply(Object source, String property, Object value) {
+			if (names == null || names.length < 1) {
+				return !exclude;
+			}
+			for (String name : names) {
+				if (name.equals(property)) {
+					return exclude;
+				}
+			}
+			return !exclude;
+		}
+	}
+
+	/**
+	 * 根据父节点取得所有的自节点
+	 * @param list 待查找的list
+	 * @param rootId 父节点值
+	 * @param pidField 父节点字段名称
+	 * @return
+	 */
+	private static List<Map> getChildrenByPid(List<Map> list, String rootId,
+			String pidField) {
+		if (list == null)
+			return null;
+		List<Map> treeList = new ArrayList();
+		for (Map map : list) {
+			if (rootId.equals(String.valueOf(map.get(pidField.toUpperCase())))) {
+				treeList.add(map);
+			}
+		}
+		return treeList;
+	}
+	
+}
+
+		</pre>
+	</div>
+</body>
+</html>

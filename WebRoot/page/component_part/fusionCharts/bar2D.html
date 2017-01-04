@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title>排名图</title>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>			
+		<script type="text/javascript" src='../../../common/fusionCharts/FusionCharts.js'></script>
+		<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script type="text/javascript">SyntaxHighlighter.all();</script>		
+		<script language="javascript">			$(document).ready(function(){
+				var chart = new FusionCharts("../../../common/fusionCharts/flash/bar2D.swf", "bar2DChartId", "100%", "250", "0", "0");
+				//chart.setDataXML(xmldata);
+			   	chart.setDataURL("../../../common/fusionCharts/data/bar2D.xml");	 
+			   	chart.setTransparent(true);   
+			   	chart.render("bar2DDiv");
+			});	</script>	</head>
+	<body>
+		<div id="bar2DDiv"></div>
+
+<pre class="brush:js;">
+使用说明:
+1.确保系统中引入相关js
+<script type="text/javascript" src='../../../common/fusionCharts/FusionCharts.js'></script>
+<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+
+2.从服务器端获取xml串(此处模拟的是本地的1个xml文件)
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='0' yAxisMinValue='0' numDivLines='8' adjustDiv='0'>
+	<SET label='渠道运营部' value='33687.0' />
+	<SET label='南区' value='18172.0' />
+	<SET label='北区' value='17425.0' />
+	<SET label='东区' value='16393.0' />
+	<SET label='西区' value='14512.0' />
+	<SET label='闵行' value='10258.0' />
+	<SET label='宝山' value='9869.0' />
+	<SET label='嘉定' value='7523.0' />
+	<SET label='南汇' value='7020.0' />
+	<SET label='松江' value='6691.0' />
+	<SET label='青浦' value='6011.0' />
+	<SET label='奉贤' value='5874.0' />
+	<SET label='金山' value='3298.0' />
+	<SET label='崇明' value='2891.0' />
+</chart>
+3.调用FusionChart.js提供的方法,将xml串(或文件填充到flash进行展示)
+<script language="javascript">			
+     $(document).ready(function(){
+	var chart = new FusionCharts("../../../common/fusionCharts/flash/bar2D.swf", "bar2DChartId", "100%", "250", "0", "0");
+	//chart.setDataXML(xmldata);
+	chart.setDataURL("../../../common/fusionCharts/data/bar2D.xml");
+	chart.setTransparent(true);   
+	chart.render("bar2DDiv");
+     });	
+   </script>
+4.亦可以调用function showFusionChart(chartswf,divname,xmldata,chartid,width,height)来进行展示fusionChart
+</pre>	
+</body>
+</html>

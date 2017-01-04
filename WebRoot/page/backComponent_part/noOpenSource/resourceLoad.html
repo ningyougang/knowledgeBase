@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>日期工具类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>资源加载背景知识</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+一、文件资源操作
+文件资源的操作是应用程序中常见的功能，如当上传一个文件后将其保存在特定目录下，从指定地址加载一个配置文件等等。
+我们一般使用 JDK 的 I/O 处理类(File->InputStream)完成这些读取/写入操作，但对于一般的应用程序来说，JDK 的这些操作类所提供的方法过于底层，
+直接使用它们进行文件操作不但程序编写复杂而且容易产生错误。
+相比于 JDK 的 File，Spring 的 Resource 接口（资源概念的描述接口）抽象层面更高且涵盖面更广，Spring 提供了许多方便易用的资源操作工具类，
+它们大大降低资源操作的复杂度，同时具有更强的普适性。这些工具类不依赖于 Spring 容器，这意味着您可以在程序中象一般普通类一样使用它们。
+
+Spring 定义了一个 org.springframework.core.io.Resource 接口，Resource 接口是为了统一各种类型不同的资源而定义的，
+Spring 提供了若干 Resource 接口的实现类，这些实现类可以轻松地加载不同类型的底层资源，并提供了获取文件名、URL 地址以及资源内容的操作方法。
+
+通过 FileSystemResource 以文件系统绝对路径的方式进行访问； 
+通过 ClassPathResource 以类路径的方式进行访问； 
+通过 ServletContextResource 以相对于Web应用根目录的方式进行访问。 
+
+二、properties(public class Properties extends Hashtable<Object,Object>)
+Properties 类表示了一个持久的属性集。Properties 可保存在流中或从流中加载.其load(InputStream inStream)从输入流中读取属性列表
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+/**	
+* 通过spring提供的Resource定位到配置文件(见如下配置),在通过Properties的load加载到指定的属性列表
+*<bean id="configureFile" class="com.asiainfo.base.util.ConfigureFile" init-method="init">
+*<property name="config" value="WEB-INF/conf/config.properties"></property>
+*</bean>
+* 包名 com.asiainfo.base.util
+* 文件名 ConfigureFile.java
+* 时间 2009-2-13 上午09:00:19
+*/
+package com.asiainfo.base.util;
+
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.core.io.Resource;
+
+
+public class ConfigureFile {
+
+	private static Properties properties = new Properties();
+	private Resource config;
+	private static final String defaultEncoding = "UTF-8";
+	private String encode;
+	private static ConfigureFile configurefile = new ConfigureFile();
+	private static final Log log = LogFactory.getLog(ConfigureFile.class);
+	private Resource dataBusiConfig;
+	
+	public static ConfigureFile getInstance()
+	{
+		if(configurefile!=null)
+			return configurefile;
+		else
+		{
+			ConfigureFile configFile = new ConfigureFile();
+			configFile.init();
+			return configFile;
+		}
+	}
+	
+	public void init(InputStream input)
+	{
+		try
+		{
+			if(input!=null)
+			{
+				properties.load(input);
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			log.debug("Exception throwed by the init method",e);
+		}
+	}
+	
+	public void init()
+	{
+		try
+		{
+			InputStream input = config.getInputStream();
+			init(input);
+			if(dataBusiConfig.getInputStream() != null){
+				//added by shenli 加载数深迁移功能配置
+				init(dataBusiConfig.getInputStream());
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			log.debug("Exception throwed by the init method",e);
+		}
+	}
+	
+	public String getProperty(String key)
+	{	
+		String msg = properties.getProperty(key);
+		if (null == msg || msg.length() < 1) {
+			return "";
+		}
+		try {
+			if(this.encode != null&&this.encode.length()>0)
+			{
+				return new String(msg.getBytes("ISO8859-1"), encode);
+			}
+			return new String(msg.getBytes("ISO8859-1"), defaultEncoding);
+		} catch (UnsupportedEncodingException ex) {
+			return null;
+		}
+		//return null;
+	}
+	
+	public void setProperty(String key, String value) {
+		if (null == value || "".equals(value)) {
+			properties.setProperty(key, value);
+			return;
+		}
+		try {
+			properties.setProperty(key, new String(
+					value.getBytes(this.encode != null&& this.encode.length() > 0 ? 
+							this.encode : 
+							defaultEncoding), "ISO8859-1"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Resource getConfig() {
+		return config;
+	}
+
+	public void setConfig(Resource config) {
+		this.config = config;
+	}
+
+	public String getEncode() {
+		return encode;
+	}
+
+	public void setEncode(String encode) {
+		this.encode = encode;
+	}
+
+	public Resource getDataBusiConfig() {
+		return dataBusiConfig;
+	}
+
+	public void setDataBusiConfig(Resource dataBusiConfig) {
+		this.dataBusiConfig = dataBusiConfig;
+	}
+}
+</pre>
+</p>
+</div>
+</body>
+</html>

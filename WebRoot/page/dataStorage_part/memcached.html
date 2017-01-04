@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分布式缓存</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>简介</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+memcached是一套分布式的高速缓存系统，由LiveJournal的Brad Fitzpatrick开发，目前被许多网站使用。
+这是一套开放源代码软件，以BSD license授权发布。
+
+许多Web应用都将数据保存到RDBMS中，应用服务器从中读取数据并在浏览器中显示。但随着数据量的增大、访问的集中，
+就会出现RDBMS的负担加重、数据库响应恶化、网站显示延迟等重大影响。这时就该memcached大显身手了
+。memcached是高性能的分布式内存缓存服务器。一般的使用目的是，通过缓存数据库查询结果，减少数据库访问次数，
+以提高动态Web应用的速度、提高可扩展性. 目前已有很多成功的应用mixi、hatena、Facebook、Vox等。
+
+memcached的API使用三十二比特的循环冗余校验（CRC-32）计算键值后，将数据分散在不同的机器上。
+当表格满了以后，接下来新增的数据会以LRU机制替换掉。由于memcached通常只是当作高速缓存系统使用，
+所以使用memcached的应用程序在写回较慢的系统时（像是后端的数据库）需要额外的代码更新memcached内的数据。
+
+注意事项:memcached缺乏认证以及安全管制，所以 memcached服务器放置在防火墙后。
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>原理</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+首先 memcached 是以守护程序方式运行于一个或多个服务器中，随时接受客户端的连接操作，客户端可以由各种语言编写，
+目前已知的客户端 API 包括 Perl/PHP/Python/Ruby/Java/C#/C 等等。客户端在与 memcached 服务建立连接之后，
+接下来的事情就是存取对象了，每个被存取的对象都有一个唯一的标识符 key，存取操作均通过这个 key 进行，
+保存到 memcached 中的对象实际上是放置内存中的，并不是保存在 cache 文件中的，这也是为什么 memcached 能够如此高效快速的原因。
+注意，这些对象并不是持久的，服务停止之后，里边的数据就会丢失。
+
+与许多 cache 工具类似，Memcached 的原理并不复杂。它采用了C/S的模式，在 server 端启动服务进程，
+在启动时可以指定监听的 ip，自己的端口号，所使用的内存大小等几个关键参数。
+一旦启动，服务就一直处于可用状态。Memcached 的目前版本是通过C实现，采用了单进程，单线程，异步I/O，
+基于事件 (event_based) 的服务方式.使用 libevent 作为事件通知实现。多个 Server 可以协同工作，
+但这些 Server 之间是没有任何通讯联系的，每个 Server 只是对自己的数据进行管理。
+Client 端通过指定 Server 端的 ip 地址(通过域名应该也可以)。需要缓存的对象或数据是以 key->value 对的形式保存在Server端。
+key 的值通过 hash 进行转换，根据 hash 值把 value 传递到对应的具体的某个 Server 上。当需要获取对象数据时，也根据 key 进行。
+首先对 key 进行 hash，通过获得的值可以确定它被保存在了哪台 Server 上，然后再向该 Server 发出请求。
+Client 端只需要知道保存 hash(key) 的值在哪台服务器上就可以了。
+
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>文档</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+传智播客memcache.ppt下载:<a href="doc/传智播客memcache.ppt">传智播客memcache.ppt下载</a></br>
+memcached原理、安装部署下载:<a href="doc/memcached原理、开发环境安装部署.docx">memcached原理、开发环境安装部署.docx</a></br>
+session同步到memcached原理、实施下载:<a href="doc/用户session同步到memcached(msm).docx">用户session同步到memcached(msm).docx</a>
+</div>
+
+<div class="AI_common_title1">
+	<h2>经验总结</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:xml">
+目前使用memcached有如下3种用法
+A:单独使用客户端api(如java、c/c++、php)与memcached进行通信，只要保存的对象实现了序列化接口即可。
+B:将memcached设置为hibernate的第三方缓存，与hibernate一起协同使用(注意hibernate的二级缓存是插件化的，可以灵活配置,如OSCache、EhCache等
+  需要spymemcached-2.8.4.jar、java_memcached-release_2.6.6.jar、hibernate-memcached-1.2.2-modify.jar(源码有问题,对源码进行了修改，请
+  查考:http://code.google.com/p/hibernate-memcached/)
+C:作为mysql的plugin使用。
+其中A、B用得比较多，C可选，不推荐使用。
+用A没有多大问题，直接参考下面封装好的api即可。用B要特别当心，主要是对hibernate的一级缓存、二级缓存原理要理解透彻,
+下面是我对“一级缓存、二级缓存与查询缓存的区别”做的总结，供参考: 
+1.一级缓存和二级缓存都是缓存实体对象,二级缓存只是生命周期大于一级缓存。其中一级缓存存在当前hibernate所在的虚拟机的内存，
+  二级缓存存在可以配置的缓存插件所在的服务器，如memcached
+2.二级缓存与查询缓存都是将数据写入memcached.
+3.针对查询缓存:
+3.1).当hql是查询对象时如“from User”，先将所有的实体对象存入二级缓存，key:className()+id  value:实体对象。
+然后将sql条件存入查询缓存,key:sql ,value:实体对象的id组合。
+当下次执行同样的sql语句时，根据sql到查询缓存拿到id组合，在逐个遍历id，根据id到二级缓存读取数据。
+目前我手工将memcached的其中的1个实体对象删除或二级缓存的有效期<查询缓存，导致N+1 问题产生:即先可以拿到查询缓存，
+但是根据id取不到实体数据，会针对每个id到数据库进行sql查询。
+3.2)当hql是查询对象属性时“slect a.id from User a”，将所有的属性结果集存入查询缓存，key:sql value:属性结果集 ，
+当hql为多个表关联查询时，如果其中1个表进行了修改，那么查询缓存如何更新？ 
+已经解决:google的hibernate-memcache已经提供了解决方案，根据时间戳缓存解决，即当其中1个表更新了数据，则与该表相关的所有缓存搞成失效，
+下次到数据库查询。所以查询缓存效率很低
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java访问memcached代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java">
+	/**
+ *
+ */
+package com.atman.base.cache;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+
+import net.spy.memcached.MemcachedClient;
+import net.spy.memcached.OperationTimeoutException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+
+/**
+ * Memcached工具类，使用静态方法
+ * @author Juntao
+ *
+ */
+public class MemcachedUtils {
+
+    private static Logger logger = Logger.getLogger(MemcachedUtils.class);
+    private MemcachedClient memcachedClient;
+
+    public MemcachedUtils() {
+
+    	 try {
+    		 memcachedClient = new MemcachedClient(new InetSocketAddress("192.168.1.135", 11211));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
+
+    public MemcachedClient getMemcachedClient() {
+        return memcachedClient;
+    }
+
+    public void setMemcachedClient(MemcachedClient memcachedClient) {
+        this.memcachedClient = memcachedClient;
+    }
+
+    /**
+     * 在memcached中缓存一个值
+     * @param key       缓存的键值
+     * @param expiry    缓存有效期，以秒为单位
+     * @param value     缓存的内容
+     */
+    public void set(String key, int expiry, Object value) {
+        if(StringUtils.isEmpty(key) || value == null) {
+            return;
+        } else {
+            memcachedClient.set(key, expiry, value);
+        }
+    }
+
+    /**
+     * 从缓存查找一个值
+     * @param key   查找的键值
+     * @return      缓存的内容
+     */
+    public Object get(String key) {
+        Object value = null;
+        if(!StringUtils.isEmpty(key)) {
+            try {
+                value = memcachedClient.get(key);
+            } catch(OperationTimeoutException e) {
+                logger.warn("memcached: get key time out", e);
+                value = memcachedClient.get(key);
+            }
+        }
+        return value;
+    }
+
+    public void delete(String key) {
+        if(!StringUtils.isEmpty(key)) {
+            memcachedClient.delete(key);
+        }
+    }
+
+    public static void main(String[] args){
+    	MemcachedUtils mu = new MemcachedUtils();
+        Object object = mu.get("com.asiainfo.domain.User:0:2");
+        if(null == object){
+
+        }else {
+			//System.out.println(user.getUserName());
+		}
+
+    }
+}
+
+</pre>
+</div>
+</body>
+</html>

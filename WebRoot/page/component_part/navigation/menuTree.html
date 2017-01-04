@@ -1,0 +1,868 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>菜单树导航</title> 
+				<link rel="stylesheet" type="text/css"
+			href="../../../common/css/cssreset.css" />
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/menuNav.js"></script>
+<style>  
+.hover{
+				border-bottom:1px dotted lightblue;
+}
+ .current{
+				font-weight:bold;
+				color:blue;
+}	
+
+/**左侧模块菜单导航区IFrame frmMenu**/
+#menuNav{
+	cursor:pointer;
+}
+#menuNav h1{
+	background:url(images/left_submenu_bg.gif) repeat-x;
+	font-weight:bold;
+	margin:2px 0 0 2px;
+}
+#menuNav h1 span{
+	background:url(images/icon_arrow1.gif) 5px 6px no-repeat; 
+	overflow:hidden; 
+	line-height:25px; 
+	padding-left:25px; 
+	display:block; 
+	text-decoration:none; 
+	color:#000; 
+	height:24px; 
+	line-height:24px; 
+	border:solid 1px #D8D8D8;
+}
+#menuNav div{
+	border:solid 1px buttonface;
+	margin-bottom:5px;
+}
+#menuNav li{
+	padding-left:30px; 
+	line-height:22px; 
+}
+#menuNav li.folder{
+	background:url(images/icon_arrow2.gif) 15px 5px no-repeat; 
+}
+#menuNav li.leaf{
+	background:url(images/icon_arrow3.gif) 15px 5px no-repeat; 
+}
+	/**主菜单导航**/
+#mainNav ul{
+	float:left;
+	text-decoration:none;
+	overflow:hidden;
+	list-style:none;
+}
+#mainNav li{
+	float:left;
+	text-align:center;
+	margin:3px 15px 0;
+	color:#fff; 
+	font-weight:700; 
+	height:25x; 
+	line-height:25px;
+	text-align:center; 
+	cursor:pointer;
+}
+#mainNav li.curNav{
+	background:url(images/menu_hover.gif) no-repeat; 
+	width:63px;
+}
+</style>
+
+ <script type="text/javascript"> 
+var menuJSON  = [{
+	"name" : "业务指标监控",
+	"pid" : 3,
+	"id" : 301,
+	"allowDrag" : false,
+	"children" : [{
+		"name" : "我的关注指标",
+		"pid" : 301,
+		"id" : 30101,
+		"allowDrag" : false,
+		"children" : [{
+			"name" : "日监控关注",
+			"pid" : 30101,
+			"id" : 3010101,
+			"url" : "indiNotice/indiNoticeInit.action?indiSearch.indiCycleType=1",
+			"leaf" : true
+		}, {
+			"name" : "月监控关注",
+			"pid" : 30101,
+			"id" : 3010102,
+			"url" : "indiNotice/indiNoticeInit.action?indiSearch.indiCycleType=3",
+			"leaf" : true
+		}]
+	}, {
+		"name" : "实时指标监控",
+		"pid" : 301,
+		"id" : 30102,
+		"allowDrag" : false,
+		"children" : [{
+					"name" : "12580",
+					"pid" : 30102,
+					"id" : "12",
+					"url" : "realtime/initRealtimeIndiAll.action?busiId=12",
+					"leaf" : true
+				}, {
+					"name" : "139邮箱",
+					"pid" : 30102,
+					"id" : "13",
+					"url" : "realtime/initRealtimeIndiAll.action?busiId=13",
+					"leaf" : true
+				}, {
+					"name" : "手机报",
+					"pid" : 30102,
+					"id" : "14",
+					"url" : "realtime/initRealtimeIndiAll.action?busiId=14",
+					"leaf" : true
+				}]
+	}, {
+		"name" : "指标日监控",
+		"pid" : 301,
+		"id" : 30103,
+		"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=#",
+		"allowDrag" : false,
+		"children" : [{
+			"name" : "MobileMarket",
+			"pid" : 30103,
+			"id" : 3010301,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=73",
+			"leaf" : true
+		}, {
+			"name" : "手机阅读平台",
+			"pid" : 30103,
+			"id" : 3010302,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=58",
+			"leaf" : true
+		}, {
+			"name" : "手机阅读一级",
+			"pid" : 30103,
+			"id" : 3010351,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=93",
+			"leaf" : true
+		}, {
+			"name" : "手机钱包商户",
+			"pid" : 30103,
+			"id" : 3010303,
+			"url" : "special/iniPhoneWallet.action?type=1",
+			"leaf" : true
+		}, {
+			"name" : "飞信",
+			"pid" : 30103,
+			"id" : 3010304,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=10",
+			"leaf" : true
+		}, {
+			"name" : "手机支付平台",
+			"pid" : 30103,
+			"id" : 3010305,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=47",
+			"leaf" : true
+		}, {
+			"name" : "手机支付一级",
+			"pid" : 30103,
+			"id" : 3010350,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=92",
+			"leaf" : true
+		}, {
+			"name" : "彩铃",
+			"pid" : 30103,
+			"id" : 3010306,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=11",
+			"leaf" : true
+		}, {
+			"name" : "12580",
+			"pid" : 30103,
+			"id" : 3010307,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=12",
+			"leaf" : true
+		}, {
+			"name" : "139邮箱",
+			"pid" : 30103,
+			"id" : 3010308,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=13",
+			"leaf" : true
+		}, {
+			"name" : "手机报",
+			"pid" : 30103,
+			"id" : 3010309,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=14",
+			"leaf" : true
+		}, {
+			"name" : "中央音乐平台",
+			"pid" : 30103,
+			"id" : 3010310,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=15",
+			"leaf" : true
+		}, {
+			"name" : "DM",
+			"pid" : 30103,
+			"id" : 3010311,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=16",
+			"leaf" : true
+		}, {
+			"name" : "来电提醒",
+			"pid" : 30103,
+			"id" : 3010312,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=17",
+			"leaf" : true
+		}, {
+			"name" : "炫彩天气",
+			"pid" : 30103,
+			"id" : 3010313,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=18",
+			"leaf" : true
+		}, {
+			"name" : "手机证券",
+			"pid" : 30103,
+			"id" : 3010314,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=51",
+			"leaf" : true
+		}, {
+			"name" : "手机视频",
+			"pid" : 30103,
+			"id" : 3010315,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=49",
+			"leaf" : true
+		}, {
+			"name" : "手机导航",
+			"pid" : 30103,
+			"id" : 3010316,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=45",
+			"leaf" : true
+		}, {
+			"name" : "手机彩票",
+			"pid" : 30103,
+			"id" : 3010317,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=62",
+			"leaf" : true
+		}, {
+			"name" : "手机上网",
+			"pid" : 30103,
+			"id" : 3010318,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=48",
+			"leaf" : true
+		}, {
+			"name" : "GPRS内容计费",
+			"pid" : 30103,
+			"id" : 3010319,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=77",
+			"leaf" : true
+		}, {
+			"name" : "短信转转赢",
+			"pid" : 30103,
+			"id" : 3010320,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=37",
+			"leaf" : true
+		}, {
+			"name" : "移动气象",
+			"pid" : 30103,
+			"id" : 3010321,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=55",
+			"leaf" : true
+		}, {
+			"name" : "手机游戏",
+			"pid" : 30103,
+			"id" : 3010322,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=50",
+			"leaf" : true
+		}, {
+			"name" : "号薄管家",
+			"pid" : 30103,
+			"id" : 3010323,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=38",
+			"leaf" : true
+		}, {
+			"name" : "WLAN套餐类",
+			"pid" : 30103,
+			"id" : 3010324,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=30",
+			"leaf" : true
+		}, {
+			"name" : "WLAN(新)",
+			"pid" : 30103,
+			"id" : 3010325,
+			"url" : "wlanAnalyze/iniWlanMonitor.action?type=0&indiSearch.indiCycleType=1&analyzeId=1",
+			"leaf" : true
+		}, {
+			"name" : "财信通",
+			"pid" : 30103,
+			"id" : 3010326,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=31",
+			"leaf" : true
+		}, {
+			"name" : "彩信",
+			"pid" : 30103,
+			"id" : 3010327,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=32",
+			"leaf" : true
+		}, {
+			"name" : "点对点彩信",
+			"pid" : 30103,
+			"id" : 3010328,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=33",
+			"leaf" : true
+		}, {
+			"name" : "点对点短信",
+			"pid" : 30103,
+			"id" : 3010329,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=34",
+			"leaf" : true
+		}, {
+			"name" : "短信",
+			"pid" : 30103,
+			"id" : 3010330,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=35",
+			"leaf" : true
+		}, {
+			"name" : "短信增值业务",
+			"pid" : 30103,
+			"id" : 3010331,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=36",
+			"leaf" : true
+		}, {
+			"name" : "呼叫转移",
+			"pid" : 30103,
+			"id" : 3010332,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=39",
+			"leaf" : true
+		}, {
+			"name" : "梦网彩信",
+			"pid" : 30103,
+			"id" : 3010333,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=41",
+			"leaf" : true
+		}, {
+			"name" : "梦网短信",
+			"pid" : 30103,
+			"id" : 3010334,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=42",
+			"leaf" : true
+		}, {
+			"name" : "手机地图",
+			"pid" : 30103,
+			"id" : 3010335,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=46",
+			"leaf" : true
+		}, {
+			"name" : "随e行",
+			"pid" : 30103,
+			"id" : 3010336,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=52",
+			"leaf" : true
+		}, {
+			"name" : "信息管家",
+			"pid" : 30103,
+			"id" : 3010337,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=53",
+			"leaf" : true
+		}, {
+			"name" : "移动秘书",
+			"pid" : 30103,
+			"id" : 3010338,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=54",
+			"leaf" : true
+		}, {
+			"name" : "语音杂志",
+			"pid" : 30103,
+			"id" : 3010339,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=56",
+			"leaf" : true
+		}, {
+			"name" : "手机电视",
+			"pid" : 30103,
+			"id" : 3010340,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=66",
+			"leaf" : true
+		}, {
+			"name" : "BB个人版",
+			"pid" : 30103,
+			"id" : 3010341,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=78",
+			"leaf" : true
+		}, {
+			"name" : "快讯",
+			"pid" : 30103,
+			"id" : 3010342,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=79",
+			"leaf" : true
+		}, {
+			"name" : "手机医疗",
+			"pid" : 30103,
+			"id" : 3010343,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=80",
+			"leaf" : true
+		}, {
+			"name" : "手机商界",
+			"pid" : 30103,
+			"id" : 3010344,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=87",
+			"leaf" : true
+		}, {
+			"name" : "冲浪助手",
+			"pid" : 30103,
+			"id" : 3010345,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=88",
+			"leaf" : true
+		}, {
+			"name" : "飞信短信在线",
+			"pid" : 30103,
+			"id" : 3010346,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=86",
+			"leaf" : true
+		}, {
+			"name" : "139社区",
+			"pid" : 30103,
+			"id" : 3010347,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=89",
+			"leaf" : true
+		}, {
+			"name" : "手机动漫",
+			"pid" : 30103,
+			"id" : 3010348,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=1&indiSearch.busiType=90",
+			"leaf" : true
+		}]
+	}, {
+		"name" : "指标月监控",
+		"pid" : 301,
+		"id" : 30104,
+		"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=#",
+		"allowDrag" : false,
+		"children" : [{
+			"name" : "MobileMarket",
+			"pid" : 30104,
+			"id" : 3010401,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=73",
+			"leaf" : true
+		}, {
+			"name" : "手机阅读平台",
+			"pid" : 30104,
+			"id" : 3010402,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=58",
+			"leaf" : true
+		}, {
+			"name" : "手机阅读一级",
+			"pid" : 30104,
+			"id" : 3010450,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=93",
+			"leaf" : true
+		}, {
+			"name" : "手机钱包商户",
+			"pid" : 30104,
+			"id" : 3010403,
+			"url" : "special/iniPhoneWallet.action?type=3",
+			"leaf" : true
+		}, {
+			"name" : "飞信",
+			"pid" : 30104,
+			"id" : 3010404,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=10",
+			"leaf" : true
+		}, {
+			"name" : "手机支付平台",
+			"pid" : 30104,
+			"id" : 3010405,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=47",
+			"leaf" : true
+		}, {
+			"name" : "手机支付一级",
+			"pid" : 30104,
+			"id" : 3010449,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=92",
+			"leaf" : true
+		}, {
+			"name" : "彩铃",
+			"pid" : 30104,
+			"id" : 3010406,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=11",
+			"leaf" : true
+		}, {
+			"name" : "12580",
+			"pid" : 30104,
+			"id" : 3010407,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=12",
+			"leaf" : true
+		}, {
+			"name" : "139邮箱",
+			"pid" : 30104,
+			"id" : 3010408,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=13",
+			"leaf" : true
+		}, {
+			"name" : "手机报",
+			"pid" : 30104,
+			"id" : 3010409,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=14",
+			"leaf" : true
+		}, {
+			"name" : "中央音乐平台",
+			"pid" : 30104,
+			"id" : 3010410,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=15",
+			"leaf" : true
+		}, {
+			"name" : "DM",
+			"pid" : 30104,
+			"id" : 3010411,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=16",
+			"leaf" : true
+		}, {
+			"name" : "来电提醒",
+			"pid" : 30104,
+			"id" : 3010412,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=17",
+			"leaf" : true
+		}, {
+			"name" : "炫彩天气",
+			"pid" : 30104,
+			"id" : 3010413,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=18",
+			"leaf" : true
+		}, {
+			"name" : "手机证券",
+			"pid" : 30104,
+			"id" : 3010414,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=51",
+			"leaf" : true
+		}, {
+			"name" : "手机视频",
+			"pid" : 30104,
+			"id" : 3010415,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=49",
+			"leaf" : true
+		}, {
+			"name" : "手机导航",
+			"pid" : 30104,
+			"id" : 3010416,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=45",
+			"leaf" : true
+		}, {
+			"name" : "手机彩票",
+			"pid" : 30104,
+			"id" : 3010417,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=62",
+			"leaf" : true
+		}, {
+			"name" : "手机上网",
+			"pid" : 30104,
+			"id" : 3010418,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=48",
+			"leaf" : true
+		}, {
+			"name" : "短信转转赢",
+			"pid" : 30104,
+			"id" : 3010419,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=37",
+			"leaf" : true
+		}, {
+			"name" : "移动气象",
+			"pid" : 30104,
+			"id" : 3010420,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=55",
+			"leaf" : true
+		}, {
+			"name" : "手机游戏",
+			"pid" : 30104,
+			"id" : 3010421,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=50",
+			"leaf" : true
+		}, {
+			"name" : "号薄管家",
+			"pid" : 30104,
+			"id" : 3010422,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=38",
+			"leaf" : true
+		}, {
+			"name" : "WLAN套餐类",
+			"pid" : 30104,
+			"id" : 3010423,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=30",
+			"leaf" : true
+		}, {
+			"name" : "WLAN(新)",
+			"pid" : 30104,
+			"id" : 3010424,
+			"url" : "wlanAnalyze/iniWlanMonitor.action?type=0&indiSearch.indiCycleType=3&analyzeId=1",
+			"leaf" : true
+		}, {
+			"name" : "财信通",
+			"pid" : 30104,
+			"id" : 3010425,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=31",
+			"leaf" : true
+		}, {
+			"name" : "彩信",
+			"pid" : 30104,
+			"id" : 3010426,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=32",
+			"leaf" : true
+		}, {
+			"name" : "点对点彩信",
+			"pid" : 30104,
+			"id" : 3010427,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=33",
+			"leaf" : true
+		}, {
+			"name" : "点对点短信",
+			"pid" : 30104,
+			"id" : 3010428,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=34",
+			"leaf" : true
+		}, {
+			"name" : "短信",
+			"pid" : 30104,
+			"id" : 3010429,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=35",
+			"leaf" : true
+		}, {
+			"name" : "短信增值业务",
+			"pid" : 30104,
+			"id" : 3010430,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=36",
+			"leaf" : true
+		}, {
+			"name" : "呼叫转移",
+			"pid" : 30104,
+			"id" : 3010431,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=39",
+			"leaf" : true
+		}, {
+			"name" : "梦网彩信",
+			"pid" : 30104,
+			"id" : 3010432,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=41",
+			"leaf" : true
+		}, {
+			"name" : "梦网短信",
+			"pid" : 30104,
+			"id" : 3010433,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=42",
+			"leaf" : true
+		}, {
+			"name" : "手机地图",
+			"pid" : 30104,
+			"id" : 3010434,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=46",
+			"leaf" : true
+		}, {
+			"name" : "随e行",
+			"pid" : 30104,
+			"id" : 3010435,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=52",
+			"leaf" : true
+		}, {
+			"name" : "信息管家",
+			"pid" : 30104,
+			"id" : 3010436,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=53",
+			"leaf" : true
+		}, {
+			"name" : "移动秘书",
+			"pid" : 30104,
+			"id" : 3010437,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=54",
+			"leaf" : true
+		}, {
+			"name" : "语音杂志",
+			"pid" : 30104,
+			"id" : 3010438,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=56",
+			"leaf" : true
+		}, {
+			"name" : "手机电视",
+			"pid" : 30104,
+			"id" : 3010439,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=66",
+			"leaf" : true
+		}, {
+			"name" : "BB个人版",
+			"pid" : 30104,
+			"id" : 3010440,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=78",
+			"leaf" : true
+		}, {
+			"name" : "快讯",
+			"pid" : 30104,
+			"id" : 3010441,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=79",
+			"leaf" : true
+		}, {
+			"name" : "手机医疗",
+			"pid" : 30104,
+			"id" : 3010442,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=80",
+			"leaf" : true
+		}, {
+			"name" : "手机商界",
+			"pid" : 30104,
+			"id" : 3010443,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=87",
+			"leaf" : true
+		}, {
+			"name" : "冲浪助手",
+			"pid" : 30104,
+			"id" : 3010444,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=88",
+			"leaf" : true
+		}, {
+			"name" : "飞信短信在线",
+			"pid" : 30104,
+			"id" : 3010445,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=86",
+			"leaf" : true
+		}, {
+			"name" : "139社区",
+			"pid" : 30104,
+			"id" : 3010446,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=89",
+			"leaf" : true
+		}, {
+			"name" : "手机动漫",
+			"pid" : 30104,
+			"id" : 3010447,
+			"url" : "indiWatch/indiWatchinit.action?indiSearch.indiCycleType=3&indiSearch.busiType=90",
+			"leaf" : true
+		}]
+	}, {
+		"name" : "指标查询",
+		"pid" : 301,
+		"id" : 30105,
+		"url" : "indi/initIndiQuery.action",
+		"leaf" : true
+	}, {
+		"name" : "定制终端销量",
+		"pid" : 301,
+		"id" : 30111,
+		"url" : "http://bass.sh.cmcc/olap/jpivot/jpivot.html?mdxid=4908",
+		"leaf" : true
+	}]
+}, {
+	"name" : "异常受理",
+	"pid" : 3,
+	"id" : 308,
+	"allowDrag" : false,
+	"children" : [{
+				"name" : "异常受理监控",
+				"pid" : 308,
+				"id" : 30801,
+				"url" : "abnor/initIndiAbnor.action",
+				"leaf" : true
+			}]
+}, {
+	"name" : "监控告警管理",
+	"pid" : 3,
+	"id" : 302,
+	"allowDrag" : false,
+	"children" : [{
+				"name" : "告警规则管理",
+				"pid" : 302,
+				"id" : 30201,
+				"url" : "warning/warnRuleManageCollect.action",
+				"leaf" : true
+			}, {
+				"name" : "告警记录管理",
+				"pid" : 302,
+				"id" : 30202,
+				"url" : "warning/warnRecordManageCollect.action",
+				"leaf" : true
+			}]
+}, {
+	"name" : "WAP网关排名",
+	"pid" : 3,
+	"id" : 305,
+	"allowDrag" : false,
+	"children" : [{
+				"name" : "WAP网关排名",
+				"pid" : 305,
+				"id" : 30501,
+				"url" : "busiMonitor/findWapStatistic.action",
+				"leaf" : true
+			}]
+}, {
+	"name" : "监控对象管理",
+	"pid" : 3,
+	"id" : 303,
+	"allowDrag" : false,
+	"children" : [{
+				"name" : "监控指标管理",
+				"pid" : 303,
+				"id" : 30301,
+				"url" : "objManager/initIndiMgr.action",
+				"leaf" : true
+			}, {
+				"name" : "监控指标定制",
+				"pid" : 303,
+				"id" : 30302,
+				"allowDrag" : false,
+				"children" : [{
+							"name" : "关注指标定制",
+							"pid" : 30302,
+							"id" : 3030201,
+							"url" : "indicustomize/initAttentionIndi.action",
+							"leaf" : true
+						}, {
+							"name" : "指标日监控定制",
+							"pid" : 30302,
+							"id" : 3030203,
+							"url" : "indicustomize/initCycleIndi.action?indiStatCycle=1",
+							"leaf" : true
+						}, {
+							"name" : "指标月监控定制",
+							"pid" : 30302,
+							"id" : 3030204,
+							"url" : "indicustomize/initCycleIndi.action?indiStatCycle=2",
+							"leaf" : true
+						}, {
+							"name" : "实时指标定制",
+							"pid" : 30302,
+							"id" : 3030202,
+							"url" : "indicustomize/initRealtimeIndi.action",
+							"leaf" : true
+						}]
+			}, {
+				"name" : "指标目标设定",
+				"pid" : 303,
+				"id" : 30303,
+				"url" : "objManager/initTargeValue.action",
+				"leaf" : true
+			}]
+}, {
+	"name" : "监控信息共享",
+	"pid" : 3,
+	"id" : 304,
+	"allowDrag" : false,
+	"children" : [{
+				"name" : "日共享",
+				"pid" : 304,
+				"id" : 30401,
+				"url" : "indiShare/initIndiShare.action",
+				"leaf" : true
+			}, {
+				"name" : "月共享",
+				"pid" : 304,
+				"id" : 30402,
+				"url" : "indiShare/initIndiShareMonth.action",
+				"leaf" : true
+			}]
+}]; 
+
+			$(document).ready(function() {
+				$("body").css("background", "#F8F8F8");
+				var _menu = menuJSON;
+				createMenu(_menu,"menuNav");
+			});
+		</script>
+<body>
+		<div id="menuNav" style="width:15%"></div>
+	</body>
+</html>

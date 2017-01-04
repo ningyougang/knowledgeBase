@@ -1,0 +1,44 @@
+<nodes>
+  <node nodeid="" x="34" y="700" title="总体收入分析" content="安徽3月增长率：18.42&&" parentid="" children="9" source="20103.xml" fcType="MSLine" alarmgrade="0">
+    <node nodeid="0" x="284" y="50" title="分区域收入分析" content="收入增长率倒数3名：&&马鞍山 铜陵 淮南&&" parentid="" children="0" source="20103_00n.xml" fcType="MSCombiDY2D"
+    	paraLabelArr="单月收入|累计收入|目标完成情况报表@" paraValueArr="20103_00n.xml|20103_00_01.xml|20103_00_02.xml" alarmgrade="0" 
+    	dimValue="分地市@20103_00n.xml@MSCombiDY2D@true|分品牌@20103_01.xml@MSCombiDY2D@false|话务量分析@20103_03.xml@MSLine@false" showlink="true|true|false"/>
+    <node nodeid="1" x="284" y="150" title="分品牌收入" content="神州行非签约增长率：-8%&&" parentid="" children="1" source="20103_01.xml" fcType="MSCombiDY2D" alarmgrade="1" >
+      <node nodeid="10" x="534" y="150" title="各品牌优惠比例套餐排名" content="暂无数据&&" parentid="1" children="0" source="20103_01_01.xml" fcType="MSCombiDY2D"/>
+    </node>
+    <node nodeid="2" x="284" y="250" title="二级账目收入明细情况" content="收入环比增长率倒数3名：&&阜阳 亳州 安庆" parentid="" children="1" source="20103_02.xml" fcType="MSCombiDY2D"
+    			paraLabelArr="二级账目总收入|语音收入|增值业务收入|月租收入|其他收入" paraValueArr="20103_02.xml|20103_02_01.xml|20103_02_02.xml|20103_02_03.xml|20103_02_04.xml">
+      <node nodeid="20" x="534" y="250" title="三级账目收入明细" content="暂无数据&&" parentid="2" children="0" fcType="MSCombiDY2D"/>
+    </node>
+    <node nodeid="3" x="284" y="400" title="话务量情况分析" content="3月话务量增长率：33.35%&&" parentid="" children="2" source="20103_03.xml" fcType="MSLine">
+      <node nodeid="30" x="534" y="350" title="分区域分析" content="话务量同比增长率倒数3名：&&淮南 马鞍山 阜阳&&" parentid="3" children="0"  source="20103_03_01.xml" fcType="MSCombiDY2D"/>
+      <node nodeid="31" x="534" y="450" title="有效话务分析" content="暂无数据&&" parentid="3" children="0"  fcType="MSLine"/>
+    </node>
+    <node nodeid="4" x="284" y="550" title="数据业务使用流量分析" content="3月GPRS增长率为：27.04%&&" parentid="" children="1" source="20103_04.xml" fcType="MSCombiDY2D">
+      <node nodeid="40" x="534" y="550" title="分地域分析" content="GPRS同比增长率倒数3名：铜陵 淮北 阜阳&&" parentid="4" children="0" source="20103_04_01.xml" fcType="MSCombiDY2D" alarmgrade="1" />
+    </node>
+    <node nodeid="5" x="284" y="700" title="ARPU变动情况分析" content="ARPU3月&&" parentid="" children="2" fcType="MSCombiDY2D" source="20103_05.xml">
+      <node nodeid="50" x="534" y="650" title="分地域分析" content="暂无数据&&" parentid="5" children="0" fcType="MSCombiDY2D"/>
+      <node nodeid="51" x="534" y="750" title="分品牌分析" content="暂无数据&&" parentid="5" children="0" fcType="MSCombiDY2D"/>
+    </node>
+    <node nodeid="6" x="284" y="950" title="MOU分析" content="MOU同比倒数3名：&&宿州 阜阳 安庆&&" parentid="" children="3" source="20103_06.xml" fcType="MSCombiDY2D" alarmgrade="1">
+      <node nodeid="60" x="534" y="850" title="分地域分析" content="暂无数据&&" parentid="6" children="0" fcType="MSCombiDY2D"/>
+      <node nodeid="61" x="534" y="950" title="分品牌分析" content="暂无数据&&" parentid="6" children="0" fcType="MSCombiDY2D"/>
+      <node nodeid="62" x="534" y="1050" title="MOU月趋势分析" content="暂无数据&&" parentid="6" children="0" fcType="MSCombiDY2D"/>
+    </node>
+    <node nodeid="7" x="284" y="1150" title="新增用户收入" content="3月新增用户占比：4.13%&&" parentid="" children="1" source="20103_07.xml" fcType="MSCombiDY2D">
+      <node nodeid="70" x="534" y="1150" title="分区域分析" content="新增用户占比倒数3名：&&淮南 滁州 淮北&&" parentid="7" children="0" source="20103_07_01.xml" fcType="MSCombiDY2D" alarmgrade="0"/>
+    </node>
+    <node nodeid="8" x="284" y="1350" title="存量用户收入" content="3月存量用户占比：94.25%&&" parentid="" children="3" fcType="MSCombiDY2D" source="20103_08.xml" >
+      <node nodeid="80" x="534" y="1250" title="分区域分析" content="暂无数据&&" parentid="8" children="0" fcType="MSCombiDY2D"/>
+      <node nodeid="81" x="534" y="1350" title="离网减少收入" content="存量用户离网增长率占比前3名：&&马鞍山 黄山 池州&&" parentid="8" children="1" fcType="MSCombiDY2D" source="20103_08_01.xml">
+      		<node nodeid="810" x="784" y="1350" title="分用户类型分析" content="暂无数据&&" parentid="81" children="0" fcType="MSCombiDY2D"/>
+      </node>
+      <node nodeid="82" x="534" y="1550" title="收入降低用户情况" content="暂无数据&&" parentid="8" children="3" fcType="MSCombiDY2D" source="20103_09.xml">
+      		<node nodeid="820" x="784" y="1450" title="分用户类型分析" content="暂无数据&&" parentid="82" children="0" fcType="MSCombiDY2D"/>
+      		<node nodeid="821" x="784" y="1550" title="零次用户数情况分析" content="暂无数据&&" parentid="82" children="0" fcType="MSCombiDY2D"/>
+      		<node nodeid="822" x="784" y="1650" title="MOU降低用户情况" content="暂无数据&&" parentid="82" children="0" fcType="MSCombiDY2D"/>
+      </node>
+    </node>
+  </node>
+</nodes>

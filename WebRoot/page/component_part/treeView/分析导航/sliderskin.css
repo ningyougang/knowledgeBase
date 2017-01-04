@@ -1,0 +1,7 @@
+
+HSlider
+{
+	thumbSkin: Embed(skinClass="Slider_thumbSkin");
+	trackHighlightSkin: Embed(skinClass="Slider_trackHighlightSkin");
+	trackSkin: Embed(skinClass="Slider_trackSkin");
+}

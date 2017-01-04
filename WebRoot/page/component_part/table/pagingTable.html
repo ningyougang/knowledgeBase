@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>分页表格</title>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script>
+			SyntaxHighlighter.all();
+		</script>
+	</head>
+	<body>
+		<h1>
+			分页表格--效果展示(静态图片)
+		</h1>
+		<div class="effect">
+			<div id="grid-example">
+				<img src="images/b15afcad.bmp.bmp"></img>
+			</div>
+		</div>
+		<h1>
+			使用解释
+		</h1>
+		<p>
+			使用(页面元素)
+		</p>
+		<pre class="brush:html;">
+			&lt;div id="sysAfficheEXT"&gt;&lt;/div&gt;
+		</pre>
+		<p>
+			使用(Json数据)
+		</p>
+		<pre class="brush:js;">
+			{
+				"total":15,
+				"root":[{
+					"beginDate":{"date":"2009-07-16 00:00"},
+					"channelId":0,
+					"channelIds":"",
+					"content":"VGOP系统数深功能迁移已经开始，请大家在迁移的过程中做好自测工作，如果有改动，联系后台人员确认表结构",
+					"createDate":null,
+					"id":1,
+					"operator":-999,
+					"overDate":{"date":"2010-01-20 00:00"},
+					"title":"公告1",
+					"type":1
+					}...]
+			}
+		</pre>
+		<p>
+			使用(JavaScript代码)
+		</p>
+		<pre class="brush:js;">	
+			Ext.onReady(function() {
+				Ext.QuickTips.init();
+				var sm = new Ext.grid.CheckboxSelectionModel({singleSelect:false});
+				//定义后台JSON数据的阅读器
+				//需要关注的是totalProperty和root两个属性
+				//totalProperty表示总记录数
+				//root对象表示具体的数据
+				var reader = new Ext.data.JsonReader( //阅读器
+					{totalProperty:'total',root : 'root'}, 
+					[{
+						name : 'id'
+					},{
+						name : 'title'
+					},{
+						name : 'content'
+					},{
+						name : 'beginDate.date'
+					},{
+						name : 'overDate.date'
+					},{
+						name : 'type'
+					},{
+						name : 'channelId'
+					}]
+				);
+				//此处定义store
+				var store=new Ext.data.Store({
+					url : 'system/queryAfficheAjax.action',
+					reader : reader
+				});
+				store.baseParams['sysAffiche.type'] = -999;
+				var cm = new Ext.grid.ColumnModel([//表头
+					{
+						header : "标识",
+						width : 20,
+						sortable : true,
+						dataIndex : 'id'
+					},{
+						header : "公告标题",
+						width : 20,
+						sortable : true,
+						dataIndex : 'title'
+					},{
+						header : "公告内容",
+						width : 100,
+						sortable : true,
+						dataIndex : 'content',
+						css : 'overflow: hidden; text-overflow:ellipsis;',
+						renderer : function(val) {
+							return "<span style=\ "cursor:pointer\"  title=\""+val+"\">" + val + "</span>";
+						}
+					},{
+						header : "生效开始日期",
+						width : 20,
+						sortable : true,
+						dataIndex : 'beginDate.date'
+					},{
+						header : "生效结束日期",
+						width : 20,
+						sortable : true,
+						dataIndex : 'overDate.date'
+					},{
+						header : "公告类型",
+						width : 20,
+						sortable : true,
+						dataIndex : 'type',
+						renderer : function(val) {
+							return typeCN[val] != undefined ? typeCN[val] : val;
+						}
+					},{
+						header : "受理渠道属地",
+						width : 20,
+						sortable : true,
+						dataIndex : 'channelId',
+						renderer : function(val) {
+							return channelCn[val] != undefined ? channelCn[val] : "所有受理渠道属地";
+						}
+					}
+				]);
+			    var afficheTable = new Ext.grid.GridPanel({ //表格内容
+					id : 'afficheTable',
+					store : store,
+					cm : cm,
+					loadMask : true,
+					trackMouseOver : false,
+					viewConfig : {
+						forceFit : true
+					},
+					bbar:new Ext.PagingToolbar({
+						pageSize : 10,
+						displayInfo : true,
+						store:store,
+						displayMsg : '显示第: {0} 条到 {1} 条记录，一共 {2}条',
+						emptyMsg : '无数据'
+					}),
+					autoWidth:false,
+					//autoHeight : true,
+					height : 300,
+					renderTo : 'sysAfficheEXT'
+				});
+				//afficheTable加载时绑定rowclick事件
+				afficheTable.on('rowclick',function(grid, rowIndex, e){
+					var store = grid.getStore();
+					var row = store.data.items[rowIndex];
+					//参数bein
+					$('#afficheId').val(row.get("id"));
+				}); 
+				store.load({params:{limit:10,start:0}});
+				cm.setHidden(0,true);
+			});
+		</pre>
+	</body>
+</html>

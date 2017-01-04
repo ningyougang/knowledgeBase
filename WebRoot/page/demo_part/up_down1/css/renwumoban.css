@@ -1,0 +1,128 @@
+ /* 标题 */
+.layout_title{
+	background:url(../images/layout_title.jpg) repeat-x 0 0;
+	border-left:1px solid #609bd2;
+	border-right:1px solid #609bd2;
+	clear:both;
+	height:24px;
+	overflow:hidden;
+}
+/* 标题文字 */
+.layout_title h2{    
+	background:url(../images/title_icon.gif) no-repeat 3px 6px;
+	color:#fff;
+	line-height:24px;
+	text-indent:20px;
+	float:left;
+}
+/* 表格 */
+.blue_table{
+	border-collapse:collapse;
+	font-family:Arial,  宋体;
+	margin:0px auto;	
+	width:99.5%;
+}
+.blue_table th,td{
+	border:1px solid #dcdcdc;
+	border-top:none;
+	line-height:22px;
+	padding-left:4px;
+	padding-right:4px;
+	text-align:left;
+}
+.blue_table th{
+	background-color:#F2F4B9;
+}
+
+.blue_table td{
+	color:#555555;
+}
+.blue_table{
+    text-align:right;
+}
+.table_name{
+	width:90px;
+}
+/* 查询按钮 */
+.chaxun_btn{
+	background:url(../images/chaxun_btn.gif) no-repeat;
+	display:block;
+	height:29px;
+	width:64px;
+	margin:2px auto;
+}
+/* 集团价值左右布局 */
+.layout_chart{
+	clear:both;
+	margin:2px auto;
+}
+.layout_left{
+	float:left;
+	width:50%;
+}
+.layout_right{
+	float:right;
+	width:49.5%;
+}
+
+.little_title{
+	background:url(../images/little_title.jpg) no-repeat;
+	color:#fff;
+	height:26px;
+	line-height:28px;
+	text-indent:14px;
+	overflow:hidden;
+	width:184px;
+}
+.layout_border{
+	border:1px solid #e7e7e7;
+	min-height:100px;
+}
+.clear_both{
+	clear:both;
+}
+
+/******************** tab title **********************/
+.tab_title{
+    width:99.5%;
+	border-bottom:1px solid #5e97ca;
+	clear:both;
+    height:25px;
+	line-height:25px;
+	overflow:hidden;
+}
+.tab_title p{
+	float:right;
+	margin-right:20px;
+	width:atuo;
+	z-index:999;
+}
+.tab_title li{
+	margin-right:1px;
+	padding:0;
+	display:block;
+	float:left;
+	margin-bottom:-1px;
+}
+.tab_title a{
+	float:left;
+	background:url(../images/tab_left_bg2.jpg) no-repeat 0 0;
+	padding-left:8px;
+	text-decoration:none;
+}
+.tab_title a:hover{
+	background:url(../images/tab_left_bg2.jpg) no-repeat 0 -25px;
+}
+.tab_title a span{
+	display:block;
+	background:url(../images/tab_right_bg2.jpg) no-repeat 100% 0;
+	padding:2px 20px 3px 19px;
+	color:#1f376d;
+}
+.tab_title a span:hover{
+	background:url(../images/tab_right_bg2.jpg) no-repeat 100% -25px;
+}
+.tab_title a.tbt {background-position:0 -25px;color:#1f376d; border:none;}
+.tab_title a.tbt span {background-position:100% -25px;color:#000;border:none; font-weight:bold;}
+
+

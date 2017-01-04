@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>java远程调用linux-shell</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>SSH协议</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+1、什么是SSH
+SSH是英文Secure Shell的简写形式。通过使用SSH，你可以把所有传输的数据进行加密，这样"中间人"这种攻击方式就不可能实现了，
+而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。
+SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的"通道"。
+
+2、SSH协议的内容
+SSH协议是建立在应用层和传输层基础上的安全协议，它主要由以下三部分组成，共同实现SSH的安全保密机制。
+
+2.1传输层协议，它提供诸如认证、信任和完整性检验等安全措施，此外它还可以任意地提供数据压缩功能。
+通常情况下，这些传输层协议都建立在面向连接的TCP数据流之上。
+2.2用户认证协议层，用来实现服务器的跟客户端用户之间的身份认证，它运行在传输层协议之上。
+2.3连接协议层，分配多个加密通道至一些逻辑通道上，它运行在用户认证层协议之上。
+当安全的传输层连接建立之后，客户端将发送一个服务请求。当用户认证层连接建立之后将发送第二个服务请求。
+这就允许新定义的协议可以和以前的协议共存。连接协议提供可用作多种目的通道，为设置安全交互Shell会话和传输任意的TCP/IP端口和X11连接提供标准方法。
+
+由于协议这块(http、ftp、ssh、soap、tcp等)属于计算机网络的内容，不在做具体描述，具体资料可以到网上查阅资料
+
+3.已经实施的适用场合.
+A主机通过ssh协议(默认端口22)远程登录到主机B(linux环境)，执行主机B上的shell脚本(前提:需要B主机开启ssh服务)
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>第三方开源组件介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+Ganymed库:ganymed-ssh2-build210.jar
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>java方法预览</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+ /**
+* 构造方法(ip、userName、password)、端口默认22
+* @param ipAddr IP地址
+* @param userName 用户名
+* @param password 密码
+* @param charset 字符集,如"utf-8"
+*/
+ public RemoteShellTool(String ipAddr, String userName, String password,String charset)
+
+/**
+*登录远程Linux主机(默认端口22)
+*@return boolean 是否登录成功
+*@throws IOException
+*/
+public boolean login() throws IOException
+
+/**
+* 执行Shell脚本或命令
+*@param cmds 命令行序列 如"/code/etl/bin/ftp_file.sh 参数a 参数b 参数c ..."
+*@return 执行结果反馈
+*/
+public String exec(String cmds)
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>在ganymed-ssh2-build210.jar上封装后的java代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+package com.asiainfo.base.util;
+
+
+import java.io.IOException; 
+import java.io.InputStream; 
+import java.nio.charset.Charset; 
+import ch.ethz.ssh2.Connection; 
+import ch.ethz.ssh2.Session; 
+
+/** 
+* 远程Shell脚本执行工具 
+*/ 
+
+public class RemoteShellTool {
+    private Connection conn;
+    private String ipAddr;
+    private String charset = Charset.defaultCharset().toString();
+    private String userName;
+    private String password;
+    public RemoteShellTool(){};
+    
+    /**
+     * 构造方法(ip、userName、password)、端口默认22
+     * @param ipAddr IP地址
+     * @param userName 用户名
+     * @param password 密码
+     * @param charset 字符集,如"utf-8"
+     */
+    public RemoteShellTool(String ipAddr, String userName, String password,String charset) {
+        this.ipAddr = ipAddr;
+        this.userName = userName;
+        this.password = password;
+        if (charset != null)
+            this.charset = charset;
+    }
+
+    /**
+     *登录远程Linux主机(默认端口22)
+     *@return boolean 是否登录成功
+     *@throws IOException
+     */
+    public boolean login() throws IOException {
+        conn = new Connection(ipAddr);
+        conn.connect(); // 连接
+        return conn.authenticateWithPassword(userName, password); // 认证
+    }
+
+    /**
+     * 执行Shell脚本或命令
+     *@param cmds 命令行序列 如"/code/etl/bin/ftp_file.sh 参数a 参数b 参数c ..."
+     *@return 执行结果反馈
+     */
+    public String exec(String cmds){
+        InputStream in = null;
+        String result = "";
+        try {
+            if (this.login()) {
+                Session session = conn.openSession(); // 打开一个会话
+                session.execCommand(cmds);
+                in = session.getStdout();
+                result = this.processStdout(in, this.charset);
+                conn.close();
+            }else {
+                System.out.println("连接失败");
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return result;
+    }
+    
+    /**
+     *解析流获取字符串信息
+     *@param in 输入流对象
+     *@param charset 字符集
+     *@return 返回标准输出
+     */
+
+    private String processStdout(InputStream in, String charset) {
+        byte[] buf = new byte[1024];
+        StringBuffer sb = new StringBuffer();
+        try {
+            while (in.read(buf) != -1) {
+                sb.append(new String(buf, charset));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+    
+    public static void main(String args[]){
+        RemoteShellTool rt = new RemoteShellTool("192.168.0.41","root","****","utf-8");
+        String cmds= "/opt/ccs/bin/shutdown.sh 参数a 参数b";
+        rt.exec(cmds);
+    }
+}
+
+
+</pre>
+</div>
+</body>
+</html>

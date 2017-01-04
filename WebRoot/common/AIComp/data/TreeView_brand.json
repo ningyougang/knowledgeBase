@@ -1,0 +1,25 @@
+[{
+			id : '61001',
+			title : '全球通',
+			val : '',
+			leaf : true,
+			warn : false
+		}, {
+			id : '61002',
+			title : '神州行',
+			val : '',
+			leaf : true,
+			warn : true
+		}, {
+			id : '61003',
+			title : '动感地带',
+			val : '',
+			leaf : true,
+			warn : false
+		}, {
+			id : '61004',
+			title : '其他',
+			val : '',
+			leaf : true,
+			warn : false
+		}]

@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>上查询左表右图</title>
+<style type="text/css">
+body{ font-size:12px;}
+*{ margin:0; padding:0;}
+
+#boTitle{
+    height:24px;
+	line-height:24px;
+	background:url(images/title_repeat_bg.gif) repeat-x 0 0;
+}
+#boTitle h2{
+    font-size:12px;
+	color:#313131;
+	font-weight:normal;
+	background:url(images/title_repeat_bg.gif) no-repeat 10px -98px;
+	text-indent:20px;
+}
+#boSearch{
+    height:24px;
+	background:#f4f4f4;
+	padding-left:10px;
+	line-height:24px;
+	color:#585858;
+}
+
+/* button */
+a.button{
+    background:url(images/btn_bg_l.gif) no-repeat;
+	line-height:20px;
+	text-decoration:none;
+	display:block;
+	float:left;
+	margin-left:12px;
+	margin-right:12px;
+}
+a.button span{
+    background:url(images/btn_bg_r.gif) no-repeat top right;
+	line-height:20px;
+	display:block;
+	text-align:center;
+	word-break:keep-all;
+	padding-left:16px;
+	padding-right:16px;
+	color:#585858;
+}
+a.button:hover span{
+	color:#585858;
+}
+
+
+/* resultTable */
+.resultLeftTable{
+    width:40%;
+	height:400px;
+	overflow:auto;
+	float:left;
+	margin-top:10px;
+	scrollbar-face-color: #fefefe; 
+	scrollbar-shadow-color: #c4cfcd; 
+	scrollbar-highlight-color: #c4cfcd; 
+	scrollbar-3dlight-color: #f6f6f6; 
+	scrollbar-darkshadow-color: #f6f6f6; 
+	scrollbar-track-color: #f6f6f6; 
+	scrollbar-arrow-color: #c4cfcd;	
+}
+.resultTableDetail{
+    width:99%;
+	border:1px solid #aacbee;
+
+}
+.resultTableDetail th{
+    background:url(images/title_repeat_bg.gif) repeat-x 0 -34px;
+	border-bottom:1px solid #aacbee;
+	border-right:1px solid #aacbee;
+	height:22px;
+	font-weight:normal;
+	line-height:22px;
+}
+.resultTableDetail .lastTh{
+	border-right:none;
+}
+.resultTableDetail td{
+	line-height:22px;
+	border-right:1px solid #e2e2e2;
+}
+.evenTr{
+    background:#f1f4f8;
+}
+
+.rightResultTab{
+    width:58%;
+	height:400px;
+	float:left;
+	margin-left:10px;
+	margin-top:10px;
+	border-top:none;
+	clear:right;	
+}
+.rightTabTitle{
+	float:left;
+	padding:0;
+	height:24px;
+	position:relative;
+	z-index:100;
+	border-bottom:none;
+	background:url(images/h-tab_normal_l.gif) left top  no-repeat;
+	margin-right:1px;
+}
+.rightTabTitle a{
+	display:block;
+	line-height:21px;
+	text-decoration:none;
+	float:left;
+	background:url(images/h-tab_normal_r.gif) right top  no-repeat;
+	padding:3px 30px 0;
+	color:#012d50;
+}
+.rightTabTitle.current{
+    background:url(images/h-tab_current_l.gif) left top  no-repeat;
+}
+.rightTabTitle a.current{
+	color:black;
+	background:url(images/h-tab_current_r.gif) right top  no-repeat;
+}
+
+.rightTabDeatil{    
+	border:1px solid #b0cfec;
+	border-bottom:none;
+	clear:both;
+	margin-top:-1px;
+}
+.rightLocal{
+    height:28px;
+	overflow:hidden;
+	line-height:28px;
+	color:#1f376d;
+	text-indent:20px;
+	background:url(images/title_repeat_bg.gif) repeat-x 0 -66px;
+}
+
+.rightTable{
+    width:100%;
+	border-left:none;
+	border-right:none;    
+}
+#boNote{
+    height:38px;
+	width:99%;
+	line-height:38px;
+	clear:both;
+	background-color:#e8eff6;
+	border:1px solid #aacbee;
+	color:#1f376d;
+	text-indent:10px;
+}
+</style>
+</head>
+
+<body>
+<div id="boTitle">
+    <h2>属地化-数据业务分解-日汇总表</h2>
+</div>
+<div id="boSearch">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><select name="日分析"></select></td>
+    <td>&nbsp;</td>
+    <td>日期</td>
+    <td><select name="日期"></select></td>
+    <td>&nbsp;</td>
+    <td>属地</td>
+	<td><select name="属地">
+    </select></td>
+	<td>&nbsp;</td>
+	<td><a class="button" href="#nogo"><span>查询</span></a></td>
+
+  </tr>
+</table>
+</div>
+<div class="resultLeftTable">
+	<table border="0" cellspacing="0" cellpadding="0" class="resultTableDetail">
+	  <tr>
+		<th>指标名称</th>
+		<th>月完成值</th>
+		<th>累计完成值</th>
+		<th>季度完成率</th>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr class="evenTr">
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	  </tr>
+	</table>
+</div>
+
+<div class="rightResultTab">
+	<div class="rightTabTitle current"><a href="#nogo" class="current">趋势分析</a></div>
+	<div class="rightTabTitle"><a href="#nogo">趋势分析</a></div>
+	<div class="rightTabTitle"><a href="#nogo">趋势分析</a></div>
+	<div class="rightTabDeatil">
+		<p class="rightLocal">粘性类业务 > 号薄管家业务趋势分析</p>
+		<p style="text-align:center; margin:10px auto 20px auto;"><img src="images/img.gif" /></p>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="resultTableDetail rightTable">
+			  <tr>
+				<th>东区</th>
+				<th>南区</th>
+				<th>西区</th>
+				<th>北区</th>
+				<th>东区</th>
+				<th>南区</th>
+				<th>西区</th>
+				<th>北区</th>
+			  </tr>
+			  <tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			  </tr>
+			</table>
+			<table border="0" cellspacing="0" cellpadding="0" class="resultTableDetail rightTable">
+			  <tr>
+				<th>东区</th>
+				<th>南区</th>
+				<th>西区</th>
+				<th>北区</th>
+				<th>东区</th>
+				<th>南区</th>
+				<th>西区</th>
+				<th>北区</th>
+			  </tr>
+			  <tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			  </tr>
+			</table>
+	</div>
+</div>
+
+<div id="boNote">
+注：由于粘性业务数据是从业务平台获取，会比其他数据晚两天出来，如：周五才能看到周二的数据。
+</div>
+
+</body>
+</html>

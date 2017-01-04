@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		
+<link rel="stylesheet" type="text/css" href="../../../common/css/cssreset.css" />
+<link rel="stylesheet" type="text/css" href="../../../common/jquery/jquery-ui-1.7.custom.css" /> 
+
+<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="../../../common/jquery/jquery-ui.min.js"></script>      
+
+<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+
+<script>    
+  $(function() {  
+    $("#example").tabs({selected:2});
+   SyntaxHighlighter.all();
+
+  });   
+  </script>
+		
+	
+</head>
+
+<body>
+<h1>
+基于最基础的jquery的tab页-效果演示
+</h1>
+<div id="example">  
+	<ul>  
+		<li><a href=" "><span>tabA</span></a></li>  
+		<li><a href=" "><span>tabB</span></a></li>  
+		<li><a href=" "><span>tabC</span></a></li>  
+	</ul>  
+</div>  
+<h1>
+使用解释
+</h1>
+<pre class="brush:js;"> 
+jquery ui tabs详解(中文)
+1 属性
+1.11 ajaxOptions,当选项卡加载内容时，添加一个ajax选项。只有ajax时，添加的ajax选项才起作用。默认值为null。上面的例子中，
+添加了beforeSend和success两个选项。ajax还有一些选项请参考jquery ajax，这里不做详解。。。
+1.12 初始化设置例：请注意，$('.selector')是tabs 的类名，在本例中.selector=#tabs,以后不再说明。
+$('.selector').tabs({ ajaxOptions: { async: false } });//这里是将异步改为了同步。
+1.13 初始化后的参数获取和设置：请注意：getter为获取，发音：盖特儿，setter为设置，发音：塞特儿，以后不再说明。
+//getter
+var ajaxOptions = $('.selector').tabs('option', 'ajaxOptions');
+//setter
+$('.selector').tabs('option', 'ajaxOptions', { async: false });
+
+1.21 cache 默认为false，无缓存。这个选项用于ajax调用，简单的说无缓存，就是每次发送请求都刷新；有缓存就是第一次请求刷新，
+以后就不刷新了，关闭页面是另外一回事。ajaxOptions:{cache:false}应该和这个功能是一样的吧。
+1.22 初始化设置例：
+$('.selector').tabs({ cache: true });
+2.23 初始化后的参数获取和设置：
+//getter
+var cache = $('.selector').tabs('option', 'cache');
+//setter
+$('.selector').tabs('option', 'cache', true);
+
+1.31collapsible，意思是可折叠的，默认选项是false，不可以折叠。如果设置为true，允许用户将已经选中的选项卡内容折叠起来。
+这样说吧：点击一次选项卡2，选项卡2内容显示出来了，这时候再次点击选项卡2，选项卡的内容区就收了起来，再次点击选项卡2，
+选项卡的内容区则又展开了。明白否？知道你不明白，不明白就用最上面的例子试试吧。
+1.32 初始化设置例：
+$('.selector').tabs({ collapsible: true });
+1.33 初始化后的参数获取和设置：请参考1.23...
+
+1.41 cookie 默认值为null，需要cookie插件。保存最后一次选择的选项卡到cookie 中。可使用的选项例：
+(example): { expires: 7, path: '/', domain: 'jquery.com', secure: true }.
+1.42 初始化设置例：$('.selector').tabs({ cookie: { expires: 30 } });
+1.43 初始化后的参数获取和设置：请参考1.23...
+
+1.51deselectable 默认为false，作用似乎和collapsible一样。
+
+1.61 disabled 设置哪些选项卡不可用，是一个数组例[0,1,2]，也就是第一个、第二个、第三个选项卡。默认为[]。
+1.62 初始化设置例：$('.selector').tabs({ disabled: [1, 2] });
+1.63 初始化后的参数获取和设置：请参考1.23...
+
+1.71 event ，切换选项卡的事件，默认为'click'，点击切换选项卡。
+1.72 初始化设置例：$('.selector').tabs({ event: 'mouseover' }); //鼠标滑过切换选项卡
+1.73 初始化后的参数获取和设置：请参考1.23...
+
+1.81 fx，切换选项卡时的动画效果，默认为：null，无动画效果，
+1.82 初始化设置：请参看最上面的例子。
+1.83 初始化后的参数获取和设置：请参考1.23...
+
+1.91 idPrefix ，在使用ajax时，idPrefix选项可以为其添加一个唯一的id，默认为：'ui-tabs-' 。
+1.92 初始化设置例：$('.selector').tabs({ idPrefix: 'ui-tabs-primary' });
+1.93 初始化后的参数获取和设置：请参考1.23...
+
+1.101 selected，初始化时，哪个选项卡被选中，默认为0，就是第一个选项卡被选中。
+1.102 初始化设置例：$('.selector').tabs({ selected: 3 });
+1.103 初始化后的参数获取和设置：请参考1.23...
+
+1.111 spinner，当远程内容加载的时候，（ajax），spinner字符串的html内容将被显示在选项卡的标题上。
+1.112 初始化设置例：$('.selector').tabs({ spinner: 'Retrieving data...' });
+1.113 初始化后的参数获取和设置：请参考1.23...
+
+1.121 panelTemplate ,
+
+1.131 tabTemplate ,
+
+2 事件
+先给出一个事件绑定的例子，请注意：
+$('#example').bind('tabsselect', function(event, ui) {
+   ui.tab     // 被选中（点击后）的选项卡元素
+   ui.panel   //这个元素包含被选中（点击后）的选项卡的内容
+   ui.index   //返回一个被选中（或点击后）选项卡的索引值（从0开始）
+});
+
+2.11 select 类型：tabsselect ，点击选项卡时触发该事件。
+2.12 初始化时绑定事件：
+$('.selector').tabs({
+   select: function(event, ui) { ... }
+});
+2.13 在初始化后使用事件绑定绑定该事件：
+$('.selector').bind('tabsselect', function(event, ui) {
+...
+});
+
+2.21 load，类型：tabsload 一个远程（ajax）选项卡的内容被加载完成后触发该事件。
+2.22 参考2.12
+2.23 参考2.13
+2.31 show，类型：tabsshow 当选项卡显示后触发该事件。
+2.41 add，类型：tabsadd ，当一个选项卡被添加后触发。
+2.51 remove ，类型tabsremove ，当一个选项卡被删除后触发。
+2.61 enable ，类型tabsenable ，当一个选项卡可用时触发。
+2.71 disable，类型tabsdisable，当一个选项卡不可用时触发。
+3 方法
+3.11 destroy，哈哈，又到了我最喜欢的摧毁地球时间。例：.tabs( 'destroy' ) 
+3.21 disable，整个选项卡不可用。
+3.31 enable，整个选项卡可用。.tabs( 'enable' ) 
+3.41 option，设置属性。例：.tabs( 'option' , optionName , [value] ) 
+3.51 add，remove，添加、删除选项卡。例：.tabs( 'add' , url , label , [index] ) ，.tabs( 'remove' , index ) 
+3.61 enable，设置某个选项卡标签可用。例：.tabs( 'enable' , index ) 
+3.71 disable，设置某个选项卡标签不可用。例：.tabs( 'disable' , index ) 
+3.81 select，选择一个选项卡标签。例：.tabs( 'select' , index ) ，index从0开始。
+3.91 load，重载一个ajax选项卡的内容，这个一直载入远程内容，即使cache设置为true，第二个参数是要重载选项卡的索引值。
+例：.tabs( 'load' , index ) 
+3.101 url，当一个ajax选项卡将要加载时，改变url。.tabs( 'url' , index , url ) 
+3.111 abort，中止所有运行在tab标签上的ajax请求或动画。.tabs( 'abort' ) 
+3.121 rotate， 自动翻滚选项卡标签。.tabs('rotate',ms,[countinue]),第二个参数是毫秒，是两个标签自动翻滚所需要的时间，
+设为0或null为停止翻滚。第三个参数是设置当用户选择一个选项卡标签后是否继续翻滚，默认为：false，不继续。
+真累，歇歇再说吧。。。
+4 技巧
+4.1 如何接收已选中选项卡标签的索引值？
+例：var $tabs = $('#example').tabs();
+var selected = $tabs.tabs('option', 'selected'); // => 0
+4.2 如何用一个其它元素代替选项卡单击事件来切换选项卡？
+例：var $tabs = $('#example').tabs(); // 第一个标签被选中
+$('#my-text-link').click(function() { // 绑定单击事件
+    $tabs.tabs('select', 2); // 切换到第三个选项卡标签
+    return false;
+});
+4.3 如何立刻选择刚添加的选项卡标签？
+例：var $tabs = $('#example').tabs({
+    add: function(event, ui) {
+        $tabs.tabs('select', '#' + ui.panel.id);
+    }
+});
+4.4 如何在一个新窗口中打开选项卡标签？
+例：$('#example').tabs({
+    select: function(event, ui) {
+        location.href = $.data(ui.tab, 'load.tabs');
+        return false;
+    }
+});
+</pre>
+</body>
+
+</html>

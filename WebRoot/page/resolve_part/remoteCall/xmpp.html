@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xmpp</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>xmpp介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+XMPP的前身是Jabber，一个开源形式组织产生的网络即时通信协议。
+XMPP（可扩展消息处理现场协议）是基于可扩展标记语言（XML）的协议，它用于即时消息（IM）以及在线现场探测。
+它在促进服务器之间的准即时操作。这个协议可能最终允许因特网用户向因特网上的其他任何人发送即时消息，即使其操作系统和浏览器不同。
+关于xmpp的基础知识,请参考如下教程
+</pre>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./doc/XMPP_协议介绍免费版.ppt">XMPP_协议介绍免费版.ppt</a></br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./doc/XMPP_官方中文翻译文档.pdf">XMPP_官方中文翻译文档.pdf</a>
+</div>
+<div class="AI_common_title1">
+	<h2>xmpp服务器介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1. Openfire (Wildfire) 3.x
+授权: GPL or 商用
+操作系统平台：所有(使用Java开发)
+XMPP Jabber 协议实现情况：98%
+Tim 评价：
+安装和使用非常简单，安装后进入Web界面进行2~3分钟的配置所有的东西都设好了。
+使用Java语言开发，在目前Java开发人员到处普及的情况下进行维护和扩展的成本非常低。
+在我的测试中加上 Connection Manager 的情况下单台服务器可支持 30 万并发用户。
+缺点是目前还不支持cluster。如果企业内部部署IM使用 Wildfire + Spark 是最佳的组合。
+见：http://hi.baidu.com/jabber/blog/category/Wildfire
+
+2. ejabberd
+授权: GPL
+操作系统平台：Linux, Windows, MacOS X 等
+XMPP Jabber 协议实现情况：91%
+Tim 评价：
+Ejabberd目前是可扩展性最好的一种Jabber/XMPP服务器,支持分布多个服务器，并且具有容错处理，单台服务器失效不影响整个cluster运作。
+顾虑就是它采用一种大家都没听过的语言Erlang开发，所以很多人可能会象我一样因为这个原因放弃了它。
+
+3. Jabberd 2.x
+授权: GPL
+操作系统平台：主要是 Linux, (Windows 也支持，但不知道性能怎样)
+XMPP Jabber 协议实现情况：76%
+Tim 评价：
+自从jabber.org改用ejabberd之后，Jabberd一直都在走下坡路。扩展性比不上ejabberd, 易用性比不上 Wildfire，
+唯一的优势是使用C开发，如果你坚持要用C开发，那么还是选择jabberd吧。
+
+4. Jabberd 1.x
+授权: GPL
+操作系统平台：主要是 Linux, (Windows 也支持，但不知道性能怎样)
+XMPP Jabber 协议实现情况：45%
+Tim 评价：
+在几年前 jabberd 就是 Jabber 的代名词，至今很多 Jabber 文档仍然介绍的是 Jabber 1.4，
+在我以前写的《Jabber 服务器占有率比较》中仍然排名第一。但是它很多新的规范都不支持，相信大部分用户都将转向新的服务器。
+见：http://hi.baidu.com/jabber/blog/item/7d25bb199f31a44542a9ad02.html
+
+5. 后起之秀 DJabberd
+授权: open source
+操作系统平台：主要是 Linux, (Perl写的，其他平台应该也支持)
+XMPP Jabber 协议实现情况：N/A
+Tim 评价：
+djabberd 使用 epoll 技术，理论上单台服务器可以支持更多用户。Djabberd目前主要应用在LiveJournal上，大部分XMPP协议都支持，
+稳定性也不用置疑。但是因为推出时间尚短，很多细节功能可能需要时间慢慢完善。
+djabberd介绍见：http://hi.baidu.com/jabber/blog/category/Djabberd
+
+现在目前用得比较多的是Openfire和ejabberd.根据情况，选择自己合适的产品.
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>ejabberd应用</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+1.如果使用ejabberd进行通信
+1).可以使用潘迪安等客户端与ejabberd服务器通信(下载地址:http://pandion.im/)
+2).如果用java语言，使用代码与ejabberd服务器通信，可以考虑采用smack(登录|注册|私聊|群聊都实现)
+2.与原来的系统进行用户的完美对接
+ejabberd本身提供了extauth，在用户登录的时候，不必到自己的数据库做用户名和密码校验，而是通过指定脚本做外部数据库的用户名和密码校验。
+所以当用户注册时，不必到ejabberd服务器注册，在登录ejabberd服务器时，通过extauth，指向外部数据库做用户名和密码校验
+请参考实践文档
+</pre>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./doc/ejabberd外置登录校验.rar">ejabberd外置登录校验.rar</a>
+</div>
+</body>
+</html>

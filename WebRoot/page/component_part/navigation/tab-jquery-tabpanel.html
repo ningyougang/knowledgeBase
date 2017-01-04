@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		
+<link rel="stylesheet" type="text/css" href="../../../common/css/cssreset.css" />
+<link rel="stylesheet" type="text/css" href="../../../common/jquery/jquery-ui-1.7.custom.css" /> 
+<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../common/tabPanel/css/TabPanel.css" /> 
+<script type="text/javascript" src="../../../common/tabPanel/js/TabPanel.js"></script>
+<script type="text/javascript" src="../../../common/tabPanel/js/Math.uuid.js"></script> 
+
+<script>    
+$(function() {  
+var config = 
+  {
+	renderTo : 'tab', //渲染某个div
+	active : '0', //默认初始化选中的div
+	width : 'auto',
+	height : 'auto',
+	onlyTabHeader : true,  //只有header
+	items : [{
+				id : 'vi2405830210',     
+				title : '用户品牌',
+				data : {
+					"id" : 2,
+					"title" : "用户品牌",
+					"level" : "0",
+					"tableName" : "VGOP_DIM_USER_BRAND",
+					"value" : "-888888",
+					"column" : "BRAND"
+				}, 
+				activate:activate
+			}, {
+				id : 'vi9724005881',
+				title : '用户属地',
+				data : {
+					"id" : 1,
+					"title" : "用户属地",
+					"level" : "0",
+					"tableName" : "VGOP_DIM_USER_SECT",
+					"value" : "-888888",
+					"column" : "SECT"
+				}, 
+				activate:activate
+			}, {
+				id : 'vi8497061430',
+				title : '受理渠道属地',
+				data : {
+					"id" : 4,
+					"title" : "受理渠道属地",
+					"level" : "0",
+					"tableName" : "VGOP_DIM_CHANNEL_SECT",
+					"value" : "-888888",
+					"column" : "CHANNEL"
+				}, 
+				activate:activate
+			}, {
+				id : 'vi9831038533',
+				title : '个人套餐',
+				data : {
+					"id" : 8,
+					"title" : "个人套餐",
+					"level" : "0",
+					"tableName" : "VGOP_DIM_PEOPLE_MEAL",
+					"value" : "-888888",
+					"column" : "PEOPLE_MEAL"
+				}, 
+				activate:activate
+			}]
+} ;
+var tabpanel = new TabPanel(config);
+function  activate(tab){
+	//alert('节点数据:'+tab.data.tableName);
+}
+});   
+  </script>
+		
+	
+</head>
+
+<body>
+       <div id="tab" style="width:100%"></div>
+        
+由于没有api文档,请参见约10个详细例子: &nbsp;&nbsp;
+<a href="jquery-TabPanl.rar">jquery-TabPanel-demo下载</href> 
+
+
+</br>
+</br>
+</br>        
+帮助：  </br>
+
+TabPanel(选项卡组件) </br>
+</br>
+1.参数说明
+renderTo<string | jQuery object | NULL> 渲染到某容器 </br>
+
+items<array> 选项卡元素集合 </br>
+
+选项卡组件渲染后就会显示的选项卡元素集合，具体参数请查看选项卡元素。 </br>
+
+width<number> 宽度 </br>
+
+选项卡组件的总宽度，默认400px。</br> 
+
+height<number> 高度
+ </br>
+选项卡组件中页面显示层的高度，默认300px。 </br>
+
+border<string> 是否显示边框 </br>
+
+嵌套显示选项卡时，会出现重复边框的情况，影响美观，将border设置为”none”，则可以避免，默认显示边框，不接受除”none”之外的参数值。 </br>
+
+active<number> 渲染后默认激活哪个选项卡元素 </br>
+
+下标以0为开始，默认为0。 </br>
+
+maxLength<number> 最多显示几个选项卡元素</br>
+
+-1为无限，默认为-1。 </br>
+
+tabs<return array> 获得选项卡组件所有的选项卡元素</br>
+
+可根据需要获得选项卡组件的所有选项卡元素。 </br>
+</br>
+2.公共方法 </br>
+
+addTab(object) 添加一个选项卡元素</br>
+
+动态向选项卡组件中添加一个选项卡元素。 </br>
+
+flush(string | number) 刷新选项卡元素的内容 </br>
+
+将选项卡元素的内容刷新，参数可以为选项卡元素的ID或下标。
+ </br>
+show(string | number) 显示选项卡元素</br>
+
+显示制定选项卡元素，参数可以为选项卡元素的ID或下标。</br>
+
+Kill(string | number) 关闭选项卡元素 </br>
+
+关闭选项卡元素，参数可以为选项卡元素的ID或下标。</br>
+
+getTabsCount()<return number> 获得选项卡元素数量 </br>
+
+getTitle(string | number) <return string> 获得选项卡元素的标题</br>
+
+setTitle(string | number, string) 设置选项卡元素的标题 </br>
+
+getContent(string | number) <return string> 获得选项卡元素的内容</br>
+setContent(string | number, string) 设置选项卡元素的内容</br>
+
+getDisable(string | number) <return boolean> 选项卡元素是否禁用</br>
+setDisable(string | number) 设置选项卡元素是否禁用 </br>
+
+getCloseable(string | number) <return boolean> 选项卡元素是否可关闭 </br>
+
+setCloseable(string | number, boolean) 设置选项卡元素是否可关闭 </br>
+
+getActiveTab()<return object> 获得被激活的选项卡元素 </br>
+</br>
+3.使用方法 </br>
+
+页面引入jQuery.js、TabPanel.js、Fader.js、TabPanel.css </br>
+
+new TabPanel({ </br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderTo:'tabs', </br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: '100%', </br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height: '500px',</br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;active: 0,</br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items: [{ </br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title:'工作中心', </br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;html:'', </br>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;closable: false </br>
+
+  }]</br>
+
+}); </br>
+
+TabPanel item(选项卡元素)</br>
+
+
+参数说明 </br>
+
+id<string> 元素ID</br>
+
+必须唯一，或者不设置该参数，否则将无法添加到选项卡组件中，默认自动生成。 </br>
+
+title<string> 元素标题 </br>
+
+可以动态设置。 </br>
+
+closeable<boolean> 是否可关闭 </br>
+
+true可关闭，false不可关闭，默认为true。 </br>
+</body>
+
+</html>

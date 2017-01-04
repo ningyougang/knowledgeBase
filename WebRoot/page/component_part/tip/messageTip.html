@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>右下角提示</title>
+<!--此组件在jquery-1.6的基础上--> 
+<link rel="stylesheet" type="text/css" href="../../../common/operaMasks/css/default/om-default.css" /> 
+<script type="text/javascript" src="../../../common/operaMasks/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../common/operaMasks/js/operamasks-ui.min.js"></script>  
+    <script type="text/javascript">
+       //普通提醒，要手动关闭，关闭时无回调
+    function showSimpleTip(){
+        $.omMessageTip.show({
+            title : '操作成功',
+            content : '密码修改成功！'
+        });
+    }
+    //普通提醒（标题和内容可使用html代码），要手动关闭，关闭时无回调
+    function showHtmlTip(){
+        $.omMessageTip.show({
+            title : '<font color="blue">QQ新闻</font>',
+            content :   '标题是蓝色的看到没有？下面的文字带有链接看到没有？<br/><br/>'+
+                        '<a href="http://www.operamasks.org/news/static/NEWS00053.html" target="_blank" style="color:red">AOM V3.1正式版发布</a><br/><br/>'+
+                        '<a href="http://www.apusic.com/market/09zhaopin/home.htm" target="_blank" style="color:red">金蝶中间件诚聘英才</a><br/>'
+        });
+    }
+    //定时消失提醒，当然也可以手动关闭，关闭时无回调
+    function showTimeoutTip(){
+        $.omMessageTip.show({
+            title : '提示',
+            content : '3秒后自动消失！',
+            timeout : 3000
+        });
+    }
+    //关闭时有回调的提醒，要手动关闭
+    function showCallbackTip(){
+        $.omMessageTip.show({
+            title : '提醒4',
+            content : '关闭后会执行回调函数！',
+            onClose : function(){
+                alert('提醒4被关闭！');
+            }
+        });
+    }
+    //关闭时有回调的提醒，定时消失提醒，当然也可以手动关闭
+    function showTimeoutCallbackTip(){
+        $.omMessageTip.show({
+            title : '提醒5',
+            content : '3秒后自动关闭（手动关闭也可以），关闭后会执行回调函数！',
+            timeout : 3000,
+            onClose : function(){
+                alert('提醒5被关闭！');
+            }
+        });
+    }
+    
+       </script>
+
+	<body>
+		<button onclick="showSimpleTip();">普通的提醒（手动关闭）</button>
+    <button onclick="showHtmlTip();">标题和内容可用html的提醒（手动关闭）</button>
+    <button onclick="showTimeoutTip();">自动关闭的提醒（3秒后自动关闭）</button>
+    <button onclick="showCallbackTip();">关闭时执行回调函数的提醒（手动关闭）</button>
+    <button onclick="showTimeoutCallbackTip();">关闭时执行回调函数的提醒（3秒后自动关闭）</button>
+    <br/><br/>
+    <div style="color:red;font-size: 2em" id="result"></div>
+    <!-- view_source_end -->
+    <div id="view-desc">
+        使用$.omMessageTip.show(config)可以在页面右下角弹出各种信息提示框，可以定时关闭，也可以监听关闭事件。<br/>
+    </div>
+
+
+</br>
+<iframe src="../../../common/operaMasks/docs/symbols/omMessageTip.html" height="400px" width="1000px"></iframe>
+</body>
+</html>

@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>存储</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>前沿</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+存储的概念很广泛，为了方便理解以及今后的运用。我们从四个角度来进行介绍。
+1.存储设备:CD、DVD、硬盘、EMC存储等.
+2.存储接口:IDE、SATA、SCSI、光钎传输接口。
+3.存储网络拓扑架构:DAS、SAN、NAS.
+4.存储对象:块、文件、对象
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>存储设备</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+存储设备概念:是用于储存信息的设备，通常是将信息数字化后再以利用电、磁或光学等方式的媒体加以存储。
+1、利用电能方式存储信息的设备如：RAM(内存)
+2、利用磁能方式存储信息的设备如：硬盘、软盘（已经淘汰）、磁带、磁芯存储器、U盘
+3、利用光学方式存储信息的设备如：CD或DVD
+4、利用磁光方式存储信息的设备如：MO（磁光盘）
+5、利用其他物理物如纸卡、纸带等存储信息的设备如：打孔卡、打孔带、绳结等
+6、专用存储系统：用于数据备份或容灾的专用信息系统，利用高速网络进行大数据量存储信息的设备。
+
+这里介绍下硬盘的知识，刚出厂的硬盘一般来说不能直接使用，需要先进行低级格式化(划分磁道、扇区等物理操作，可能厂家在出厂时已做)、分区(划分主分区、扩展
+分区(由多个逻辑分区组成))、对各分区进行高级格式化(高级格式化定义:在分区上创建文件系统(内核))。
+与硬盘(或硬盘分区)管理相关的技术有LVM(逻辑卷管理，位于物理分区上的一个逻辑层)，利用该技术，可以不用停机就能动态扩展分区容量。具体信息请参考度娘。
+还有一个raid技术(磁盘阵列)，将若干个磁盘统一管理，分成很多级别。具体信息请参考度娘。
+</pre>	
+</div>
+
+<div class="AI_common_title1">
+	<h2>存储接口</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1.IDE(家用 7200转):
+IDE的英文全称为“Integrated Drive Electronics”，即“电子集成驱动器”，它的本意是指把“硬盘控制器”与“盘体”集成在一起的硬盘驱动器。
+把盘体与控制器集成在一起的做法减少了硬盘接口的电缆数目与长度，数据传输的可靠性得到了增强，硬盘制造起来变得更容易，
+因此硬盘生产厂商不需要再担心自己的硬盘是否与其它厂商生产的控制器兼容,经过发展，包含更多细分的类型:ATA、Ultra ATA、DMA、Ultra DMA
+IDE接口优点：价格低廉、兼容性强、性价比高。
+IDE接口缺点：数据传输速度慢、线缆长度过短、连接设备少、不支持热插拔、不够完善的错误检验技术、接口速度可升级差。
+面临问题:被市场抛弃。
+2.SATA(家用、服务器 7200转)
+SATA是Serial ATA的缩写，即串行ATA。它是一种电脑总线，主要功能是用作主板和大量存储设备（如硬盘及光盘驱动器）之间的数据传输之用
+3.SCSI(服务器市场  存在10000转的)
+小型计算机系统接口（英语：Small Computer System Interface; 简写：SCSI），一种用于计算机和智能设备之间（硬盘、软驱、光驱、打印机、扫描仪等）
+系统级接口的独立处理器标准。是一种智能的通用接口标准，它具备与多种类型的外设进行通信。SCSI采用ASPI（高级SCSI编程接口）的标准软件接口
+使驱动器和计算机内部安装的SCSI适配器进行通信。SCSI接口广泛应用于小型机上的高速数据传输技术。SCSI接口具有应用范围广、多任务、
+带宽大、CPU占用率低，以及热插拔等优点。
+SCSI接口优点:传输速率高、读写性能好、可多连多个设备、支持热插拔
+SCSI接口缺点:价格昂贵
+4.SAS(serial attached SCSI)(服务器 存在15000转的)
+存储领域的磁盘介质是最关键的设备，所有数据和信息都要存放在磁盘介质上。而数据的读取速度则是由磁盘介质的连接接口决定的。
+以往我们都是通过SCSI或者SATA接口及硬盘来完成数据存储工作。正因为SATA技术的飞速发展以及多方面的优势，
+才会让更多的人考虑能否存在一种方式可以将SATA与SCSI两者相结合，这样就可以同时发挥两者的优势了。
+在这种情况下SAS应运而生。
+SAS接口优点:传输速度快、支持热插拔、更稳定
+SAS接口缺点:价格昂贵
+5.光纤接口
+光纤接口优点:最多可连126个设备、低CPU占用率、支持热插拔
+光纤接口缺点:价格昂贵、组建复杂
+</pre>	
+&nbsp;&nbsp;&nbsp;&nbsp;参考资料:<a href="doc/存储硬盘接口类型详解.pdf">存储硬盘接口类型详解.pdf</a>
+</div>
+
+<div class="AI_common_title1">
+	<h2>存储网络拓扑</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1.DAS架构
+DAS即直连式存储（DIrect-Attached Storage），依赖服务器主机操作系统进行数据的IO读写和存储维护管理，数据备份和恢复要求占用服务器主机资源（包括CPU、系统IO等），
+数据流需要回流主机再到服务器连接着的磁带机（库），数据备份通常占用服务器主机资源20-30%，因此许多企业用户的日常数据备份常常在深夜或业务系统不繁忙时进行，
+以免影响正常业务系统的运行。直连式存储的数据量越大，备份和恢复的时间就越长，对服务器硬件的依赖性和影响就越大。
+
+直连式存储与服务器主机之间的连接通道通常采用SCSI连接，带宽为10MB/s、20MB/s、40MB/s、80MB/s等，随着服务器CPU的处理能力越来越强，存储硬盘空间越来越大，
+阵列的硬盘数量越来越多，SCSI通道将会成为IO瓶颈；服务器主机SCSI ID资源有限，能够建立的SCSI通道连接有限。
+
+无论直连式存储还是服务器主机的扩展，从一台服务器扩展为多台服务器组成的群集(Cluster)，或存储阵列容量的扩展，都会造成业务系统的停机，从而给企业带来经济损失，
+对于银行、电信、传媒等行业7×24小时服务的关键业务系统，这是不可接受的。并且直连式存储或服务器主机的升级扩展，只能由原设备厂商提供，往往受原设备厂商限制。
+
+2.NAS架构
+NAS即网络接入存储（Network-Attached Storage），采用网络（TCP/IP、ATM、FDDI）技术，通过网络交换机连接存储系统和服务器主机，建立专用于数据存储的存储私网。
+随着IP网络技术的发展，网络接入存储（NAS）技术发生质的飞跃。早期80年代末到90年代初的10Mbps带宽，网络接入存储作为文件服务器存储，性能受带宽影响；
+后来快速以太网（100Mbps）、VLAN虚网、Trunk(Ethernet Channel) 以太网通道的出现，网络接入存储的读写性能得到改善；1998年千兆以太网（1000Mbps）的出现和投入商用，
+为网络接入存储（NAS）带来质的变化和市场广泛认可。由于网络接入存储采用TCP/IP网络进行数据交换，TCP/IP是IT业界的标准协议，不同厂商的产品
+（服务器、交换机、NAS存储）只要满足协议标准就能够实现互连互通，无兼容性的要求；并且2002年万兆以太网（10000Mbps）的出现和投入商用，
+存储网络带宽将大大提高NAS存储的性能。NAS需求旺盛已经成为事实。首先NAS几乎继承了磁盘列阵的所有优点，可以将设备通过标准的网络拓扑结构连接，
+摆脱了服务器和异构化构架的桎梏；其次，在企业数据量飞速膨胀中，SAN、大型磁带库、磁盘柜等产品虽然都是很好的存储解决方案，
+但他们那高贵的身份和复杂的操作是资金和技术实力有限的中小企业无论如何也不能接受的。NAS正是满足这种需求的产品，在解决足够的存储和扩展空间的同时，
+还提供极高的性价比。因此，无论是从适用性还是TCO的角度来说，NAS自然成为多数企业，尤其是大中小企业的最佳选择。
+
+3. SAN架构
+SAN即存储区域网络（Storage-Attached Storage），采用光纤通道（Fibre Channel）技术，通过光纤通道交换机连接存储阵列和服务器主机，
+建立专用于数据存储的区域网络。SAN经过十多年历史的发展，已经相当成熟，成为业界的事实标准（但各个厂商的光纤交换技术不完全相同，
+其服务器和SAN存储有兼容性的要求）。SAN由100MB/s、200MB/s，发展到目前的1Gbps、2Gbps。
+SAN网络环境中，因采用存储设备类型的不同又可以分为FC-SAN（采用光纤通道存储产品）和IP-SAN（采用ISCSI存储设备）。
+</pre>	
+&nbsp;&nbsp;&nbsp;&nbsp;参考资料:<a href="doc/华为内部存储基础知识白皮书.doc">华为内部存储基础知识白皮书.doc</a>
+</div>
+
+<div class="AI_common_title1">
+	<h2>存储对象</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1.块存储(与DAS、SAN相关):磁盘阵列、磁盘
+  优点:由于接近底层，传输效率高。
+  缺点:不利于不同操作系统主机间的数据共享
+2.文件存储(与NAS相关):如NFS
+  优点:方便文件共享
+  缺点:读写速率低，传输速率慢：以太网，上传下载速度较慢，另外所有读写都要1台服务器里面的硬盘来承担，
+       相比起磁盘阵列动不动就几十上百块硬盘同时读写，速率慢了许多
+3.对象存储:为了结合块存储和文件存储的优点，出现了对象存储.
+  将大文件切割成若干对象，分散到不同的节点。具体细节请参考ceph的对象存储:http://www.uml.org.cn/yunjisuan/2014041107.asp
+</pre>	
+&nbsp;&nbsp;&nbsp;&nbsp;参考资料:http://www.zhihu.com/question/21536660
+</div>
+</body>
+</html>

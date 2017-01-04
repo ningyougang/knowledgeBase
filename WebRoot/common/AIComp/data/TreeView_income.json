@@ -1,0 +1,25 @@
+[{
+			id : '1001',
+			title : '增值业务收入',
+			val : '1231233.99',
+			cycle : '23.45',
+			desc:'增值业务收入',
+			leaf : false,
+			warn : false
+		}, {
+			id : '1002',
+			title : '通话收入',
+			val : '1231233.99',
+			cycle : '23.45',
+			leaf : false,
+			desc:'通话收入',
+			warn : true
+		}, {
+			id : '1003',
+			title : '其它',
+			val : '1231233.99',
+			cycle : '23.45',
+			leaf : false,
+			desc:'其它',
+			warn : false
+		}]

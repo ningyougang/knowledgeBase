@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>preStatement与Statement的区别</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;">
+一、维护性
+预编译语句prepareStatement可阅读强、维护性高于普通的Statment
+二、执行效率
+预编译语句prepareStatement在批处理、重复执行上的效率高于Statment,
+因为prepareStatement会先初始化SQL，先把这个SQL提交到数据库中进行预处理，多次使用可提高效率,
+而Statement不会初始化，没有预处理，每次都是从0开始执行SQL。
+三、安全性
+使用预编译语句prepareStatement，可以防止sql注入攻击，而Statment黑客可以利用分号在里面构造非法sql进行攻击
+
+综上所述，无论维护、执行效率、安全性,预编译语句prepareStatement均好于Statment。
+当然，并不是说statement就没有存在的意义了，对于不重复使用和可以控制输入值的情况下statement在性能上还是比较好的
+</pre>
+</body>
+</html>

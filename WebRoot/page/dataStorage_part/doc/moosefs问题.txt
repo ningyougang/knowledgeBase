@@ -1,0 +1,92 @@
+1、LINUX SSH显示中文乱码解决办法
+export LC_ALL=zh_CN.GB2312
+export LANG=zh.CN.GB2312
+
+2、安装fuse
+yum install fuse-devel
+
+3、安装zlib
+yum install zlib-devel zlib
+
+安装开发有关的包
+yum groupinstall "Development Libraries"
+yum groupinstall "Development Tools"
+
+4、问题：挂载文件系统
+#/usr/bin/mfsmount /mnt/mfs -H mfsmaster
+mfsmaster register error: Permission denied
+解决办法：
+#export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+
+5、问题：卸载已挂载的文件系统
+umount: /mnt/mfs: device is busy.
+        (In some cases useful info about processes that use
+         the device is found by lsof(8) or fuser(1))
+解决办法：
+root@homer:~# fuser -m /mnt/mfs/
+/mnt/mfs/: 24066c
+That shows you what process is using that directory. 
+Now lets do a ps aux and see whats running （查看哪个进程使用了这个目录）
+
+root@homer:~# ps aux | grep 24066 
+root 24066 0.0 0.5 2244 1284 pts/10 S 14:04 0:00 -su
+
+Looks like a the root user is in that directory. 
+If you cannot find the term that is in that directory then kill that process（杀死进程）
+
+root@homer:~# kill -9 24066
+
+now you can un-mount  （可以卸载）
+root@homer:~# umount /mnt/cdrom/
+root@homer:~#
+
+6、客户端挂载mfsmount:
+/usr/bin/mfsmount /mnt/mfs -H mfsmaster
+
+//重要问题
+
+1、MooseFS 集群启动与停止步骤：
+启动MooseFS 集群，建议执行如下的步骤:
+master server 进程: /usr/sbin/mfsmaster start
+chunk server 进程: /usr/sbin/mfschunkserver start
+metalogger 进程: /usr/sbin/mfsmetalogger start
+客户端挂载mfsmount: /usr/bin/mfsmount /mnt/mfs -H mfsmaster
+运行CGI 监控服务/usr/sbin/mfscgiserv，这样就可以用浏览器查看整个MooseFS 的运行情况:
+
+为了安全停止MooseFS 集群，建议执行如下的步骤:
+停止chunk server 进程: /usr/sbin/mfschunkserver -s
+停止 metalogger 进程: /usr/sbin/mfsmetalogger -s
+在所有客户端用Unmount 命令先卸载文件系统(本例将是: umount /mnt/mfs)
+停止主控 master server 进程: /usr/sbin/mfsmaster -s
+
+
+2、mfs master启动失败：
+/usr/sbin/mfsmaster start
+working directory: /var/lib/mfs
+can't create lockfile in working directory: Permission denied
+解决办法：
+That folder was owned by 'nobody' instead of my user. 
+That's why you couldn't do anything with it. 
+I have changed the ownership of it, so you should be good to go
+[root@dlxa02 ~]# chown -R mfs:mfs /var/lib/mfs
+
+3、运行CGI 监控服务/usr/sbin/mfscgiserv 看不到相关chunkserver的信息
+解决办法：
+检查chunkserver的/etc/hosts 文件，查看是否绑定主机名mfsmaster 与ip 地址mfsmaster的ip（172.16.40.102）
+172.16.40.102 mfsmaster
+
+4、运行CGI 监控服务/usr/sbin/mfscgiserv 
+/usr/sbin/mfscgiserv
+-bash: /usr/sbin/mfscgiserv: 权限不够
+解决办法：
+chmod 777 mfs:mfs /usr/sbin/mfscgiserv
+
+5、mfsmount非空
+fuse: mountpoint is not empty
+fuse: if you are sure this is safe, use the 'nonempty' mount option
+error in fuse_mount
+解决办法：
+The folder the fusemount was trying to mount to had a hidden directory. 
+Removing that directory solved the problem 
+
+修复数据的方法：fsck -y /dev/sda1

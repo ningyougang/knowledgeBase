@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>枚举工具类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>维度与枚举</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+一、维度
+与业务相关的固有属性，我们一般称作为维度，比如用户品牌(动感地带、全球通、神州行等)、用户属地(东区、西区、南区、北区等)
+
+二、枚举
+与业务属性关联不是特别密切,而且其值容易产生变化；
+一般来讲，维度与枚举区分也不是特别明显，做设计或开发的时候，可以根据实际情况，灵活做出选择
+
+三、表名以及相关字段设计
+对于维度，表名一般设计为:${项目CODE}_DIM_${维度CODE}，对于字段一般包括:层次ID、层次NAME(可有多个层次)、生效日期、失效日期、是否有效、索引。
+其中针对ID，最好用字符类型(要考虑到项目在各个省份或者国家的迁移)。如果涉及到维度的父子关系，可考虑采取横表的设计。
+如BRAND1,BRAND1_NAME,BRAND2,BRAND2_NAME,BRAND,BRAND_NAME,BEGIN_DATE,END_DATE,IS_VALID,INDEX(BRAND,BRAND_NAME为最细层)
+对于枚举,表名一般设计为SYS_ENUM,字段包括ID、VALUD、DESC、GROUP、CODE、INDEX、IS_VALID
+
+四、经验之谈
+其实对于维度表到底是横表还是竖表，字段怎么设计,这些个都是无关紧要。但是一定要知道两者优缺点，对于横表，扩展性较差，对于维度的层次结构不固定
+、层次较深就有问题，但也有比较直观，一目了然的优点，而对于竖表，扩展性较强。另外要有个意识，维度表以及管理维度表的系统表，
+是整个系统的基础架构，维度表的规范以及管理维度表的规范的好坏，与整个系统上层应用都密切相关，基础打得好，上层应用就越稳固。
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+package com.asiainfo.base.util;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.asiainfo.base.Constants;
+import com.asiainfo.base.domain.SystemEnum;
+import com.asiainfo.base.service.SystemEnumService;
+
+public class Enums {
+
+	private static Map map = new HashMap();
+	private static Enums enums = new Enums();
+		
+	private SystemEnumService systemEnumService;
+
+	public SystemEnumService getSystemEnumService() {
+		return systemEnumService;
+	}
+
+
+	public void setSystemEnumService(SystemEnumService systemEnumService) {
+		this.systemEnumService = systemEnumService;
+	}
+
+	public void init()
+	{
+		try{
+			Map pMap = new HashMap();
+			pMap.put("isValid", 1);
+			List<SystemEnum> list = systemEnumService.searchEnum(pMap);
+			
+			if(null != list)
+			{
+				for(SystemEnum en : list)
+				{
+					List<SystemEnum> enumList = (List)map.get(en.getGroup());
+					if(null == enumList)
+					{
+						enumList = new ArrayList();
+						map.put(en.getGroup(), enumList);
+					}
+					enumList.add(en);
+				}
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public static Enums getInstance()
+	{
+		if(enums==null)
+		{
+			enums = new Enums();
+			enums.init();
+		}
+		return enums;
+	}
+
+	
+	public String[] getEnumsDescAll(String group)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String[] strs = new String[child.size()+1];
+			strs[0] = "全部";
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				strs[i+1] = e.getDesc();
+			}
+			return strs;
+		}else{
+			return null;
+		}
+	}
+	
+	public String[] getEnumsAllDesc(String name)
+	{
+		final List child = (List)map.get(name);
+		if(child!=null&&child.size()>0)
+		{
+			String[] strs = new String[child.size()];
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				strs[i] = e.getDesc();
+			}
+			return strs;
+		}else{
+			return null;
+		}
+	}
+	
+	public String[] getEnumsValueAll(String group)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String[] strs = new String[child.size()+1];
+			strs[0] = Constants.VGOP_SH + "";
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				strs[i+1] = e.getValue();
+			}
+			return strs;
+		}else{
+			return null;
+		}
+	}
+	
+	public String[] getEnumsAllValue(String group)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String[] strs = new String[child.size()];
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				strs[i] = e.getValue();
+			}
+			return strs;
+		}else{
+			return null;
+		}
+	}
+	
+	public List getEnums(String group)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null)
+		{
+			return child;
+		}else
+			return null;
+	}
+	
+	public List getEnumsAll(String group)
+	{
+		final List child = (List)map.get(group);
+		List list = new ArrayList();
+		for(int i=0;i<child.size();i++)
+		{
+			list.add(child.get(i));
+		}
+		SystemEnum eb = new SystemEnum();
+		eb.setDesc("全部");
+		eb.setValue("-999");
+		eb.setGroup("all");
+		list.add(0, eb);
+		if(list!=null)
+		{
+			return list;
+		}else
+			return null;
+	}
+	
+	public String getEnumsDescByValue(String group,String value)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String str=null;
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(e.getValue().equalsIgnoreCase(value))
+				{
+					str = e.getDesc();
+					break;
+				}
+			}
+			return str;
+		}else{
+			return null;
+		}
+	}
+	
+	public SystemEnum getSystemEnumByValue(String group , String value){
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			SystemEnum result = null;
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(e.getValue().equalsIgnoreCase(value)){
+					result = e;
+					break;
+				}
+			}
+			return result;
+		}else{
+			return null;
+		}
+	}
+	
+	public String getEnumsValueByDesc(String group,String desc)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String str=null;
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(e.getDesc().equalsIgnoreCase(desc))
+				{
+					str = e.getValue();
+					break;
+				}
+			}
+			return str;
+		}else{
+			return null;
+		}
+	}
+	
+	public String getEnumsValueByCode(String group,String code)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String str=null;
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(e.getCode().equalsIgnoreCase(code))
+				{
+					str = e.getValue();
+					break;
+				}
+			}
+			return str;
+		}else{
+			return null;
+		}
+	}
+	
+	public List removeEnumByCode(String group,String code){
+		final List child = (List)map.get(group);
+		List list = null;
+		if(child!=null&&child.size()>0){
+			list = new ArrayList();
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(!e.getCode().equalsIgnoreCase(code)){
+					list.add(e);
+				}
+				
+			}
+		}
+		
+		return list;
+	}
+	
+	
+	public String getEnumsCodeByValue(String group,String value)
+	{
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String str=null;
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(e.getValue().equalsIgnoreCase(value))
+				{
+					str = e.getCode();
+					break;
+				}
+			}
+			return str;
+		}else{
+			return null;
+		}
+	}
+	
+	public String getEnumsDescByCode(String group,String code){
+		final List child = (List)map.get(group);
+		if(child!=null&&child.size()>0)
+		{
+			String str=null;
+			for(int i=0;i<child.size();i++)
+			{
+				SystemEnum e = (SystemEnum)child.get(i);
+				if(e.getCode().equalsIgnoreCase(code))
+				{
+					str = e.getDesc();
+					break;
+				}
+			}
+			return str;
+		}else{
+			return null;
+		}
+	}
+	
+}
+</p>
+</pre>
+
+</div>
+</body>
+</html>

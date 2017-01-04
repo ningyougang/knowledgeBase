@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>传输层</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		
+<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>传输层</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+一、简介
+OSI下3层的主要任务是数据通信，上3层的任务是数据处理。而传输层（Transport Layer）是OSI模型的第4层。
+因此该层是通信子网和资源子网的接口和桥梁，起到承上启下的作用。
+该层的主要任务是：向用户提供可靠的端到端的差错和流量控制，保证报文的正确传输。
+传输层的作用是向高层屏蔽下层数据通信的细节，即向用户透明地传送报文。
+该层常见的协议：TCP/IP中的TCP协议、UDP协议、Novell网络中的SPX协议和微软的NetBIOS/NetBEUI协议。
+传输层提供会话层和网络层之间的传输服务，这种服务从会话层获得数据，并在必要时，对数据进行分割。
+然后，传输层将数据传递到网络层，并确保数据能正确无误地传送到网络层。
+因此，传输层负责提供两节点之间数据的可靠传送，当两节点的联系确定之后，传输层则负责监督工作
+
+二、功能
+1.传输连接管理：提供建立、维护和拆除传输连接的功能。传输层在网络层的基础上为高层提供“面向连接”和“面向无接连”的两种服务。
+2.处理传输差错：提供可靠的“面向连接”和不太可靠的“面向无连接”的数据传输服务、差错控制和流量控制。
+  在提供“面向连接”服务时，通过这一层传输的数据将由目标设备确认，如果在指定的时间内未收到确认信息，数据将被重发。
+3.监控服务质量。
+
+传输层3次挥手/4次握手的好文
+1.http://www.cnblogs.com/ggjucheng/p/3348492.html
+2.http://blog.csdn.net/huangxy10/article/details/8012180
+
+</pre>
+</div>
+</body>
+</html>

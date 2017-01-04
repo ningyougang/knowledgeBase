@@ -1,0 +1,278 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>webservice-xfire</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>axis介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+webservice简介:WebService是一种分布式环境．可以通过接口和代理远程访问对象，并可在这些对象上进行操作，
+并且它的设计理念相当好:跨平台、跨语言。
+
+SOAP(可以理解为将请求转化为xml,在底层还是采用流的形式):
+SOAP意思是简单对象访问协议(Simple Object Access Protocol)。的确如它的名字一样，SOAP是很简单的。
+它是一个基于XML的协议，允许程序组件和应用程序彼此使用一种标准的Internet协议--HTTP来通讯。
+SOAP是一种独立的平台，它不依赖程序语言，它是简单的，弹性的，很容易扩展的。
+目前，应用程序能够彼此使用一种基于DCOM和CORBA技术的远程过程调用（RPC）来进行相互通讯，但HTTP不被设计为这个目的。
+RPC在Internet上应用是非常困难的，它们会出现许多兼容性和安全性的问题，
+因为防火墙和代理服务器通常都会阻断（block）这些类型的流量。
+应用程序之间最好的通讯方式是通过HTTP协议，因为HTTP是支持所有Internet浏览器和服务器的。
+
+WSDL(可以理解为向别人提供web服务的方法、参数等):
+你会怎样向别人介绍你的Web service有什么功能，以及每个函数调用时的参数呢？解决方法是：用机器能阅读的方式提供一个正式的描述文档。
+Web service描述语言(WSDL)就是这样一个基于XML的语言，用于描述Web service及其函数、参数和返回值。
+因为是基于XML的，所以WSDL既是机器可阅读的，又是人可阅读的，这将是一个很大的好处。
+一些最新的开发工具既能根据你的Web service生成WSDL文档，又能导入WSDL文档，生成调用相应Web service的代码 .
+
+UDD: 是一种目录服务，企业可以使用它对 Web services 进行注册和搜索。
+UDDI，英文为 "Universal Description, Discovery and Integration"，可译为“通用描述、发现与集成服务”。
+
+axis全称Apache Extensible Interaction System 即阿帕奇可扩展交互系统。
+Axis本质上就是一个SOAP引擎，提供创建服务器端、客户端和网关SOAP操作的基本框架。
+</pre>
+</div><div class="AI_common_title1">
+	<h2>代码示例</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+用法体会:
+1.初次开发axis的难度会比xfire要高一点。
+2.由于应用层采用http协议,防火墙一般情况下是允许这类协议的数据通过(当然也可以禁止),如果是其他协议还需要打通端口。
+3.客户端不需要写接口(目前xfire、spring-hessian、rmi都需要写客户端接口定义，其中rmi包路径、接口类名、方法需与服务端保持一致)
+4.建议学习下soapUI这款工具，人工发起web服务器请求,了解底层通信细节。
+
+
+===========================服务器端==========================================
+//书写java接口、实现类(假设已写好)
+//发布web服务，在WEB-INFO下面的server-config.wsdd文件
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+ <globalConfiguration>
+  <parameter name="sendMultiRefs" value="true"/>
+  <parameter name="disablePrettyXML" value="true"/>
+  <parameter name="adminPassword" value="admin"/>
+  <parameter name="attachments.Directory" value="D:\YXproject\tomcat\webapps\vgop\WEB-INF\attachments"/>
+  <parameter name="dotNetSoapEncFix" value="true"/>
+  <parameter name="enableNamespacePrefixOptimization" value="false"/>
+  <parameter name="sendXMLDeclaration" value="true"/>
+  <parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <parameter name="sendXsiTypes" value="true"/>
+  <requestFlow>
+   <handler type="java:org.apache.axis.handlers.JWSHandler">
+    <parameter name="scope" value="session"/>
+   </handler>
+   <handler type="java:org.apache.axis.handlers.JWSHandler">
+    <parameter name="scope" value="request"/>
+    <parameter name="extension" value=".jwr"/>
+   </handler>
+  </requestFlow>
+ </globalConfiguration>
+ <handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+ <handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+ <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ <service name="AdminService" provider="java:MSG">
+  <parameter name="allowedMethods" value="AdminService"/>
+  <parameter name="enableRemoteAdmin" value="false"/>
+  <parameter name="className" value="org.apache.axis.utils.Admin"/>
+  <namespace>http://xml.apache.org/axis/wsdd/</namespace>
+ </service>
+ <service name="Version" provider="java:RPC">
+  <parameter name="allowedMethods" value="getVersion"/>
+  <parameter name="className" value="org.apache.axis.Version"/>
+ </service>
+ 
+ <service name="helloWebService2" provider="java:RPC">
+  <parameter name="allowedMethods" value="hello"/><!-- 如果有多个方法公开,可用逗号隔开 -->
+  <parameter name="className" value="com.asiainfo.webservice.impl.HelloServiceImpl"/> <
+ </service>
+ 
+ <transport name="http">
+  <requestFlow>
+   <handler type="URLMapper"/>
+   <handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+  </requestFlow>
+  <parameter name="qs:list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <parameter name="qs:wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+  <parameter name="qs.list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <parameter name="qs.method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <parameter name="qs:method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <parameter name="qs.wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+ </transport>
+ <transport name="local">
+  <responseFlow>
+   <handler type="LocalResponder"/>
+  </responseFlow>
+ </transport>
+</deployment>
+
+//配置servlet访问入口
+<!-- axis-servlet配置 -->
+<servlet>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <servlet-class>
+	        org.apache.axis.transport.http.AxisServlet
+	    </servlet-class>
+</servlet>
+<servlet-mapping>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <url-pattern>/servlet/AxisServlet</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <url-pattern>*.jws</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	    <servlet-name>AxisServlet</servlet-name>
+	    <url-pattern>/webservice/*</url-pattern>
+</servlet-mapping>
+
+//重启web服务器,验证是否发布成功:http://yourIP:yourPort/工程名/webservice/helloWebService2?wsdl
+
+===========================客户器端,不需要写与服务端类似的接口==========================================
+package com.asiainfo.webservice;
+
+import org.apache.axis.client.Call;
+import org.apache.axis.client.Service;
+
+public class Client {
+	
+	public static void main(String[] args) {
+		try {
+		String serviceURL = "http://10.9.236.104:8080/demo/webservice/helloWebService2" ; 
+		Service service = new Service();
+		Call call = (Call) service.createCall();
+		call.setTargetEndpointAddress( new java.net.URL(serviceURL) );
+		call.setOperationName("hello" );
+		String result = (String) call.invoke(new Object[]{});
+		System.out.println("返回的结果:" + result);
+		} catch (Exception ex) {
+		ex.printStackTrace();
+		}
+		}
+}
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>在远程调用过程中的经典异常</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+异常描述:
+- Exception:
+AxisFault
+ faultCode: {http://schemas.xmlsoap.org/soap/envelope/}Server.userException
+ faultSubcode: 
+ faultString: java.io.IOException: No serializer found for class com.asiainfo.webservice.Person in registry org.apache.axis.encoding.TypeMappingDelegate@daab16
+ faultActor: 
+ faultNode: 
+ faultDetail: 
+	{http://xml.apache.org/axis/}stackTrace:java.io.IOException: No serializer found for class com.asiainfo.webservice.Person in registry org.apache.axis.encoding.TypeMappingDelegate@daab16
+	at org.apache.axis.encoding.SerializationContext.serializeActual(SerializationContext.java:1507)
+	at org.apache.axis.encoding.SerializationContext.serialize(SerializationContext.java:980)
+	at org.apache.axis.encoding.SerializationContext.outputMultiRefs(SerializationContext.java:1055)
+	at org.apache.axis.message.SOAPBody.outputImpl(SOAPBody.java:145)
+	at org.apache.axis.message.SOAPEnvelope.outputImpl(SOAPEnvelope.java:478)
+	at org.apache.axis.message.MessageElement.output(MessageElement.java:1208)
+	at org.apache.axis.SOAPPart.writeTo(SOAPPart.java:315)
+	at org.apache.axis.SOAPPart.writeTo(SOAPPart.java:269)
+	at org.apache.axis.SOAPPart.saveChanges(SOAPPart.java:530)
+	at org.apache.axis.attachments.AttachmentsImpl.getAttachmentCount(AttachmentsImpl.java:554)
+	at org.apache.axis.Message.getContentType(Message.java:486)
+	at org.apache.axis.transport.http.HTTPSender.writeToSocket(HTTPSender.java:343)
+	at org.apache.axis.transport.http.HTTPSender.invoke(HTTPSender.java:138)
+	at org.apache.axis.strategies.InvocationStrategy.visit(InvocationStrategy.java:32)
+	at org.apache.axis.SimpleChain.doVisiting(SimpleChain.java:118)
+	at org.apache.axis.SimpleChain.invoke(SimpleChain.java:83)
+	at org.apache.axis.client.AxisClient.invoke(AxisClient.java:165)
+	at org.apache.axis.client.Call.invokeEngine(Call.java:2784)
+	at org.apache.axis.client.Call.invoke(Call.java:2767)
+	at org.apache.axis.client.Call.invoke(Call.java:2443)
+	at org.apache.axis.client.Call.invoke(Call.java:2366)
+	at org.apache.axis.client.Call.invoke(Call.java:1812)
+	at com.asiainfo.webservice.Client.main(Client.java:28)
+
+	{http://xml.apache.org/axis/}hostname:1L6ZFQ55JPLY6QT
+
+java.io.IOException: No serializer found for class com.asiainfo.webservice.Person in registry org.apache.axis.encoding.TypeMappingDelegate@daab16
+	at org.apache.axis.AxisFault.makeFault(AxisFault.java:101)
+	at org.apache.axis.SOAPPart.writeTo(SOAPPart.java:317)
+	at org.apache.axis.SOAPPart.writeTo(SOAPPart.java:269)
+	at org.apache.axis.SOAPPart.saveChanges(SOAPPart.java:530)
+	at org.apache.axis.attachments.AttachmentsImpl.getAttachmentCount(AttachmentsImpl.java:554)
+	at org.apache.axis.Message.getContentType(Message.java:486)
+	at org.apache.axis.transport.http.HTTPSender.writeToSocket(HTTPSender.java:343)
+	at org.apache.axis.transport.http.HTTPSender.invoke(HTTPSender.java:138)
+	at org.apache.axis.strategies.InvocationStrategy.visit(InvocationStrategy.java:32)
+	at org.apache.axis.SimpleChain.doVisiting(SimpleChain.java:118)
+	at org.apache.axis.SimpleChain.invoke(SimpleChain.java:83)
+	at org.apache.axis.client.AxisClient.invoke(AxisClient.java:165)
+	at org.apache.axis.client.Call.invokeEngine(Call.java:2784)
+	at org.apache.axis.client.Call.invoke(Call.java:2767)
+	at org.apache.axis.client.Call.invoke(Call.java:2443)
+	at org.apache.axis.client.Call.invoke(Call.java:2366)
+	at org.apache.axis.client.Call.invoke(Call.java:1812)
+	at com.asiainfo.webservice.Client.main(Client.java:28)
+	
+解决方案:
+1.Person实现Serializable接口,并在类中定义私有、静态、不可修改的serialVersionUID[本机中测试时该步骤可以不要,在网络环境中呢?需要测试]
+2.在Axis服务端，注册自定义对象的序列化/反序列化器，修改server-config.wsdd[注意service/beanMapping的定义。languageSpecificType中定义使用那个类, qname定义类的名称。]
+ <service name="helloWebService2" provider="java:RPC">
+  <parameter name="allowedMethods" value="hello,getPerson"/><!-- 如果有多个方法公开,可用逗号隔开 -->
+  <parameter name="className" value="com.asiainfo.webservice.impl.HelloServiceImpl"/>
+  <beanMapping languageSpecificType="java:com.asiainfo.webservice.Person" qname="ns:Person" xmlns:ns="urn:BeanService"/> 
+ </service>
+ 3.在Axis客户端，注册自定义对象的序列化/反序列化器。
+		public static void main(String[] args) {
+			try {
+			String serviceURL = "http://127.0.0.1:8080/demo/webservice/helloWebService2" ; 
+			Service service = new Service();
+			Call call = (Call) service.createCall();
+			call.setTargetEndpointAddress( new java.net.URL(serviceURL) );
+			//普通类型无参数或简单数据类型的调用-begin
+			//call.setOperationName("hello" );
+			//String result = (String) call.invoke(new Object[]{});
+			//普通类型无参数或简单数据类型的调用-end
+			//注册SimpleObject的序列化类型-begin    
+			QName qn = new QName("urn:BeanService","Person");    
+			call.registerTypeMapping(Person.class, qn,  new BeanSerializerFactory(Person.class, qn),new BeanDeserializerFactory(Person.class, qn));
+			//注册SimpleObject的序列化类型-end   
+			call.setOperationName("getPerson" );
+			Person person  = new Person();
+			person.setId(5);
+			person.setName("ningyg");
+			Person result = (Person) call.invoke(new Object[]{person});
+			System.out.println("返回的结果:" + result.getName());
+			} catch (Exception ex) {
+			ex.printStackTrace();
+			}
+	}
+
+</pre>
+</div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>java-rmi</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>rmi介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+RMI介绍:远程方法调用是一种计算机之间对象互相调用对方函数，启动对方进程的一种机制，
+使用这种机制，某一台计算机上的对象在调用另外一台计算机上的方法时，使用的程
+序语法规则和在本地机上对象间的方法调用的语法规则一样。
+
+RMI(Remote Method Invocation)RMI是分布式对象软件包，它简化了在多台计算机上的JAVA应用之间的通信。
+必须在jdk1.1以上，由纯java实现，是一种纯java环境下的系统间的通讯解决方案。
+RMI用到的类
+java.rmi.Remote
+所有服务端、客户端的接口类，都必须实现该接口，方法体定义必须抛出RemoteException异常。
+java.rmi.server.UnicastRemoteObject
+所有服务器端的实现类，可都必须扩展该类
+</pre>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;具体原理，请参见<a href="doc/rmi原理.pdf">rmi原理</a>
+</div><div class="AI_common_title1">
+	<h2>代码示例</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+RMI的一次完整的远程通信过程的原理：
+1.客户端发起请求，请求转交至RMI客户端的stub类。
+2.stub类将请求的接口、方法、参数等信息进行序列化。
+3.基于tcp/ip将序列化后的流传输至服务器端。
+4.服务器端接收到流后转发至相应的skelton类。
+5.skelton类将请求的信息反序列化后调用实际的处理类。
+6.处理类处理完毕后将结果返回给skelton类。
+7.Skelton类将结果序列化，通过tcp/ip将流传送给客户端的stub。
+8.stub在接收到流后反序列化，将反序列化后的Java Object返回给调用者。
+
+开发步骤
+1.先创建远程接口及声明远程方法，注意这是实现双方通讯的接口，需要继承Remote,方法定义需要抛出RemoteException异常。
+2.开发一个类来实现远程接口及远程方法，值得注意的是实现类需要继承UnicastRemoteObject，并实现定义的接口。
+3.注册服务，启动远程对象。
+4.最后客户端查找远程对象，并调用远程方法。
+
+用法体会:
+1.在小应用中，可以选择用RMI，而且不依赖于web容器(备注:发布webservice服务需要依赖web容器,因为webservice本质上还是http协议,只是信息封装用的是soap)。
+2.自从jdk升级后，开发很简单,不需要用rmic编译器生成stub和skeleton相关的class。
+3.服务器端、客户端的接口类的包路径一定要在相同的包路径下。
+4.如果客户端和服务端的jDK版本不一致,存在调用异常问题(需要验证)
+
+=================================服务器端代码=============================
+//接口定义
+package com.asiainfo.terminal.service;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface MQService extends Remote{
+
+	public void putCampMsg(String campMsg) throws RemoteException;
+}
+//接口实现
+package com.asiainfo.terminal.service.impl;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.log4j.Logger;
+
+import com.asiainfo.terminal.service.MQService;
+
+public class MQServiceImpl extends UnicastRemoteObject implements MQService{
+
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger = Logger.getLogger(MQServiceImpl.class);
+	
+	public MQServiceImpl() throws RemoteException {
+		super();
+	}
+
+	//推送精确AP推荐方案信息到联创侧的activeMQ
+	public void putCampMsg(String campMsg)throws RemoteException {
+		//PropertyConfigurator.configure("/log4j.properties");
+		logger.info("从VGOP-流量平台获取的精确AP推荐方案消息:" + campMsg);
+		
+		ConnectionFactory cf = new ActiveMQConnectionFactory("tcp://" +MQServer.activeMQ_server_ip+ ":"+MQServer.activeMQ_server_port+"");
+	    Connection conn = null;
+	    Session session = null;
+	    try {
+	        conn = cf.createConnection();
+	        session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
+	        Destination destination = new ActiveMQQueue(MQServer.campQueue);
+	        MessageProducer producer = session.createProducer(destination);
+	        TextMessage message = session.createTextMessage();
+	        message.setText(campMsg);
+	        producer.send(message);
+	    } catch (JMSException ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        try {
+	            if(session != null) {
+	                session.close();
+	            }
+	            if(conn != null) {
+	                conn.close();
+	            }
+	        } catch (JMSException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	
+	}
+}
+
+//开启rmi服务
+package com.asiainfo.terminal.service.impl;
+
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.codehaus.xfire.client.XFireProxyFactory;
+import org.codehaus.xfire.service.Service;
+import org.codehaus.xfire.service.binding.ObjectServiceFactory;
+
+import com.asiainfo.market.service.INutsCampService;
+import com.asiainfo.terminal.service.MQService;
+
+public class MQServer {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private static final Logger logger = Logger.getLogger(MQServer.class);
+	
+	//上海接口器的IP、以及开启的rmi服务的端口
+	public static String rmiIp = "10.9.236.104";
+    public static int rmiPort = 8088;
+    
+    //南京联创侧提供的activeMQ服务的IP、port、相关队列名称
+	public static String activeMQ_server_ip = "10.9.236.70";
+	public static int activeMQ_server_port = 61616;
+	public static String campQueue = "heweiQueue";
+	public static String userNumberQueue = "heweiQueue";
+	
+	//亚信-营销接口提供的ip、port(在正式环境的入口是20.20.20.38:80)
+	public static String appMarket_server_ip = "10.9.236.104";
+	public static int appMarket_server_port = 8080;
+	
+    public MQServer() { 
+    	//接收精确AP推荐营销方案信息,发送到联创侧的activeMQ
+        try {   
+        	System.out.println("rmi-server[接收精确AP推荐]开启中...");
+        	LocateRegistry.createRegistry(rmiPort); 
+        	MQService mqService = new MQServiceImpl();   
+            Naming.rebind("rmi://" +rmiIp+ ":"+rmiPort +"/server", mqService);   
+            System.out.println("rmi-server[接收精确AP推荐]已开启");
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }  
+    }   
+   
+    /**
+     * 备注:1>.打jar包时,需要指定main入口,即在META-INF/MAINFEST.MF里指定Main-Class: com.asiainfo.terminal.service.impl.MQServer【注意有个空格】
+     *     2>.由于需要用到第三方jar包,所以需要将第三方jar包放到%JAVA_HOME%/jre/lib/ext【这个目录下的jar包会在Bootstrap Classloader工作完后由Extension Classloader来加载】
+     *  执行命令:切换到jar包目录,运行:java -jar MQConvert.jar
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String args[]) throws Exception{   
+    	//接收精确AP推荐营销方案信息,发送到联创侧的activeMQ
+        new MQServer();   
+        
+        //开启队列监听,接收到方案、电话号码等信息,调用appMarket工程提供的webservice，将信息传递,在传给鸿冠
+        System.out.println("activeMQ[接收方案对应的号码]receiver监控开启中...");
+		ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://" +activeMQ_server_ip+ ":" +activeMQ_server_port+ "");  
+		Connection connection = factory.createConnection();  
+	    connection.start();  
+	    Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);  
+	    Destination destination = new ActiveMQQueue(userNumberQueue);
+	    MessageConsumer consumer = session.createConsumer(destination);
+        consumer.setMessageListener(new MessageListener() {  
+	          public void onMessage(Message message) {  
+	    		  try{
+	                   TextMessage tm = (TextMessage) message;  
+	                   //PropertyConfigurator.configure("/log4j.properties");
+	                   logger.info("从南京联创侧获取的电话号码消息:" + tm.getText());
+	      		       Service serviceModel = new ObjectServiceFactory().create(INutsCampService.class);
+	    		       String serviceURL = "http://" + appMarket_server_ip + ":" +appMarket_server_port +"/appMarket/services/nuts";
+	    		       INutsCampService service = null;
+	    			   service = (INutsCampService)new XFireProxyFactory().create(serviceModel, serviceURL);
+	    			   service.putCampUserNumber(tm.getText());
+	    		   }catch(Exception e){
+	    			throw new RuntimeException(e);
+	    		   }
+	              }  
+	    });  
+        System.out.println("activeMQ[接收方案对应的号码,发送到appMarket]receiver监听已开启");
+    }   
+}
+=================================客户端调用代码=============================
+
+package com.asiainfo.terminal.service;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface MQService extends Remote{
+
+	public void putCampMsg(String campMsg) throws RemoteException;
+}
+
+
+MQService mqService = (MQService) Naming.lookup("rmi://" + ConfigureFile.getInstance().getProperty("RMI_IP")+ ":" + ConfigureFile.getInstance().getProperty("RMI_PORT") + "/server");   
+mqService.putCampMsg("<msg event_id=\""+temp.getMsCode()+"\"></msg>");  //event_id为ms_code
+</pre>
+</div>
+</body>
+</html>

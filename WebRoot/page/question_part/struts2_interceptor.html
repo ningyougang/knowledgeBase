@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>struts2-拦截器同步</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;"> 
+环境:
+前台MVC框架:struts2 
+容器框架:spring
+持久层框架:ibatis
+
+报障描述:
+当用户连续点击大数据量下载功能时,系统挂掉!
+
+问题解决历程:
+当接触到该报障时,以为是下载功能出了问题 ,可是查了许久也没有查出问题原因.
+后来意识到不是下载功能出了问题，而是整个系统的框架有问题，于是仔细分析,发现拦截器的方法 intercept加了synchronized .
+有问题的代码结构如下:
+public  synchronized String intercept(ActionInvocation invocation) throws Exception {  
+	   //权限控制
+	   //记录日志
+} 
+很明显synchronized加在这里是不合适的,因为一旦加上就意味着给该方法加了锁 ,一旦某个线程(即前台请求)
+进入该方法,其他线程(前台请求)必须等待上个线程访问完该方法才可以进入。由于大数据量下载占用的时间较长
+在加上用户在不停的点击,导致很多线程(前台请求)在等待,当线程超过1定的数据量,web服务器挂掉!
+                                         
+解决办法:
+将synchronized去掉即可, 但是该方法有风险,由于默认是单例的,
+如果该拦截器可能存在"可以变化"的私有变量,那么当前的线程有可能使用上一个线程使用后的变量.
+所以务必要将拦截器类的有"可以变化"的私有变量去掉，逻辑放在拦截器方法里去实现.                                        
+</pre> 
+</body>
+</html>

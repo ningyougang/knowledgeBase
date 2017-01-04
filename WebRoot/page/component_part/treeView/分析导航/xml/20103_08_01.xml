@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月离网用户减少收入分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='离网减少收入' SYAxisName='离网减少收入占比' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="1">
+
+<categories>
+ 	<category label='马鞍山'/>
+	<category label='黄山'/>
+	<category label='池州'/>
+	<category label='合肥'/>
+	<category label='铜陵'/>
+	<category label='宿州'/>
+	<category label='芜湖'/>
+	<category label='滁州'/>
+	<category label='亳州'/>
+	<category label='巢湖'/>
+	<category label='蚌埠'/>
+	<category label='淮南'/>
+	<category label='宣城'/>
+	<category label='安庆'/>
+	<category label='阜阳'/>
+	<category label='淮北'/>
+	<category label='六安'/>
+</categories>
+ 
+<dataset seriesName="离网减少收入" color="AFD8F8">
+  	<set value='138466.00'/>
+		<set value='102345.00'/>
+		<set value='88403.00'/>
+		<set value='686052.00'/>
+		<set value='66438.00'/>
+		<set value='189210.00'/>
+		<set value='153831.00'/>
+		<set value='175778.00'/>
+		<set value='157734.00'/>
+		<set value='130891.00'/>
+		<set value='122162.00'/>
+		<set value='101828.00'/>
+		<set value='94299.00'/>
+		<set value='137398.00'/>
+		<set value='170621.00'/>
+		<set value='44069.00'/>
+		<set value='73893.00'/>
+</dataset>
+ 
+<dataset lineThickness="2" seriesName="离网减少收入占比" parentYAxis="S" >
+    <set value='0.003809'/>
+		<set value='0.003432'/>
+		<set value='0.003075'/>
+		<set value='0.003032'/>
+		<set value='0.002814'/>
+		<set value='0.002196'/>
+		<set value='0.002181'/>
+		<set value='0.002134'/>
+		<set value='0.002106'/>
+		<set value='0.002012'/>
+		<set value='0.001883'/>
+		<set value='0.001786'/>
+		<set value='0.001584'/>
+		<set value='0.001463'/>
+		<set value='0.001371'/>
+		<set value='0.001025'/>
+		<set value='0.000870'/>
+</dataset>
+</chart>

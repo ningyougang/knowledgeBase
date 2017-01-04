@@ -1,0 +1,42 @@
+﻿<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='50' yAxisMinValue='0' numDivLines='8'
+	adjustDiv='0'>
+	<categories>
+		<category label='04-20 8:00' />
+		<category />
+		<category />
+		<category label='04-20 9:00' />
+		<category />
+		<category />
+		<category label='04-20 10:00' />
+		<category />
+		<category />
+		<category label='04-20 11:00' />
+		<category />
+		<category />
+		<category label='04-20 12:00' />
+	</categories>
+	<dataset seriesName='A业务访问次数' Color='F1683C'
+		anchorBorderColor='F1683C' anchorBgColor='F1683C'>
+	  <set value='5000' />
+		<set value='6000' />
+		<set value='7000' />
+		<set value='8000' />
+		<set value='9000' />
+		<set value='10000' />
+		<set value='11000' />
+		<set value='12000' />
+		<set value='13000' />
+		<set value='14000' />
+		<set value='15000' />
+		<set value='16000' />
+		<set value='17000' />
+	</dataset></chart>

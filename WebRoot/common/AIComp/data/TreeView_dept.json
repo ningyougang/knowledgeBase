@@ -1,0 +1,61 @@
+[{
+			id : '51001',
+			title : '西安',
+			val : '',
+			leaf : true,
+			warn : false
+		}, {
+			id : '51002',
+			title : '渭南',
+			val : '',
+			leaf : true,
+			warn : true
+		},{
+			id : '51003',
+			title : '宝鸡',
+			val : '',
+			leaf : true,
+			warn : false
+		},{
+			id : '51004',
+			title : '咸阳',
+			val : '',
+			leaf : true,
+			warn : false
+		},{
+			id : '51005',
+			title : '汉中',
+			val : '',
+			leaf : true,
+			warn : true
+		},{
+			id : '51006',
+			title : '安康',
+			val : '',
+			leaf : true,
+			warn : false
+		},{
+			id : '51007',
+			title : '商洛',
+			val : '',
+			leaf : true,
+			warn : false
+		},{
+			id : '51008',
+			title : '延安',
+			val : '',
+			leaf : true,
+			warn : true
+		},{
+			id : '51009',
+			title : '榆林',
+			val : '',
+			leaf : true,
+			warn : true
+		},{
+			id : '51010',
+			title : '铜川',
+			val : '',
+			leaf : true,
+			warn : true
+		}]

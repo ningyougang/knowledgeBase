@@ -1,0 +1,44 @@
+/******************** tab title **********************/
+.tab_title{
+    width:99.5%;
+	border-bottom:1px solid #5e97ca;
+	clear:both;
+    height:25px;
+	line-height:25px;
+	overflow:hidden;
+}
+.tab_title p{
+	float:right;
+	margin-right:20px;
+	width:atuo;
+	z-index:999;
+}
+.tab_title li{
+	margin-right:1px;
+	padding:0;
+	display:block;
+	float:left;
+	margin-bottom:-1px;
+}
+.tab_title a{
+	float:left;
+	background:url(../images/tab_left_bg2.jpg) no-repeat 0 0;
+	padding-left:8px;
+	text-decoration:none;
+}
+.tab_title a:hover{
+	background:url(../images/tab_left_bg2.jpg) no-repeat 0 -25px;
+}
+.tab_title a span{
+	display:block;
+	background:url(../images/tab_right_bg2.jpg) no-repeat 100% 0;
+	padding:2px 20px 3px 19px;
+	color:#1f376d;
+}
+.tab_title a span:hover{
+	background:url(../images/tab_right_bg2.jpg) no-repeat 100% -25px;
+}
+.tab_title a.tbt {background-position:0 -25px;color:#1f376d; border:none;}
+.tab_title a.tbt span {background-position:100% -25px;color:#000;border:none; font-weight:bold;}
+
+

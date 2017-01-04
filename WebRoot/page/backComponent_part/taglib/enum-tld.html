@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>枚举标签</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>枚举标签</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+1.编写标签处理器类
+/**
+ * Title: 页面枚举集合标签
+ * @version 1.0
+ */
+package com.asiainfo.taglib;
+
+import java.util.List;
+
+import javax.servlet.jsp.JspTagException;
+import javax.servlet.jsp.tagext.BodyTagSupport;
+
+import com.asiainfo.base.util.Enums;
+
+public class ListTag extends BodyTagSupport {
+
+	private static final long serialVersionUID = -8639470232675405205L;
+
+	private String name;
+	
+	private String group;
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public int doStartTag() throws JspTagException {
+		try{
+			//获取枚举集合
+			List enumlist = Enums.getInstance().getEnums(group);
+			this.pageContext.setAttribute(name, enumlist);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return this.SKIP_BODY;
+	}
+	
+}
+2.编写枚举描述符文件enum.tld(放于WEB-INFO目录下或子目录下)
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>ENUMPAGE</shortname>
+	<uri>/AsiaInfo-Enum</uri>
+	<tag>
+		<name>list</name>
+		<tagclass>com.asiainfo.taglib.ListTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>group</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>value</name>
+		<tagclass>com.asiainfo.taglib.ValueTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>group</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+3.在jsp文件头部引入标签库,在页面上引用标签(注意,如果有多个标签,可以将多个标签的引入放入1个类似tld.inc文件里)
+头部引入:
+<%@ taglib prefix="Enum" uri="/AsiaInfo-Enum" %>
+页面书写标签(strtus2框架执向的页面):
+<Enum:list name="cba" group="campBoonActivity"></Enum:list>
+<s:select list="#attr.cba" listKey="value" listValue="desc" name="" id="campYhFlag"></s:select>
+</pre>
+</p>
+</div>
+
+
+</body>
+</html>

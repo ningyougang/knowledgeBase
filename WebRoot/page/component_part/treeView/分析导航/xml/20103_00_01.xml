@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月各地市累计收入分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='收入值(万元)' SYAxisName='同比增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" showLegend="0" showBorder='0' showLabels='0'>
+
+<categories>
+ 	<category label='亳州' value='A'/>
+	<category label='阜阳'/>
+	<category label='宿州'/>
+	<category label='淮北'/>
+	<category label='滁州'/>
+	<category label='六安'/>
+	<category label='池州'/>
+	<category label='巢湖'/>
+	<category label='芜湖'/>
+	<category label='黄山'/>
+	<category label='合肥'/>
+	<category label='蚌埠'/>
+	<category label='安庆'/>
+	<category label='淮南'/>
+	<category label='宣城'/>
+	<category label='铜陵'/>
+	<category label='马鞍山'/>
+</categories>
+ 
+ <dataset seriesName="收入值" color="AFD8F8">
+  	<set value='199229.16'/>
+	<set value='322588.63'/>
+	<set value='243455.97'/>
+	<set value='131870.83'/>
+	<set value='255691.20'/>
+	<set value='246311.34'/>
+	<set value='84351.01'/>
+	<set value='183539.05'/>
+	<set value='218002.29'/>
+	<set value='92279.05'/>
+	<set value='727740.53'/>
+	<set value='199115.88'/>
+	<set value='271713.38'/>
+	<set value='187721.25'/>
+	<set value='194777.53'/>
+	<set value='79466.48'/>
+	<set value='124257.07'/>
+</dataset>
+	 
+<dataset lineThickness="2" seriesName="增长率" parentYAxis="S" >
+    <set value='37.88'/>
+	<set value='37.46'/>
+	<set value='36.84'/>
+	<set value='36.69'/>
+	<set value='36.49'/>
+	<set value='36.48'/>
+	<set value='36.46'/>
+	<set value='36.27'/>
+	<set value='36.11'/>
+	<set value='36.11'/>
+	<set value='35.86'/>
+	<set value='35.82'/>
+	<set value='35.42'/>
+	<set value='34.69'/>
+	<set value='34.51'/>
+	<set value='34.49'/>
+	<set value='33.66'/>
+</dataset>
+</chart>

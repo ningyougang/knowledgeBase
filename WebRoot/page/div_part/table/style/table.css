@@ -1,0 +1,90 @@
+﻿@charset "utf-8";
+body h2{
+	color:#0000ff;
+	font-size:14px;
+	line-height:30px;
+	text-indent:10px;
+}
+/****************************table 滚动条样式**********************/
+.table_scrollbar{
+	height:150px;
+	overflow:auto;
+	overflow-x:hidden;
+	scrollbar-face-color: #fefefe;
+	scrollbar-shadow-color: #c4cfcd;
+	scrollbar-highlight-color: #c4cfcd;
+	scrollbar-3dlight-color: #f6f6f6;
+	scrollbar-darkshadow-color: #f6f6f6;
+	scrollbar-track-color: #f6f6f6;
+	scrollbar-arrow-color: #c4cfcd;
+}
+
+
+/* AI common blue table */
+.AI_con_blue_table{
+	border-collapse:collapse;
+	font-family:Arial,  宋体;
+	margin:0px auto;	
+	width:99.5%;
+}
+.AI_con_blue_table thead th {
+	background:#cae5f6 url(../images/con_table_title.gif) repeat-x 0 0;
+	border:1px solid #a4c5f0;
+	color:#010101;
+	font-weight:normal;
+	height:22px;
+	text-align:center;
+	white-space: nowrap;
+}
+.AI_con_blue_table th,td{
+	border:1px solid #dcdcdc;
+	border-top:none;
+	line-height:22px;
+	padding-left:4px;
+	padding-right:4px;
+	text-align:left;
+}
+.AI_con_blue_table th{
+	background-color:#F2F4B9;
+}
+
+.AI_con_blue_table td{
+	color:#555555;
+}
+.text_align_right{
+    text-align:right;
+}
+
+
+/* AI common gray table */
+.AI_con_gray_table{
+	border-collapse:collapse;
+	font-family:Arial,  宋体;
+	margin:0px auto;	
+	width:99.5%;
+}
+.AI_con_gray_table thead th {
+	background:#eeeeee url(../images/con_table_title.gif) repeat-x 0 -62px;
+	border:1px solid #d0d0d0;
+	color:#010101;
+	font-weight:normal;
+	height:22px;
+	text-align:center;
+	white-space: nowrap;
+}
+.AI_con_gray_table th,td{
+	border:1px solid #ededed;
+	border-top:none;
+	line-height:22px;
+	padding-left:4px;
+	padding-right:4px;
+	text-align:left;
+}
+.AI_con_gray_table th{
+	background-color:#F2F4B9;
+}
+
+.AI_con_gray_table td{
+	color:#555555;
+}
+

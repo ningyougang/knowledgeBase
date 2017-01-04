@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月份数据业务分地域分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='流量增长率' SYAxisName='收入增长率' palette='1' 
+showValues='0' sNumberSuffix='%' numberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="1">
+
+<categories>
+ 	<category label='巢湖'/>
+	<category label='宣城'/>
+	<category label='池州'/>
+	<category label='芜湖'/>
+	<category label='滁州'/>
+	<category label='淮南'/>
+	<category label='蚌埠'/>
+	<category label='六安'/>
+	<category label='亳州'/>
+	<category label='安庆'/>
+	<category label='宿州'/>
+	<category label='马鞍山'/>
+	<category label='合肥'/>
+	<category label='黄山'/>
+	<category label='阜阳'/>
+	<category label='淮北'/>
+	<category label='铜陵'/>
+</categories>
+ 
+<dataset seriesName="GPRS流量增长率" color="AFD8F8">
+  	<set value='434.59'/>
+	<set value='387.49'/>
+	<set value='427.43'/>
+	<set value='306.66'/>
+	<set value='288.49'/>
+	<set value='315.80'/>
+	<set value='285.83'/>
+	<set value='334.53'/>
+	<set value='485.56'/>
+	<set value='311.11'/>
+	<set value='467.20'/>
+	<set value='261.09'/>
+	<set value='354.75'/>
+	<set value='121.70'/>
+	<set value='544.35'/>
+	<set value='349.20'/>
+	<set value='176.39'/>
+</dataset>
+ 
+<dataset lineThickness="2" seriesName="GPRS收入增长率" parentYAxis="S" >
+    <set value='130.52'/>
+	<set value='72.53'/>
+	<set value='47.92'/>
+	<set value='43.68'/>
+	<set value='36.28'/>
+	<set value='32.16'/>
+	<set value='25.11'/>
+	<set value='24.84'/>
+	<set value='23.30'/>
+	<set value='20.44'/>
+	<set value='19.22'/>
+	<set value='18.38'/>
+	<set value='12.08'/>
+	<set value='10.61'/>
+	<set value='3.36'/>
+	<set value='-13.11'/>
+	<set value='-22.46'/>
+</dataset>
+</chart>

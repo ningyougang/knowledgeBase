@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>spring框架</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+
+<!--  -->
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />	
+
+
+<!-- AIComp 组件所需js及css start -->
+		<link rel="stylesheet" type="text/css"
+			href="../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../common/AIComp/script/AI.Comp.js"></script>
+<!-- AIComp 组件所需js及css end -->
+
+
+<!-- Syntax 组件导入js及样式 start-->
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();
+		</script>
+<!-- Syntax 组件导入js及样式 end-->
+
+		
+	</head>
+<body>
+
+	<div class="AI_common_title1">
+		<h2>1.	创建iBatis工程的步骤 </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		(1)	建立数据库
+		(2)	创建工程
+		(3)	添加lib
+		(4)	编写sqlmapconfig.xml
+		(5)	编写sqlmap.xml
+		(6)	编写代码
+		</pre>
+	</div>
+	
+	<div class="AI_common_title1">
+		<h2>2.	iBatis与传统JDBC比较</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		(1)	iBatis比使用JDBC编程减少了61%的代码量
+		(2)	iBatis是最简单的持久化框架
+		(3)	iBatis框架使SQL代码从程序代码中彻底分离,并且SQL语句可以重用.
+		(4)	增强了项目中的分工和项目的可移植性。
+		</pre>
+	</div>
+	
+	<div class="AI_common_title1">
+		<h2>3.	Hibernate和ibatis的映射关系</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<p>
+		Hibernate是一个ORM(对象关系映射)框架.它使数据库的元数据和类的元数据之间建立一种关系.
+		</p>
+		<p>
+		iBatis 是把sql语句的参数与结果映射为类.它是在类与数据库表之间建立了一个额外的连接层,这样就会在类和数据库表之间建立映射关系带来了更大的灵活性.使得在不改变数据模型或者对象模型的情况下改变它们的映射关系成为可能.
+		</p>
+		<p>
+		iBatis映射的是SQL语句,而不是类和表之间的关系.这就是ibatis和hibernate的本质区别.
+		</p>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+		<h2>4.	认识SqlMapClient接口</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java">
+		SqlMapClient是一个接口,它的实现类是SqlMapClientImpl.
+		SqlMapClient是处理SQL映射工作的核心类,这个接口涉及倒对SQL映射的执行(如: select, insert,update,delete等)和批处理. 
+		只要拥有了SqlMapClient实例,所有需要处理的SQL映射就变得非常容易了.
+			这个接口的实例(SqlMapClientImpl)包含的方法有:
+		(1) queryForList
+		//指定SQL的ID，执行的结果返回List    
+		queryForList(java.lang.String id) ;    
+		   
+		//指定SQL的ID，并指定返回的行数    
+		queryForList(java.lang.String id, int skip, int max) ;    
+		   
+		//指定SQL的ID，并指定传入参数    
+		queryForList(java.lang.String id, java.lang.Object parameterObject) ;    
+		   
+		//指定SQL的ID，并指定传入参数，再指定返回的行数    
+		queryForList(java.lang.String id, java.lang.Object parameterObject, int skip, int max) ; 
+		
+		(2) queryForMap
+		//执行SQL的ID，并把结果中的某一字段作为map的key    
+		queryForMap(java.lang.String id, java.lang.Object parameterObject, java.lang.String keyProp) ;    
+		   
+		//同上，并且map中的value是指定的字段，而不是整个返回对象    
+		queryForMap(java.lang.String id, java.lang.Object parameterObject, java.lang.String keyProp, java.lang.String valueProp) ;
+		   
+		//执行SQL的ID，并把结果中的某一字段作为map的key
+		queryForMap(java.lang.String id, java.lang.Object parameterObject, java.lang.String keyProp) ;
+		
+		//同上，并且map中的value是指定的字段，而不是整个返回对象
+		queryForMap(java.lang.String id, java.lang.Object parameterObject, java.lang.String keyProp, java.lang.String valueProp) ;  
+		
+		(3) queryForObject
+		//执行指定的SQL ID，并返回一个对象，如果查询出的函数过多，会有异常SQLException抛出    
+		queryForObject(java.lang.String id) ;    
+		   
+		//同上，并加上了传递的参数    
+		queryForObject(java.lang.String id, java.lang.Object parameterObject) ;    
+		   
+		//同上，并执行的返回对象的引用    
+		queryForObject(java.lang.String id, java.lang.Object parameterObject, java.lang.Object resultObject) ;  
+		
+		(4) queryForPaginatedList 
+		//这两个方法返回的是 PaginatedList 接口。    
+		   
+		//指定查询的SQL ID，并且规定了每页的数量     
+		queryForPaginatedList(java.lang.String id, int pageSize) ;    
+		   
+		//同上，并且加上了指定的传参    
+		queryForPaginatedList(java.lang.String id, java.lang.Object parameterObject, int pageSize) ;   
+		
+		(5) insert() 执行一个映射的SQL Insert 语句.
+		(6) delete() 执行一个映射的SQL Delete 语句.
+		(7) update() 执行一个映射的SQL Update 语句.
+		(8) excuteBatch() 执行当前的一批语句. 
+		</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+		<h2>5.	SqlMapConfig标签详解</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:xml">
+		(1)<properties >元素
+		SQL Map配置文件拥有唯一的< properties >元素(即：properties元素只能在SqlMapConfig文件中出现一次),
+		用于在配置文件中使用标准的Java属性文件(name=value).
+		在属性文件中定义的属性可以作为变量在SQL Map配置文件及其包含的所有SQL Map映射文件中使用。例如，如果属性文件中包含属性：
+		driver=com.mysql.jdbc.Driver
+		SQL Map配置文件及其每个映射文件都可以使用占位符 ${driver}来代表值com.mysql.jdbc.Driver。例如：
+		<property name="JDBC.Driver" value= "${driver}" />
+		Properties元素的写法如下：
+		<properties resource="sqlMap.properties" />
+		</pre>
+		<pre class="brush:xml">
+		(2)	<settings> 元素
+		<settings>元素用于配置和优化SqlMapClient实例的各选项。
+		<settings>元素本身及其所有的属性都是可选的。
+		<settings>元素的例子如下：
+		<settings
+		cacheModelsEnabled="true" <br/>
+		enhancementEnabled="true" <br/>
+		lazyLoadingEnabled="true" <br/>
+		maxRequests="32" <br/>
+		maxSessions="10" <br/>
+		maxTransactions="5" <br/>
+		useStatementNamespaces="false"/>
+		</pre>
+		<pre class="brush:xml">
+		(3)	<typeAlias>元素
+		<typeAlias>元素为一个通常较长的、全限定类名指定一个较短的别名。例如： 
+		<typeAlias alias="shortname" type="com.long.class.path.Class"/>
+		</pre>
+		<pre class="brush:xml">
+		(4)	< transactionManager>元素
+		<transationManager>元素让您为SQL Map配置事务管理服务。属性type指定所使用的事务管理器类型。这个属性值可以是一个类名，也可以是一个别名。
+		包含在框架的三个事务管理器分别是：JDBC，JTA和EXTERNAL。
+		</pre>
+		<pre class="brush:xml">
+		(5)	< datasource>元素
+		<datasource>是<transactionManager>的一部分，为SQL Map数据源设置了一系列参数。
+		目前SQL Map架构只提供三个DataSource Factory，也可以添加自己的实现。
+		例：
+		  <transactionManager type="JDBC">
+		    <dataSource type="SIMPLE">
+		      <property name="JDBC.Driver" value="${driver}"/>
+		      <property name="JDBC.ConnectionURL" value="${url}"/>
+		      <property name="JDBC.Username" value="${username}"/>
+		      <property name="JDBC.Password" value="${password}"/>
+		    </dataSource>
+		  </transactionManager>
+		</pre>
+		<pre class="brush:xml">
+		(6)	<sqlMap >元素
+		<sqlMap>元素用于包括SQL Map映射文件和其他的SQL Map配置文件。每个SqlMapClient对象使用的所有SQL Map映射文件都要在此声明。
+		映射文件作为stream resource从类路径或URL读入。
+		例：
+		<sqlMap resource="userAccount.xml"/>
+		</pre>
+	</div>
+	<div class="AI_common_title1">
+		<h2>6.	SqlMap标签详解</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	
+		<pre class="brush:xml">
+		(1)	<cacheModel>
+		cacheModel的属性值等于指定的cacheModel元素的name属性值。属性cacheModel定义查询mapped statement的缓存。
+		每一个查询mapped statement可以使用不同或相同的cacheModel. 
+		<cacheModel id="product-cache" imlementation="LRU"> 
+		<flushInterval hours="24"/> 
+		<flushOnExecute statement="insertProduct"/> 
+		<flushOnExecute statement="updateProduct"/> 
+		<flushOnExecute statement="deleteProduct"/> 
+		<property name=”size” value=”1000” /> 
+		</cacheModel> 
+		<statement id=”getProductList” parameterClass=”int” cacheModel=”product-cache”> 
+		select * from PRODUCT where PRD_CAT_ID = #value#
+		</statement> 
+		上面例子中，“getProductList”的缓存使用WEAK引用类型，每24小时刷新一次，或当更新的操作发生时刷新。
+		</pre>
+		
+		<pre class="brush:html">
+		(2)	<typeAlias> 类别名
+		用别名取代包含包名的类命名。系统默认定义了一些常用数据类型的别名，所以使用String、Map等是不需要全名就可以了。
+		例：
+		<!-- 定义别名，使用时就可省略包名 -->
+		<typeAlias alias="Account" type="com.mydomain.domain.Account"/>
+		
+		(3)	<parameterMap>  参数类型外联映射关系
+		parameterMap的基本思想是定义一系列有次序的参数系列，用于匹配JDBC PreparedStatement的值符号。例如： 
+		<!-- SQL字段类型与类属性映射关系，在SQL语句中用?占位符就可以了 -->
+		<parameterMap id=”insert-product-param” class=”com.domain.Product”> 
+		<parameter property=”id”/> 
+		<parameter property=”description”/> 
+		</parameterMap> 
+		<statement id=”insertProduct” parameterMap=”insert-product-param”> 
+		insert into PRODUCT (PRD_ID, PRD_DESCRIPTION) values (?,?); 
+		</statement>
+		
+		(4)	<resultMap>返回类型显示映射关系
+		resultMap是最常用和最重要的属性。ResultMap属性的值等于预先定义的resultMap元素的name属性值。
+		使用resultMap可以控制数据如何从结果集中取出，以及哪一个属性匹配哪一个字段。
+		不象使用resultClass的自动映射方法，resultMap属性可以允许指定字段的数据类型.
+		resultMap的Map是映射的意思。如果要返回一个resultMap，就必须定义一个resultMap的对象。 
+		例：
+		<!-- SQL字段与类属性映射关系，省略在SQL语句中用as转换字段别名 -->
+		<resultMap id=”get-product-result” class=”com.ibatis.example.Product”> 
+		<result property=”id” column=”PRD_ID”/>  
+		<result property=”description” column=”PRD_DESCRIPTION”/> 
+		</resultMap> 
+		<statement id=”getProduct” resultMap=”get-product-result”> 
+		select * from PRODUCT 
+		</statement>
+		
+		(5)	<select>
+		select标签的使用方法有6种。
+				如下： 
+		<sqlMap>
+		   <typeAlias alias="account" type="com.star.Account"/>
+		
+		    <!-- 1.无映射 -->
+		    <select id="getAllUsers1" resultClass="account" parameterClass="string">
+		    
+		    	SELECT * FROM USER_ACCOUNT WHERE GROUPNAME=#groupName#
+		    	<br/>
+		    </select>
+		    
+		     <!-- 2.内联映射->实体类 -->
+		    <select id="getAllUsers2" resultClass="account" parameterClass="string">
+		   	 <br/>
+		    	 SELECT USERID as userid,USERNAME as username,
+		    	 
+		    	 <br/>
+		    	  PASSWORD as password,GROUPNAME as groupname 
+		    	  
+		    	  <br/>
+		    	  FROM USER_ACCOUNT WHERE GROUPNAME=#groupName#
+		    	  
+		    	  <br/>
+		    </select>
+		    
+		     <!-- 3.内联映射->Map类 -->
+		    <select id="getAllUsers3" resultClass="hashMap"  parameterClass="string">
+		    <br/>
+		    	SELECT * FROM USER_ACCOUNT WHERE GROUPNAME=#groupName#<br/>
+		    </select>
+		    
+		     <!-- 4.显示映射->实体类 -->
+		     <resultMap id="accountResult" class="account" >
+		     	<result property="userid" column="USERID"/>
+		     	<result property="username" column="USERNAME"/>
+		     	<result property="password" column="PASSWORD"/>
+		     	<result property="groupname" column="GROUPNAME"/>
+		     </resultMap>
+		    <select id="getAllUsers4" resultMap="accountResult"  parameterClass="string"><br/>
+		    
+		    	SELECT * FROM USER_ACCOUNT WHERE GROUPNAME=#groupName#<br/>
+		    </select>
+		    
+		     <!-- 5.显示映射->Map类 -->
+		     <resultMap id="mapResult" class="hashMap" >
+		     	<result property="userid" column="USERID"/>
+		     	<result property="username" column="USERNAME"/>
+		     	<result property="password" column="PASSWORD"/>
+		     	<result property="groupname" column="GROUPNAME"/>
+		     </resultMap>
+		    <select id="getAllUsers5" resultMap="mapResult"  parameterClass="string"><br/>
+		    
+		    	SELECT * FROM USER_ACCOUNT WHERE GROUPNAME=#groupName#<br/>
+		    </select>
+		    
+		    <!-- 6.返回XML -->
+		    <select id="getAllUsers6" parameterClass="string" resultClass="xml"
+		         xmlResultName="log"><br/>
+		         
+		    	SELECT * FROM USER_ACCOUNT WHERE GROUPNAME=#groupName#<br/>
+		    </select>
+		    
+		</sqlMap>
+		请参考：My_Java\B 框架\4 ibatis 2.0\例子\iBatisDemo1 中的Demo1.java
+		
+		(6)	<insert>
+		例：
+		<!-- 自动参数映射 -->
+		    <insert id="insertOneUser1" parameterClass="account"><br/>
+		    	insert into USER_ACCOUNT(USERNAME,PASSWORD,GROUPNAME)<br/>
+		    	
+		    	values(#username#,#password#,#groupname#)<br/>
+		    </insert>
+		    
+		    <!-- 内联参数映射 -->
+		    <insert id="insertOneUser2" parameterClass="account"><br/>
+		    
+		    	insert into USER_ACCOUNT(USERNAME,PASSWORD,GROUPNAME)<br/>
+		    	
+		    	values(#username:VARCHAR#,#password:VARCHAR#,#groupname:VARCHAR#)<br/>
+		    </insert>
+			
+			<!-- 外联参数映射 -->
+			<parameterMap id="parameterMapEx" class="account">
+				<parameter property="username" jdbcType="varchar"/>
+				<parameter property="password" jdbcType="varchar"/>
+				<parameter property="groupname" jdbcType="varchar"/>
+			</parameterMap>
+		    <insert id="insertOneUser3" parameterMap="parameterMapEx">
+		    
+		    	insert into USER_ACCOUNT(USERNAME,PASSWORD,GROUPNAME)<br/>
+		    	
+		    	values(?,?,?)
+		    </insert>
+		说明：
+		属性：
+		id : 指定名称
+		parameterClass :  参数类型，类的别名或全名
+		parameterMap :  传入参数的显示映射
+		调用：sqlMap.insert(sqlId,object);
+		说明：在开发过程中，常用外联参数映射。
+		
+		(7)	<update>
+		属性：
+		id : 指定名称
+		parameterClass :  参数类型，类的别名或全名
+		parameterMap :  传入参数的显示映射
+		调用：sqlMap.update(sqlId,object);
+		
+		(8)	<delete>
+		属性：
+		id : 指定名称
+		parameterClass :  参数类型，类的别名或全名
+		parameterMap :  传入参数的显示映射
+		调用：sqlMap.delete(sqlId,object);
+		
+		(9)	<procedure>
+		属性：
+		id :  指定名称
+		parameterClass :  参数类型，类的别名或全名
+		parameterMap  :传入参数的显示映射
+		resultClass  :返回类型，类的别名或全名
+		resultMap :  返回类型的显示映射
+		完整的例子：
+		<!-- 参数映射 -->
+		<parameterMap id="procedureMap" class="map">
+		<parameter property="ACC_FIRST_NAME" jdbcType="VARCHAR"
+		javaType="java.lang.String" mode="IN"/>
+		<parameter property="ACC_LAST_NAME" jdbcType="VARCHAR"
+		javaType="java.lang.String" mode="OUT"/>
+		<parameter property="ACC_EMAIL" jdbcType="VARCHAR"
+		javaType="java.lang.String" mode="INOUT"/>
+		</parameterMap>
+		<!-- 调用存储过程 -->
+		<procedure id="callProcedure" parameterMap="procedureMap"
+		resultClass="AccountResult">
+		{call procedureName(?,?,?)}
+		</procedure>
+		调用： sqlMap.update("dropTable", null);
+		
+		(10)	<statement> 执行DDL语句.
+		  数据定义语句用于定义和管理数据库中的对象。如：create table,alert table, dorp table等。   
+		statement语句用来执行所有的SQL语句。但一般的insert, update, delete, select都会使用自己的标签。
+		所以statement标签用在除了insert, update, delete, select标签外的所有其他地方。 
+		
+		属性：
+		id :指定名称
+		parameterClass :  参数类型，类的别名或全名
+		parameterMap : 传入参数的显示映射
+		定义：
+		<statement id="dropTable" parameterClass="String">
+		drop table #tableName#
+		</statement>
+		调用：sqlMapper.update("dropTable", null);
+		
+		(11)	<sql> SQL语句片段
+		与include标签配合使用。
+		
+		(12)	<include> 组合语句
+		将sql标签中的语句片段引入到其它的标签中，<sql>与<include>示例：
+		<sql id="sqlStatement">
+		select ACC_ID, ACC_FIRST_NAME, ACC_LAST_NAME, ACC_EMAIL
+		</sql>
+		<select id="sqlAndInclude">
+		<include refid="sqlStatement"/> from ACCOUNT
+		</select>
+		
+		(13)	<selectKey>
+		  生成方式与数据库有关，MySQL、MS-SQL等先插入数据再获取主键，Oracle等先查出系列的nextVal，再插入数据。
+		Oracle： select seq.nextVal as id from dual
+		MS-SQL： select @@IDENTITY as id
+		MySQL： select LAST_INSERT_ID()或select @@IDENTITY
+		实例：
+		• Oracle系列值
+		<insert id="insertAccount" parameterClass="Account">
+		<selectKey resultClass="int" keyProperty="id">
+		select sequence.nextVal from dual
+		</selectKey>
+		insert into ACCOUNT (
+		ACC_ID,
+		ACC_FIRST_NAME,
+		ACC_LAST_NAME,
+		ACC_EMAIL)
+		values (#id#, #firstName#, #lastName#, #emailAddress#)
+		</insert>
+		• MySQL自动增长值
+		<insert id="insertAccount" parameterClass="Account">
+		insert into ACCOUNT (ACC_FIRST_NAME,ACC_LAST_NAME,ACC_EMAIL)
+		values (#firstName#, #lastName#, #emailAddress#)
+		<selectKey>
+		select last_insert_id()
+		</selectKey>
+		</insert>
+		
+		7.	SQL参数详解
+		(1)	##和$$区别： 
+		a.	#是把传入的数据当作字符串，如#field#传入的是id,则sql语句生成是这样，order by "id". 
+		b.	#相当于JDBC中上的？号，以对象的方式传递参数，可以防止SQL注入攻击。
+		
+		c.	$传入的数据直接生成在sql里，如#field#传入的是id,则sql语句生成是这样，order by id.
+		d.	$以拼接字符串的方式传递参数，经典用场是like语句，使用$符号做占位符时应特别注意防止SQL注入攻击。
+		  
+		8.	ibatis事务处理
+		(1) 事务应该放在业务逻辑层.
+		(2) 事务的三个阶段:开始,提交,结束. 
+		(3) ibatis处理事务的方法
+		   a. 使用JDBC事务. 
+		   b. 使用openSession. 
+		
+		9.	动态SQL
+		动态标签的分类：<dynamic>标签 ;  二元标签 ; 一元标签 ; <iterate>标签。 
+		动态标签都属于SQL语句的一部分，所以这些标签在存在于SQL语句中，
+		具体可以出现在select,insert,delete,update,statement,sql等语句中。 
+		这几类标签的共同属性prepend,open,close。
+		prepend属性：表示前缀。在标签内容前加的文字。
+		open属性：在标签内容开始的时候添加的文字
+		close 属性：在标签内容结束的时候添加的文字。 
+		
+		(1)	 一元条件标签
+		<isPropertyAvailable> ：检查是否存在该属性（存在parameter bean的属性） 
+		<isNotPropertyAvailable> ：检查是否不存在该属性（不存在parameter bean的属性） 
+		<isNull> 	：检查属性是否为null 
+		<isNotNull> ：检查属性是否不为null 
+		<isEmpty> ：	检查Collection.size()的值，属性的String或String.valueOf()值,是否为null或空（“”或size() < 1）
+		<isNotEmpty> 	： 检查Collection.size()的值，属性的String或String.valueOf()值,是否不为null或不为空（“”或size() > 0）
+		
+		(2)	二元条件标签
+		<isEqual property=“age” compareValue=“20”> ：	比较属性值和静态值或另一个属性值是否相等 	
+		<isNotEqual> 	：比较属性值和静态值或另一个属性值是否不相等。 	
+		<isGreaterThan> ：比较属性值是否大于静态值或另一个属性值。 	
+		<isGreaterEqual> 	：比较属性值是否大于等于静态值或另一个属性值。 	
+		<isLessThan> 	: 比较属性值是否小于静态值或另一个属性值。 	
+		<isLessEqual> :	比较属性值是否小于等于静态值或另一个属性值。
+		
+		  以下是部分标签的例子： 
+		
+		    <statement id="getApplPaymentByType"	parameterClass="java.util.Map" resultMap="eosApplPaymentResult">
+				 select * from APPL_PAYMENT  where 1 = 1 
+					<isNotEmpty prepend="AND" property="schemeCode">
+					<![CDATA[
+		                    (scheme_code = #schemeCode#)
+		                        ]]>
+					</isNotEmpty>
+					<isGreaterThan prepend="AND" property="paymentId" compareValue="0">
+					<![CDATA[
+							    payment_id != #paymentId# 
+		                     ]]>
+					</isGreaterThan>
+		     		
+			     	<dynamic prepend="where">
+						<iterate open="(" close=")" conjunction="OR">
+							t.PRIORITY_NO = #list[]#
+						</iterate>
+					</dynamic>
+		     </statement>
+		
+		  【更多例子请查看My_Java\B 框架\4 ibatis 2.0\例子\iBatisDemo1中的Demo2.java】
+		</pre>
+	</div>
+</body>
+</html>

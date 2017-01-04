@@ -1,0 +1,30 @@
+.AI-Calendar {
+	font-size:12px;
+	font-weight:normal;
+	color:#000;
+	background:#fff;
+	margin: 0px;
+	padding-right:2px;
+	_padding-right:0px;
+	width: 180px;
+	cursor: pointer;	
+}
+.calendar-border{
+	height: 20px;
+	background: url(../images/combox/ai_comp-combox.gif) repeat-x 0 -1px;
+}
+.calendar-border-hover {
+	height: 21px;
+	background: url(../images/combox/ai_comp-combox.gif) repeat-x 0 -24px;
+} 
+.calendar-input {
+	border:none;
+	width:100%;
+	height:90%;
+	display:block;
+	padding-top:2px;
+	cursor:pointer;
+	border-left: 1px solid #53A5D5;
+	border-right: 1px solid #53A5D5;	
+	background: url(../images/ICO/calendar.gif) no-repeat right center;
+}

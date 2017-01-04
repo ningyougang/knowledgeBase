@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="gbk"?>
+<datagrid>
+		<columns>
+			<column head="city" name="地市"/>
+			<column head="month" name="当月"/>
+			<column head="year" name="当年累计"/>
+			<column head="rate" name="目标完成率"/>
+			<column head="currate" name="本月目标完成情况"/>
+			<column head="rand" name="排名"/>
+			<column head="btn" name="分析"/>
+		</columns>
+		<datas>
+			<data>
+				<city>合肥</city>
+				<month>10000</month>
+				<year>200000</year>
+				<rate>20</rate>
+				<currate>
+					<rate>20</rate>
+					<comprate>10</comprate>
+				</currate>
+				<rand>2</rand>
+				
+			</data>
+			<data>
+				<city>芜湖</city>
+				<month>8000</month>
+				<year>120000</year>
+				<rate>18</rate>
+				<currate>
+					<rate>8</rate>
+					<comprate>10</comprate>
+				</currate>
+				<rand>4</rand>
+			</data>
+		</datas>
+</datagrid>

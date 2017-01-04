@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>弹出提示层</title>
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();		
+			</script>
+	</head>
+	<body>
+		<h1>
+			弹出提示层效果展示		
+                </h1>
+		<div class="effect">
+			<img src="images/弹出提示层.bmp"/>	
+                </div>
+		<h1>
+			使用解释(该组件的封装性有待优化)
+		</h1>
+		<p>
+			引用的JS和CSS(当然少不了jquery相关库),
+		</p>
+		<pre class="brush:js;"> 
+			<link rel="stylesheet" type="text/css" href="../../../common/css/jtip.css" />
+			<script type="text/javascript" src="../../../common/jquery/jtip.js">
+                        </script>		
+                </pre>
+		<p>
+			返回的数据	
+                </p>
+		<pre class="brush:js;">
+<ul>
+   <li class='busli'><span>业务口径:</span>截止到统计日，开通了飞信业务的在网(USER_STATUS=100)用户数</li>
+   <li class='techli'><span>技术口径:</span>SELECT COUNT(DISTINCT SUB_ID) FROM DB2INFO.DW_FETION_INFO_S_DTIME WHERE PRODUCT_ID=80011001 AND SUB_PROD_STATUS=1 AND USER_STATUS=100</li>
+   <li class='resourceli'><span>数据来源:</span>BOSS数据</li>
+   <li class='dataDate'><span>最新数据日期:</span>2011-04-13</li>
+</ul> 
+备注: 在源码中发现通过$('#JT_copy').load(url)对dom节点JT_copy进行加载;		
+            </pre>
+		<p>
+		使用(无需额外的调用JS)
+		</p>
+		<pre class="brush:html;">
+在页面上引入<a class='indi_tips' id='101210100305'><span style=\"cursor:pointer\">飞信到达用户数</span></a> 
+		</pre>
+</body>
+</html>

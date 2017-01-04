@@ -1,0 +1,139 @@
+[{
+			id : '-999',
+			title : '陕西省',
+			desc : '陕西省',
+			value : 932232,
+			cycle : 0.05,
+			same : 2.56,
+			children : [{
+						id:'109',
+						title:'CCS',
+						desc:'CCS',
+						value:12323,
+						cycle:-0.11,
+						same:19.8
+						},{
+						id : '100',
+						title : '营业厅',
+						desc : '营业厅',
+						value : 321211,
+						cycle : 0.56,
+						same : -0.12,
+						children : [{
+									id : '1001',
+									title : '西安',
+									desc : '西安',
+									value : 89893,
+									cycle : 1.22,
+									same : 0.56,
+									allowdrill:true
+								}, {
+									id : '1002',
+									title : '宝鸡',
+									desc : '宝鸡',
+									value : 23234,
+									cycle : 0.38,
+									same : -0.02,
+									allowdrill:true
+								}, {
+									id : '1003',
+									title : '咸阳',
+									desc : '咸阳',
+									value : 23212,
+									cycle : -0.12,
+									same : 0.26,
+									allowdrill:true
+								}, {
+									id : '1004',
+									title : '渭南',
+									desc : '渭南',
+									value : 21332,
+									cycle : 0.35,
+									same : 1.11,
+									allowdrill:true
+								}, {
+									id : '1005',
+									title : '汉中',
+									desc : '汉中',
+									value : 23121,
+									cycle : 0.68,
+									same : 0.96,
+									allowdrill:true
+								}, {
+									id : '1006',
+									title : '安康',
+									desc : '安康',
+									value : 12323,
+									cycle : 0.33,
+									same : -0.21,
+									allowdrill:true
+								}, {
+									id : '1007',
+									title : '商洛',
+									desc : '商洛',
+									value : 11212,
+									cycle : 0.26,
+									same : 0.12,
+									allowdrill:true
+								}, {
+									id : '1008',
+									title : '延安',
+									desc : '延安',
+									value : 19131,
+									cycle : 0.45,
+									same : 0.25,
+									allowdrill:true
+								}, {
+									id : '1009',
+									title : '榆林',
+									desc : '榆林',
+									value : 18776,
+									cycle : 0.87,
+									same : -0.02,
+									allowdrill:true
+								}, {
+									id : '1010',
+									title : '铜川',
+									desc : '铜川',
+									value : 16753,
+									cycle : 0.66,
+									same : 0.07,
+									allowdrill:true
+								}]
+					}, {
+						id : '101',
+						title : '短信',
+						desc : '短信',
+						value : 81221,
+						cycle : -0.22,
+						same : -0.02
+					}, {
+						id : '102',
+						title : '掌上营业厅',
+						desc : '掌上营业厅',
+						value : 34242,
+						cycle : 0.12,
+						same : 0.54
+					}, {
+						id : '103',
+						title : '网上营业厅',
+						desc : '网上营业厅',
+						value : 52332,
+						cycle : 0.22,
+						same : -0.03
+					}, {
+						id : '104',
+						title : 'IVR',
+						desc : 'IVR',
+						value : 32313,
+						cycle : 0.15,
+						same : 0.06
+					},{
+						id : '105',
+						title : '其它',
+						desc : '其它',
+						value : 35343,
+						cycle : -0.35,
+						same : 0.67
+					}]
+		}]

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>对话框</title>
+		<script type="text/javascript"
+			src="../../../common/jquery/jquery-1.3.2.min.js"></script> 
+			<script type="text/javascript"
+			src="../../../common/jquery/jquery-ui.min.js"></script> 
+			<!--解决下拉框遮盖div的bug-->
+			<script type="text/javascript"
+			src="../../../common/jquery/jquery.bgiframe.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../../common/jquery/jquery-ui-1.7.custom.css" />
+<link rel="stylesheet" type="text/css" href="../../../common/css/cssreset.css" />
+<script> 
+	
+$(document).ready(function(){
+   $("#dialog-modal").dialog({
+		  bgiframe: true,
+			autoOpen: false,
+			draggable: true,
+			height: 150,
+			modal: true,
+			title:'请选择',
+			buttons: {
+				'确定':function() {
+					  $(this).dialog('close');
+					},
+				'取消':function(){
+					$(this).dialog('close');
+				}
+			}
+	});	
+	
+	$("#dialog-modaless").dialog({
+		  bgiframe: true,
+			autoOpen: false,
+			draggable: true,
+			height: 150,
+			modal: false,
+			title:'请选择',
+			buttons: {
+				'确定':function() {
+					  $(this).dialog('close');
+					},
+				'取消':function(){
+					$(this).dialog('close');
+				}
+			}
+	});	
+});
+	
+	function	showModelDialog(){	
+		$("#dialog-modal").dialog('open');
+}
+
+	function showModelessDialog(){
+		$("#dialog-modaless").dialog('open');
+		}
+	
+	</script>
+</head>
+   	<body>
+ <button onclick="showModelessDialog();">非模态窗口</button>
+    <button onclick="showModelDialog();">模态窗口</button>
+    <div id="dialog-modaless" title="非模态窗口">
+        <p>显示非模态对话框，在关闭对话框之前可以操作页面内容.</p>
+    </div>
+    <div id="dialog-modal" title="模态窗口">
+        <p>显示模态对话框，在关闭对话框之前不能操作页面内容.</p>
+    </div>
+
+</body>
+</html>

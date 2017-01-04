@@ -1,0 +1,388 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>线程池</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>线程池介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+在什么情况下使用线程池？
+1.单个任务处理的时间比较短 
+2.将需处理的任务的数量大 
+
+使用线程池的好处：
+1.减少在创建和销毁线程上所花的时间以及系统资源的开销 
+2.如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存以及”过度切换”。	
+
+使用线程池的场景举例
+诸如 Web 服务器、数据库服务器、文件服务器或邮件服务器之类的许多服务器应用程序都面向处理来自某些远程来源的大量短小的任务。
+请求以某种方式到达服务器，这种方式可能是通过网络协议（例如 HTTP、FTP 或 POP）、通过 JMS 队列或者可能通过轮询数据库。
+不管请求如何到达，服务器应用程序中经常出现的情况是：单个任务处理的时间很短而请求的数目却是巨大的。
+构建服务器应用程序的一个过于简单的模型应该是：每当一个请求到达就创建一个新线程，然后在新线程中为请求服务。
+实际上，对于原型开发这种方法工作得很好，但如果试图部署以这种方式运行的服务器应用程序，那么这种方法的严重不足就很明显。
+每个请求对应一个线程（thread-per-request）方法的不足之一是：为每个请求创建一个新线程的开销很大；
+为每个请求创建新线程的服务器在创建和销毁线程上花费的时间和消耗的系统资源要比花在处理实际的用户请求的时间和资源更多。
+除了创建和销毁线程的开销之外，活动的线程也消耗系统资源。
+
+在一个 JVM 里创建太多的线程可能会导致系统由于过度消耗内存而用完内存或“切换过度”。
+为了防止资源不足，服务器应用程序需要一些办法来限制任何给定时刻处理的请求数目。
+线程池为线程生命周期开销问题和资源不足问题提供了解决方案。通过对多个任务重用线程，线程创建的开销被分摊到了多个任务上。
+其好处是，因为在请求到达时线程已经存在，所以无意中也消除了线程创建所带来的延迟。
+这样，就可以立即为请求服务，使应用程序响应更快。而且，通过适当地调整线程池中的线程数目，也就是当请求的数目超过某个阈值时，
+就强制其它任何新到的请求一直等待，直到获得一个线程来处理为止，从而可以防止资源不足。
+	
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>线程池API(强烈建议使用JDK版本大于等于1.5的多线程框架-Executor)-这里介绍下类图</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<img src="./images/Executor-class.jpg"></img>
+</div>
+<div class="AI_common_title1">
+	<h2>典型场景(使用Executor框架)</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;"> 
+/**
+ * 场景描述:主要为延迟执行,(1):1秒后运行,每隔2秒运行一次 (2)2秒钟后运行，并每次在上次任务运行完后等待5秒后重新运行
+ * ScheduledExecutorService:schedule 方法使用各种延迟创建任务，并返回一个可用于取消或检查执行的任务对象。
+ * scheduleAtFixedRate 和 scheduleWithFixedDelay 方法创建并执行某些在取消前一直定期运行的任务
+ *
+ */
+public class TestScheduledExecutorService {
+    
+	public static void main(String[] args) {
+		final ScheduledExecutorService schedule = Executors.newScheduledThreadPool(2);
+		Runnable task = new Runnable(){
+            int count = 0;
+			public void run() {
+				System.out.println("目前时间:" + new Date() + " ,count:" + (++count));
+			}
+		};
+		//1秒钟后运行,每隔2秒运行一次
+		final ScheduledFuture future1 = schedule.scheduleAtFixedRate(task, 1, 2, TimeUnit.SECONDS);
+		//2秒钟后运行，并每次在上次任务运行完后等待5秒后重新运行
+		final ScheduledFuture future2 = schedule.scheduleWithFixedDelay(task, 2, 5, TimeUnit.SECONDS);
+		
+		//30秒后结束任务并关闭线程池
+		schedule.schedule(new Runnable(){
+			public void run() {
+				future1.cancel(true);
+				future2.cancel(true);
+				schedule.shutdown();
+			}
+			
+		}, 30, TimeUnit.SECONDS);
+	}
+}
+
+/**
+ * 场景描述:主要用于生产者-使用者模型
+ * BlockingQueue:该类主要提供了两个方法put()和take()，前者将一个对象放到队列中，
+ * 如果队列已经满了，就等待直到有空闲节点；后者从head取一个对象，如果没有对象，
+ * 就等待直到有可取的对象。
+ */
+public class TestBlockingQueue {
+
+	public static void main(String[] args) {
+		BlockingQueue queue = new LinkedBlockingQueue();
+		Productor productor1 = new Productor(queue);
+		Consumer consumer1 = new Consumer(queue);
+		Consumer consumer2 = new Consumer(queue);
+		
+		new Thread(productor1).start();
+		new Thread(consumer1).start();
+		new Thread(consumer2).start();
+	}
+}
+	
+/**
+ * 场景描述:模拟了100米赛跑，10名选手已经准备就绪，只等裁判一声令下。
+ * 当所有人都到达终点时，比赛结束
+ * CountDownLatch:一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。 
+ * 用给定的计数 初始化 CountDownLatch。 由于调用了 countDown() 方法，所以在当前计数到达零之前，await 方法会一直受阻塞。
+ * 之后，会释放所有等待的线程，await 的所有后续调用都将立即返回。这种现象只出现一次——计数无法被重置。
+ * 如果需要重置计数，请考虑使用 CyclicBarrier。
+ */
+public class TestCountDownLatch {
+
+	public static void main(String[] args) throws InterruptedException {
+		//创建含有10个线程的线程池
+		ExecutorService exec = Executors.newFixedThreadPool(10);
+		//创建开始计数器
+		final CountDownLatch beginLatch = new CountDownLatch(1);
+		//创建结束计数器
+		final CountDownLatch overLatch = new CountDownLatch(10);		
+		for(int i=0;i<10;i++){
+			final int NO = i+1;
+			Runnable runner = new Runnable(){
+				public void run() {
+					try {
+						beginLatch.await();
+						Thread.sleep((long) (Math.random() * 10000));
+						System.out.println("NO." + NO + " 已经到达终点");
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}finally{
+						overLatch.countDown();
+					}
+				}
+			};
+			exec.submit(runner);
+		}
+		System.out.println("裁判叫预备...");
+		beginLatch.countDown();
+		System.out.println("各位选手已就绪,出发中...");
+		overLatch.await();
+		System.out.println("比赛结束...");
+		exec.shutdown();
+	}
+}
+	
+/**
+ * 场景描述:模拟3个人需要途经A、B、C。
+ * 这些3个人同时出发，并且每到一个目的地，都要等待其他人到达此地后再同时出发，直到都到达终点C
+ * CyclicBarrier: 一个同步辅助类，它允许一组线程互相等待，直到到达某个公共屏障点 (common barrier point)。
+ * 在涉及一组固定大小的线程的程序中，这些线程必须不时地互相等待，此时 CyclicBarrier 很有用。
+ * 因为该 barrier 在释放等待线程后可以重用，所以称它为循环的 barrier。
+ */
+public class Tour implements Runnable{
+	
+	private CyclicBarrier barrier;//当所有线程都调用了await()后，就表示这些线程都可以继续执行，否则就会等待。
+	
+	private int[] times;//到达各个地点所需要的时间;
+	
+	private String tourName;//旅游者名称
+	
+	public Tour(CyclicBarrier barrier,int[] times,String tourName){
+		this.barrier = barrier;
+		this.times = times;
+		this.tourName = tourName;
+	}
+
+	public void run() {
+		try {
+			Thread.sleep(times[0] * 1000);
+			System.out.println(tourName + "到达了A地");
+			barrier.await();
+			Thread.sleep(times[1] * 1000);
+			System.out.println(tourName + "到达了B地");
+			barrier.await();
+			Thread.sleep(times[2] * 1000);
+			System.out.println(tourName + "到达了C地");
+			barrier.await();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}catch(BrokenBarrierException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		//构造CyclicBarrier
+		CyclicBarrier barrier = new CyclicBarrier(3);
+		//3个旅行者分别用的时间
+		int[] timesA = new int[]{5,10,15};
+		int[] timesB = new int[]{8,15,20};
+		int[] timesC = new int[]{10,23,19};
+		
+		ExecutorService exec = Executors.newFixedThreadPool(3);
+		exec.submit(new Tour(barrier,timesA,"tourA"));
+		exec.submit(new Tour(barrier,timesA,"tourB"));
+		exec.submit(new Tour(barrier,timesA,"tourC"));
+		exec.shutdown();
+	}
+		
+	
+/**
+ * 场景描述:一个非常耗时的操作必须一开始启动，但又不能一直等待；
+ * 其他重要的事情又必须做，等完成后，就可以做不重要的事情。
+ * Future:表示异步计算的结果,计算完成后只能使用 get 方法来检索结果，
+ * 如有必要，计算完成前可以阻塞此方法(也可以设定超时时间,当超时后不用阻塞)。
+ * 取消则由 cancel 方法来执行。
+ */
+public class TestFuture2 {
+
+	public static void main(String[] args) throws Exception {
+		ExecutorService service = Executors.newSingleThreadExecutor();
+		Callable task = new Callable(){
+			public Object call() throws Exception {
+				System.out.println("开始做必须要做的事情，该事情耗时较长");
+				Thread.sleep(5000);
+				return "接着做不重要的事情";
+			}
+		};
+		Future future = service.submit(task);
+		System.out.println("正在做重要的事情");
+		Object object = future.get();
+		System.out.println(object);
+	}
+}
+	
+
+/**
+ * 场景描述:浏览网页时，用10个线程的线程池下载网页中的图片文件，由于图片大小、
+ * 网站访问速度等诸多因素的影响，完成图片下载的时间就会有很大的不同。
+ * 如果先下载完成的图片就会被先显示到界面上，反之，后下载的图片就后显示。
+ * CompletionService:将生产新的异步任务与使用已完成任务的结果分离开来的服务。
+ * 生产者 submit 执行的任务。使用者 take 已完成的任务，并按照完成这些任务的顺序处理它们的结果
+ */
+public class TestCompletionService {
+
+	public static void main(String[] args) throws Exception{
+		//构造含10个线程的线程池
+		ExecutorService exeService = Executors.newFixedThreadPool(10);
+		//构造CompletionService
+		CompletionService compService = new ExecutorCompletionService(exeService);
+		
+		//将下载图片的任务交给CompletionService执行
+		for(int i=0;i<5;i++){
+			final int NO = i+1;
+			Callable task = new Callable(){
+				public Object call() throws Exception {
+					Thread.sleep((long)(Math.random()*1000));
+					return "已经下载第"+ NO + "张图片";
+				}
+			};
+			compService.submit(task);
+		}
+		
+		//取出已经下载完成的图片
+		Thread.sleep(2000);
+		for(int k=0;k<5;k++){
+			Future future = compService.take();
+			System.out.println(future.get());
+		}
+		
+		//退出线程池
+		exeService.shutdown();
+	}
+}
+	
+
+/**
+ * 申明了一个只有5个许可的Semaphore，而有20个线程要访问这个资源，
+ * 通过acquire()和release()获取和释放访问许可
+ * Semaphore:一个计数信号量。从概念上讲，信号量维护了一个许可集合。
+ * 如有必要，在许可可用前会阻塞每一个 acquire()，然后再获取该许可。
+ * 每个 release() 添加一个许可，从而可能释放一个正在阻塞的获取者
+ */
+public class TestSemaphore {
+
+	public static void main(String[] args) {
+		// 线程池
+		final ExecutorService service = Executors.newCachedThreadPool();
+		//只有5个线程能同时访问
+		final Semaphore semaphore = new Semaphore(5);
+		
+		for(int i=0;i<20;i++){
+			final int NO = i + 1;
+			Callable task = new Callable(){
+				public Object call() throws Exception {
+					//获取许可,如果超过5个线程访问,则阻塞
+					semaphore.acquire();
+					System.out.println("NO:" + NO + "执行中...");
+					Thread.sleep(5000);
+					//释放许可
+					semaphore.release();
+					return "over";
+				}
+			};
+			service.submit(task);
+		}
+		service.shutdown();
+	}
+}		
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>其他方面的说明</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+1.Runnable和Callable的区别是，
+(1)Callable规定的方法是call(),Runnable规定的方法是run().
+(2)Callable的任务执行后可返回值，而Runnable的任务是不能返回值得
+(3)call方法可以抛出异常，run方法不可以
+(4)运行Callable任务可以拿到一个Future对象，表示异步计算的结果。它提供了检查计算是否完成的方法，
+   以等待计算的完成，并检索计算的结果。通过Future对象可以了解任务执行情况，可取消任务的执行，还可获取执行结果。  
+    
+2.Exchanger(交换器)     
+典型情景:一个线程向缓冲区中填入数据,另外一个线程消费掉这些数据.当他们都完成以后,他们相互交换缓冲.
+JDK文档的模拟代码:
+ class FillAndEmpty {
+   Exchanger<DataBuffer> exchanger = new Exchanger();
+   DataBuffer initialEmptyBuffer = ... a made-up type
+   DataBuffer initialFullBuffer = ...
+
+   class FillingLoop implements Runnable {
+     public void run() {
+       DataBuffer currentBuffer = initialEmptyBuffer;
+       try {
+         while (currentBuffer != null) {
+           addToBuffer(currentBuffer);
+           if (currentBuffer.full())
+             currentBuffer = exchanger.exchange(currentBuffer);
+         }
+       } catch (InterruptedException ex) { ... handle ... }
+     }
+   }
+
+   class EmptyingLoop implements Runnable {
+     public void run() {
+       DataBuffer currentBuffer = initialFullBuffer;
+       try {
+         while (currentBuffer != null) {
+           takeFromBuffer(currentBuffer);
+           if (currentBuffer.empty())
+             currentBuffer = exchanger.exchange(currentBuffer);
+         }
+       } catch (InterruptedException ex) { ... handle ...}
+     }
+   }
+
+   void start() {
+     new Thread(new FillingLoop()).start();
+     new Thread(new EmptyingLoop()).start();
+   }
+ }
+
+3.同步队列
+同步队列是一种将生成者和消费者线程配对的机制 ,当一个线程调用SynchrousQueue的put方法时,他们阻塞直到另外一个线程调用take方法为止,
+反之亦然.与Exchanger不同,同步队列的数据只在一个方向上传递,从生产者到消费者.即使SynchrousQueue实现了BlockingQueue接口,他在概念上
+不是一个队列,他不包含任务元素,他的size方法总是返回0.
+</pre>   
+</div>
+
+
+
+</body>
+</html>

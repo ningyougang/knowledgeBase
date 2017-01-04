@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+		
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		
+<link rel="stylesheet" type="text/css" href="../../../common/css/cssreset.css" />
+<link rel="stylesheet" type="text/css" href="../../../common/suggest/reset-grids-min.css" /> 
+
+<script type="text/javascript" src="../../../common/suggest/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="../../../common/suggest/suggest.js"></script>    	
+
+<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" /> 
+<script language='javascript'> 
+	SyntaxHighlighter.all();
+</script> 
+</head>
+
+<body> 
+<h1>
+基于KISSY.suggetst的搜索补全-效果演示 (请输入nike或nokia)
+</h1>	
+ <input name="suggestName" id="suggestName" style="width:15%"></input>
+ <button type="submit" class="search-submit">Search</button> 
+<h1>
+使用解释
+</h1>
+<p>
+引用的JS和CSS
+</p>
+<pre class="brush:js;">
+<link rel="stylesheet" type="text/css" href="../../../common/suggest/reset-grids-min.css" /> 
+<script type="text/javascript" src="../../../common/suggest/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="../../../common/suggest/suggest.js"></script>
+</pre> 
+<p>
+页面搜索框
+</p>
+<pre class="brush:html;"> 
+<input name="suggestName" id="suggestName" style="width:15%"></input>
+</pre>
+<p>
+用javascript构造(实际项目中会用到的异步请求代码，而上面演示用的是本地JSON)
+</p> 
+<pre class="brush:js;">
+var dataURL = "http://localhost:8080/buop/indiWatch/showList.action";
+var sug = new KISSY.Suggest('suggestName', dataURL, 
+                { 
+                	autoFocus: false,
+                  resultFormat: '约%result%个宝贝',
+                  submitFormOnClickSelect:false
+                }
+); 
+dataUrl返回的JSON格式:  
+KISSY.Suggest.callback({"result": [["htc t328t", "109295"], ["htc one x", "56769"]]})  或
+KISSY.Suggest.callback({'result':['正品','极品']})
+</pre> 
+<p> 
+其他介绍	
+</p> 
+<pre class="brush:html;">  
+1.提示补全基本功能
+2.完全跨域
+3.小巧精简，仅依赖yui-dom-event, 压缩后不超过15k
+4.支持所有A级浏览器
+5.cache功能
+6.支持键盘控制：上下选择及回车后直接提交，ESC键关闭
+7.支持鼠标控制：鼠标选择和点击提交功能
+8.支持JSON静态数据源
+9.[DELAY] 支持匹配文字加亮
+10.[DELAY] 动画效果
+11.[DELAY] 在提示层中显示第一个搜索结果
+12.[DELAY] 整合本地表单的提示记录
+13.[DELAY] 关键词的模糊匹配提示功能
+Test Cases:
+1.基本功能：输入时有提示，键盘操作，鼠标操作，点击提交按钮可正常提交
+2.用Del或Backspace键将输入清空时，提示层隐藏
+3.当返回结果为空时，提示层隐藏
+4.点击提示层外面，能关闭提示层
+5.ESC键能关闭提示层。并且当有选中项时，能还原输入值
+6.鼠标悬浮在提示层，继续输入时，取消选中项
+7.服务器超慢的处理（抛弃旧请求，只显示最新结果）
+8.鼠标选中某项+点击 or 键盘选中某项+回车 时，会触发onItemSelect
+9.先用鼠标选中某项，然后从侧边绕过提示层移动到输入框，ENTER提交，不触发onItemSelect
+10.服务器超时和返回错误数据时的容错
+11.鼠标点击选中，提交表单时，能触发form的onsubmit事件
+12.ie6下，能覆盖select
+13.在主流输入法开启时测试
+14.在所有A级浏览器下测试
+15.持续按下DOWN/UP键时，选中操作正常（注意Opera下无效）
+16.在提示层任意处按下鼠标，保持按住状态，移动到提示层外释放鼠标，这时输入框应该保持focus状态
+17.在提示层A项处按下鼠标，移动到B处释放，不触发onItemSelect
+18.在提示层A项处按下鼠标，移动鼠标到其它地方，最后移动回A处释放，触发onItemSelect
+19.输入法开启，通过enter键输入英文时，不会触发提交
+20.选中某项，ESC键关闭，再次通过keydown打开时，能保持原来的选中项
+21.没有选中项，ESC键关闭，再次通过keydown打开时，依旧没有选中项		
+</pre>
+
+</body>
+</html>
+<script>    
+//测试JSON数据源
+var jsonData = {};
+jsonData['nike'] = [
+        ["nike 正品", "2170000"],
+        ["nike 极品", "834000"],
+        ["nike 短袖", "242000"],
+        ["nike 板 鞋", "989000"],
+        ["nike 女鞋", "253000"],
+        ["nike 运动鞋", "550000"],
+        ["nike 包", "295000"],
+        ["nike 鞋", "3160000"],
+        ["nike 单肩包", "38500"],
+        ["nike 09", "786000"]
+]; 
+jsonData['nokia'] = [
+        "nokia 手机",
+        "nokia 5800",
+        "nokia e71",
+        "nokia 8800",
+        "nokia n95",
+        "nokia n97",
+        "nokia n78",
+        "nokia n85",
+        "nokia n81",
+        "nokia e66"
+];
+//var dataURL = "http://localhost:8080/buop/indiWatch/showList.action"; 如果用ajax发起请求，则将第二个参数改为dataURL即可.
+var sug = new KISSY.Suggest('suggestName', jsonData, 
+                { 
+                	autoFocus: false,
+                  resultFormat: '约%result%个宝贝',
+                  submitFormOnClickSelect:false
+                }
+             );
+</script>

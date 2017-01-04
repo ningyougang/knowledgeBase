@@ -1,0 +1,10 @@
+{
+	"data" : {
+		"type" : "json",
+		"opts" : {
+			"asyn" : true,
+			"url" : "../data/test.json",
+			"method" : "post"
+		}
+	}
+}

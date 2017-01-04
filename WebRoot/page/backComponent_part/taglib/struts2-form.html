@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>struts2-表单</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>struts2交互性的表单元素效果演示</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+省略(由于是静态知识库，未集成struts2框架，无法演示)
+</div>
+<div class="AI_common_title1">
+	<h2>struts2-表单元素-代码示例(大小写有点问题)</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:html;">
+隐藏域    
+<s:hidden name="" id=""></s:hidden>
+
+文本框    
+<s:textfield name="" readonly="" cssClass="" id="" value="123"></s:textfield>
+name一般与对应后台action的属性进行交互,其中属性一定要加上getter、setter方法(struts2框架).
+id一般用于做dom操作，如通过jquery库的$('#id').val().
+value:文本框元素对应的值.
+readonly:true(只读),false(可写,默认)
+cssClass:引用的class
+cssStyle:在里面写入的个性化样式
+
+密码框    
+<s:password name="user.pwd" showPassword="true" value="111" />
+showPassword是否显示密码,true:显示 false:不显示.
+
+多行文本域    
+<s:textarea name="" readonly="" cssClass="" id=""></s:textarea>
+
+单选按钮  
+<s:radio  id="anaStyle" value="2" name="kpibean.anaStyle" list="#{'1':'图形' , '2':'表格' }"></s:radio>
+list:可以直接在页面上写死,也可以为action里的一个java.util.ArrayList,
+     也可以为通过"#attr.wns"来引用页面标签对应的值<Enum:list name="wns" group="WarnNoticeScope"></Enum:list>
+listKey:为list里面bean对应的属性,用于表示表单元素值.
+listValue:也为list里面bean对应的属性,用于页面显示.
+
+
+复选框    
+<s:checkbox name="headConfig.subId" id="subId" value="true" fieldValue="1">订购号</s:checkbox>
+value:有两个值.true:表示选中,false表示未选中.
+fieldValue:表示真实值.
+
+复选框组
+<s:checkboxlist list="columnAry" listKey="value" listValue="text" 
+   name="hotApInfo.columnTogether" id="columnTogether" cssStyle="width:120px;"  
+   theme="simple" value="columnAry"></s:checkboxlist>  
+value:表示数组如:String[]，用于表示默认被选中的复选框,其值务必要与listKey的值对应.
+
+下拉框
+<s:select cssStyle="width:120px" list="authTypeList" listKey="value"
+   listValue="text" headerValue="全部" headerKey="-888888"
+   name="hotApInfo.authType" id="authType">
+</s:select>
+	
+文件上传
+<s:file name="accessoryFile" cssClass="inputText" id="accessoryFile"></s:file>
+Struts2使用开源项目Apache Jakarta Commons FileUpload和内建的FileUploadInterceptor拦截器实现文件上传
+
+提交表单
+<s:form action="init" id="auditWatchForm" name="auditWatchForm" method="post" theme="simple"    enctype="multipart/form-data">
+</s:form>
+action:表示表单提交到服务器action路径
+method:提交方式post/get
+theme:struts2标签的主题(xhtml,html,simple,ajax),默认为xhtml,会默认额外生成tr,td,用于表单元素换行;               theme=simple时：就生成标签所对应的html标签形式,
+enctype:对表单数据进行编码,application/x-www-form-urlencoded表示在发送前编码所有字符(默认);
+        multipart/form-data表示不对字符编码,在使用包含文件上传控件的表单时，必须使用该值;
+        text/plain表示;空格转换为 "+" 加号，但不对特殊字符编码.
+
+
+
+
+
+
+
+</pre>
+</div>
+
+
+</body>
+</html>

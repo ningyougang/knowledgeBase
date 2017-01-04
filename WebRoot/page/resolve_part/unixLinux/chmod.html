@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>linux-赋权</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+建立良好的文件和目录权限是保障计算机环境安全性的一项重要工作。</br>
+1.文件基本权限分类</br>
+  分为基本的读-r、写-w、可执行-x三类。</br>
+2.文件归属分类</br>
+  文件拥有者(user)、文件拥有者所在组(group)、其他用户(other)；简写如下:</br>
+  u：User，即文件或目录的拥有者。</br>
+  g：Group，即文件或目录的拥有者所属群组。</br>
+  o：Other，除了文件或目录拥有者或所属群组之外，其他用户皆属于这个范围。</br>
+  a：All，即全部的用户，包含拥有者，所属群组以及其他用户。</br>
+3.授权方式</br>
+  +：开启权限、-:关闭权限、=:指定权限  </br>
+3.文件类型分类</br>
+  普通文件~”-“、目录文件~”d“、连接文件~”l“、块设备文件-"b"、字符设备文件~"c"、管道文件~”p“</br>
+  
+5.通过ls -l，查看目录中的文件详细情况。说明如下：</br>
+	<img src="./images/ls-1.gif"/></br>
+	<img src="./images/ls-2.gif"/></br> 
+</div>
+<div class="AI_common_title1">
+	<h2>命令说明</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+一、chmod(赋权指令)	
+命令语法:
+1、对初学者来说容易理解的语法
+chmod [-cfRv][--help][--version][<权限范围>+/-/=<权限设置>][文件或目录]；简写为:chmod[who(u、g、o、a)] [+ | - | =] [mode(r、w、x)] 文件名
+如:chmod g+r,o+r filename ，使同组和其他用户对文件filename有读权限。
+2、适合对linux/unix有一定基础的童鞋。
+chmod [-cfRv][--help][--version][数字代号][文件或目录] :简写为:chmod [mode(r:4、w:2、x:1)] 文件名    
+如:chmod 777 mm.txt，所有用户（含拥有者、同组、其他人）都具有读、写、可执行权限。
+   chmod 755 mm.txt，拥有者有读、写、可执行权限；同组的人和其他人只有读、可执行权限。
+   chmod 400 mm.txt，只有文件的拥有者有读权限。
+3、把指定文件或目录的权限全部设成和参考文件或目录的权限相同（用得较少）
+chmod [-cfRv][--help][--reference=<参考文件或目录>][--version][文件或目录...] 
+二、chgrp(更改文件/文件夹所属用户组)  
+命令语法:chgrp [-R] 用户组名称 文件夹/文件
+验证:ls -l 可以对其所属用户组进行查看
+三、chown(更改文件/文件夹所属用户(也可以顺改用户组)),当新建的时候，文件拥有者=创建者) 
+命令语法:chown [-R]  账号名称[:用户组]  文件或目录
+验证:ls -l 可以对其所属用户进行查看
+</pre>
+</div>
+
+</body>
+</html>

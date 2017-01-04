@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>JSON系列</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+
+<!--  -->
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />	
+
+
+<!-- AIComp 组件所需js及css start -->
+		<link rel="stylesheet" type="text/css"
+			href="../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../common/AIComp/script/AI.Comp.js"></script>
+<!-- AIComp 组件所需js及css end -->
+
+
+<!-- Syntax 组件导入js及样式 start-->
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();
+		</script>
+<!-- Syntax 组件导入js及样式 end-->
+
+		
+	</head>
+<body>
+	<div class="AI_common_title1">
+		<h2>JSON介绍</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:xml">已介绍，请参考上面文章</pre>
+	</div>
+	<div class="AI_common_title1">
+		<h2>JSON-第三方开源库介绍</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<pre class="brush:xml">
+	 在上面章节中，我们介绍了基于json的第三方开源工具jsonLib,然后这种类似的第三方开源包很多，如fastjson(阿里巴巴开发)、
+	 Gson(google开发)、jackjson;然后在互联网应用中，我比较倾向于jackjson，一方面公司已有成熟案例，二者性能方面jackjson
+	 也比较出色,jackjson的处理能力至少是jsonLib的10倍以上(我没有亲自动手尝试过,网上有人做了测试:http://wangym.iteye.com/blog/738933)
+	 需要下载以下至少得开源包:jackson-core-asl-1.9.11.jar、jackson-mapper-asl-1.9.11.jar、ezmorph-1.0.4.jar、xom-1.2.1.jar、
+	 json-lib-2.4-jdk15.jar(备注:在这里，由于某些特殊的需求，我也在采用json-lib，与jackjson混合使用)
+	</pre>
+	</div>
+	<div class="AI_common_title1">
+		<h2>在JSON-第三方开源库基础上封装好的工具类</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:xml">
+
+package com.atman.base.json;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.annotate.JsonFilter;
+import org.codehaus.jackson.map.ser.impl.SimpleBeanPropertyFilter;
+import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
+import org.codehaus.jackson.type.TypeReference;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.util.StringUtils;
+
+public class JsonUtil {
+
+    private static Logger logger = LogManager.getLogger(JsonUtil.class);
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * 得到jackson原始ObjectMapper进行本类未开放api的调用
+     * @return
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    /**
+     * JsonUtil构造函数
+     */
+    public JsonUtil() {
+        // 设置默认日期格式
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        // 设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
+        objectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+        objectMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+        objectMapper.setFilters(new SimpleFilterProvider().setFailOnUnknownId(false));
+    }
+
+    /**
+     * 将对象转换成json字符串格式（默认将转换所有的属性）
+     * @param value 实体Bean
+     * @return json串
+     * @throws IOException
+     * @throws JsonMappingException
+     * @throws JsonGenerationException
+     */
+    public String writeObjectToJson(Object value) throws JsonGenerationException, JsonMappingException, IOException {
+        return objectMapper.writeValueAsString(value);
+    }
+
+    /**
+     * 将对象转换成json字符串格式
+     * @param value 需要转换的对象(注意，需要在要转换的对象中定义JsonFilter注解)
+     * @param properties 需要转换的属性
+     */
+    public String writeObjectToJson(Object value, String[] properties) throws JsonGenerationException,
+            JsonMappingException, IOException {
+        return objectMapper.writer(
+                new SimpleFilterProvider().addFilter(AnnotationUtils.getValue(
+                        AnnotationUtils.findAnnotation(value.getClass(), JsonFilter.class)).toString(),
+                        SimpleBeanPropertyFilter.filterOutAllExcept(properties))).writeValueAsString(value);
+
+    }
+
+    /**
+     * 将对象转换成json字符串格式
+     * @param value 需要转换的对象(注意，需要在要转换的对象中定义JsonFilter注解)
+     * @param properties2Exclude 需要排除的属性
+     */
+    public String writeObjectToJsonWithExcludeProperties(Object value, String[] properties2Exclude)
+            throws JsonGenerationException, JsonMappingException, IOException {
+        return objectMapper.writer(
+                new SimpleFilterProvider().addFilter(AnnotationUtils.getValue(
+                        AnnotationUtils.findAnnotation(value.getClass(), JsonFilter.class)).toString(),
+                        SimpleBeanPropertyFilter.serializeAllExcept(properties2Exclude))).writeValueAsString(value);
+
+    }
+
+    /**
+     * 将对象json格式直接写出到流对象中（默认将转换所有的属性）
+     * @param out 输出流
+     * @param value 实体Bean
+     * @return
+     */
+    public void writeObjectToJson(OutputStream out, Object value) throws JsonGenerationException, JsonMappingException,
+            IOException {
+        objectMapper.writeValue(out, value);
+    }
+
+    /**
+     * 将对象json格式直接写出到流对象中
+     * @param value 需要转换的对象(注意，需要在要转换的对象中定义JsonFilter注解)
+     * @param properties 需要转换的属性
+     */
+    public void writeObjectToJson(OutputStream out, Object value, String[] properties) throws JsonGenerationException,
+            JsonMappingException, IOException {
+        objectMapper.writer(
+                new SimpleFilterProvider().addFilter(AnnotationUtils.getValue(
+                        AnnotationUtils.findAnnotation(value.getClass(), JsonFilter.class)).toString(),
+                        SimpleBeanPropertyFilter.filterOutAllExcept(properties))).writeValue(out, value);
+
+    }
+
+    /**
+     * 将对象转换成json字符串格式
+     * @param value 需要转换的对象
+     * @param properties2Exclude 需要排除的属性(注意，需要在要转换的对象中定义JsonFilter注解)
+     */
+    public void writeObjectToJsonWithExcludeProperties(OutputStream out, Object value, String[] properties2Exclude)
+            throws JsonGenerationException, JsonMappingException, IOException {
+        objectMapper.writer(
+                new SimpleFilterProvider().addFilter(AnnotationUtils.getValue(
+                        AnnotationUtils.findAnnotation(value.getClass(), JsonFilter.class)).toString(),
+                        SimpleBeanPropertyFilter.serializeAllExcept(properties2Exclude))).writeValue(out, value);
+
+    }
+
+    /**
+     * 将json串转化为bean
+     * @param json json串
+     * @param clazz 转化后对象的clazz
+     * @return 转化后的实体bean
+     * @throws JsonParseException
+     * @throws JsonMappingException
+     * @throws IOException
+     */
+    public Object writeJsonToBean(String json, Class clazz) throws JsonParseException, JsonMappingException,
+            IOException {
+        return objectMapper.readValue(json, clazz);
+    }
+
+    /**
+     * jackson把数据默认解析成了Map对象,可以指定TypeReference,转为为自己的实体Bean
+     * @param json json串,如[{"key1":value,"key2":value},{"key1":value,"key2":value}]
+     * @param typeReference 转化后的实体对应的TypeReference,如new TypeReference<java.util.ArrayList<实体Bean>>() {}
+     * @return 返回的实体,如list<实体Bean>
+     * @throws JsonParseException
+     * @throws JsonMappingException
+     * @throws IOException
+     */
+    public Object writeJsonToBean(String json, TypeReference typeReference) throws JsonParseException,
+            JsonMappingException, IOException {
+        return objectMapper.readValue(json, typeReference);
+    }
+
+    /**
+     * 将List<Map>转化为树形结构json字符串[{"name":"头节点1","pid":"-1","id":"1","children":[{"name":"节点11","pid":"1","id":"11"}]},{
+     * "name":"头节点2","pid":"-1","id":"2"}]
+     * @param list<Map> 待转化为树形结构json的list
+     * @param rootId 树形头结点的值,如-1
+     * @param excludeField 需要过滤的字段,即过滤掉不需要在json串里打印的字段
+     * @param idField 当前节点的ID字段的Field名称
+     * @param pidField 当前节点的父ID字段的Field名称
+     * @param nameField 当前节点的名称字段的Field名称
+     * @return 转化List<Map>得到对应的树形结构json字符串(key转化为小写)
+     * @throws Exception
+     */
+    public static String writeListToTreeJson(List<Map> list, String rootId, String excludeField[], String idField,
+            String pidField, String nameField) throws Exception {
+        List resultList = new ArrayList();
+        JSONArray jsonArray = new JSONArray();
+        List<Map> tempList = getChildrenByPid(list, rootId, pidField);
+        for (Map map : tempList) {
+            JSONObject jsonObject = fillJsonObjByTreeBean(map, idField, pidField, nameField, excludeField);
+            jsonObject = addChildrenNode(list, jsonObject, map, idField, pidField, nameField, excludeField);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+    
+    /**
+     * 将List<Map>转化为树形结构json字符串[{"name":"头节点1","pid":"-1","id":"1","children":[{"name":"节点11","pid":"1","id":"11"}]},{
+     * "name":"头节点2","pid":"-1","id":"2"}]
+     * @param list<Map> 待转化为树形结构json的list
+     * @param rootIds 树形头结点的值(数组)
+     * @param excludeField 需要过滤的字段,即过滤掉不需要在json串里打印的字段
+     * @param idField 当前节点的ID字段的Field名称
+     * @param pidField 当前节点的父ID字段的Field名称
+     * @param nameField 当前节点的名称字段的Field名称
+     * @return 转化List<Map>得到对应的树形结构json字符串(key转化为小写)
+     * @throws Exception
+     */
+    public static String writeListToTreeJson(List<Map> list, String[] rootIds, String excludeField[], String idField,
+            String pidField, String nameField) throws Exception {
+        List resultList = new ArrayList();
+        JSONArray jsonArray = new JSONArray();
+        List<Map> tempList = getChildrenByPid(list, rootIds, pidField);
+        for (Map map : tempList) {
+            JSONObject jsonObject = fillJsonObjByTreeBean(map, idField, pidField, nameField, excludeField);
+            jsonObject = addChildrenNode(list, jsonObject, map, idField, pidField, nameField, excludeField);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+
+    /**
+     * 根据父节点取得所有的自节点
+     * @param list 待查找的list
+     * @param rootId 父节点值
+     * @param pidField 父节点字段名称
+     * @return
+     */
+    private static List<Map> getChildrenByPid(List<Map> list, String rootId, String pidField) {
+        if (list == null)
+            return null;
+        List<Map> treeList = new ArrayList();
+        for (Map map : list) {
+            if (rootId.equals(String.valueOf(map.get(pidField)))) {
+                treeList.add(map);
+            }
+        }
+        return treeList;
+    }
+    
+    /**
+     * 根据父节点取得所有的自节点
+     * @param list 待查找的list
+     * @param rootIds 父节点值-数组
+     * @param pidField 父节点字段名称
+     * @return
+     */
+    private static List<Map> getChildrenByPid(List<Map> list, String[] rootId, String pidField) {
+        if (list == null)
+            return null;
+        List<Map> treeList = new ArrayList();
+        for (Map map : list) {
+            for(int i=0;i<rootId.length;i++){
+                if (rootId[i].equals(String.valueOf(map.get(pidField)))) {
+                    treeList.add(map);
+                    break;
+                }
+            }
+        }
+        return treeList;
+    }
+
+    /**
+     * 将Map转化为JSONObject
+     * @param map 待转化的map
+     * @param idField 当前节点的ID字段的Field名称
+     * @param pidField 当前节点的父ID字段的Field名称
+     * @param nameField 当前节点的名称字段的Field名称
+     * @param excludeField 不需要在json串里显示的字段
+     * @return 返回JSONObject((不在excludeField数组里))
+     * @throws Exception
+     */
+    private static JSONObject fillJsonObjByTreeBean(Map map, String idField, String pidField, String nameField,
+            String[] excludeField) throws Exception {
+        JSONObject jsonObj = new JSONObject();
+        Set<Map.Entry> set = map.entrySet();
+        if (!StringUtils.hasText(String.valueOf(map.get(idField)))
+                || !StringUtils.hasText(String.valueOf(map.get(pidField)))
+                || !StringUtils.hasText(String.valueOf(map.get(nameField)))) {
+            throw new Exception("树形结构Map的Key值必须存在[" + idField + "] [" + pidField + "] [" + nameField + "]!");
+        }
+        for (Map.Entry entry : set) {
+            if (StringUtils.hasText(String.valueOf(entry.getValue()))) {
+                String key = String.valueOf(entry.getKey());
+                if (ArrayUtils.indexOf(excludeField, key) == -1) {
+                    jsonObj.element(String.valueOf(entry.getKey()), entry.getValue());
+                }
+            }
+        }
+        return jsonObj;
+    }
+
+    /**
+     * 根据传入的jsonObject追加该jsonObject下面的所有子节点(递归)
+     * @param list 需要遍历的list
+     * @param jsonObject 待追加的jsonObject
+     * @param map 与待追加jsonObject对应的map
+     * @param idField 当前节点的ID字段的Field名称
+     * @param pidField 当前节点的父ID字段的Field名称
+     * @param nameField 当前节点的名称字段的Field名称
+     * @param includeField 需要在json串里显示的字段
+     * @return 追加之后的jsonObject(含递归计算出来的)
+     */
+    private static JSONObject addChildrenNode(List<Map> list, JSONObject jsonObject, Map map, String idField,
+            String pidField, String nameField, String[] excludeField) throws Exception {
+        List<Map> nodeList = getChildrenByPid(list, String.valueOf(map.get(idField)), pidField);
+        if (nodeList == null) {
+            return null;
+        }
+        List children = new ArrayList();
+        for (Map mapItem : nodeList) {
+            JSONObject jsonObj = fillJsonObjByTreeBean(mapItem, idField, pidField, nameField, excludeField);
+            children.add(jsonObj);
+            addChildrenNode(list, jsonObj, mapItem, idField, pidField, nameField, excludeField);
+        }
+        if (children.size() > 0) {
+            jsonObject.element("children", children);
+        }
+        return jsonObject;
+    }
+
+    public static void main(String[] args) throws Exception {
+        List list = new ArrayList();
+        HashMap map1 = new HashMap();
+        map1.put("cityId", 1);
+        map1.put("cityName", "上海省");
+        map1.put("parentId", -1);
+        HashMap map2 = new HashMap();
+        map2.put("cityId", 101);
+        map2.put("cityName", "浦东");
+        map2.put("parentId", 1);
+        list.add(map1);
+        list.add(map2);
+        System.out.println(writeListToTreeJson(list, "-1", null, "cityId", "parentId", "cityName"));
+    }
+
+}
+		</pre>
+	</div>
+</body>
+</html>

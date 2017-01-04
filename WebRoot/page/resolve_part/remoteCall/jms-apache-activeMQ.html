@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jms-apache-activeMQ</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>jms与apache-activeMQ</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+定义:
+JMS(Java Messaging Service)是Java平台上有关面向消息中间件(MOM)的技术规范，它便于消息系统中的Java应用程序进行消息交换,
+并且通过提供标准的产生、发送、接收消息的接口简化企业应用的开发，翻译为Java消息服务。
+
+简介:
+JMS是一种与厂商无关的 API，用来访问消息收发系统消息。它类似于 JDBC(Java Database Connectivity),这里，
+JDBC 是可以用来访问许多不同关系数据库的 API，而 JMS 则提供同样与厂商无关的访问方法，以访问消息收发服务。
+许多厂商目前都支持 JMS，包括 IBM 的 MQSeries、BEA的 Weblogic JMS service和 Progress 的 SonicMQ。
+其中开源组织apache也提供了activeMQ.
+
+组成元素:
+JMS提供者:连接面向消息中间件的，JMS接口的一个实现。提供者可以是Java平台的JMS实现，也可以是非Java平台的面向消息中间件的适配器。 
+JMS生产者:创建并发送消息的JMS客户。 
+JMS消费者:接收消息的JMS客户。
+JMS消息:包括可以在JMS客户之间传递的数据的对象。
+JMS队列:这些消息将按照顺序发送。一旦一个消息被阅读，该消息将被从队列中移走。 
+JMS主题:一种支持发送消息给多个订阅者的机制。
+
+JMS消息模型:
+1.点对点或队列模型,一个生产者向一个特定的队列发布消息，一个消费者从该队列中读取消息,只有一个消费者将获得消息
+即消费者将消息从队列中移出的时候，队列中已不存在该消息，其他消费者不能获取该消息。
+2.发布者/订阅者模型,发布者/订阅者模型支持向一个特定的消息主题发布消息。
+0或多个订阅者可能对接收来自特定消息主题的消息感兴趣,即多个消费者可以获得消息。
+
+JMS应用程序接口
+ConnectionFactory接口(连接工厂),用户用来创建到JMS提供者的连接的被管对象
+Connection接口(连接),连接代表了应用程序和消息服务器之间的通信链路,在获得了连接工厂后，
+就可以创建一个与JMS提供者的连接。根据不同的连接类型，连接允许用户创建会话，以发送和接收队列和主题到目标。
+Destination接口(目标),消息目标是指消息发布和接收的地点，或者是队列，或者是主题。
+Session 接口(会话),一个会话允许用户创建消息生产者来发送消息，创建消息消费者来接收消息。
+MessageProducer接口(消息生产者),由会话创建的对象，用于发送消息到目标。
+用户可以创建某个目标的发送者，也可以创建一个通用的发送者，在发送消息时指定目标。
+MessageConsumer接口(消息消费者),由会话创建的对象，用于接收发送到目标的消息。
+消费者可以同步地(阻塞模式)，或异步(非阻塞)接收队列和主题类型的消息。Message 接口(消息),消费者和生产者之间传送的对象
+
+</pre> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font color='red'>针对点对点模式:1个消息，只能有1个接收者接收。针对订阅模式:只要接收者订阅了该主题就可以接收，但是只有接收者所在的服务器(如tomcat或自己写的一个进程)开启后，才能接收服务器启动时消费者发给主题的消息。
+所以针对点对点模式，即使接收者进程停掉，下次启动后，仍然可以接收。订阅模式，有可能会造成消息的丢失，即接收端进程在停止到重启的时间段所对应的消息就丢失了！(订阅模式用的是广播机制，没有收到是正常现象)	
+</font>
+
+</div>
+
+<div class="AI_common_title1">
+	<h2>apache-activeMQ下载、安装、监控、jar包获取</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1.下载地址:http://activemq.apache.org/download.html(windows版本、aix版本均可以下载)
+2.安装,windows环境，则双击activemq.bat,aix环境:待定。备注:先要安装jdk1.5或以上的版本并配置好相关环境变量.
+3.监控,http://jms-servver-IP:8161/admin(该监控平台很重要，一方面可以查看jms服务器运行情况，二方面可以及时定位问题)
+4.下载jar包:activemq-all-5.6.0.jar
+5.在linux下启动、停止服务
+  5.1普通方式启动(只要当前窗口关闭,服务立刻停止)
+     #./activemq start
+  5.2后台方式启动
+     #nohup ./activemq start
+  5.3停止服务
+     #ps -ef|grep activemq (查出进程号)
+     #kill -9 XXX(杀死进程号)
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>p2p/队列模式的实例代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1>.p2p模式下的生成者的消息发送实例代码
+package com.asiainfo.activeMQ;
+
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
+
+public class ActiveMQP2PSend {
+
+	public static void main(String[] args){
+	    ConnectionFactory cf = new ActiveMQConnectionFactory("tcp://10.9.155.249:61616");
+	    Connection conn = null;
+	    Session session = null;
+	    try {
+	        conn = cf.createConnection();
+	        session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
+	        Destination destination = new ActiveMQQueue("ningygQueue");
+	        MessageProducer producer = session.createProducer(destination);
+	        TextMessage message = session.createTextMessage();
+	        String messageInfo = "Hello WorldAAAB!";
+	        message.setText(messageInfo);
+	        producer.send(message);
+	        System.out.println(messageInfo);
+	    } catch (JMSException ex) {
+	        ex.printStackTrace();
+	    } finally {
+	        try {
+	            if(session != null) {
+	                session.close();
+	            }
+	            if(conn != null) {
+	                conn.close();
+	            }
+	        } catch (JMSException ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
+	
+}
+2>.p2p模式下的消费者的消息发送实例代码
+package com.asiainfo.activeMQ;
+
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
+
+public class ActiveMQP2PReceive {
+	public static void main(String[] args)  throws JMSException{
+ 	ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://10.9.155.249:61616");  
+    Connection connection = factory.createConnection();  
+    connection.start();  
+    Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);  
+    Destination destination = new ActiveMQQueue("heweiQueue");
+    MessageConsumer consumer = session.createConsumer(destination);  
+    consumer.setMessageListener(new MessageListener() {  
+          public void onMessage(Message message) {  
+              TextMessage tm = (TextMessage) message;  
+              try {  
+                  System.out.println("Received message: " + tm.getText());  
+                  } catch (JMSException e) {  
+                      e.printStackTrace();  
+                  }  
+              }  
+          });  
+	}
+}
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>发布/订阅模式的实例代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+1>.发布/订阅模式的生成者的实例代码
+package com.asiainfo.activeMQ;
+
+import javax.jms.*;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+
+
+public class TopicPublisher {
+    public static void main(String[] args) throws JMSException {  
+			ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://10.9.155.249:61616");  
+	        Connection connection =  factory.createConnection();  
+	        connection.start();  
+	        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);  
+	        Topic topic = (Topic) session.createTopic("heweiTopic");  
+	        MessageProducer producer = session.createProducer((Destination) topic);  
+	        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);  
+	        while(true) {  
+	            TextMessage message = session.createTextMessage();  
+	            message.setText("message_" + System.currentTimeMillis());  
+	            producer.send(message);  
+	            System.out.println("Sent message: " + message.getText());  
+	            try {  
+	                 Thread.sleep(10000);  
+	             } catch (InterruptedException e) {  
+	                e.printStackTrace();  
+	            }  
+	        }  
+	  }  
+}
+2>.发布/订阅模式的消费者的实例代码
+package com.asiainfo.activeMQ;
+
+import javax.jms.*;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+
+
+public class TopicSubscriber {
+ public static void main(String[] args) throws JMSException {  
+	 	ConnectionFactory factory = new ActiveMQConnectionFactory("tcp://10.9.155.249:61616");  
+        Connection connection = factory.createConnection();  
+        connection.start();  
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);  
+        Topic topic = session.createTopic("heweiTopic");  
+        MessageConsumer consumer = session.createConsumer(topic);  
+        consumer.setMessageListener(new MessageListener() {  
+              public void onMessage(Message message) {  
+                  TextMessage tm = (TextMessage) message;  
+                  try {  
+                      System.out.println("Received message: " + tm.getText());  
+	                  } catch (JMSException e) {  
+	                      e.printStackTrace();  
+	                  }  
+	              }  
+	          });  
+       }
+}
+
+</pre>
+</div>
+</body>
+</html>

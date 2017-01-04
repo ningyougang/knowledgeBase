@@ -1,0 +1,882 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>文件操作类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>方法预览</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+/**
+* 新建目录
+* @param folderPath String 如 c:/fqf
+*/
+public static void newFolder(String folderPath)
+
+/**
+* 新建文件
+* @param filePathAndName String 文件路径及名称 如c:/fqf.txt
+* @param fileContent String 文件内容
+*/
+public static void newFile(String filePathAndName, String fileContent)
+
+/**
+* 删除文件
+* @param filePathAndName String 文件路径及名称 如c:/fqf.txt
+*/
+public static void delFile(String filePathAndName)
+
+/**
+* 删除文件夹(文件夹和里面的所有文件)
+* @param folderPath String 文件夹路径及名称 如c:/fqf
+*/
+public static void delFolder(String folderPath)
+
+/**
+* 删除文件夹里面的所有文件(包含里面的文件夹)
+* @param path String 文件夹路径 如 c:/fqf
+*/
+public static void delAllFile(String path)
+
+/**
+* 删除文件夹里面的所有文件(不包含里面的文件夹)
+* @param path  String 文件夹路径 如 c:/fqf
+*/
+public static void delAllOnlyFile(String path)
+
+/**
+* 复制单个文件
+* @param oldPath String 原文件路径 如：c:/fqf.txt
+* @param newPath String 复制后路径 如：f:/fqf.txt
+*/
+public static void copyFile(String oldPath, String newPath)
+
+/**
+* 复制整个文件夹内容
+* @param oldPath String 原文件路径 如：c:/fqf
+* @param newPath String 复制后路径 如：f:/fqf/ff
+* @return boolean
+*/
+public static void copyFolder(String oldPath, String newPath) 
+
+/**
+* 移动文件到另外的文件
+* @param oldPath String 如：c:/fqf.txt
+* @param newPath String 如：d:/fqf.txt
+*/
+public static void moveFile(String oldPath, String newPath)
+
+
+/**
+* 移动文件夹到另外的目录
+* @param oldPath String 如：c:/fqf/
+* @param newPath String 如：d:/fqf/
+*/
+public void moveFolder(String oldPath, String newPath) 
+
+/**
+* 保存文件
+* @param file 源文件
+* @param saveFilePath 保存的目录，如:c:\folder
+* @param fileName 如:a.txt
+* @return 返回的文件路径
+* @throws Exception
+*/
+public static String saveFile(File file, String saveFilePath,String fileName) throws Exception
+
+/**
+* 判断文件路径是否存在，如不存在则创建
+* @param path 路径,如c:\folder1\folder2
+*/
+public static void assureDirExit(String path)
+
+/**
+* 通过文件路径,获取文件名称
+* @param filePath,如c:\folder1\folder2\a.txt
+* @return a.txt
+*/
+public static String fileName(String filePath) 
+
+
+/**
+* 在文件中查找内容
+* @param fileName 带路径的文件名,如c:\folder\a.txt
+* @param target 要查找的内容
+* @return boolean 是否存在文件内容
+*/
+public static boolean search(String fileName, String target)
+
+/**
+* 将某段字符串内容传生成文件.
+* @param fileNameWithPath,生成的文件路径.
+* @param fileContent,String字符串.
+* @throws Exception.
+*/
+public static void genFile(String fileNameWithPath, String fileContent,String charSet) throws Exception
+
+/**
+* 上传文件到指定FTP服务器(其中这里的FTP_IP、FTP_PORT等相关信息在config.properties里有配置)
+* @param source 源文件路径,如c:\folder\a.txt
+* @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+* 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+* @return boolean 是否上传成功
+*/
+public static Boolean saveFile2FTP(String source, String ftpFilePath) 
+
+/**
+* 上传文件到指定FTP服务器(其中这里的FTP_IP、FTP_PORT等相关信息在config.properties里有配置)
+* @param sourceData   源文件文件流
+* @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+* 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+* @return boolean 是否上传成功
+*/
+public static Boolean saveFile2FTP(byte[] sourceData, String ftpFilePath) 
+
+/**
+* 上传文件到指定FTP服务器(其中这里的FTP_IP、FTP_PORT等相关信息在config.properties里有配置)
+* @param file   源文件文件对象
+* @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+* 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+* @return boolean 是否上传成功 
+*/
+public static Boolean saveFile2FTP(File file, String ftpFilePath)
+
+/**
+* 上传文件到指定FTP服务器
+* @param ip、port、userName、password表示对应的FTP服务器信息
+* @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+* 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+* @return boolean 是否上传成功 
+*/
+public static Boolean saveFile2FTP(String ip,Integer port,String userName,String password,File file, String ftpFilePath)
+
+/**
+* 上传文件到指定FTP服务器
+* @param ip、port、userName、password表示对应的FTP服务器信息
+* @param file[] Ary   源批量文件
+* @param ftpFilePath[]   ftp目标文件路径,一一对应关系
+* @return boolean 是否上传成功
+*/
+public static Boolean saveFile2FTP(String ip,Integer port,String userName,String password,File[] fileAry, String ftpPathAry[])
+
+/**
+* 将FTP路径文件内容打印到字节数组中
+* @param ftpFilePath 
+* @return byte[] 字节数组
+*/
+public static byte[] downLoadFileFTP(String ftpFilePath)
+
+/**
+* 将FTP路径文件打印到OutputStream
+* @param String ftpFilePath ftp文件路径
+* @param OutputStream out 输出流
+*/
+public static void downLoadFileFTP(String ftpFilePath, OutputStream out)
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+package com.asiainfo.base.util;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.CharBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import org.apache.log4j.Logger;
+
+public class FileOperate {
+	
+	private static Logger log = Logger.getLogger(FileOperate.class);
+
+	/**
+	 * 新建目录
+	 * @param folderPath String 如 c:/fqf
+	 */
+	public static void newFolder(String folderPath) {
+		try {
+			String filePath = folderPath;
+			filePath = filePath.toString();
+			java.io.File myFilePath = new java.io.File(filePath);
+			if (!myFilePath.exists()) {
+				myFilePath.mkdir();
+			}
+		} catch (Exception e) {
+			System.out.println("新建目录操作出错");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 新建文件
+	 * @param filePathAndName String 文件路径及名称 如c:/fqf.txt
+	 * @param fileContent String 文件内容
+	 */
+	public static void newFile(String filePathAndName, String fileContent) {
+
+		try {
+			String filePath = filePathAndName;
+			filePath = filePath.toString();
+			File myFilePath = new File(filePath);
+			if (!myFilePath.exists()) {
+				myFilePath.createNewFile();
+			}
+			FileWriter resultFile = new FileWriter(myFilePath);
+			PrintWriter myFile = new PrintWriter(resultFile);
+			String strContent = fileContent;
+			myFile.println(strContent);
+			resultFile.close();
+
+		} catch (Exception e) {
+			System.out.println("新建目录操作出错");
+			e.printStackTrace();
+
+		}
+
+	}
+
+	/**
+	 * 删除文件
+	 * @param filePathAndName String 文件路径及名称 如c:/fqf.txt
+	 */
+	public static void delFile(String filePathAndName) {
+		try {
+			java.io.File myDelFile = new java.io.File(filePathAndName);
+			myDelFile.delete();
+
+		} catch (Exception e) {
+			System.out.println("删除文件操作出错");
+			e.printStackTrace();
+
+		}
+	}
+
+	/**
+	 * 删除文件夹(文件夹和里面的所有文件)
+	 * @param folderPath String 文件夹路径及名称 如c:/fqf
+	 */
+	public static void delFolder(String folderPath) {
+		try {
+			delAllFile(folderPath); // 删除完里面所有内容
+			String filePath = folderPath;
+			filePath = filePath.toString();
+			java.io.File myFilePath = new java.io.File(filePath);
+			myFilePath.delete(); // 删除空文件夹
+
+		} catch (Exception e) {
+			System.out.println("删除文件夹操作出错");
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 删除文件夹里面的所有文件(包含里面的文件夹)
+	 * @param path String 文件夹路径 如 c:/fqf
+	 */
+	public static void delAllFile(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			return;
+		}
+		if (!file.isDirectory()) {
+			return;
+		}
+		String[] tempList = file.list();
+		File temp = null;
+		for (int i = 0; i < tempList.length; i++) {
+			if (path.endsWith(File.separator)) {
+				temp = new File(path + tempList[i]);
+			} else {
+				temp = new File(path + File.separator + tempList[i]);
+			}
+			if (temp.isFile()) {
+				temp.delete();
+			}
+			if (temp.isDirectory()) {
+				delAllFile(path + "/" + tempList[i]);// 先删除文件夹里面的文件
+				delFolder(path + "/" + tempList[i]);// 再删除空文件夹
+			}
+		}
+	}
+	
+	/**
+	 * 删除文件夹里面的所有文件(不包含里面的文件夹)
+	 * @param path  String 文件夹路径 如 c:/fqf
+	 */
+	public static void delAllOnlyFile(String path){
+
+		File file = new File(path);
+		if (!file.exists()) {
+			return;
+		}
+		if (!file.isDirectory()) {
+			return;
+		}
+		String[] tempList = file.list();
+		File temp = null;
+		for (int i = 0; i < tempList.length; i++) {
+			if (path.endsWith(File.separator)) {
+				temp = new File(path + tempList[i]);
+			} else {
+				temp = new File(path + File.separator + tempList[i]);
+			}
+			if (temp.isFile()) {
+				temp.delete();
+			}
+		}
+	
+	}
+
+	/**
+	 * 复制单个文件
+	 * @param oldPath String 原文件路径 如：c:/fqf.txt
+	 * @param newPath String 复制后路径 如：f:/fqf.txt
+	 */
+	public static void copyFile(String oldPath, String newPath) {
+		try {
+			int bytesum = 0;
+			int byteread = 0;
+			File oldfile = new File(oldPath);
+			if (oldfile.exists()) { // 文件存在时
+				InputStream inStream = new FileInputStream(oldPath); // 读入原文件
+				FileOutputStream fs = new FileOutputStream(newPath);
+				byte[] buffer = new byte[1444];
+				while ((byteread = inStream.read(buffer)) != -1) {
+					bytesum += byteread; // 字节数 文件大小
+					fs.write(buffer, 0, byteread);
+				}
+				inStream.close();
+			}
+		} catch (Exception e) {
+			System.out.println("复制单个文件操作出错");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 复制整个文件夹内容
+	 * @param oldPath String 原文件路径 如：c:/fqf
+	 * @param newPath String 复制后路径 如：f:/fqf/ff
+	 * @return boolean
+	 */
+	public static void copyFolder(String oldPath, String newPath) {
+
+		try {
+			(new File(newPath)).mkdirs(); // 如果文件夹不存在 则建立新文件夹
+			File a = new File(oldPath);
+			String[] file = a.list();
+			File temp = null;
+			for (int i = 0; i < file.length; i++) {
+				if (oldPath.endsWith(File.separator)) {
+					temp = new File(oldPath + file[i]);
+				} else {
+					temp = new File(oldPath + File.separator + file[i]);
+				}
+
+				if (temp.isFile()) {
+					FileInputStream input = new FileInputStream(temp);
+					FileOutputStream output = new FileOutputStream(newPath
+							+ "/" + (temp.getName()).toString());
+					byte[] b = new byte[1024 * 5];
+					int len;
+					while ((len = input.read(b)) != -1) {
+						output.write(b, 0, len);
+					}
+					output.flush();
+					output.close();
+					input.close();
+				}
+				if (temp.isDirectory()) {// 如果是子文件夹
+					copyFolder(oldPath + "/" + file[i], newPath + "/" + file[i]);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("复制整个文件夹内容操作出错");
+			e.printStackTrace();
+
+		}
+
+	}
+
+	/**
+	 * 移动文件到另外的文件
+	 * @param oldPath String 如：c:/fqf.txt
+	 * @param newPath String 如：d:/fqf.txt
+	 */
+	public static void moveFile(String oldPath, String newPath) {
+		copyFile(oldPath, newPath);
+		delFile(oldPath);
+
+	}
+
+	/**
+	 * 移动目录到另外的目录
+	 * @param oldPath String 如：c:/fqf/
+	 * @param newPath String 如：d:/fqf/
+	 */
+	public void moveFolder(String oldPath, String newPath) {
+		copyFolder(oldPath, newPath);
+		delFolder(oldPath);
+	}
+
+	/**
+	 * 保存文件
+	 * @param file 源文件
+	 * @param saveFilePath 保存的目录，如:c:\folder
+	 * @param fileName 如:a.txt
+	 * @return 返回的文件路径
+	 * @throws Exception
+	 */
+	public static String saveFile(File file, String saveFilePath,String fileName) throws Exception {
+		int c = 0;
+		byte[] bb = new byte[512];
+		BufferedInputStream in = null;
+		FileOutputStream os = null;
+		assureDirExit(saveFilePath);
+		String saveFile = saveFilePath + File.separator + fileName;
+		try {
+			in = new BufferedInputStream(new FileInputStream(file));
+			os = new FileOutputStream(saveFile);
+			while ((c = in.read(bb)) != -1) {
+				os.write(bb, 0, c);
+			}
+			os.flush();
+			os.close();
+			in.close();
+			saveFile = saveFile.replace(File.separator, File.separator+ File.separator);
+			return saveFile;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			throw new Exception("保存文件发生严重错误");
+		} finally {
+			if (in != null) {
+				os.close();
+			}
+			if (os != null) {
+				in.close();
+			}
+		}
+	}
+
+	/**
+	 * 判断文件路径是否存在，如不存在则创建
+	 * @param path 路径,如c:\folder1\folder2
+	 */
+	public static void assureDirExit(String path) {
+		String filePath = path.endsWith(File.separator) ? path : path
+				+ File.separator;
+		String file = "";
+		try {
+			for (int i = 0; i < filePath.length(); i++) {
+				if (filePath.charAt(i) == File.separatorChar) {
+					if (!new File(file).exists()) {
+						new File(file).mkdir();
+					}
+				}
+				file += filePath.charAt(i);
+			}
+		} catch (Exception e) {
+		}
+	}
+
+	/**
+	 * 通过文件路径,获取文件名称
+	 * @param filePath,如c:\folder1\folder2\a.txt
+	 * @return a.txt
+	 */
+	public static String fileName(String filePath) {
+		int num = filePath.lastIndexOf(File.separator);
+		return filePath.substring(num + 1);
+	}
+
+	/**
+	 * 在文件中查找内容
+	 * @param fileName 带路径的文件名,如c:\folder\a.txt
+	 * @param target 要查找的内容
+	 * @return boolean 是否存在文件内容
+	 */
+	public static boolean search(String fileName, String target) {
+		boolean flag = false;
+		try {
+			FileInputStream fileInputStream = new FileInputStream(fileName);
+			FileChannel fileChannel = fileInputStream.getChannel();
+			int fileByteSize = (int) fileChannel.size();
+			MappedByteBuffer mappedByteBuffer = fileChannel.map(
+					FileChannel.MapMode.READ_ONLY, 0, fileByteSize);
+
+			Charset charset = Charset.forName("UTF-8");
+			CharsetDecoder decoder = charset.newDecoder();
+			CharBuffer charBuffer = decoder.decode(mappedByteBuffer);
+			String fileContent = String.valueOf(charBuffer);
+			int n = fileContent.indexOf(target);
+			if (n > -1) {
+				flag = true;
+			} else {
+			}
+			fileChannel.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return flag;
+	}
+	
+	/**
+	 * 将某段字符串内容传生成文件.
+	 * @param fileNameWithPath,生成的文件路径.
+	 * @param fileContent,String字符串.
+	 * @throws Exception.
+	 */
+	public static void genFile(String fileNameWithPath, String fileContent,String charSet) throws Exception {
+		try{
+		charSet = null == charSet?"UTF-8":charSet;
+		int c = 0;
+		byte[] bb = new byte[1024 * 1];
+		ByteArrayInputStream in = new ByteArrayInputStream(fileContent.getBytes());
+		PrintWriter os = new PrintWriter(fileNameWithPath,charSet);
+        os.write(fileContent);
+		os.close();
+		in.close();
+		}catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+	}	
+
+	/**
+	 * 上传文件到指定FTP服务器(其中这里的FTP_IP、FTP_PORT等相关信息在config.properties里有配置)
+	 * @param source 源文件路径,如c:\folder\a.txt
+	 * @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+	 * 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+	 * @return boolean 是否上传成功
+	 */
+	public static Boolean saveFile2FTP(String source, String ftpFilePath) {
+		FtpOperate ftpOperate = null;
+		try {
+			String ftpIp = ConfigureFile.getInstance().getProperty("FTP_IP");
+			Integer ftpPort = Integer.valueOf(ConfigureFile.getInstance()
+					.getProperty("FTP_PORT"));
+			String ftpUserName = StringUtils.decrypt(ConfigureFile
+					.getInstance().getProperty("FTP_USER_NAME"));
+			String ftpPsd = StringUtils.decrypt(ConfigureFile.getInstance()
+					.getProperty("FTP_USER_PSD"));
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			ftpOperate.login();
+			String dir = ftpFilePath.substring(0,ftpFilePath.lastIndexOf("/"));
+			if(!ftpOperate.isDirExist(dir)){
+				ftpOperate.logout();
+				FtpOperate ftp = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+				ftp.login();
+				ftp.upFile(source, "/"+ftpFilePath);
+				ftp.logout();
+			}else{
+				ftpOperate.upFile(source, "/"+ftpFilePath.substring(ftpFilePath.lastIndexOf("/")+1));
+				ftpOperate.logout();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		} finally {
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * 上传文件到指定FTP服务器(其中这里的FTP_IP、FTP_PORT等相关信息在config.properties里有配置)
+	 * @param sourceData   源文件文件流
+	 * @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+	 * 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+	 * @return boolean 是否上传成功
+	 */
+	public static Boolean saveFile2FTP(byte[] sourceData, String ftpFilePath) {
+		FtpOperate ftpOperate = null;
+		try {
+			String ftpIp = ConfigureFile.getInstance().getProperty("FTP_IP");
+			Integer ftpPort = Integer.valueOf(ConfigureFile.getInstance()
+					.getProperty("FTP_PORT"));
+			String ftpUserName = StringUtils.decrypt(ConfigureFile
+					.getInstance().getProperty("FTP_USER_NAME"));
+			String ftpPsd = StringUtils.decrypt(ConfigureFile.getInstance()
+					.getProperty("FTP_USER_PSD"));
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			ftpOperate.login();
+			String dir = ftpFilePath.substring(0,ftpFilePath.lastIndexOf("/"));
+			if(!ftpOperate.isDirExist(dir)){
+				ftpOperate.logout();
+				FtpOperate ftp = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+				ftp.login();
+				ftp.upFile(sourceData, "/"+ftpFilePath);
+				ftp.logout();
+			}else{
+				ftpOperate.upFile(sourceData, "/"+ftpFilePath.substring(ftpFilePath.lastIndexOf("/")+1));
+				ftpOperate.logout();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				if(ftpOperate != null)
+				ftpOperate.logout();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 上传文件到指定FTP服务器(其中这里的FTP_IP、FTP_PORT等相关信息在config.properties里有配置)
+	 * @param file   源文件文件对象
+	 * @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+	 * 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+	 * @return boolean 是否上传成功 
+	 */
+	public static Boolean saveFile2FTP(File file, String ftpFilePath) {
+		FtpOperate ftpOperate = null;
+		try {
+			String ftpIp = ConfigureFile.getInstance().getProperty("FTP_IP");
+			Integer ftpPort = Integer.valueOf(ConfigureFile.getInstance()
+					.getProperty("FTP_PORT"));
+			String ftpUserName = StringUtils.decrypt(ConfigureFile
+					.getInstance().getProperty("FTP_USER_NAME"));
+			String ftpPsd = StringUtils.decrypt(ConfigureFile.getInstance()
+					.getProperty("FTP_USER_PSD"));
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			ftpOperate.login();
+			String dir = ftpFilePath.substring(0,ftpFilePath.lastIndexOf("/"));
+			if(!ftpOperate.isDirExist(dir)){
+				ftpOperate.logout();
+				FtpOperate ftp = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+				ftp.login();
+				ftp.upFile(file, "/"+ftpFilePath);
+				ftp.logout();
+			}else{
+				ftpOperate.upFile(file, "/"+ftpFilePath.substring(ftpFilePath.lastIndexOf("/")+1));
+				ftpOperate.logout();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				if(ftpOperate != null)
+				ftpOperate.logout();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 上传文件到指定FTP服务器
+	 * @param ip、port、userName、password表示对应的FTP服务器信息
+	 * @param ftpFilePath   ftp目标文件路径 如,/ftpFolder/a.txt(表示ftp根下),一般情况下考虑到windows与aix平台,
+	 * 需要做File.separator的替换,如ftpFilePath.replace(File.separator, "/")
+	 * @return boolean 是否上传成功 
+	 */
+	public static Boolean saveFile2FTP(String ip,Integer port,String userName,String password,File file, String ftpFilePath) {
+		FtpOperate ftpOperate = null;
+		try {
+			String ftpIp = ip;
+			Integer ftpPort = port;
+			String ftpUserName = userName;
+			String ftpPsd = password;
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			ftpOperate.login();
+			String dir = ftpFilePath.substring(0,ftpFilePath.lastIndexOf("/"));
+			if(!ftpOperate.isDirExist(dir)){
+				ftpOperate.logout();
+				FtpOperate ftp = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+				ftp.login();
+				ftp.upFile(file, "/"+ftpFilePath);
+				ftp.logout();
+			}else{
+				ftpOperate.upFile(file, "/"+ftpFilePath.substring(ftpFilePath.lastIndexOf("/")+1));
+				ftpOperate.logout();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				if(ftpOperate != null)
+				ftpOperate.logout();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 上传文件到指定FTP服务器
+	 * @param ip、port、userName、password表示对应的FTP服务器信息
+	 * @param file[] Ary   源批量文件
+	 * @param ftpFilePath[]   ftp目标文件路径,一一对应关系
+	 * @return boolean 是否上传成功
+	 */
+	public static Boolean saveFile2FTP(String ip,Integer port,String userName,String password,File[] fileAry, String ftpPathAry[]) {
+		FtpOperate ftpOperate = null;
+		try {
+			String ftpIp = ip;
+			Integer ftpPort = port;
+			String ftpUserName = userName;
+			String ftpPsd = password;
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			if(fileAry!=null && fileAry.length>0){
+				ftpOperate.login();
+				for(int i=0;i<fileAry.length;i++){
+					String dir = ftpPathAry[i].substring(0,ftpPathAry[i].lastIndexOf("/"));
+					if(!ftpOperate.isDirExist(dir)){
+						ftpOperate.logout();
+						FtpOperate ftp = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+						ftp.login();
+						ftp.upFile(fileAry[i], "/"+ftpPathAry[i]);
+						ftp.logout();
+					}else{
+						ftpOperate.upFile(fileAry[i], "/"+ftpPathAry[i].substring(ftpPathAry[i].lastIndexOf("/")+1));
+					}
+				}
+				ftpOperate.logout();
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				if(ftpOperate != null)
+				ftpOperate.logout();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * 将FTP路径文件内容打印到字节数组中
+	 * @param ftpFilePath 
+	 * @return byte[] 字节数组
+	 */
+	public static byte[] downLoadFileFTP(String ftpFilePath) {
+		FtpOperate ftpOperate = null;
+		byte[] arraybyte = null;
+		try {
+			String ftpIp = ConfigureFile.getInstance().getProperty("FTP_IP");
+			Integer ftpPort = Integer.valueOf(ConfigureFile.getInstance()
+					.getProperty("FTP_PORT"));
+			String ftpUserName = StringUtils.decrypt(ConfigureFile
+					.getInstance().getProperty("FTP_USER_NAME"));
+			String ftpPsd = StringUtils.decrypt(ConfigureFile.getInstance()
+					.getProperty("FTP_USER_PSD"));
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			ftpOperate.login();
+			arraybyte = ftpOperate.downFile(ftpFilePath);;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if(ftpOperate != null)
+				ftpOperate.logout();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return arraybyte;
+	}
+	
+	/**
+	 * 将FTP路径文件打印到OutputStream
+	 * @param String ftpFilePath ftp文件路径
+	 * @param OutputStream out 输出流
+	 */
+	public static void downLoadFileFTP(String ftpFilePath, OutputStream out) {
+		FtpOperate ftpOperate = null;
+		try {
+			String ftpIp = ConfigureFile.getInstance().getProperty("FTP_IP");
+			Integer ftpPort = Integer.valueOf(ConfigureFile.getInstance()
+					.getProperty("FTP_PORT"));
+			String ftpUserName = StringUtils.decrypt(ConfigureFile
+					.getInstance().getProperty("FTP_USER_NAME"));
+			String ftpPsd = StringUtils.decrypt(ConfigureFile.getInstance()
+					.getProperty("FTP_USER_PSD"));
+			ftpOperate = new FtpOperate(ftpIp, ftpPort, ftpUserName, ftpPsd);
+			ftpOperate.login();
+			ftpOperate.downFile(ftpFilePath, out);;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ftpOperate != null)
+				ftpOperate.logout();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+
+	public static void main(String arg[]) throws Exception {
+		saveFile2FTP("localhost",21,"nyg","nyg",new File("D:\\website.rar"), "/test/website.rar");
+	}
+}
+</pre>
+</p>
+</div>
+</body>
+</html>

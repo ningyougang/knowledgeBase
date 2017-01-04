@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数据链路层</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		
+<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>数据链路层</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+一、简介
+数据链路层（Data Link Layer）是OSI模型的第二层，这一层的主要功能是在物理层提供的比特流的基础上，
+通过差错控制、流量控制方法，使有差错的物理线路变为无差错的数据链路，即提供可靠的通过物理介质传输数据的方法。
+
+二、功能
+该层通常又被分为介质访问控制（MAC）和逻辑链路控制（LLC）两个子层。
+MAC子层的主要任务是解决共享型网络中多用户对信道竞争的问题，完成网络介质的访问控制；
+LLC子层的主要任务是建立和维护网络连接，执行差错校验、流量控制和链路控制。
+数据链路层的具体工作是接收来自物理层的位流形式的数据，并封装成帧(frame)，传送到上一层；
+同样，也将来自上层的数据帧，拆装为位流形式的数据转发到物理层。
+
+三、数据链路层设备
+网卡、网桥、交换机(多端口网桥，与网桥一样，用来隔离冲突域);(备注:网卡工作在物理层和数据链路层的逻辑链路控制(LLC))。
+</pre>
+冲突域与广播域的区别下载:<a href="./doc/冲突域与广播域的区别.ppt">冲突域与广播域的区别.ppt</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery-获取radio的问题</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;">  
+<input type="radio" name="sex" id="woman" value="woman">女性</input>
+<input type="radio" name="sex" id="man" value="man" >男性</input>
+<button onclick="javascript:getValue();">获取值</button>	
+
+用jquery通过name属性获取radio值有两种方式
+方式A:
+function getValue(){
+		alert($("input[name=sex][checked]").val());
+} 
+方式B:
+function getValue(){
+		alert($("input[name=sex]:checked").val());
+}  
+
+经过测试人员测试(jquery版本:jquery-1.3.2.min.js):
+针对方式A:在IE8、IE9的非兼容模式下,获取不了值 
+针对方式B:在IE7、IE8(非兼容模式、兼容模式)、IE9(非兼容模式、兼容模式) ,均可以获取值
+
+结论:
+不要用方式A,使用方式B
+</pre> 
+</body>
+</html>

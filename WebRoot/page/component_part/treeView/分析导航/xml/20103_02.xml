@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月二级账目收入分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='收入值' SYAxisName='环比增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0">
+
+<categories>
+ 	<category label='合肥'/>
+	<category label='马鞍山'/>
+	<category label='宣城'/>
+	<category label='芜湖'/>
+	<category label='黄山'/>
+	<category label='铜陵'/>
+	<category label='淮北'/>
+	<category label='淮南'/>
+	<category label='滁州'/>
+	<category label='六安'/>
+	<category label='池州'/>
+	<category label='蚌埠'/>
+	<category label='巢湖'/>
+	<category label='宿州'/>
+	<category label='安庆'/>
+	<category label='亳州'/>
+	<category label='阜阳'/>
+</categories>
+ 
+<dataset seriesName="收入值" color="AFD8F8">
+  	<set value='242717683.72'/>
+	<set value='38328369.53'/>
+	<set value='62291867.38'/>
+	<set value='73800279.02'/>
+	<set value='31155847.09'/>
+	<set value='24584132.63'/>
+	<set value='44403338.91'/>
+	<set value='58892472.54'/>
+	<set value='84482429.62'/>
+	<set value='86135668.91'/>
+	<set value='28884891.95'/>
+	<set value='64794611.48'/>
+	<set value='64841633.16'/>
+	<set value='84499328.02'/>
+	<set value='91702664.70'/>
+	<set value='72579832.50'/>
+	<set value='117584622.08'/>
+</dataset>
+	 
+<dataset lineThickness="2" seriesName="增长率" parentYAxis="S" >
+  	<set value='6.8218'/>
+	<set value='4.6234'/>
+	<set value='4.2134'/>
+	<set value='3.9599'/>
+	<set value='3.9390'/>
+	<set value='3.5238'/>
+	<set value='2.8120'/>
+	<set value='2.7252'/>
+	<set value='2.0069'/>
+	<set value='0.9348'/>
+	<set value='-0.0467'/>
+	<set value='-0.8352'/>
+	<set value='-0.8590'/>
+	<set value='-2.6651'/>
+	<set value='-2.7774'/>
+	<set value='-3.9510'/>
+	<set value='-6.0059'/>
+</dataset>
+</chart>

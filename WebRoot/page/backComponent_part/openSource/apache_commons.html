@@ -1,0 +1,740 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Apache Commons</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+
+<!--  -->
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />	
+
+
+<!-- AIComp 组件所需js及css start -->
+		<link rel="stylesheet" type="text/css"
+			href="../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../common/AIComp/script/AI.Comp.js"></script>
+<!-- AIComp 组件所需js及css end -->
+
+
+<!-- Syntax 组件导入js及样式 start-->
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script language="javascript">
+			SyntaxHighlighter.all();
+		</script>
+<!-- Syntax 组件导入js及样式 end-->
+
+		
+	</head>
+<body>
+
+	<div class="AI_common_title1">
+		<h2>Apache Commons </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div>
+	
+	</div>
+
+	<div class="AI_common_title1">
+		<h2>目录</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<p>Apache Commons</p>
+	<p>Commons-configuration</p>
+	<p>Commons-FileUpload:</p>
+	<p>Apache Commons DbUtils</p>
+	<p>Commons BeanUtils</p>
+	<p>Commons CLI</p>
+	<p>Commons Codec</p>
+	<p>Commons Collections</p>
+	<p>Commons DBCP</p>
+	<p>Commons HttpClient</p>
+	<p>Commons IO</p>
+	<p>Commons JXPath</p>
+	<p>Commons Lang</p>
+	<p>Commons Math</p>
+	<p>Commons Net</p>
+	<p>Commons Validator</p>
+	<p>Commons Virtual File System</p>
+	</div>
+
+
+	<div class="AI_common_title1">
+		<h2>Commons-configuration </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<p>1.	如果要使用configuration这个包，首先要保证使用JDK1.2以上，还要引入如下jar包</p>
+	<p>
+	commons-beanutils <br/>
+	commons-lang<br/>
+	commons-logging<br/>
+	commons-collections<br/>
+	commons-digester<br/>
+	commons-codec<br/>
+	commons-jxpath<br/>
+	</p>
+	<p>2.	commons-configuration最新的版本是1.5，这个工具是用来帮助处理配置文件的，支持很多种存储方式 </p>
+	<p> 1.    Properties files<br/>
+	    2.    XML documents<br/>
+		3.    Property list files (.plist)<br/>
+		4.    JNDI<br/>
+		5.    JDBC Datasource<br/>
+		6.    System properties<br/>
+		7.    Applet parameters<br/>
+		8.    Servlet parameters<br/>
+	</p>
+	<p>最主要的作用是读取资源文件，每一种文件格式都有一个对应的类，如下</p>
+	<p>
+	properties文件--PropertiesConfiguration类;<br/>
+	xml文件—XMLConfiguration;<br/>
+	.ini文件—INIConfiguration;<br/>
+	.plist文件—PropertyListConfiguration;<br/>
+	还可以从JNDI中读取properties—JNDIConfiguration；当然还可以使用system的properties--SystemConfiguration<br/>
+	</p>
+	<p>3.	用Properties读取配置文件</p>
+	<p>
+	usergui.properties(放在类根路径下面): <br/>
+	colors.background = #FFFFFF<br/>
+	colors.foreground = #000080<br/>
+	window.width = 500<br/>
+	window.height = 300<br/>
+	keys=cn,com,org,uk,edu,jp,hk<br/>
+	</p>
+	<p>(1)	一般写法：</p>
+	<pre class="brush:java">
+	public static  void readProperties(){
+	InputStream in=null;
+		try {
+			in = new BufferedInputStream((new ClassPathResource("usergui.properties")).getInputStream());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	Properties p=new Properties();
+	try {
+			p.load(in);
+			System.out.println(p.getProperty("colors.background"));
+		} catch (IOException e) {
+		}
+}
+	</pre>
+	<p>(2)	另一种ResourceBundle方式: </p>
+	<pre class="brush:java">
+	public static void readProperties() {
+	Locale locale = Locale.getDefault();
+	ResourceBundlelocalResource = ResourceBundle.getBundle("usergui", locale);
+	String value = localResource.getString("colors.background");
+	System.out.println("ResourceBundle: " + value);
+}
+	</pre>
+	<p>(3)	使用PropertiesConfiguration</p>
+	<pre class="brush:java">
+		public static void loadProperty(){
+		try {
+			PropertiesConfigurationconfig = new PropertiesConfiguration("usergui.properties");
+			config.setProperty("colors.background", "#00000F");//更改值
+			config.save();
+			config.save("usergui.backup.properties");//save a copy
+			System.out.println(config.getProperty("colors.background"));
+			System.out.println(config.getInt("window.width"));
+			String[] keys=config.getStringArray("keys");   
+			List key2=config.getList("keys");  
+			for(int i=0;i<keys.length;i++){<br/>
+				System.out.println(keys[i]);
+			}
+			<br/>
+			for(Object str:key2){
+				System.out.println(str.toString());
+			}
+			<br/>
+		}catch(Exception e){
+		}
+	}
+	</pre>
+	</div>
+
+<div class="AI_common_title1">
+		<h2>Commons-FileUpload </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<p>
+	commons-lang-2.4.jar<br/>
+	commons-configuration-1.5.jar<br/>
+	commons-fileupload-1.2.jar<br/>
+	commons-io-1.2.jar<br/>
+	</p>
+	<pre class="brush:java">
+		packagecom.logcd.servlet;
+		importjava.io.File;
+		importjava.io.IOException;
+		importjava.util.Iterator;
+		importjava.util.List;
+		importjavax.servlet.ServletException;
+		importjavax.servlet.http.HttpServlet;
+		importjavax.servlet.http.HttpServletRequest;
+		importjavax.servlet.http.HttpServletResponse;
+		importorg.apache.commons.fileupload.FileItem;
+		importorg.apache.commons.fileupload.disk.DiskFileItemFactory;
+		importorg.apache.commons.fileupload.servlet.ServletFileUpload;
+		
+		public class Upload extends HttpServlet {
+		    private String uploadPath = "D:\\uploadDir"; // 上传文件的目录
+		public void doPost(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException {
+		try {
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(4096); // 设置缓冲区大小，这里是4kb
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		upload.setSizeMax(4194304); // 设置最大文件尺寸，这里是4MB
+		           List<FileItem> items = upload.parseRequest(request);// 得到所有的文件
+		           Iterator<FileItem> i = items.iterator();
+		StringBuildermsgBuilder = new StringBuilder();//用于返回上传的文件
+		
+		while (i.hasNext()) {
+		FileItem fi = (FileItem) i.next();
+		              String fileName = fi.getName();
+		if (fileName != null) {
+		                  File fullFile = new File(fi.getName());
+		                  File savedFile = new File(uploadPath, fullFile.getName());
+		fi.write(savedFile);
+		
+		msgBuilder.append(fullFile.getName());
+		msgBuilder.append("&nbsp;&nbsp;");
+		msgBuilder.append("<a href=\"javascript:void(0);\" onclick=\"\" >");
+		msgBuilder.append("删&nbsp;除");
+		msgBuilder.append("</a><br/>");
+		              }
+		           }
+		request.setCharacterEncoding("GBK");//设置页面编码
+		response.setContentType("text;charset=GBK");//内容类型
+		response.getWriter().println("<script>parent.callback('"+ msgBuilder.toString() +"')</script>");
+		       } catch (Exception e) {
+		e.printStackTrace();
+		response.sendRedirect("<script>parent.callback('sorry,文件上传失败！')</script>");
+		       }
+		    }
+		public void init() throws ServletException {
+		       File uploadFile = new File(uploadPath);
+		if (!uploadFile.exists()) {
+		uploadFile.mkdirs();
+		       }
+		    }
+		}
+		upload.html实现无刷新文件上传。
+		<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+		<title>文件上传</title>
+		<style type="text/css">
+		body{
+		font-size: 12px;
+		}
+		a{
+		text-decoration: none;
+		}
+		</style>
+		</head>
+		<body>
+		<form action="fileupload" id="form1" name="form1" encType="multipart/form-data" method="post" target="hidden_frame" >
+			<span id="msg"></span>
+			<br/>
+			<input type="file" id="file" name="file" accept="doc,xls,rar" />  <br/>
+			       style="border:1px solid #2D147E;background:#eeeeee;color:#2D147E;font:bold 12px ’隶书’;height:18px;width:300px" <br/>
+			onchange="uploadFile(this);"><br/>
+			<br/>
+			<font style="color: red;font-size: 12px;">信息提示：支持doc,xls,rar文件的上传</font>
+			
+			<iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
+		</form>
+		</body>
+		</html>
+		<script type="text/javascript">
+		function $(id){
+		returndocument.getElementById(id);
+		}
+		functionverifyAccept(obj){
+			varaAccetpType, sFileType;
+			varsAccetpType = obj.accept.toLowerCase();
+			if(sAccetpType.length> 0){
+				aAccetpType = sAccetpType.split(",");
+			}
+			if(obj.value != "" &&aAccetpType.length> 0){
+				sFileType = obj.value.replace(/.*\./g,"").toLowerCase();
+				
+				varisAccept = sAccetpType.indexOf(sFileType);
+				if(isAccept == -1) {
+					alert("不支持此文件类型！");
+					obj.outerHTML = obj.outerHTML;
+					return false;
+				}
+			}
+			return true;
+		}
+		functionuploadFile(obj){
+		if(verifyAccept(obj)){
+		       $("form1").submit();
+		    }
+		}
+		function callback(msg){
+			$("file").outerHTML = $("file").outerHTML;
+			$("msg").innerHTML = $("msg").innerHTML + "<font color=green>"+msg+"</font>";
+		}
+		</script>
+		<servlet>
+		<servlet-name>Upload</servlet-name>
+		<servlet-class>com.logcd.servlet.Upload</servlet-class>
+		</servlet>
+		<servlet-mapping>
+		<servlet-name>Upload</servlet-name>
+		<url-pattern>/fileupload</url-pattern>
+		</servlet-mapping>
+	</pre>
+	</div>
+	
+	<div class="AI_common_title1">
+		<h2>Apache Commons DbUtils</h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<p>
+	这个工具并不是现在流行的OR-Mapping工具（比如Hibernate），只是简化数据库操作，比如
+	QueryRunner run = new QueryRunner(dataSource);
+	// Execute the query and get the results back from the handler
+	Object[] result = (Object[]) run.query("SELECT * FROM Person WHERE name=?", "John Doe");
+	</p>
+	
+	<p>
+	1.	commons-dbutils是 Apache 组织提供的一个开源 JDBC 工具类库，对传统操作数据库的类进行二次封装，可以把结果集转化成List。<br/>
+	项目主页： http://commons.apache.org/dbutils/ <br/>
+	文档地址： http://commons.apache.org/dbutils/examples.html <br/>
+	下载地址：http://commons.apache.org/downloads/download_dbutils.cgi <br/>
+	(1)	org.apache.commons.dbutils<br/>
+	DbUtils  : 提供如关闭连接、装载 JDBC 驱动程序等常规工作的工具类<br/>
+	QueryRunner : 该类简单化了 SQL 查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br/>
+	QueryLoader : 属性文件加载器，主要用于加载属性文件中的 SQL 到内存中。<br/>
+	(2)	org.apache.commons.dbutils.handlers<br/>
+	ArrayHandler：将ResultSet中第一行的数据转化成对象数组<br/>
+	ArrayListHandler将ResultSet中所有的数据转化成List，List中存放的是Object[] <br/>
+	BeanHandler：将ResultSet中第一行的数据转化成类对象<br/>
+	BeanListHandler：将ResultSet中所有的数据转化成List，List中存放的是类对象<br/>
+	ColumnListHandler：将ResultSet中某一列的数据存成List，List中存放的是Object对象<br/>
+	KeyedHandler：将ResultSet中存成映射，key为某一列对应为Map。Map中存放的是数据<br/>
+	MapHandler：将ResultSet中第一行的数据存成Map映射<br/>
+	MapListHandler：将ResultSet中所有的数据存成List。List中存放的是Map <br/>
+	ScalarHandler：将ResultSet中一条记录的其中某一列的数据存成Object <br/>
+	(3)	org.apache.commons.dbutils.wrappers<br/>
+	SqlNullCheckedResultSet：该类是用来对sql语句执行完成之后的的数值进行null的替换。<br/>
+	StringTrimmedResultSet：去除ResultSet中中字段的左右空格。Trim()<br/>
+	</p>
+	<pre class="brush:java">
+	1.	例子
+		public class TestDbUtils {
+		/**
+		* BeanListHandler：将ResultSet中所有的数据转化成List，List中存放的是类对象
+		*/
+		public static void getBeanListData() {
+		Connection conn = getConnection();
+		QueryRunnerqr = new QueryRunner();
+		try {
+		ResultSetHandlerrsh = new BeanHandler(TUser.class);
+		TUserusr = (TUser) qr.query(conn,"SELECTid,username,gender FROM t_user WHERE id=10000",rsh);
+		System.out.println(StringUtils.center("findById", 50, '*'));
+		System.out.println("id=" + usr.getId() + " name=" + usr.getUsername() + " gender=" + usr.getGender());
+		List results = (List) qr.query(conn,"SELECTid,username,gender FROM t_user",newBeanListHandler(TUser.class));
+		System.out.println(StringUtils.center("findAll", 50, '*'));
+		for (int i = 0; i < results.size(); i++) { <br/>
+		TUser user = (TUser) results.get(i);
+		System.out.println("id=" + user.getId() + "  name=" + user.getUsername() + "  gender=" + user.getGender());
+		}
+		} catch (SQLException e) { <br/>
+		e.printStackTrace();
+		} finally { <br/>
+		DbUtils.closeQuietly(conn);
+		}
+		/**
+		* MapListHandler：将ResultSet中所有的数据存成List。List中存放的是Map
+		*/
+		public static void getMapListData() {
+		Connection conn = getConnection();
+		QueryRunnerqr = new QueryRunner();
+		try {
+		List results = (List) qr.query(conn,"SELECTid,username,gender FROM t_user",newMapListHandler());
+		for (int i = 0; i < results.size(); i++) { <br/>
+		Map map = (Map) results.get(i);
+		System.out.println("id=" + map.get("id") + " name="	+ map.get("username") + " gender=" + map.get("gender"));
+		}
+		} catch (SQLException e) {
+		.printStackTrace();
+		} finally {
+		DbUtils.closeQuietly(conn);
+		}
+		}
+		/**
+		*新增和更新例子
+		*/
+		public static void insertAndUpdateData(){
+		Connection conn = getConnection();
+		QueryRunnerqr = new QueryRunner();
+		try{
+		//创建一个数组来存要insert的数据
+		Object[] insertParams = {"John Doe", "000000","男"};
+		int inserts = qr.update(conn, "INSERT INTO t_user(username,password,gender) VALUES (?,?,?)",insertParams );
+		System.out.println("inserted " + inserts + " data");
+		Object[] updateParams = {"111111", "John Doe"};
+		int updates = qr.update(conn, "UPDATE t_user SET password=? WHERE username=?",updateParams );
+		System.out.println("updated "+ updates + " data");
+		}catch (SQLException e) {
+		e.printStackTrace();
+		} finally {
+		DbUtils.closeQuietly(conn);
+		}
+		}
+		/**
+		* Unlike some other classes in DbUtils, this class(SqlNullCheckedResultSet) is NOT thread-safe.
+		*/
+		public static void findUseSqlNullCheckedResultSet(){
+		Connection conn = getConnection();
+		try{
+		Statement stmt = conn.createStatement();
+		ResultSetrs = stmt.executeQuery("SELECT id, username, gender FROM t_user");
+		SqlNullCheckedResultSet wrapper = new SqlNullCheckedResultSet(rs);
+		wrapper.setNullString("N/A"); // Set null string
+		rs = ProxyFactory.instance().createResultSet(wrapper);
+		
+		while(rs.next()){ <br/>
+		System.out.println("id="+rs.getInt("id") + " username=" + rs.getString("username")+ " gender="+rs.getString("gender"));
+		}
+		rs.close();
+		}catch(Exception e){ <br/>
+		e.printStackTrace();
+		}finally{
+		DbUtils.closeQuietly(conn);
+		}
+		}
+		/****数据库连接*** */
+		public static Connection getConnection() {
+		Connection conn = null;
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://127.0.0.1/springapp?useUnicode=true&characterEncoding=gb2312";
+		DbUtils.loadDriver(driver);
+		try {
+		conn = DriverManager.getConnection(url, "root", "root");
+		} catch (SQLException ex) {
+		ex.printStackTrace();
+		}
+		return conn;
+		}
+		}
+	</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+		<h2>Commons BeanUtils </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+	<p>
+	Commons BeanUtils是针对Bean的一个工具集。由于Bean往往是有一堆get和set组成，所以BeanUtils也是在此基础上进行一些包装。
+使用示例：一个比较常用的功能是Bean Copy，也就是copy bean的属性。如果做分层架构开发的话就会用到，比如从PO（Persistent Object）拷贝数据到VO（Value Object）。
+	</p>
+	<pre class="brush:java">
+	1.	传统方法如下：
+	TeacherFormteacherForm=(TeacherForm)form; //得到TeacherForm
+	Teacher teacher=new Teacher();//构造Teacher对象
+	//赋值
+	teacher.setName(teacherForm.getName());
+	teacher.setAge(teacherForm.getAge());
+	teacher.setGender(teacherForm.getGender());
+	teacher.setMajor(teacherForm.getMajor());
+	teacher.setDepartment(teacherForm.getDepartment());
+	//持久化Teacher对象到数据库
+	HibernateDAO= ;
+	HibernateDAO.save(teacher);
+	2.	使用BeanUtils后，代码就大大改观了，如下所示：
+	TeacherFormteacherForm=(TeacherForm)form; //得到TeacherForm
+	Teacher teacher=new Teacher();//构造Teacher对象
+	BeanUtils.copyProperties(teacher,teacherForm); //赋值
+	HibernateDAO.save(teacher); //持久化Teacher对象到数据库
+	</pre>
+	
+	</div>
+	
+	
+	
+	<div class="Commons CLI">
+		<h2>Commons-configuration </h2>
+		<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<p>说明：这是一个处理命令的工具。比如main方法输入的string[]需要解析。你可以预先定义好参数的规则，然后就可以调用CLI来解析。</p>
+		<pre class="brush:java;">
+		Options options = new Options();// create Options object
+		// add t option, option is the command parameter, false indicates that 
+		// this parameter is not required.
+		options.addOption(“t”, false, “display current time”);
+		options.addOption("c", true, "country code");
+		CommandLineParser parser = new PosixParser();
+		CommandLinecmd = parser.parse( options, args);
+		if(cmd.hasOption("t")) {
+		    // print the date and time
+		}
+		else {
+		    // print the date
+		}
+		// get c option value
+		String countryCode = cmd.getOptionValue("c");
+		if(countryCode == null) {
+		    // print default date
+		}
+		else {
+		    // print date for country specified by countryCode
+		}
+		</pre>
+	</div>
+	
+	<div class="AI_common_title1">
+	<h2>Commons Codec </h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：这个工具是用来编码和解码的，包括Base64，URL，Soundx等等。
+		</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons Collections</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：你可以把这个工具看成是java.util的扩展。
+		使用示例：举一个简单的例子
+		OrderedMap map = new LinkedMap();
+		map.put("FIVE", "5");
+		map.put("SIX", "6");
+		map.put("SEVEN", "7");
+		map.firstKey();  // returns "FIVE"
+		map.nextKey("FIVE");  // returns "SIX"
+		map.nextKey("SIX");  // returns "SEVEN"
+		</pre>
+	</div>
+	
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons DBCP</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：Database Connection pool, Tomcat就是用的这个
+		</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons HttpClient</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：这个工具可以方便通过编程的方式去访问网站。
+		使用示例：最简单的Get操作
+		GetMethod get = new GetMethod("http://jakarta.apache.org");
+		// execute method and handle any error responses.
+		  ...
+		InputStream in = get.getResponseBodyAsStream();
+		// Process the data from the input stream.
+		get.releaseConnection();
+		</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons IO</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：可以看成是java.io的扩展
+		使用示例：
+		1.	读取Stream
+		a)	标准代码：
+		InputStream in = new URL( "http://jakarta.apache.org" ).openStream();
+		try {
+		   InputStreamReaderinR = new InputStreamReader( in );
+		   BufferedReaderbuf = new BufferedReader( inR );
+		   String line;
+		   while ( ( line = buf.readLine() ) != null ) {
+		     System.out.println( line );
+		   }
+		} finally {
+		   in.close();
+		}
+		b)	使用IOUtils
+		InputStream in = new URL( "http://jakarta.apache.org" ).openStream();
+		try {
+		   System.out.println( IOUtils.toString( in ) );
+		} finally {
+		   IOUtils.closeQuietly(in);
+		}
+		2.	读取文件
+		File file = new File("/commons/io/project.properties");
+		List lines = FileUtils.readLines(file, "UTF-8");
+		3.	察看剩余空间
+		longfreeSpace = FileSystemUtils.freeSpace("C:/");
+		Commons JXPath
+		说明：那么JXpath就是基于Java对象的Xpath，也就是用Xpath对Java对象进行查询。
+		使用示例：
+		Addressaddress=(Address)JXPathContext.newContext(vendor).getValue("locations[address/zipCode='90210']/address");
+		上述代码等同于
+		Address address = null;
+		Collection locations = vendor.getLocations();
+		Iterator it = locations.iterator();
+		while (it.hasNext()){
+		    Location location = (Location)it.next();
+		    String zipCode = location.getAddress().getZipCode();
+		    if (zipCode.equals("90210")){
+		      address = location.getAddress();
+		      break;
+		    }
+		}
+		</pre>
+	</div>
+	
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons Lang</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：这个工具包可以看成是对java.lang的扩展。提供了诸如StringUtils, StringEscapeUtils, RandomStringUtils, Tokenizer, WordUtils等工具类。
+		</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons Math</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：这个包提供的功能有些和Commons Lang重复了，但是这个包更专注于做数学工具，功能更强大。
+		</pre>
+	</div>
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons Net</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：这个包还是很实用的，封装了很多网络协议。
+		1.    FTP
+		2.    NNTP
+		3.    SMTP
+		4.    POP3
+		5.    Telnet
+		6.    TFTP
+		7.    Finger
+		8.    Whois
+		9.    rexec/rcmd/rlogin
+		10.    Time (rdate) and Daytime
+		11.    Echo
+		12.    Discard
+		13.    NTP/SNTP
+		 
+		使用示例：
+		TelnetClient telnet = new TelnetClient();
+		telnet.connect( "192.168.1.99", 23 );
+		InputStream in = telnet.getInputStream();
+		PrintStream out = new PrintStream( telnet.getOutputStream() );
+		...
+		telnet.close();
+		</pre>
+	</div>
+	
+	
+	
+	<div class="AI_common_title1">
+	<h2>Commons Validator</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：用来帮助进行验证的工具。比如验证Email字符串，日期字符串等是否合法。
+		使用示例：
+		DateValidator validator = DateValidator.getInstance();// Get the Date validator
+		Date fooDate = validator.validate(fooString, "dd/MM/yyyy");// Validate/Convert the date
+		if (fooDate == null) {
+		     // error...not a valid date
+		     return;
+		}
+		</pre>
+	</div>
+	
+	<div class="AI_common_title1">
+	<h2>Commons Virtual File System</h2>
+	<span class="shrinkage_down_ico1"></span>
+	</div>
+	<div class="AI_one_layout_border">
+		<pre class="brush:java;">
+		说明：提供对各种资源的访问接口。支持的资源类型包括
+ 
+		1.    CIFS 
+		2.    FTP 
+		3.    Local Files 
+		4.    HTTP and HTTPS 
+		5.    SFTP 
+		6.    Temporary Files 
+		7.    WebDAV 
+		8.    Zip, Jar and Tar (uncompressed, tgz or tbz2) 
+		9.    gzip and bzip2 
+		10.    res
+		11.    ram
+		 
+		这个包的功能很强大，极大的简化了程序对资源的访问。
+		使用示例：
+		1.	从jar中读取文件
+		FileSystemManagerfsManager = VFS.getManager();// Locate the Jar file
+		FileObjectjarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
+		
+		FileObject[] children = jarFile.getChildren();// List the children of the Jar file
+		System.out.println( "Children of " + jarFile.getName().getURI() );
+		for ( int i = 0; i <children.length; i++ )
+		{<br/>
+		    System.out.println( children[ i ].getName().getBaseName() );
+		}
+		2.	从smb读取文件
+		StaticUserAuthenticatorauth = new StaticUserAuthenticator("username", "password", null);
+		FileSystemOptions opts = new FileSystemOptions();
+		DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth); 
+		FileObjectfo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
+
+		</pre>
+	</div>
+</body>
+</html>

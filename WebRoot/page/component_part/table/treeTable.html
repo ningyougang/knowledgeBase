@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>树状表格</title>	  
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/cssreset.css" />	
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/AIComp/css/AI.TreeGrid.css" />	
+                <script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src='../../../common/AIComp/script/AI.TreeGrid.js'></script>		
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+
+         	<script type="text/javascript">
+			$(document).ready(function(){
+				$.getJSON("../../../common/AIComp/data/TreeGrid.json",function(data){
+					$('#demo').AI_TreeGrid({
+						ds:data,
+						dataUrl:'../../../common/AIComp/data/TreeGrid2.json',
+						colModel:[
+							{col:'title',desc:'收入结构'},
+							{col:'data_1',desc:'200801'},
+							{col:'data_2',desc:'200802'},
+							{col:'data_3',desc:'200803'},
+							{col:'data_4',desc:'200804'},
+							{col:'data_5',desc:'200805'},
+							{col:'data_6',desc:'200806'},
+							{col:'data_7',desc:'200807'},
+							{col:'data_8',desc:'200808'}
+						],
+						onRowSelected:function(id,pid,level){
+							alert("id="+id+"  pid="+pid+"  level="+level);
+						}
+					});
+				});
+			});
+			function showRow(){
+				$('#demo').AI_TreeGrid('highLightShow',1001212,true);
+			} 
+			SyntaxHighlighter.all();
+		</script>
+
+	<body>
+			<div id="demo" style="width:90%;height:200px;margin: 0 auto;"></div>
+			<!--<button onclick="showRow();">高亮显示行</button>-->  
+			<div style="color:red;margin-left:50px;">备注:该组件存在BUG:列过长的时候,列名与内容错位</div>
+			<pre class="brush:js;"> 
+1.引用JS和CSS 
+       <link type="text/css" rel="stylesheet"
+			href="../../../common/css/cssreset.css" />	
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/AIComp/css/AI.TreeGrid.css" />	
+                <script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src='../../../common/AIComp/script/AI.TreeGrid.js'></script>		
+		
+2.JS调用 		
+		$(document).ready(function(){
+				$.getJSON("../../../common/AIComp/data/TreeGrid.json",function(data){
+					$('#demo').AI_TreeGrid({
+						ds:data,
+						dataUrl:'../../../common/AIComp/data/TreeGrid2.json',
+						colModel:[
+							{col:'title',desc:'收入结构'},
+							{col:'data_1',desc:'200801'},
+							{col:'data_2',desc:'200802'},
+							{col:'data_3',desc:'200803'},
+							{col:'data_4',desc:'200804'},
+							{col:'data_5',desc:'200805'},
+							{col:'data_6',desc:'200806'},
+							{col:'data_7',desc:'200807'},
+							{col:'data_8',desc:'200808'}
+						],
+						onRowSelected:function(id,pid,level){
+							alert("id="+id+"  pid="+pid+"  level="+level);
+						}
+					});
+				});
+			}); 
+			
+3.页面DIV布局
+       <div id="demo" style="width:90%;height:200px;margin: 0 auto;"></div>
+			</pre>
+	</body>
+</html>

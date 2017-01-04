@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>eclipse调试</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>调试前言</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+做为一名程序员，掌握必要的调试手段是必要的，这样可以大大增强解决问题的能力。
+如果是作为项目经理或团队Leader，会经常面临给组员调试问题，如果1个领导都不具备调试程序的能力，是很难服众的。
+
+参考文章
+http://www.importnew.com/6164.html
+http://daimojingdeyu.iteye.com/blog/633824
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>实战运用</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+一、基本调试方法
+1.F5:step into,进入方法内部
+2.F6:step over,下条语句(不进入方法内部)
+3.F7:step return,执行到方法中，直接方法结束。
+4.F8:下一个断点，如果没有断点，则直接结束
+5.drop to frame,返回方法开始处，重新执行该方法。
+6:点击变量，选择菜单watch或inspect可以查看变量值。
+二、高级调试方法
+1.条件断点
+顾名思义就是一个有一定条件的断点，只有满足了用户设置的条件，代码才会在运行到断点处时停止。 
+在断点处点击鼠标右键，选择最后一个"Breakpoint Properties" ,可以设置hit count和enable condition,
+hit count一般用于for循环次数,ennable condition一般用于自己设置表达式。
+2.更改值:在variables中选择菜单change value。
+3.变量视图：显示逻辑结构(Show Lodical Structure),查看Map的键值很方便，当然其他集合也能用。
+4.异常断点(没有用过)
+</pre>
+
+</div>
+</body>
+</html>

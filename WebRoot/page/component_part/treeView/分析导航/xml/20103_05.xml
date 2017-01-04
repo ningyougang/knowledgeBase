@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption="ARPU变化情况分析" outCnvBaseFont ='黑体' outCnvBaseFontSize="12" outCnvBaseFontColor="ffffff" 
+bgColor="444444" borderColor="222222" numberSuffix='%' lineThickness="1" 
+divLineIsDashed="1" showAlternateHGridColor="1" alternateHGridAlpha="5" alternateHGridColor="CC3300" shadowAlpha="40"
+bgColor="FFFFFF,CC3300" legendBgColor="222222" legendShadow ="0" legendAllowDrag ="1">
+  <categories>
+	  <category label="200910" /> 
+	  <category label="200911" /> 
+	  <category label="200912" />
+	  <category label="201001" /> 
+	  <category label="201002" /> 
+	  <category label="201003" />  
+  </categories>
+  <dataset seriesName="安徽">
+  	  <set value="51.37" /> 
+  	  <set value="49.35" />
+  	  <set value="50.94" />
+  	  <set value="50.32" />
+  	  <set value="52.13" />
+  	  <set value="50.54" />
+  </dataset>
+</chart>

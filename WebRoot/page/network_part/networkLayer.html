@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>网络层</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		
+<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>网络层</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+一、简介
+网络层（Network Layer）是OSI模型的第三层，它是OSI参考模型中最复杂的一层，也是下三层的最高一层。
+它在下两层的基础上向资源子网提供服务。其主要任务是：通过路由选择算法，为报文或分组通过通信子网选择最适当的路径。
+该层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。具体地说，数据链路层的数据在这一层被转换为数据包，
+然后通过路径选择、分段组合、顺序、进/出路由等控制，将信息从一个网络设备传送到另一个网络设备。
+一般地，数据链路层是解决同一网络内节点之间的通信，而网络层主要解决不同子网间的通信。
+例如在广域网之间通信时，必然会遇到路由（即两节点间可能有多条路径）选择问题
+
+二、功能
+1.寻址：数据链路层中使用的物理地址（如MAC地址）仅解决网络内部的寻址问题。
+在不同子网之间通信时，为了识别和找到网络中的设备，每一子网中的设备都会被分配一个唯一的地址。
+由于各子网使用的物理技术可能不同，因此这个地址应当是逻辑地址（如IP地址）。
+
+2.交换：规定不同的信息交换方式。常见的交换技术有：线路交换技术和存储转发技术，后者又包括报文交换技术和分组交换技术。
+ 路由算法：当源节点和目的节点之间存在多条路径时，本层可以根据路由算法，通过网络为数据分组选择最佳路径，
+ 并将信息从最合适的路径由发送端传送到接收端。
+ 
+3.连接服务：与数据链路层流量控制不同的是，前者控制的是网络相邻节点间的流量，后者控制的是从源节点到目的节点间的流量。
+其目的在于防止阻塞，并进行差错检测。
+
+三、网络层设备
+路由器、三层交换机
+
+</pre>
+</div>
+网络层知识:netfilter/iptables好文:http://blog.csdn.net/xingliyuan22/article/details/9047767</br>
+冲突域与广播域的区别下载:<a href="./doc/冲突域与广播域的区别.ppt">冲突域与广播域的区别.ppt</a>
+</body>
+</html>

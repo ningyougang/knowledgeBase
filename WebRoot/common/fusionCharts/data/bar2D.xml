@@ -1,0 +1,25 @@
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='0' yAxisMinValue='0' numDivLines='8' adjustDiv='0'>
+	<SET label='A业务' value='33687.0' />
+	<SET label='B业务' value='18172.0' />
+	<SET label='C业务' value='17425.0' />
+	<SET label='D业务' value='16393.0' />
+	<SET label='E业务' value='14512.0' />
+	<SET label='F业务' value='10258.0' />
+	<SET label='G业务' value='9869.0' />
+	<SET label='H业务' value='7523.0' />
+	<SET label='I业务' value='7020.0' />
+	<SET label='J业务' value='6691.0' />
+	<SET label='K业务' value='6011.0' />
+	<SET label='L业务' value='5874.0' />
+	<SET label='M业务' value='3298.0' />
+	<SET label='N业务' value='2891.0' />
+</chart>

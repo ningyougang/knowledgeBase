@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>对话框</title>
+<!--此组件在jquery-1.6的基础上--> 
+<link rel="stylesheet" type="text/css" href="../../../common/operaMasks/css/default/om-default.css" /> 
+<script type="text/javascript" src="../../../common/operaMasks/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../common/operaMasks/js/operamasks-ui.min.js"></script>   
+<script>
+	$(function() {
+		$( "#dialog-modal").omDialog({
+			autoOpen: false,
+			height: 140,
+			modal: true
+		});
+		$( "#dialog-modaless").omDialog({
+            autoOpen: false,
+            height: 140
+        });
+	});
+	function showModelDialog(){
+	   $( "#dialog-modal").omDialog('open');
+	}
+	function showModelessDialog(){
+	   $( "#dialog-modaless").omDialog('open');
+	}
+	</script>
+</head>
+   	<body>
+ <button onclick="showModelessDialog();">非模态窗口</button>
+    <button onclick="showModelDialog();">模态窗口</button>
+    <div id="dialog-modaless" title="非模态窗口">
+        <p>显示非模态对话框，在关闭对话框之前可以操作页面内容.</p>
+    </div>
+    <div id="dialog-modal" title="模态窗口">
+        <p>显示模态对话框，在关闭对话框之前不能操作页面内容.</p>
+    </div>
+<div id="view-desc">
+        <p>模态对话框会给页面加一个遮罩层，在关闭对话框之前页面内容不能操作。非模态对话框则没有遮罩层，对话框出现后还可以操作页面其它内容。</p>
+        <p><strong>注意：由于omDialog渲染后dom节点会移位到body节点下，所以如果要给omDialog中的子节点添加自己的样式，在写样式时
+        要注意层级结构。</strong></p>
+    </div>
+<iframe src="../../../common/operaMasks/docs/symbols/omDialog.html" height="300px" width="1000px"</iframe>
+</body>
+</html>

@@ -1,0 +1,5 @@
+ <?xml version="1.0" encoding="gbk" ?> 
+ <!-- 维度切换XML-->
+ <dims>
+ 	<dim code="inc123" content="分地市@20103_00.xml@MSCombiDY2D@true|分品牌@20103_01.xml@MSCombiDY2D@false|话务量分析@20103_03.xml@MSLine@false"/>
+ </dims>

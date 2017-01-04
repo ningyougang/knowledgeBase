@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分布式文件系统</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>前言</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+在项目实施过程中，我们有做图片服务器的需求，如商品发布上传商品图片，显示商品图片，而且数据量是相当巨大。</br>
+前期进行了技术调研，如共享存储服务器NFS,以及淘宝的tfs,各种分布式文件系统如lustre,hadoop,Pnfs，最终公司绝对采用分布式文件系统moosefs</br>
+目前在测试环境中可以正常的上传图片、通过nginx访问显示图片都没有问题。</br>
+然而在正式环境且在高并发、大数据量的条件下，其写和读的效率有待测试。(目前的测试数据不准确，因为在虚拟机下测试的)</br>
+</div>
+<div class="AI_common_title1">
+	<h2>文档</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+原理:<a href="doc/MooseFs原理.docx">MooseFs原理.docx</a>(读写流程:http://peterylh.blog.163.com/blog/static/12033201251791139592/)</br>
+网上下载的安装文档:<a href="doc/moosefs-step-by-step-tutorial-cn-v.1.1.pdf">moosefs-step-by-step-tutorial-cn-v.1.1.pdf</a></br>
+自己安装(centos系统下):<a href="doc/moosefs安装.txt">moosefs安装.txt</a></br>
+问题总结:<a href="doc/moosefs问题.txt">moosefs问题.txt</a></br>   
+ppt:<a href="doc/MooseFS-调研报告.ppt">MooseFS-调研报告.ppt</a></br>
+</div>
+
+</body>
+</html>

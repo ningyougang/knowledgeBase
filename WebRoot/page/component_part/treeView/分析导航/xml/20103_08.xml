@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='存量用户收入分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='新增收入' SYAxisName='新增收入占比' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="1">
+
+<categories>
+	<category label='四月'/>
+	<category label='五月'/>
+	<category label='六月'/>
+	<category label='七月'/>
+	<category label='八月'/>
+	<category label='九月'/>
+	<category label='十月'/>
+	<category label='十一月'/>
+	<category label='十二月'/>
+	<category label='一月'/>
+	<category label='二月'/>
+	<category label='三月'/>
+</categories>
+ 
+ <dataset seriesName="存量用户数" color="AFD8F8">
+	<set value='19864603'/>
+	<set value='19914727'/>
+	<set value='20204549'/>
+	<set value='20414279'/>
+	<set value='20664502'/>
+	<set value='21058786'/>
+	<set value='21609967'/>
+	<set value='22137277'/>
+	<set value='22862641'/>
+	<set value='21971982'/>
+	<set value='22612743'/>
+	<set value='23908569'/>
+</dataset>
+	 
+<dataset lineThickness="2" seriesName="存量用户收入占比" parentYAxis="S" >
+	<set value='94.34'/>
+	<set value='96.13'/>
+	<set value='94.64'/>
+	<set value='94.98'/>
+	<set value='96.14'/>
+	<set value='94.90'/>
+	<set value='98.82'/>
+	<set value='90.45'/>
+	<set value='98.84'/>
+	<set value='94.45'/>
+	<set value='98.76'/>
+	<set value='94.25'/>
+</dataset>
+</chart>

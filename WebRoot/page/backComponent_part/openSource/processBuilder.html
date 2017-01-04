@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>进程生成器</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>进程生成器-ProcessBuilder介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+ProcessBuilder类是J2SE 1.5在java.lang中新添加的一个新类，此类用于创建操作系统进程，它提供一种启动和管理进程（也就是应用程序）的方法。
+在J2SE 1.5之前，都是由Process类处来实现进程的控制管理。
+
+每个 ProcessBuilder 实例管理一个进程属性集。它的start() 方法利用这些属性创建一个新的 Process 实例。
+start() 方法可以从同一实例重复调用，以利用相同的或相关的属性创建新的子进程。(也可以通过Runtime.exec()启动。)
+  
+每个进程生成器（即ProcessBuilder对象）管理这些进程属性： 
+命令 是一个字符串列表，它表示要调用的外部程序文件及其参数（如果有）。在此，表示有效的操作系统命令的字符串列表是依赖于系统的。
+例如，每一个总体变量，通常都要成为此列表中的元素，但有一些操作系统，希望程序能自己标记命令行字符串——在这种系统中，
+Java 实现可能需要命令确切地包含这两个元素。 
+
+环境 是从变量 到值 的依赖于系统的映射。初始值是当前进程环境的一个副本。
+
+工作目录。默认值是当前进程的当前工作目录，通常根据系统属性 user.dir 来命名。
+ 
+redirectErrorStream 属性。最初，此属性为 false，意思是子进程的标准输出和错误输出被发送给两个独立的流，
+这些流可以通过 Process.getInputStream() 和 Process.getErrorStream() 方法来访问。
+如果将值设置为 true，标准错误将与标准输出合并。这使得关联错误消息和相应的输出变得更容易。
+在此情况下，合并的数据可从 Process.getInputStream() 返回的流读取，而从 Process.getErrorStream() 返回的流读取将直接到达文件尾。 
+  
+既然有Process类，那为什么还要发明个ProcessBuilder类呢？ProcessBuilder和Process两个类有什么区别呢？
+原来，ProcessBuilder为进程提供了更多的控制，例如，可以设置当前工作目录，还可以改变环境参数。而Process的功能相对来说简单的多。
+ProcessBuilder是一个final类，有两个带参数的构造方法，你可以通过构造方法来直接创建ProcessBuilder的对象。
+而Process是一个抽象类，一般都通过Runtime.exec()和ProcessBuilder.start()来间接创建其实例。 
+  
+注意：
+修改进程构建器的属性将影响后续由该对象的 start() 方法启动的进程，但从不会影响以前启动的进程或 Java 自身的进程。
+ProcessBuilder类不是同步的。如果多个线程同时访问一个 ProcessBuilder，而其中至少一个线程从结构上修改了其中一个属性，它必须 保持外部同步。 
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>示例调用代码介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+//通过ProcessBuilder创建进程(linux环境)
+ProcessBuilder builder = new ProcessBuilder("/folder1/a.sh","参数a","参数b",.....,"参数n");
+Process process = builder.start();
+InputStream inputStream = process.getInputStream();//后续得到输入流,则可以进行读取
+
+
+//通过Runtime创建进程(windows环境)
+Runtime r = Runtime.getRuntime();
+Process process = r.exec("db2cmd /folder1/a.bat 参数a 参数b ... 参数n");
+</pre>
+</div>
+</body>
+</html>

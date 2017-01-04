@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>String用法注意事项</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../common/css/component.css" />
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script> 
+ 
+				<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+
+<script type="text/javascript">
+	SyntaxHighlighter.all();
+</script>
+</head>
+
+
+<body>
+<pre class="brush:html;">
+在性能测试的过程中，程序中发现有大量的char数组存在，怀疑可能是String用法的问题.
+
+a.必须使用StringBuilder的情况
+1.for,while语句内禁止对String类型的变量进行+或连接(concat)操作
+2.如果对String变量进行不在同一语句中的+或连接操作，请使用StringBuilder
+3.StringBuffer.append()参数不能使用+或者连接操作
+
+b.可以使用String的+或者concat
+1.只对String变量进行一次赋值,并且不在更改(同一语句的+操作，编译器会自动转化成StringBuilder)
+
+c.String变量进行使用null,除非明确必须需要空白字符串，可以使用"".
+
+示例：
+ 
+错误的情况
+ String folder = "";
+        for (int i = 0; i < paths.length; i++) {
+            folder = folder + UploadSupport.getSystemPath() + paths[i] ;
+ 
+        }
+正确的情况
+StringBuilder folder = new StringBuilder();        
+for (int i = 0; i < paths.length; i++) {
+            folder.append(UploadSupport.getSystemPath()).append(paths[i]);
+ 
+        }
+ 
+错误的情况 (此种情况，会有多余的一个String对象""被创建）
+String pickString = "";
+pickString = "test1";
+ 
+正确的情况
+String pickString = null;
+pickString = "test1";
+ 
+可以使用的情况
+String s = "1" + s1 + "2" + s2; （此种情况，编译器会转换成StringBuilder)
+
+</pre>
+</body>
+</html>

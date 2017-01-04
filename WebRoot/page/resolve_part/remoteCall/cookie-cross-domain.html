@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>java-rmi</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>cookie介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+在介绍Cookie跨域之前,先介绍Cookie的基础知识:
+浏览器与WEB服务器之间是使用HTTP协议进行通信的；而HTTP协议是无状态协议。也就是说，当某个用户发出页面请求时，WEB服务器只是简单的进行响应，
+然后就关闭与该用户的连接。因此当一个请求发送到WEB服务器时，无论其是否是第一次来访，服务器都会把它当作第一次来对待，这样的不好之处可想而知。
+为了弥补这个缺陷，Netscape开发出了cookie这个有效的工具来保存某个用户的识别信息,它是一种WEB服务器通过浏览器在访问者的硬盘上存储信息的手段。
+它是服务器发送给浏览器的体积很小的纯文本信息。下次会自动将cookie发送给WEB服务器.cookie按照存储位置分为会话cookie和持久性cookie。会话cookie
+保存在浏览器中(内存中),只要浏览器关闭,会话cookie就消失,如key为JSESSIONID的会话cookie.持久性cookie保存在硬盘中。
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>cookie属性</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+除名字与值外，每个cookie有四个可选属性：
+1.expires：指定cookie的生存期。默认情况下cookie是暂时的，浏览器关闭就失效。 
+2.path：它指定了与cookie关联在一起的网页。默认是在和当前网页同一目录的网页中有效。   
+        如果把path设置为"/"，那么它对该网站的所有网页都可见了。 
+3.domain：设定cookie有效的域名，   如果把path设置为"/"，把domain设为".sohu.com"，那么 A.sohu.com和B.sohu.com的所有网页都能够访问此cookie。
+          关于二级域名、顶级域名的跨域问题，后续会说明。
+4.secure：布尔值，它指定了网络上如何传输cookie。默认情况下，cookie是不安全的,可以通过一个不安全的，
+          普通的HTTP协议传输；若设置cookie为安全的，那么它将只在浏览器和服务器通过HTTPS或其它的安全协议连接在一起时才被传输。
+
+PS:
+1).服务器端和客户端生成规则以及跨浏览器兼容问题:cookie原则上的设计时做为保持客户端和服务端状态而设计的。一般来说，是有服务器生成的(如当用户
+  第一次访问某个页面时生成的JSESSIONID[tomcat])下次在主动发送给浏览器,但是现在的浏览器几乎除了chrome外均支持利用js也可以在客户端创建cookie.
+2).每个域名下生成的cookie数规则:(IE系列:50个,FireFox:50个,Opera:30个,Safari/WebKit貌似没有cookie限制。但是如果cookie很多，则会使header大小超过
+  服务器的处理的限制，会导致错误发生。)
+3).cookie大小限制:约4K(包括name、value、值)
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>客户端与服务器端保持状态(cookie与session关系)</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+一、从生活场景说起
+一家咖啡店有喝5杯咖啡免费赠一杯咖啡的优惠，然而一次性消费5杯咖啡的机会微乎其微，这时就需要某种方式来纪录某位顾客的消费数量。
+想象一下其实也无外乎下面的几种方案：
+1、该店的店员很厉害，能记住每位顾客的消费数量，只要顾客一走进咖啡店，店员就知道该怎么对待了。这种做法就是协议本身支持状态。 
+2、发给顾客一张卡片，上面记录着消费的数量，一般还有个有效期限。每次消费时，如果顾客出示这张卡片，
+    则此次消费就会与以前或以后的消费相联系起来。这种做法就是在客户端保持状态。 
+3、发给顾客一张会员卡，除了卡号之外什么信息也不纪录，每次消费时，如果顾客出示该卡片，
+    则店员在店里的纪录本上找到这个卡号对应的纪录添加一些消费信息。这种做法就是在服务器端保持状态。
+第一种情况暂时不考虑.
+第二种情况,卡片无疑就是cookie了,所有的数据如果都存在卡片上是不安全的,也是容易遗失的(卡片被修改了?卡片遗失了?这都是有可能的).
+所以才用了第三种情况.客户除了个会员号再什么信息也没有,这是最安全的,但这个会员号必须是客户自己知道的!也就是cookie中必须存储的.
+所以最优的方式第三种
+
+二、专业术语(cookie与session的流程)
+1.当浏览器第一次访问服务器,服务器生成一个唯一值，称为sessionid,如8CCE17560740E5AA20C5FAFC979FAD84.a。
+2.然后，服务器开辟一块内存，对应于该sessionid。
+3.服务器再将该sessionid写入浏览器的cookie(对应与JSESSION的会话cookie,通过fireFox或chrome可以查看)。
+4.服务器内有一进程，监视所有Session的活动状况，如果有Session超时或是主动关闭，服务器就释放该内存块。
+5.当浏览器下次访问服务器时，将该会话cookie自动发送给WEB服务器。WEB服务器从该cookie中读取出该sessionid。
+6.服务器检查该Sessionid所对应的内存是否有效。
+7.如果有效，就读出内存中的值。
+8.如果无效，就建立新的session。
+
+三、问题解答
+1.为什么登陆后,只要不关闭浏览器,会话cookie就能一直存在?
+回复:会话cookie与浏览器的生命周期一致的，保存中浏览器中(内存中),若浏览器关闭，会话cookie销毁.
+2.服务器是怎么识别这些数据都是谁(哪个浏览器访问者)的呢?
+回复:是通过sessionid来进行串联,当第一次访问服务器的时候，服务器为当前会话生成一个随机的sessionid，
+     并在服务器为这个会话分配一个与sessionid对应的内存空间,并将这个随机生成的sessionid通过resonse
+     写入键为JSESSIONID的会话cookie，下次这个cookie会自动发送给服务器。
+3.如果浏览器关闭，再次打开浏览器后，即使用户没有主动退出，访问某功能页面，也会跳到登陆页面？(假设用户用的是会话cookie来保持前后台的会话状态)
+回复：浏览器关闭，浏览器端的会话cookie丢失，用户打开浏览器后访问某个功能页面，服务器发现没有jsessionid(客户端传过来的)，即使服务器端的
+      SESSION空间没有失效，也找不到与之关联的session空间。所以会跳到登陆页面。
+4.用户访问某个功能页面，过了二个小时候后，即使用户没有主动退出，也会跳到登陆页面？
+回复: 由于浏览器没有关闭，服务器会接收到客户端传过来的jsessionid，但是由于后台服务器的SESSION空间失效了，
+      拿着jsessionid找不到对应的内存空间，所以会跳到登陆页面。
+所以，3属于键失效的情况，4属于键对应的内存空间失效。
+
+PS:在客户端和服务器端保持状态，比较常用的是cookie,如果用户禁止了cookie,可以用url重写,还有种古老技术表单重写(不是很常用)
+PS:个人对session.setAttribute(key,value)/getAttribute(key)的理解
+   类似于HashMap的结构,真正的key应该为sessionid+key的“计算组合”,sessionid的值为WEB服务器从会话cookie读取而来。
+</pre>
+</div>       
+
+<div class="AI_common_title1">
+	<h2>cookie跨域</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+前面我们已经介绍了js跨域，再次大家可以看到，前端的安全要求很高，貌似“只要涉及前端，都免不了跨域”，通过“禁止跨域”，来保证
+我们的访问安全。下面我们介绍cookie跨域。
+
+cookie跨域定义:在A域名上生成的cookie，B域的资源不能访问。(即使A、B域名的IP一样也不行，A域名和B域名属于父子关系或兄弟关系也不行)
+这里实际上包含两层含义
+1.假设cookie是在服务端生产的，在A域名下，我们在生成cookie的时候，指定cookie的域名为B，这个时候，response,addCookie(Cookie对象)
+  即使执行了，但是不起任何作用，根本达到不了客户端(浏览器)。
+ (备注:实际上不是在服务端生成，在服务端只是将Cookie对象写入到response，到前端后，浏览器会根据response的返回情况写入到浏览器或本次磁盘)
+2.在A域名下已经成功生成了cookie，当我们访问B域名的资源时(如jsp)，根本就没有把这个cookie发送到域名B的服务器，当然域名B就不能访问了。
+所以综合1、2，cookie跨域包含cookie的生成跨域和cookie的发送跨域两种情况。
+ 
+cookie跨域解决
+1.二级域名跨域解决(可以从根本上解决)
+  假设A域名为:vgop.sh.cmcc、B域名为:ywyy.vgop.sh.cmcc、C域名为:cmcc.vgop.sh.cmcc，可以看出A是B、C的父亲.B、C互为兄弟。
+  要求当在任意一个域名下生成的cookie、在其他域名下均可以访问。
+  解决方案:在生成cookie的时候，需要指定cookie的domain为父域名，在这里为A域名为".vgop.sh.cmcc"(前面加上.或不加貌似都可以)。
+2.顶级域名跨域解决(不能从根本上解决，表面现象，借助sohu、淘宝的实现策略)
+  假设A域名为:a.com、B域名为:b.com。
+  要求A域名生产的cookie，在B域下能够访问。
+  解决方案A(参考搜狐):首先在A域下生成cookie，在A域中的某个页面,生成iframe或script元素,iframe或script的src属性指向B域名的地址,这个地址
+  需要附加上A域名生成的cookie参数(通过get传过去)，在B域名下的地址对应的后台处理程序解析出cookie参数(如request.getParameter("XX"))，
+  并生成一份cookie，写到resonse。这样B域名就可以访问A域生成的cookie了。(实际上只是变通了一下而已)
+  (注意在IE下需要在B域的对应程序中加上response.addHeader("P3P", "CP=CAO PSA OUR"))
+  解决方案B(参考淘宝):首先在A域下生成cookie，在单独访问域名B页面时，动态生产script标签,其src属性指向A域的某个地址,在利用JSONP原理，返回
+  含有cookie信息的调用的JS脚本,当浏览器加载这段脚本时,由于域名B的页面已经定义了该函数，所以就会执行。这样就写入了cookie。
+  总结:方案A与方案B本质上是一样的。
+  1)一个是直接在A域的页面获取A域的cookie后，利用iframe/script的src属性(如java的action)，将参数传递过到B域后台地址，在后台将参数写入到B域的Cookie。
+  2)二个是直接在B域名，在前端利用script访问A域的后台地址(如java的action)，利用JSONP原理，在前端写入。    
+       
+</pre>
+</div>
+</body>
+</html>

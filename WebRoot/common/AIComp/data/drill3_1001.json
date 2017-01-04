@@ -1,0 +1,113 @@
+[{
+			id : '10001',
+			title : '钟楼',
+			desc : '钟楼',
+			value : 31233,
+			cycle : 0.97,
+			same : 0.65,
+			allowdrill:true
+		}, {
+			id : '10002',
+			title : '未央',
+			desc : '未央',
+			value : 12342,
+			cycle : 0.77,
+			same : -0.01,
+			allowdrill:true
+		}, {
+			id : '10003',
+			title : '小寨',
+			desc : '小寨',
+			value : 12343,
+			cycle : 0.64,
+			same : 0.15,
+			allowdrill:true
+		}, {
+			id : '10004',
+			title : '土门',
+			desc : '土门',
+			value : 13241,
+			cycle : -0.07,
+			same : -0.05,
+			allowdrill:true
+		}, {
+			id : '10005',
+			title : '浐灞',
+			desc : '浐灞',
+			value : 13414,
+			cycle : 0.56,
+			same : 0.03,
+			allowdrill:true
+		}, {
+			id : '10006',
+			title : '金华',
+			desc : '金华',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10007',
+			title : '周至',
+			desc : '周至',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10008',
+			title : '阎良',
+			desc : '阎良',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10009',
+			title : '长安',
+			desc : '长安',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10010',
+			title : '户县',
+			desc : '户县',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10011',
+			title : '临潼',
+			desc : '临潼',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10012',
+			title : '杨凌',
+			desc : '杨凌',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10013',
+			title : '高陵',
+			desc : '高陵',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '10014',
+			title : '蓝田',
+			desc : '蓝田',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}]

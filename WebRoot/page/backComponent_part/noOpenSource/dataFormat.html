@@ -1,0 +1,512 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数据格式化工具类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>java格式化工具</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+1.1. Format的子类 </br>
+Java 2 平台为格式化日期、消息和数字分别提供了三个特殊的 Format 的子类：DateFormat(抽象类)、MessageFormat 和 NumberFormat(抽象类)</br> 其中DecimalFormat为其常用的子类</br>
+1.2.  保留两位小数的常用实现方式
+</br>1).通过sql实现-DB2
+select decimal(ROUND(t1.字段CODE,2),20,2) from 表名</br>
+2).通过java来实现</br>
+步骤A:从数据库取出数据放到list</br>
+步骤B:格式化(可以参考上海-vgop项目中IncomeStrutsAction.java里的样例)</br>
+List tempList = DataFormatUtil.formatMaps(list, "###,##0.00", 2, 0 , keys1); </br>
+3). 通过js来实现</br>
+Math.round(str*100000)/1000;
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>方法预览</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+/**</br>
+* 对List<Map>中要格式化的Key按设定样式进行格式化</br>
+* @param list 要被格式化的对象</br>
+* @param formatPattern 格式化的样式:默认为"#,###,##0.00"</br>
+* @param factionLen 要保留的小数位数(四舍五入)</br>
+* @param integerLen 要保留的整数位数(用0替换负数输入值)</br>
+* @param keys 需要格式化的Map中key</br>
+* @return 格式化后的List</br>
+*/</br>	
+public static List<Map> formatMaps(List<Map> list, String formatPattern,</br>
+			int factionLen, int integerLen, Object[] keys) throws Exception</br>
+/**</br>
+* 对Map中要格式化的Key按设定样式进行格式化</br>
+* @param map 要被格式化的对象</br>
+* @param formatPattern 格式化的样式:"###,##0.00"</br>
+* @param factionLen 要保留的小数位数(四舍五入)</br>
+* @param integerLen 要保留的整数位数(用0替换负数输入值)</br>
+* @param keys 需要格式化的Map中key</br>
+* @return 格式化后的List</br>
+*/</br>
+public static Map formatMap(Map map, String formatPattern,</br>
+			int factionLen, int integerLen, Object[] keys) throws Exception</br>
+
+/**</br>
+* 对List<Map>中Double、BigDecimal、Float数据类型按设定样式进行格式化</br>
+* @param list 要被格式化的对象</br>
+* @param formatPattern 格式化的样式:"###,##0.00"</br>
+* @param factionLen 要保留的小数位数(四舍五入)</br>
+* @param integerLen  要保留的整数位数(用0替换负数输入值)</br>
+* @return 格式化后的List</br>
+*/</br>
+public static List<Map> formatMaps(List<Map> list, String formatPattern,</br>
+			int factionLen, int integerLen) throws Exception</br>
+
+/**</br>
+* 对List按设定样式进行格式化,Object仅为Double、BigDecimal、Float类型的对象.</br>
+* @param list要被格式化的对象</br>
+* @param formatPattern 格式化的样式:"###,##0.00"</br>
+* @param factionLen 要保留的小数位数(四舍五入)</br>
+* @param integerLen 要保留的整数位数(用0替换负数输入值)</br>
+* @return 格式化后的List</br>
+*/</br>
+public static List formatObject(List list,String formatPattern, int factionLen, int integerLen) throws Exception</br>
+
+
+/**</br>
+* 对List<Bean>中指定的属性字段(String类型)按设定样式进行格式化.</br>
+* @param list 要被格式化的对象</br>
+* @param formatPattern 格式化的样式:"###,##0.00"</br>
+* @param factionLen 要保留的小数位数(四舍五入)</br>
+* @param integerLen 要保留的整数位数(用0替换负数输入值)</br>
+* @param keys 需要格式化的Bean中属性字段名</br>
+* @return 格式化后的List</br>
+* @throws Exception</br>
+*/</br>
+public static List formatBeans(List list, String formatPattern,</br>
+			int factionLen, int integerLen, Object[] keys) throws Exception</br>
+
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+
+<pre class="brush:java;">
+package com.asiainfo.base.util;
+
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * <b>数据格式化工具类</b>
+ * @created 2009-08-21
+ * @author xufeng
+ * @version 1.0
+ */
+
+public class DataFormatUtil {
+	
+	private DataFormatUtil(){
+		
+	}
+	/**
+	 * 缺省格式化类型
+	 */
+	private static String DEFAULT_FORMAT_PATTERN = "#,###,##0.00";
+
+	/**
+	 * 对<b>List<Map></b>中要格式化的<b>Key</b>按设定样式进行格式化
+	 * 
+	 * @param list<Map> 要被格式化的对象
+	 * @param formatPattern 格式化的样式:"###,##0.00"
+	 * @param factionLen 要保留的小数位数(四舍五入)
+	 * @param integerLen 要保留的整数位数(如果为0,则有多少位取多少位)
+	 * @param keys  需要格式化的Map中key
+	 * @return 格式化后的List
+	 */
+	public static List<Map> formatMaps(List<Map> list, String formatPattern,
+			int factionLen, int integerLen, Object[] keys) throws Exception {
+		List<Map> resultList = new ArrayList<Map>();
+		try {
+			DecimalFormat decimalFormat = newFormat(formatPattern, factionLen,
+					integerLen);
+			if (list != null && list.size() > 0 && keys != null
+					&& keys.length > 0) {
+				for (int i = 0; i < list.size(); i++) {
+					Map map = list.get(i);
+					Map resMap = new HashMap();
+					Iterator iterator = map.keySet().iterator();
+					while (iterator.hasNext()) {
+						Object resValue = null;
+						Object key = iterator.next();
+						Object value = map.get(key);
+						if (isInArrray(key, keys)) {
+							if (value instanceof String ) {
+								if( value.toString().trim().length()>0){
+									Double value_ = new Double((String) value);
+									if (!value_.isNaN()) {
+										resValue = decimalFormat.format(value_);
+									} else {
+										resValue = value;
+									}
+								}else{
+									resValue=value;
+								}
+							}else if(value instanceof BigDecimal){
+								Double value_ = ((BigDecimal)value).doubleValue();
+								if (!value_.isNaN()) {
+									resValue = decimalFormat.format(value_);
+								} else {
+									resValue = value;
+								}
+							}else {
+								if(value!=null){
+									resValue = decimalFormat.format(new Double((String.valueOf(value))));
+								}else{
+									resValue=value;
+								}
+							}
+						} else {
+							resValue = value;
+						}
+						resMap.put(key, resValue);
+					}
+					resultList.add(resMap);
+				}
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			resultList = list;
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+	
+	
+	/**
+	 * 对<b>Map</b>中要格式化的<b>Key</b>按设定样式进行格式化
+	 * 
+	 * @param map 要被格式化的对象
+	 * @param formatPattern 格式化的样式:"###,##0.00"
+	 * @param factionLen 要保留的小数位数(四舍五入)
+	 * @param integerLen 要保留的整数位数(如果为0,则有多少位取多少位)
+	 * @param keys  需要格式化的Map中key
+	 * @return 格式化后的List
+	 */
+	public static Map formatMap(Map map, String formatPattern,
+			int factionLen, int integerLen, Object[] keys) throws Exception {
+		Map resultMap = new HashMap();
+		try {
+			DecimalFormat decimalFormat = newFormat(formatPattern, factionLen,integerLen);
+			if (map != null && keys != null && keys.length > 0) {
+        			Iterator iterator = map.keySet().iterator();
+        			while (iterator.hasNext()) {
+        				Object resValue = null;
+        				Object key = iterator.next();
+        				Object value = map.get(key);
+        				if (isInArrray(key, keys)) {
+        					if (value instanceof String ) {
+        						if( value.toString().trim().length()>0){
+        							Double value_ = new Double((String) value);
+        							if (!value_.isNaN()) {
+        								resValue = decimalFormat.format(value_);
+        							} else {
+        								resValue = value;
+        							}
+        						}else{
+        							resValue=value;
+        						}
+        					}else if(value instanceof BigDecimal){
+        						Double value_ = ((BigDecimal)value).doubleValue();
+        						if (!value_.isNaN()) {
+        							resValue = decimalFormat.format(value_);
+        						} else {
+        							resValue = value;
+        						}
+        					}else {
+        						if(value!=null){
+        							resValue = decimalFormat.format(new Double((String.valueOf(value))));
+        						}else{
+        							resValue=value;
+        						}
+        					}
+        					if(resValue instanceof String){
+        					    String temp = (String)resValue;
+        					    if(temp.endsWith(".00")){
+        						temp = temp.equals(".00")==true? "0":temp.split("[.]00")[0];
+        					    }
+        					    resValue = temp;
+        					}
+        				} else {
+        					resValue = value;
+        				}
+        				resultMap.put(key, resValue);
+        			}
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+		    	resultMap = map;
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+	private static DecimalFormat newFormat(String formatPattern,
+			int factionLen, int integerLen) {
+		DecimalFormat decimalFormat = null;
+		if (formatPattern == null || formatPattern.trim().length() < 1) {
+			decimalFormat = new DecimalFormat(DEFAULT_FORMAT_PATTERN);
+		} else {
+			decimalFormat = new DecimalFormat(formatPattern);
+		}
+		if (factionLen > 0) {
+			decimalFormat.setMaximumFractionDigits(factionLen);
+		}
+		if (integerLen > 0) {
+			decimalFormat.setMaximumIntegerDigits(integerLen);
+		}
+		return decimalFormat;
+	}
+
+	private static boolean isInArrray(Object key, Object[] keys) {
+		boolean result = false;
+		if (keys != null && keys.length > 0) {
+			for (Object key1 : keys) {
+				if (key instanceof String) {
+					String keyStr = String.valueOf(key);
+					if (keyStr.equalsIgnoreCase(String.valueOf(key1))) {
+						result = true;
+					}
+				} else {
+					if (key.equals(key1)) {
+						result = true;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * 对List<Map>中<b>Double、BigDecimal、Float</b>数据类型按设定样式进行格式化
+	 * @param list 要被格式化的对象
+	 * @param formatPattern 格式化的样式:"###,##0.00"
+	 * @param factionLen 要保留的小数位数(四舍五入)
+	 * @param integerLen 要保留的整数位数(如果为0,则有多少位取多少位)
+	 * @return 格式化后的List
+	 */
+	public static List<Map> formatMaps(List<Map> list, String formatPattern,
+			int factionLen, int integerLen) throws Exception {
+		List<Map> resultList = new ArrayList<Map>();
+		try {
+			DecimalFormat decimalFormat = newFormat(formatPattern, factionLen,
+					integerLen);
+			if (list != null && list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
+					Map map = list.get(i);
+					Map resMap = new HashMap();
+					Iterator iterator = map.keySet().iterator();
+					while (iterator.hasNext()) {
+						Object resValue = null;
+						Object key = iterator.next();
+						Object value = map.get(key);
+						if (value instanceof Double
+								|| value instanceof BigDecimal
+								|| value instanceof Float) {
+							resValue = decimalFormat.format(value);
+						} else {
+							resValue = value;
+						}
+						resMap.put(key, resValue);
+					}
+					resultList.add(resMap);
+				}
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			resultList = list;
+		}
+		return resultList;
+	}
+
+	/**
+	 * 对List按设定样式进行格式化,Object仅为<b>Double、BigDecimal、Float</b>类型的对象.
+	 * @param list 要被格式化的对象
+	 * @param formatPattern 格式化的样式:"###,##0.00"
+	 * @param factionLen 要保留的小数位数(四舍五入)
+	 * @param integerLen 要保留的整数位数(如果为0,则有多少位取多少位)
+	 * @return 格式化后的List
+	 */
+	public static List<Object> formatObject(List<Object> list,
+			String formatPattern, int factionLen, int integerLen)
+			throws Exception {
+		List<Object> resultList = new ArrayList<Object>();
+		try {
+			DecimalFormat decimalFormat = newFormat(formatPattern, factionLen,
+					integerLen);
+			if (list != null && list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
+					Object obj = list.get(i);
+					Object resObj = new Object();
+					if (obj instanceof Double || obj instanceof BigDecimal
+							|| obj instanceof Float) {
+						resObj = decimalFormat.format(obj);
+					} else {
+						resObj = obj;
+					}
+					resultList.add(resObj);
+				}
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			resultList = list;
+		}
+		return resultList;
+	}
+
+	/**
+	 * 对List<Bean>中指定的属性字段(String类型)按设定样式进行格式化.
+	 * 
+	 * @param list  要被格式化的对象
+	 * @param formatPattern 格式化的样式:"###,##0.00"
+	 * @param factionLen 要保留的小数位数(四舍五入)
+	 * @param integerLen 要保留的整数位数(如果为0,则有多少位取多少位)
+	 * @param keys 需要格式化的Bean中属性字段名 *
+	 * @return 格式化后的List
+	 * @throws Exception
+	 */
+	public static List formatBeans(List list, String formatPattern,
+			int factionLen, int integerLen, Object[] keys) throws Exception {
+		List resultList = new ArrayList();
+		DecimalFormat decimalFormat = newFormat(formatPattern, factionLen,
+				integerLen);
+		if (list != null && !list.isEmpty()) {
+			for (int i = 0; i < list.size(); i++) {
+				Object bean = list.get(i);
+				Class beanClazz = bean.getClass();
+				Field[] beanFields = beanClazz.getDeclaredFields();
+				for (Field beanField : beanFields) {
+					beanField.setAccessible(true);
+					Object beanFieldValue = beanField.get(bean);
+					Object key = beanField.getName();
+					Object resFieldValue = null;
+					if ((beanFieldValue instanceof String)
+							&& isInArrray(key, keys)) {
+						resFieldValue = decimalFormat.format(Double
+								.valueOf((String) beanFieldValue));
+					} else {
+						resFieldValue = beanFieldValue;
+					}
+					beanField.set(bean, resFieldValue);
+				}
+				resultList.add(bean);
+			}
+		} else {
+			resultList = list;
+		}
+		return resultList;
+	}
+
+	public static void main(String[] args) throws Exception {
+		try {
+			List<Map> list = new ArrayList<Map>();
+			Map map = new HashMap();
+			map.put("int1", new Integer(3434));
+			map.put("中文", "6234中1990");
+			map.put("String1", "2343sd2@o");
+			map.put("float1", new Float(0.3350));
+			map.put("bigdecimal1", new BigDecimal(13324242293423.983));
+			map.put("double1", new Double(23425.349));
+			list.add(map);
+			Object[] keys = new Object[5];
+			// keys[0] = "中文";
+			keys[1] = "int1";
+			keys[2] = "float1";
+			System.out.println(list);
+			List<Map> re = formatMaps(list, "#,###0.00", 2, 0, keys);
+			System.out.println(re);
+			List<Map> re1 = formatMaps(list, "#,##0.00", 2, 0);
+			System.out.println(re1);
+			/** **************************** */
+			List list1 = new ArrayList();
+			list1.add(new Integer(11));
+			list1.add(new Double(1233234234.1));
+			list1.add(new Float(134.5389));
+			list1.add(new String("sfsdfd"));
+			list1.add(new BigDecimal("3313423466.999"));
+			list1.add(new Short("3242"));
+			List list2 = formatObject(list1, "", 2, 0);
+			System.out.println(list2);
+			/** ********************** */
+			// List list3 = new ArrayList();
+			// IndiBean bean1 = new IndiBean("200802.332", 2000.93, 3343.00,
+			// 0.093,
+			// 1234.0072);
+			// list3.add(bean1);
+			// IndiBean bean2 = new IndiBean("200803.399", 323499.034kioiiiiik
+			// 339893.0,
+			// 0.093, 132234.0972);
+			// list3.add(bean2);
+			// Object[] keys = {"statData"};
+			// list3 = formatBeans(list3, "###0.00", 2, 0,keys);
+			// for(Object o:list3){
+			// IndiBean i =(IndiBean)o;
+			// System.out.println(i.getStatData());
+			// System.out.println(i.getFee());
+			// }
+			List<Map> list3 = new ArrayList();
+			Map map1 = new HashMap();
+			map1.put("VALUE", 134234.0123);
+			Map map2 = new HashMap();
+			map2.put("VALUE", 134334.0154);
+			list3.add(map1);
+			list3.add(map2);
+			List tempList = formatMaps(list3,"###,##0.00",2,0,new String[]{"VALUE"});
+			System.out.println(tempList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+}
+
+</pre>
+
+</div>
+</body>
+</html>

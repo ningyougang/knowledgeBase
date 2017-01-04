@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>比较工具类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>Comparable和Comparator联系与区别</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+Comparable和Comparator都是实现对集合中的对象进行排序的，只是Comparable是在集合内部定义的方法实现的排序，而Comparator是在集合外部实现的排序。
+一个类实现了Comparable接口则表明这个类的对象之间是可以相互比较的，这个类的对象组成的集合直接使用sort方法排序。
+Comparator可以看成是一种算法的实现，将算法和数据分离，Comparator也可以在下面两种情况下使用：
+
+1.类的设计师没有考虑到比较问题。
+
+2.可以使用多种排序标准，比如升序降序。
+
+Comparable是java.lang包下的，Comparator是java.util包下的。
+
+如果想实现排序，则需要在集合外定义Comparator接口的方法或者实现Comparator的方法，可以理解为创建一个自定义排序器。
+
+Comparable是一个对象本身就已经支持自比较所需要实现的接口（如String、Integer自己可以完成排序）
+
+Comparator是一个专业的自定义比较器。
+
+可以说一个是类自己完成的比较，一个是外部程序实现的比较。
+
+用Comparator是策略模式（strangy design pattern），就是不改变对象自身，而用一个策略对象（strangy object）来改变行为。
+
+ 
+假设想对整数进行绝对值大小的排序，Integer是不能完成的，你也不能修改他的排序行为，只要使用了一个实现Comparator接口的对象来实现控制他的排序。
+
+在Comparator接口里，只要一个方法要实现：
+
+int compare(Oeject o1, Object o2);
+
+如果o1小于o2，则返回小于0；如果o1大于o2，则返回大于0；如果o1等于o2，则返回0；
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+package com.asiainfo.base.util;
+
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
+public class CompareUtil implements Serializable {
+	
+	private static CompareUtil compareUtil = new CompareUtil();
+	
+	public static CompareUtil getInstance() {
+		if(compareUtil!=null)
+			return compareUtil;
+		else
+		{
+			CompareUtil compareUtil = new CompareUtil();
+			return compareUtil;
+		}
+	}
+	
+	//比较取出需要的TOP 降序
+	public static class ComparatorDesc implements Comparator {
+
+		public String parm = "";
+		public ComparatorDesc(String parm) {
+			this.parm = parm;
+		}
+		public int compare(Object obj1, Object obj2) {
+			int isGreat = 0;
+			Double d1 = Double.parseDouble(((HashMap)obj1).get(parm) == null ? "0" : ((HashMap)obj1).get(parm).toString()) ;
+			Double d2 = Double.parseDouble(((HashMap)obj2).get(parm) == null ? "0" : ((HashMap)obj2).get(parm).toString()) ;
+			if (d1 > d2)
+				isGreat = 1;
+			else if (d1 < d2)
+				isGreat = -1;
+			return isGreat;
+		}
+	}
+	
+	//比较取出需要的TOP 升叙
+	public static class ComparatorAsc implements Comparator {
+		public String parm = "";
+		public ComparatorAsc(String parm) {
+			this.parm = parm;
+		}
+		public int compare(Object obj1, Object obj2) {
+			int isGreat = 0;
+			Double d1 = Double.parseDouble(((HashMap)obj1).get(parm) == null ? "0" : ((HashMap)obj1).get(parm).toString()) ;
+			Double d2 = Double.parseDouble(((HashMap)obj2).get(parm) == null ? "0" : ((HashMap)obj2).get(parm).toString()) ;
+			if (d1 < d2)
+				isGreat = 1;
+			else if (d1 > d2)
+				isGreat = -1;
+			return isGreat;
+		}
+	}
+	
+	
+	/**
+	 * 比较取出需要的TOP 升叙
+	 */
+	public static class ComparatorClassAsc implements Comparator {
+		private String parm = "";
+		private Class<?> cl;
+		/**
+		 * @param parm 构造get方法参数
+		 * @param cl Class对象
+		 */
+		public ComparatorClassAsc(String parm, Class cl) {
+			this.parm = parm;
+			this.cl = cl;
+		}
+		public int compare(Object obj1, Object obj2) {
+			int isGreat = 0;
+			try{
+				Method method = cl.getMethod(buildGetter(parm), null);
+				Double d1 = Double.parseDouble(method.invoke(obj1,null) == null ? "0" : method.invoke(obj1,null).toString()) ;
+				Double d2 = Double.parseDouble(method.invoke(obj2,null) == null ? "0" : method.invoke(obj2,null).toString()) ;
+				if (d1 < d2)
+					isGreat = 1;
+				else if (d1 > d2)
+					isGreat = -1;
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return isGreat;
+		}
+	}
+	
+	/**
+	 * 比较取出需要的TOP 降序
+	 */
+	public static class ComparatorClassDesc implements Comparator {
+		private String parm = "";
+		private Class<?> cl;
+		/**
+		 * @param parm 构造get方法参数
+		 * @param cl Class对象
+		 */
+		public ComparatorClassDesc(String parm, Class cl) {
+			this.parm = parm;
+			this.cl = cl;
+		}
+		public int compare(Object obj1, Object obj2) {
+			int isGreat = 0;
+			try{
+				Method method = cl.getMethod(buildGetter(parm), null);
+				Double d1 = Double.parseDouble(method.invoke(obj1,null) == null ? "0" : method.invoke(obj1,null).toString()) ;
+				Double d2 = Double.parseDouble(method.invoke(obj2,null) == null ? "0" : method.invoke(obj2,null).toString()) ;
+				if (d1 < d2)
+					isGreat = 1;
+				else if (d1 > d2)
+					isGreat = -1;
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return isGreat;
+		}
+	}
+	
+	/**
+	 * 创建Get方法
+	 * 
+	 * @param property
+	 * @return
+	 */
+	private static String buildGetter(String property) {
+		String proHead = property.substring(0, 1);
+		proHead = proHead.toUpperCase();
+		return "get" + proHead + property.substring(1, property.length());
+	}
+	
+	/**
+	 * 返回复制dest
+	 * @param dest
+	 * @param src
+	 * @param limit
+	 * @return
+	 */
+	public List subListCopy(List src, Integer limit){
+		if(limit == null || limit <=0 || src.size() <= limit)
+			return src;
+		return src.subList(0, limit);
+	}
+
+}
+
+</pre>
+</p>
+</div>
+</body>
+</html>

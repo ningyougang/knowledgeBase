@@ -1,0 +1,48 @@
+/* width 32px loading */
+#loading32{
+	background:url(../images/loading_bg.jpg) no-repeat;
+	display:block; 
+	height:66px;
+	left:50%;
+	position:absolute;
+	top:45%;
+	overflow:hidden;
+	margin-left:-120px;
+	margin-top:-33px;
+	width:240px;
+}
+
+#loading32 h1{
+	background:url(../images/32_loading_ico.gif) no-repeat 18px 18px;
+	color:#333333;
+	font-size:14px;
+	font-weight:normal;
+	padding-left:20px;
+	line-height:66px;
+	text-indent:40px;
+}
+
+/* width 16px loading */
+#loading16{
+	display:block; 
+	height:16px;
+	left:50%;
+	position:absolute;
+	top:45%;
+	overflow:hidden;
+	margin-left:-60px;
+	margin-top:-8px;
+	width:120px;
+}
+
+#loading16 h1{
+	background:url(../images/16_loading_ico.gif) no-repeat;
+	color:#333333;
+	font-size:12px;
+	font-weight:normal;
+	padding-left:20px;
+	line-height:16px;
+}
+
+
+

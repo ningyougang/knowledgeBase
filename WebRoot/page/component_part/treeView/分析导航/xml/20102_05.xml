@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='2月各地市MOU分析' outCnvBaseFont='Arial' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='收入值' SYAxisName='同比增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0">
+
+<categories>
+ 	<category label='蚌埠'/>
+	<category label='宿州'/>
+	<category label='亳州'/>
+	<category label='淮南'/>
+	<category label='滁州'/>
+	<category label='淮北'/>
+	<category label='马鞍山'/>
+	<category label='宣城'/>
+	<category label='铜陵'/>
+	<category label='芜湖'/>
+	<category label='阜阳'/>
+	<category label='合肥'/>
+	<category label='巢湖'/>
+	<category label='安庆'/>
+	<category label='六安'/>
+	<category label='池州'/>
+	<category label='黄山'/>
+</categories>
+ 
+	 <dataset seriesName="MOU值" color="AFD8F8">
+	  	<set value="441.53" />
+		<set value="710.99" />
+		<set value="680.90" />
+		<set value="624.78" />
+		<set value="681.45" />
+		<set value="636.36" />
+		<set value="503.13" />
+		<set value="627.35" />
+		<set value="637.06" />
+		<set value="614.73" />
+		<set value="661.97" />
+		<set value="516.20" />
+		<set value="601.65" />
+		<set value="464.80" />
+		<set value="456.54" />
+		<set value="610.82" />
+		<set value="508.57" />
+	</dataset>
+	 
+	<dataset lineThickness="2" seriesName="同比增长率" parentYAxis="S" >
+	    <set value='-0.11220075'/>
+		<set value='-0.18443297'/>
+		<set value='-0.19863416'/>
+		<set value='-0.23790774'/>
+		<set value='-0.25166923'/>
+		<set value='-0.26976868'/>
+		<set value='-0.27072525'/>
+		<set value='-0.27235195'/>
+		<set value='-0.27675572'/>
+		<set value='-0.29523530'/>
+		<set value='-0.32012024'/>
+		<set value='-0.32043781'/>
+		<set value='-0.32242998'/>
+		<set value='-0.34083476'/>
+		<set value='-0.36971568'/>
+		<set value='-0.41845388'/>
+		<set value='-0.48247045'/>
+	</dataset>
+</chart>

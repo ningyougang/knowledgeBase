@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>分布式定时任务调度</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>分布式定时任务调度</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+在以前的项目中，任务调度做得比较简单，简单一点的直接用java.util.Timer，复杂一点的用“在Timer基础上”的开源quartz框架</br>
+(web下该框架已与spring集成)。</br>
+然后在我另外公司的实际的两个项目中，有这样的需求，如定时执行某个任务，取消某个即将执行的任务，修改某个即将执行任务的时间。</br>
+而且任务量比较大，做起来比较简单。目前开源的有阿里的taobao-pamirs-schedule，然后由于该框架用的人少，而且没有成熟的文档，</br>
+不建议使用。于是我们团队自己做了设计，首先将该“分布式定时任务调度”分为以下角色</br>
+A:任务客户端,负责发送原始的任务，将任务通过jms消息的形式发送到jms-server中.</br>
+B:任务调度器，负责从jms-server中接收原始任务，通过一定的算法将任务发送后台真实的任务执行服务器(如根据cpu、内存来灵活分配)。</br>
+C:任务执行服务器，负责任务解析，和将任务放入quartz框架，任务执行。</br>
+
+</div>
+<div class="AI_common_title1">
+	<h2>设计、ppt</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+详细设计:<a href="doc/分布式定时任务设计.docx">分布式定时任务设计.docx</a></br>
+该设计存在如下问题待解决:</br>
+A:任务调度器存在单点问题</br>
+B:如何定义任务执行服务器down机</br>
+ppt:<a href="doc/分布式定时调度框架与Quartz介绍.ppt">分布式定时调度框架与Quartz介绍.ppt</a>
+</div>
+
+</body>
+</html>

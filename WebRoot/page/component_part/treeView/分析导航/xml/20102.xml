@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption="累计运营变化收入" outCnvBaseFont ='黑体' outCnvBaseFontSize="12" outCnvBaseFontColor="ffffff" 
+bgColor="444444" borderColor="222222" numberSuffix='%' lineThickness="1" 
+divLineIsDashed="1" showAlternateHGridColor="1" alternateHGridAlpha="5" alternateHGridColor="CC3300" shadowAlpha="40"
+bgColor="FFFFFF,CC3300" legendBgColor="222222" legendShadow ="0" legendAllowDrag ="1">
+  <categories>
+	  <category label="200811" /> 
+	  <category label="200902" /> 
+	  <category label="200903" /> 
+	  <category label="200905" /> 
+	  <category label="200909" />
+	  <category label="200911" /> 
+	  <category label="201001" /> 
+	  <category label="201002" />  
+  </categories>
+  <dataset seriesName="安徽  ">
+  	  <set value="21.20" /> 
+  	  <set value="21.20" />
+  	  <set value="17.20" />
+  	  <set value="17.60" />
+  	  <set value="16.90" />
+  	  <set value="17.40" />
+  	  <set value="17.80" />
+  	  <set value="9.10" />
+  	  <set value="16.84" />
+  </dataset>
+  <dataset seriesName="集团  ">
+  	  <set value="19.20" /> 
+  	  <set value="18.20" />
+  	  <set value="20.20" />
+  	  <set value="16.60" />
+  	  <set value="17.90" />
+  	  <set value="16.40" />
+  	  <set value="16.80" />
+  	  <set value="7.10" />
+  	  <set value="14.84" />
+  </dataset>
+</chart>

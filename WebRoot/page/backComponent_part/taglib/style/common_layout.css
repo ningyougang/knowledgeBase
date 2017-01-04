@@ -1,0 +1,115 @@
+/* 一列布局内容边框线 */
+.AI_one_layout_border{
+	border:1px solid #aacbee;
+	border-top:none;
+	padding:2px;
+	margin-bottom:4px;
+	line-height:20px;
+}
+.AI_one_layout_border p{
+	padding-left:8px;
+	padding-right:8px;
+	line-height:20px;
+}
+
+/* 多列布局内容边框线 */
+.AI_two_layout_border{
+	border:1px solid #aacbee;
+	border-top:none;
+	height:92%; /* 内容高度 */
+	padding:1px;
+	margin-bottom:3px;
+}
+
+/* 内容边框阴影 */
+.AI_content_hatching{
+    background:url(../images/content_hatching_bg.gif) 100% 100% no-repeat;	
+	padding-bottom:7px;
+	margin-bottom:3px;
+	width:100%;
+}
+/* 边框阴影中间部分 */
+.AI_content_hatching_mid{
+	padding:5px;
+}
+
+/* height50% */
+.height50{
+	height:50%;
+}
+
+/* 两列布局 外层 */
+.AI_layout_outside_left{
+	float:left;
+	height:100%;
+	margin-right:1px;
+	width:19.5%;
+}
+.AI_layout_outside_right{
+	float:left;
+	height:100%;
+	width:80%;
+}
+
+
+/* 两列布局 内层 */
+.AI_layout_inside_left{
+	float:left;
+	height:100%;
+	margin-right:1px;
+	width:200px;
+}
+.AI_layout_inside_right{
+	height:100%;
+	margin-left:201px;
+}
+
+/* 嵌套内层 两列50%布局 */
+.AI_layout_inside_left50{
+	background-color:#FFCCFF;
+	float:left;
+	display:inline;
+	height:300px;
+	width:50%;
+}
+.AI_layout_inside_right50{	
+	background-color:#6699FF;
+	display:inline;
+	float:right;
+	height:300px;
+	width:50%;
+}
+
+
+
+/* 三列布局 */
+.AI_float_left{
+	float:left;
+	height:100%;
+	margin-right:1px;
+	width:19.5%;
+}
+.AI_float_right{
+	float:right;
+	margin-left:1px;
+	height:100%;
+	width:19.5%;
+}
+.AI_float_center{
+	*padding-left:0 !important;
+	*padding-left:-3px;
+	
+	margin-left:19.5%;
+	*margin-left:19.5% !important;
+	*margin-left:19.5%;
+	
+	margin-right:19.5%;
+	*margin-right:19.5% !important;
+	*margin-right:19.5%;
+	
+	height:100%;
+}
+
+
+
+

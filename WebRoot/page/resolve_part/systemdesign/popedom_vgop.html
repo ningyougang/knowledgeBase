@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>VGOP权限系统设计</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>权限系统概要介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<p>
+ 在VGOP中,系统的权限包括两个部分,一是功能权限,即控制当前登录用户所能看到的菜单、功能按钮.二是数据权限,即控制登录用户所能看到的数据，如上海领导可以看到</br>
+ 整个上海的数据,区域领导只能看到自己所管理区域的数据。对VGOP而言,目前可以做到对用户进行批量授权,但是针对一个用户进行授权和授权查看,目前是不支持的.</br>
+ 如需要查看详细设计，请下载:<a href="doc/VGOP系统管理模块概要设计说明书.doc">VGOP系统管理模块概要设计说明书.doc</a>
+ 
+	</p>
+</div>
+<div class="AI_common_title1">
+	<h2>VGOP权限页面截图</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<p>用户管理,查看从OA通过到VGOP，并纳入到VGOP系统进行管理的用户,该页面应该增加针对单个用户的授权导航图,即对单个用户进行授权(功能权限、数据权限)</p>
+  <img src="./images/VGOP用户管理.bmp"/>
+    <p>角色管理,可以对单个角色进行批量赋权</p>
+  <img src="./images/VGOP角色管理.bmp"/>
+    <p>用户组管理,可以对单个用户组进行维度赋权,该页面设计扩展性较差</p>
+  <img src="./images/VGOP用户组管理.bmp"/>
+</div>
+<div class="AI_common_title1">
+	<h2>权限系统表结构设计</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<img src="./images/VGOP权限表结构设计.bmp"/>
+</div>
+</body>
+</html>

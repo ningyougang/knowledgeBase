@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>单点登陆</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>单点登陆</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<p>
+<pre class="brush:java;">SSO 分为Web-SSO和桌面SSO。桌面 SSO 体现在操作系统级别上。Web-SSO体现在客户端，
+主要特点是： SSO 应用之间使用 Web 协议 ( 如 HTTPS) ，并且只有一个登录入口。我们所讲的SSO，指 Web SSO 。
+
+SSO 的体系中，有下面三种角色：
+	User（多个）
+	Web应用（多个）
+	SSO认证中心（一个）
+
+SSO 实现模式千奇百怪，但万变不离其宗，包含以下三个原则：
+	所有的登录都在 SSO 认证中心进行。
+	SSO 认证中心通过一些方法来告诉 Web 应用当前访问用户究竟是不是通过认证的用户。
+	SSO 认证中心和所有的 Web 应用建立一种信任关系。
+ </pre>
+</p>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本文中,我们以Yale 大学发起的通过cookie机制构建 Web SSO 的 Java开源项目 为基础,并结合在上海亚信</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;的实际工作案例为前提给大家讲解，请参考<a href="doc/上海亚信sso应用案例.ppt">上海亚信sso应用案例.ppt</a>
+	</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;参考ppt <a href="doc/单点登录_张孝祥_CAS.ppt">单点登录_张孝祥_CAS.ppt</a>
+
+</p>	
+</div>
+
+
+
+
+
+
+
+
+</body>
+</html>

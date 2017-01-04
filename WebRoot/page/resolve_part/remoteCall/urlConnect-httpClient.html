@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HttpURLConnection-HttpClient</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>概念</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+HTTP 协议可能是现在 Internet 上使用得最多、最重要的协议了，越来越多的 Java 应用程序需要直接通过 HTTP 协议来访问网络资源。
+在 JDK 的 java.net 包中已经提供了访问 HTTP 协议的基本功能：HttpURLConnection。
+但是对于大部分应用程序来说，JDK 库本身提供的功能还不够丰富和灵活。
+
+除此之外，apache提供的开源HttpClient，用来提供高效的、最新的、功能丰富的支持 HTTP 协议工具包，
+并且它支持 HTTP 协议最新的版本和建议。使用HttpClient可以快速开发出功能强大的Http程序
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>区别</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:html;">
+HttpURLConnection是java的标准类，什么都没封装，用起来太原始，不方便，比如重访问的自定义，以及一些高级功能等。
+HttpClient是个很不错的开源框架，封装了访问http的请求头，参数，内容体，响应等等.
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>代码举例</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+首先登录官方网站http://hc.apache.org/downloads.cgi下载最新的jar包以及相关说明文档
+我们这里以httpClient-4.2.3.jar为例子进行讲解	
+客户端java调用代码:	
+HttpURLConnection-get提交
+public static void main(String[] args) throws Exception{
+		//URLConnection-get方式
+		URL url = new URL("http://localhost:8080/demo/jsonp/jsonHelloWorldAjax.action");
+		HttpURLConnection httpUrlConn = (HttpURLConnection)url.openConnection();
+		httpUrlConn.connect();
+		InputStream inputStream = httpUrlConn.getInputStream();
+		BufferedReader bufferReader = new BufferedReader(new InputStreamReader(inputStream)); 
+		String line = "";
+		String responseResult = "";
+		while((line = bufferReader.readLine()) != null){
+			responseResult += line;
+		}
+		System.out.println("get方式返回的结果:" + responseResult);
+		inputStream.close();
+		bufferReader.close();
+		httpUrlConn.disconnect();
+}
+
+HttpURLConnection-post提交
+public static void main(String[] args) throws Exception{
+		//URLConnection-post方式
+		URL url = new URL("http://localhost:8080/demo/jsonp/jsonHelloWorldAjax.action");
+		HttpURLConnection httpUrlConn = (HttpURLConnection)url.openConnection();
+		httpUrlConn.setDoInput(true);//设置可读取,默认为true
+		//设置可写入,默认为true(在get方式下不能设置为true,否则httpUrlConn.setRequestMethod("GET")不起作用)
+		httpUrlConn.setDoOutput(true);
+		httpUrlConn.setRequestMethod("POST");//默认为get方式,所以如果用get,可以不写
+		httpUrlConn.setUseCaches(false);
+		httpUrlConn.setInstanceFollowRedirects(false);
+		httpUrlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+		httpUrlConn.connect();  
+		DataOutputStream out = new DataOutputStream(httpUrlConn.getOutputStream()); 
+		String content = "callbackparam=funcName"; 
+		out.writeBytes(content); 
+		out.flush(); 
+		out.close(); 
+		
+		InputStream inputStream = httpUrlConn.getInputStream();
+		BufferedReader bufferReader = new BufferedReader(new InputStreamReader(inputStream)); 
+		String line = "";
+		String responseResult = "";
+		while((line = bufferReader.readLine()) != null){
+			responseResult += line;
+		}
+		System.out.println("post方式返回的结果:" + responseResult);
+		inputStream.close();
+		bufferReader.close();
+		httpUrlConn.disconnect();
+}
+
+HttpClient-get提交
+public static void main(String[] args) {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet("http://localhost:8080/demo/jsonp/jsonHelloWorldAjax.action");
+        try {
+        	HttpResponse response = httpclient.execute(httpGet);
+            //处理返回的内容
+            if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+            	HttpEntity entity = response.getEntity();
+            	if(entity != null){
+            		 System.out.println("get方式返回的结果:" + EntityUtils.toString(entity));
+            		 EntityUtils.consume(entity);
+            	}
+            }
+        }catch(Exception e){
+        	e.printStackTrace();
+        } 
+        finally {
+            httpGet.releaseConnection();
+        }
+}
+
+HttpClient-post提交
+public static void main(String[] args) {
+		HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost("http://localhost:8080/demo/jsonp/jsonHelloWorldAjax.action");
+        try {
+            List<NameValuePair> nvps = new ArrayList <NameValuePair>();
+            nvps.add(new BasicNameValuePair("callbackparam", "funcFuncBack"));
+            httpPost.setEntity(new UrlEncodedFormEntity(nvps,"UTF-8"));
+            HttpResponse response = httpclient.execute(httpPost);
+            //处理返回的内容
+            if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+            	HttpEntity entity = response.getEntity();
+            	if(entity != null){
+            		 System.out.println("post方式返回的结果:" + EntityUtils.toString(entity));
+            		 EntityUtils.consume(entity);
+            	}
+            }
+        } catch(Exception e){
+        	e.printStackTrace();
+        }finally {
+            httpPost.releaseConnection();
+        }
+}
+服务器端的请求相应的action代码:
+public String jsonHelloWorldAjax() throws Exception{
+		log.debug("==================jsonHelloWorldAjax===================");
+		HttpServletResponse response = ServletActionContext.getResponse();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		response.setContentType("text/html;charset=UTF-8");
+		String funName = request.getParameter("callbackparam") == null?"callBackFun":request.getParameter("callbackparam");
+		String json = funName + "({\"name\":\"zhanshan\"})";
+		System.out.println(json);
+		response.getWriter().write(json);
+		return null;
+}
+</pre>
+</div>
+</body>
+</html>

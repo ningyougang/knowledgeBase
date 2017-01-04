@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>lvs负载均衡</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>简介</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<pre class="brush:xml">
+LVS的英文全称是Linux Virtual Server，即Linux虚拟服务器。它是我们国家的章文嵩博士的一个开源项目。
+在linux内存2.6中，它已经成为内核的一部分，在此之前的内核版本则需要重新编译内核。
+LVS主要用于多服务器的负载均衡。它工作在网络层(OSI第4层)，可以实现高性能(无流量产生)，高可用的服务器集群技术。
+它廉价，可把许多低性能的服务器组合在一起形成一个超级服务器。它易用，配置非常简单，且有多种负载均衡的方法。
+它稳定可靠，即使在集群的服务器中某台服务器无法正常工作，也不影响整体效果。另外可扩展性也非常好.
+
+学习说明:在了解LVS具体原理之前，最好能够对网络、OSI7层模型有一定的了解。
+
+其他:lvs中ipvs/ipvsadm与netfilter/iptables类似，netfilter:内核空间,iptables:用户空间(通过iptables定义规则，该规则被netfilter识别，与tcp/ip打交道)
+而ipvs/ipvsadm，ipvs是工作在内核空间中(扩展了netfilter的DNAT)，ipvsadm在上面定义负载均衡规则。
+ipvs与netfilter不能同时使用
+还有点类似于lvm/device mapper关系,lvm:用户空间的程序，device mapper位于内核空间
+
+与lvs中的ipvs中的netfilter/iptables好文:http://blog.csdn.net/xingliyuan22/article/details/9047767
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>nginx/haproxy/lvs区别</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+	<pre class="brush:xml">
+一、4层负载均衡与7层负载均衡的区别
+1.4层负载均衡，直接修改IP报文或在数据链路层修改MAC地址，在整个请求过程中，只有1次TCP请求，无流量产生（类似“转发”）。
+2.7层负载均衡，中间的调度器在收到TCP请求后，在跟目标的server再次建立TCP连接，有2次TCP请求，有流量产生（类似“代理”）。
+具体细节请参考：http://blog.csdn.net/caoshuming_500/article/details/7337802		
+
+二、lvs/nginx/haproxy各自的优缺点		
+LVS的优点：
+1、抗负载能力强、工作在第4层仅作分发之用，没有流量的产生，这个特点也决定了它在负载均衡软件里的性能最强的；
+   无流量，同时保证了均衡器IO的性能不会受到大流量的影响；
+2、工作稳定，自身有完整的双机热备方案，如LVS+Keepalived和LVS+Heartbeat；
+3、应用范围比较广，可以对所有应用做负载均衡；
+4、配置性比较低，这是一个缺点也是一个优点，因为没有可太多配置的东西，所以并不需要太多接触，大大减少了人为出错的几率；
+LVS的缺点：
+1、软件本身不支持正则处理，不能做动静分离，这就凸显了Nginx/HAProxy+Keepalived的优势。
+2、如果网站应用比较庞大，LVS/DR+Keepalived就比较复杂了，特别是后面有Windows Server应用的机器，
+   实施及配置还有维护过程就比较麻烦，相对而言，Nginx/HAProxy+Keepalived就简单多了。
+3、对网络依赖比较强
+
+Nginx的优点：
+1、工作在OSI第7层，可以针对http应用做一些分流的策略。比如针对域名、目录结构。它的正则比HAProxy更为强大和灵活；
+2、Nginx对网络的依赖非常小，理论上能ping通就就能进行负载功能，这个也是它的优势所在；
+3、Nginx安装和配置比较简单，测试起来比较方便；
+4、可以承担高的负载压力且稳定，一般能支撑超过几万次的并发量；
+5、Nginx可以通过端口检测到服务器内部的故障，比如根据服务器处理网页返回的状态码、超时等等，并且会把返回错误的请求重新提交到另一个节点；
+6、Nginx不仅仅是一款优秀的负载均衡器/反向代理软件，它同时也是功能强大的Web应用服务器。LNMP现在也是非常流行的web环境，
+   大有和LAMP环境分庭抗礼之势，Nginx在处理静态页面、特别是抗高并发方面相对apache有优势；
+7、Nginx现在作为Web反向加速缓存越来越成熟了，速度比传统的Squid服务器更快，有需求的朋友可以考虑用其作为反向代理加速器；
+Nginx的缺点：
+1、Nginx不支持url来检测。
+2、Nginx仅能支持http和Email，这个它的弱势。
+3、Nginx的Session的保持，Cookie的引导能力相对欠缺。(需要借助第三方模块nginx-sticky-module或nginx_upstream_jvm_route来弥补这个缺陷)
+   请参考《Nginx安装、配置文档.docx》中的粘性session算法
+
+HAProxy的优点：
+1、HAProxy是支持虚拟主机的，可以工作在4、7层(支持多网段)；
+2、能够补充Nginx的一些缺点比如Session的保持，Cookie的引导等工作；
+3、支持url检测后端的服务器；
+4、它跟LVS一样，本身仅仅就只是一款负载均衡软件；单纯从效率上来讲HAProxy更会比Nginx有更出色的负载均衡速度，在并发处理上也是优于Nginx的；
+5、HAProxy可以对Mysql读进行负载均衡，对后端的MySQL节点进行检测和负载均衡，不过在后端的MySQL slaves数量超过10台时性能不如LVS；
+6、HAProxy的算法较多，达到8种；
+
+经验总结:
+Web前端采用Nginx/HAProxy+Keepalived作负载均衡器；后端采用MySQL数据库一主多从和读写分离，采用haproxy/LVS+Keepalived的架构
+
+</pre>
+</div>
+
+<div class="AI_common_title1">
+	<h2>lvs安装部署文档</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+OSI七层模型基础知识下载:<a href="doc/OSI七层模型基础知识(V4.0).ppt">OSI七层模型基础知识(V4.0).ppt</a> </br>
+LVS原理下载:<a href="doc/LVS原理.pdf">LVS原理.pdf</a> </br>
+LVS+keepalived安装下载:<a href="doc/ubuntu-LVS+keepalived安装手册.docx">ubuntu-LVS+keepalived安装手册.docx</a> </br>
+</div>
+</body>
+</html>

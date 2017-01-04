@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='19160' yAxisMinValue='0' numDivLines='8'
+	adjustDiv='0'>
+	<categories>
+		<category label='百色' />
+		<category label='河池' />
+		<category label='南宁' />
+		<category label='柳州' />
+		<category label='北海' />
+		<category label='玉林' />
+		<category label='桂林' />
+		<category label='梧州' />
+		<category label='防城港' />
+		<category label='钦州' />
+	</categories>
+	<dataset seriesName='日累计新增来沪游客总数' Color='F1683C'
+		anchorBorderColor='F1683C' anchorBgColor='F1683C'>
+		<set value='17419.0' />
+		<set value='10928.0' />
+		<set value='7833.0' />
+		<set value='7791.0' />
+		<set value='2666.0' />
+		<set value='2427.0' />
+		<set value='2196.0' />
+		<set value='985.0' />
+		<set value='0.0' />
+		<set value='0.0' />
+	</dataset>
+	<dataset seriesName='日累计在沪游客总数' Color='1D8BD1'
+		anchorBorderColor='1D8BD1' anchorBgColor='1D8BD1'>
+		<set value='555.0' />
+		<set value='603.0' />
+		<set value='7964.0' />
+		<set value='3848.0' />
+		<set value='2381.0' />
+		<set value='1539.0' />
+		<set value='3554.0' />
+		<set value='1078.0' />
+		<set value='0.0' />
+		<set value='0.0' />
+	</dataset>
+</chart>

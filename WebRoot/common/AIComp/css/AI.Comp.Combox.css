@@ -1,0 +1,122 @@
+.AI-Combox {
+	font-size:12px;
+	font-weight:normal;
+	color:#000;
+	background:#fff;
+	margin: 0px;
+	padding: 0px;
+	clear: none;
+}
+.AI-Combox .combox-select {
+	width: 180px;
+	height: 22px;
+	cursor: pointer;
+}
+.AI-Combox .combox-select-normal {
+	background: url(../images/combox/ai_comp-combox.gif) repeat-x 0 -1px;
+}
+.AI-Combox .combox-select-hover {
+	background: url(../images/combox/ai_comp-combox.gif) repeat-x 0 -24px;
+} 
+
+.AI-Combox .combox-left-border {
+	border-left: 1px solid #53A5D5;
+	width: 100%;
+	height: 20px;
+}
+
+.AI-Combox .combox-arrow {
+	float: right;
+	width: 21px;
+	display: block;
+	height: 20px;
+}
+
+.AI-Combox .combox-arrow-normal {
+	background: url(../images/combox/ai_comp-combox.gif) no-repeat 0 -65px;
+}
+
+.AI-Combox .combox-arrow-clicked {
+	background: url(../images/combox/ai_comp-combox.gif) no-repeat 0 -107px;
+}
+
+.AI-Combox .combox-arrow-hover {
+	color: red;
+	background: url(../images/combox/ai_comp-combox.gif) no-repeat 0 -86px;
+}
+
+.AI-Combox .combox-input,.combox-input-loading {
+	float: left;
+	text-align: left;
+	display: block;
+	text-indent: 5px;
+	overflow:hidden;
+	margin-right: -21px;
+	line-height: 20px;
+	width:90%;
+	white-space:nowrap;
+	height:20px;
+}
+.AI-Combox .combox-ico{
+	text-indent:25px;
+}
+.AI-Combox .combox-list-ico{
+	display: block;
+	float: left;
+	width:20px;
+	height: 18px;
+}
+.AI-Combox .combox-listData{
+	list-style: none;
+	cursor: pointer;
+	width: 100%;
+	margin-right:-20px;
+}
+.AI-Combox .combox-listData li{
+	border-bottom: 1px solid ghostwhite;
+	height: 18px;
+	margin: 0px;
+	padding: 0px;
+	overflow:hidden;
+	white-space:nowrap;
+	float:left;
+	width: 100%;
+	text-overflow:ellipsis;
+	line-height: 18px;
+	display: block;
+}
+
+.AI-Combox .combox-listData li input {
+	height:18px;
+	width:18px;
+	vertical-align:middle;
+	text-indent: 20px;
+}
+.AI-Combox .combox-li-group{
+	text-indent:5px;
+	font-style:italic;
+	background: #ff7e00;
+	color: #fff;
+}
+.AI-Combox .combox-li-hover {
+	border-bottom: none; 
+	color : #fff;
+	cursor: pointer;
+	background: url(../images/combox/ai_comp-combox.gif) repeat-x 0 -46px;
+	color: #fff;
+}
+.AI-Combox .checkbox{
+	display: block;
+	height:15px;
+	width: 20px;
+	float:left;
+}
+.AI-Combox .checkbox-normal{
+	background: url(../images/combox/ai_comp-combox.gif) no-repeat 0 -171px;
+}
+.AI-Combox .checkbox-hover{
+	background: url(../images/combox/ai_comp-combox.gif) no-repeat 0 -195px;
+}
+.AI-Combox .checkbox-checked{
+	background: url(../images/combox/ai_comp-combox.gif) no-repeat 0 -220px;
+}

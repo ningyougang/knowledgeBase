@@ -1,0 +1,89 @@
+[{
+			id : '30001',
+			title : '长武',
+			desc : '长武',
+			value : 31233,
+			cycle : 0.97,
+			same : 0.65,
+			allowdrill:true
+		}, {
+			id : '30002',
+			title : '彬县',
+			desc : '彬县',
+			value : 12342,
+			cycle : 0.77,
+			same : -0.01,
+			allowdrill:true
+		}, {
+			id : '30003',
+			title : '秦都',
+			desc : '秦都',
+			value : 12343,
+			cycle : 0.64,
+			same : 0.15,
+			allowdrill:true
+		}, {
+			id : '30004',
+			title : '旬邑',
+			desc : '旬邑',
+			value : 13241,
+			cycle : -0.07,
+			same : -0.05,
+			allowdrill:true
+		}, {
+			id : '30005',
+			title : '永寿',
+			desc : '永寿',
+			value : 13414,
+			cycle : 0.56,
+			same : 0.03,
+			allowdrill:true
+		}, {
+			id : '30006',
+			title : '淳化',
+			desc : '淳化',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '30007',
+			title : '乾县',
+			desc : '乾县',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '30008',
+			title : '礼泉',
+			desc : '礼泉',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '30009',
+			title : '兴平',
+			desc : '兴平',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '30010',
+			title : '三原',
+			desc : '三原',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '30011',
+			title : '泾阳',
+			desc : '泾阳',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}]

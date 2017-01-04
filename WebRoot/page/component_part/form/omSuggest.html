@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>suggest</title>
+<!--此组件在jquery-1.6的基础上--> 
+<link rel="stylesheet" type="text/css" href="../../../common/operaMasks/css/default/om-default.css" /> 
+<script type="text/javascript" src="../../../common/operaMasks/js/jquery.min.js"></script>
+<script type="text/javascript" src="../../../common/operaMasks/js/operamasks-ui.min.js"></script>  
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#txt').omSuggestion({
+                dataSource : null
+            });
+        });
+    </script>
+
+	<body>
+   <input id="txt" />此例子必须由后台支持 ,返回值为简单数据组["a_0","a_1","a_2","a_3","a_4"]、或JSON:{'valueField':'text','data':[{'text':'a_0','count':10}]}
+</br>
+<iframe src="../../../common/operaMasks/docs/symbols/omSuggestion.html" height="400px" width="1000px"></iframe>
+</body>
+</html>

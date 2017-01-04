@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数组工具类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>方法预览</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+/**</br>
+* 删除一行数据</br>
+* @param result 待操作二维数据</br>
+* @param index1 待删除行号</br>
+* @return 返回删除行后的数据</br>
+*/</br>
+public static String[][] deleRowData(String[][] result,int index1)</br>
+</br>
+/**</br>
+* 删除一列数据</br>
+* @param result 待操作二维数据</br>
+* @param index1 待删除列号</br>
+* @return 返回删除列后的数据</br>
+*/</br>
+public static String[][] deleColData(String[][] result,int index1)</br>
+</br>
+/**</br>
+* 交换行</br>
+* @param result 待操作的二维数据</br>
+* @param row1 源行</br>
+* @param row2 目标行</br>
+* @return 交换后的二维数组</br>
+*/</br>
+public static String[][] swapRow(String[][] result,int row1,int row2)</br>
+</br>
+/**交换列</br>
+* @param result 待操作的二维数据</br>
+* @param col1 源列</br>
+* @param col2 目标列</br>
+* @return 交换后的二维数组</br>
+*/</br>
+public static String[][] swapColumn(String[][] result,int col1,int col2)</br>
+</br>
+/**</br>
+* 移动行</br>
+* @param array 待操作的二维数组</br>
+* @param srcNum 源行</br>
+* @param destNum 目标行</br>
+* @return 移动后的二维数组</br>
+*/</br>
+public static String[][] arrayOffset4Row(String[][] array,int srcNum,int destNum)</br>
+</br>
+/**</br>
+* 移动列</br>
+* @param array 待操作的二维数组</br>
+* @param srcNum 源列</br>
+* @param destNum 目标列</br>
+* @return 移动后的二维数组</br>
+*/</br>
+public static String[][] arrayOffset4Column(String[][] array,int srcNum,int destNum)</br>
+</br>
+/**</br>
+* 行列转换行数</br>
+* @param result 待操作的二维数组</br>
+* @return 行列转换后的二维数组</br>
+*/</br>
+public static String[][] convert(String[][] result)</br>
+</br>
+/**</br>
+* 在某个指定的位置增加行或列函数</br>
+* @param result 待操作的二维数组</br>
+* @param row 需要增加的行或列</br>
+* @param colNum 在行或列的某个位置插入</br>
+* @param type 1 行增加  2 列增加</br>
+* @return 增加行或列后的二维数组</br>
+*/</br>
+public static String[][] add(String[][] result,String[] row,int colNum,int type)</br>
+</br>
+/**</br>
+* 增加一行</br>
+* @param result 待操作的二维数组</br>
+* @param row 需要插入的行</br>
+* @param rowNum 在某个位置插入</br>
+* @return 返回插入后的二维数组</br>
+*/</br>
+public static String[][] addRow(String[][] result,String[] row,int rowNum)</br>
+</br>
+/**</br>
+* 增加一列</br>
+* @param result 待操作的二维数组</br>
+* @param row  需要插入的列</br>
+* @param rowNum 在某个位置插入</br>
+* @return 返回插入后的二维数组</br>
+*/</br>
+public static String[][] addCol(String[][] result,String[] row,int rowNum)</br>
+</br>
+/**</br>
+* 将某个数组分解,按照指定的分隔字符进行连续输出</br>
+* @param obj 源数组</br>
+* @param symbol 分隔字符串</br>
+* @return 返回连续打印的字符串</br>
+*/</br>
+public static String join(Object obj[],String symbol)</br>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+
+<pre class="brush:java;">
+
+
+package com.asiainfo.base.util;
+
+
+public class ArrayUtil {
+		
+	/**
+	 * 删除一行数据
+	 * @param result 待操作二维数据
+	 * @param index1 待删除行号
+	 * @return 返回删除行后的数据
+	 */
+	public static String[][] deleRowData(String[][] result,int index1)
+	{	
+		String[][] rr = new String[result.length-1][result[0].length];
+		if(index1<result.length && index1>=0)
+		{
+			for(int i=0;i<rr.length;i++)
+			{
+				if(i<index1)
+				{
+					rr[i] = result[i];
+				}else{
+					rr[i] = result[i+1];
+				}
+			}
+		}else
+		{
+			System.out.println("out of thd range!");
+			return result;
+		}		
+		return rr;
+	}
+	
+	/**
+	 * 删除一列数据
+	 * @param result 待操作二维数据
+	 * @param index1 待删除列号
+	 * @return 返回删除列后的数据
+	 */
+	public static String[][] deleColData(String[][] result,int index1)
+	{
+		String[][] cc = null;
+		if(result!=null&&result.length>0){
+			cc = new String[result.length][result[0].length-1];
+			if(index1<result[0].length && index1>=0)
+			{
+				for(int i=0;i<cc.length;i++)
+				{
+					for(int j=0;j<cc[i].length;j++)
+					{
+						if(j<index1){
+							cc[i][j]=result[i][j];
+						}
+						if(j>=index1){
+							cc[i][j]=result[i][j+1];
+						}
+					}
+				}
+			}else
+			{
+				System.out.println("out of thd range!");
+				return result;
+			}		
+		}
+		return cc;
+	}
+	
+	/**
+	 * 交换行
+	 * @param result 待操作的二维数据
+	 * @param row1 源行
+	 * @param row2 目标行
+	 * @return 交换后的二维数组
+	 */
+	public static String[][] swapRow(String[][] result,int row1,int row2)
+	{
+		return swapData(result,row1,row2,1);
+	}
+	
+	/**交换列
+	 * @param result 待操作的二维数据
+	 * @param col1 源列
+	 * @param col2 目标列
+	 * @return 交换后的二维数组
+	 */
+	public static String[][] swapColumn(String[][] result,int col1,int col2)
+	{
+		return swapData(result,col1,col2,2);
+	}
+	
+	/**
+	 * 交换函数，负责给交换行和交换列函数调用
+	 * @param result 待操作的二维数据
+	 * @param index1 源行或源列
+	 * @param index2 目标行或目标列
+	 * @param type 1:行交换 2:列交换
+	 * @return 交换后的二维数据
+	 */
+	private static String[][] swapData(String[][] result,int index1,int index2,int type)
+	{
+		if(result==null)
+		{
+			return null;
+		}else{
+			String[][] r = new String[result.length][result[0].length];
+			for(int i=0;i<result.length;i++)
+			{
+				for(int j=0;j<result[0].length;j++)
+				{
+					r[i][j] = result[i][j];
+				}
+			}
+			if(type==1)
+			{
+				//行交换
+				String temp = null;
+				for(int i=0;i<r[0].length;i++)
+				{
+					temp = r[index1][i];
+					r[index1][i] = r[index2][i];
+					r[index2][i] = temp;
+				}
+			}
+			if(type==2)
+			{
+				//列交换
+				String temp = null;
+				for(int i=0;i<r.length;i++)
+				{
+					temp = r[i][index1];
+					r[i][index1] = r[i][index2];
+					r[i][index2] = temp;
+				}
+			}
+			return r;
+		}
+		//return null;
+	}
+	
+	/**
+	 * 数组移动函数，负责移动行和移动列的调用
+	 * @param array 待操作的二维数组
+	 * @param index1 源行或源列
+	 * @param num 移动单位
+	 * @param type 移动模式 1：行移动 2：列移动
+	 * @param forward 移动方向 true：向前移动，false向后移动
+	 * @return 移动后的二维数组
+	 */
+	private static String[][] moveArrayOffset(String[][] array,int index1,int num,int type,boolean forward)
+	{
+		String[][] result = null;
+		if(array!=null&&array.length>0)
+		{
+			if(num>0)
+			{
+				int dest = index1+num;
+				if(!forward)
+				{
+					dest = index1 - num;
+				}
+				result = new String[array.length][array[0].length];
+				if(type==1)
+				{
+					if(dest>=array.length-1)
+					{
+						dest = array.length-1;
+					}
+					if(dest<0){
+						dest = 0;
+					}
+					for(int i=0;i<array.length;i++)
+					{
+						
+						if(forward)
+						{
+							if(i<index1||i>dest)
+							{
+								result[i] = array[i];
+							}
+							if(i==dest)
+							{
+								result[i] = array[index1];
+							}else if(i>=index1&&i<dest)
+							{
+								result[i] = array[i+1];
+							}
+						}else{
+							if(i<dest||i>index1)
+							{
+								result[i] = array[i];
+							}
+							if(i==dest)
+							{
+								result[i] = array[index1];
+							}else if(i>dest&&i<=index1)
+							{
+								result[i] = array[i-1];
+							}
+						}
+					}
+				}else if(type==2)
+				{
+					if(dest>array[0].length-1)
+					{
+						dest = array[0].length-1;
+					}
+					if(dest<0){
+						dest = 0;
+					}
+					
+					for(int i=0;i<array.length;i++)
+					{
+						for(int j=0;j<array[i].length;j++)
+						{
+							
+							if(forward)
+							{
+								if(j<index1||j>dest)
+								{
+									result[i][j] = array[i][j];
+								}
+								else if(j==dest)
+								{
+									result[i][j] = array[i][index1];
+								}else if(j>=index1&&j<dest)
+								{
+									result[i][j] = array[i][j+1];
+								}
+							}else{
+								if(j<dest||j>index1)
+								{
+									result[i][j] = array[i][j];
+								}
+								else if(j==dest)
+								{
+									result[i][j] = array[i][index1];
+								}else if(j>dest&&j<=index1)
+								{
+									result[i][j] = array[i][j-1];
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 移动行
+	 * @param array 待操作的二维数组
+	 * @param srcNum 源行
+	 * @param destNum 目标行
+	 * @return 移动后的二维数组
+	 */
+	public static String[][] arrayOffset4Row(String[][] array,int srcNum,int destNum)
+	{
+		return moveArrayOffset(array,srcNum,(destNum-srcNum)>0?(destNum-srcNum):(srcNum-destNum),1,srcNum<destNum);
+		
+	}
+	
+	/**
+	 * 移动列
+	 * @param array 待操作的二维数组
+	 * @param srcNum 源列
+	 * @param destNum 目标列
+	 * @return 移动后的二维数组
+	 */
+	public static String[][] arrayOffset4Column(String[][] array,int srcNum,int destNum)
+	{
+		return moveArrayOffset(array,srcNum,(destNum-srcNum)>0?(destNum-srcNum):(srcNum-destNum),2,srcNum<destNum);
+	}
+	
+	/**
+	 * 行列转换行数
+	 * @param result 待操作的二维数组
+	 * @return 行列转换后的二维数组
+	 */
+	public static String[][] convert(String[][] result)
+	{
+		String[][] r = null;
+		if(result!=null)
+		{
+			r = new String[result[0].length][result.length];
+			for(int i=0;i<result.length;i++)
+			{
+				for(int j=0;j<result[0].length;j++)
+				{
+					r[j][i] = result[i][j]; 
+				}
+			}
+		}
+		return r;
+	}
+
+	/**
+	 * 在某个指定的位置增加行或列函数
+	 * @param result 待操作的二维数组
+	 * @param row 需要增加的行或列
+	 * @param colNum 在行或列的某个位置插入
+	 * @param type 1 行增加  2 列增加
+	 * @return 增加行或列后的二维数组
+	 */
+	public static String[][] add(String[][] result,String[] row,int colNum,int type)
+	{
+		String[][] r = null;
+		if(result!=null && result.length>0)
+		{
+			if(type==1)
+			{
+				r = new String[result.length+1][result[0].length];
+				if(colNum>=result.length)
+				{
+					for(int i=0;i<result.length;i++)
+					{
+						for(int j=0;j<result[0].length;j++)
+						{
+							r[i][j] = result[i][j];
+						}
+					}
+					r[result.length] = row;
+				}else{
+					for(int i=0;i<result.length;i++)
+					{
+						for(int j=0;j<result[0].length;j++)
+						{
+							if(i<colNum)
+							{
+								r[i][j] = result[i][j];
+							}
+							if(i==colNum)
+							{
+								r[i][j] = row[j];
+								r[i+1][j] = result[i][j];
+							}
+							if(i>colNum)
+							{
+								r[i+1][j] = result[i][j];
+							}
+						}
+					}
+				}
+			}if(type==2)
+			{
+				r = new String[result.length][result[0].length+1];
+				if(colNum>=result[0].length)
+				{
+					for(int i=0;i<result[0].length;i++)
+					{
+						for(int j=0;j<result.length;j++)
+						{
+							r[j][i] = result[j][i];
+						}
+					}
+					for(int i=0;i<row.length;i++)
+					{
+						r[i][result[0].length] = row[i];
+					}
+				}else{
+					for(int i=0;i<result[0].length;i++)
+					{
+						for(int j=0;j<result.length;j++)
+						{
+							if(i<colNum)
+							{
+								r[j][i] = result[j][i];
+							}
+							if(i==colNum)
+							{
+								r[j][i] = row[j];
+								r[j][i+1] = result[j][i];
+							}
+							if(i>colNum)
+							{
+								r[j][i+1] = result[j][i];
+							}
+						}
+					}
+				}
+			}
+		}else{
+			if(type==1)
+			{
+				r = new String[1][row.length];
+				r[0] = row;
+			}else if(type==2){
+				r = new String[row.length][1];
+				for(int i=0;i<row.length;i++)
+				{
+					r[i][0] = row[i];
+				}
+			}
+		}
+		return r;
+	}
+	
+	/**
+	 * 增加一行
+	 * @param result 待操作的二维数组
+	 * @param row 需要插入的行
+	 * @param rowNum 在某个位置插入
+	 * @return 返回插入后的二维数组
+	 */
+	public static String[][] addRow(String[][] result,String[] row,int rowNum)
+	{
+		return add(result,row,rowNum,1);
+	}
+	
+	/**
+	 * 增加一列
+	 * @param result 待操作的二维数组
+	 * @param row  需要插入的列
+	 * @param rowNum 在某个位置插入
+	 * @return 返回插入后的二维数组
+	 */
+	public static String[][] addCol(String[][] result,String[] row,int rowNum)
+	{
+		return add(result,row,rowNum,2);
+	}
+	
+	/**
+	 * 将某个数组分解,按照指定的分隔字符进行连续输出
+	 * @param obj 源数组
+	 * @param symbol 分隔字符串
+	 * @return 返回连续打印的字符串
+	 */
+	public static String join(Object obj[],String symbol){
+		if (obj==null) return "";
+		StringBuffer buffer=new StringBuffer("");
+		for(int i=0;i<obj.length;i++){
+			buffer.append(String.valueOf(obj[i])).append(symbol);
+		}
+		if(buffer.toString().endsWith(symbol)){
+			buffer.deleteCharAt(buffer.length()-symbol.length());
+		}
+		return buffer.toString();
+	}
+}
+	
+	
+</pre>
+
+</div>
+</body>
+</html>

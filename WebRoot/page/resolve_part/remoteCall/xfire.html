@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>webservice-xfire</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>xfire介绍</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+webservice简介:WebService是一种分布式环境．可以通过接口和代理远程访问对象，并可在这些对象上进行操作，
+并且它的设计理念相当好:跨平台、跨语言。
+
+SOAP(可以理解为将请求转化为xml,在底层还是采用流的形式):
+SOAP意思是简单对象访问协议(Simple Object Access Protocol)。的确如它的名字一样，SOAP是很简单的。
+它是一个基于XML的协议，允许程序组件和应用程序彼此使用一种标准的Internet协议--HTTP来通讯。
+SOAP是一种独立的平台，它不依赖程序语言，它是简单的，弹性的，很容易扩展的。
+目前，应用程序能够彼此使用一种基于DCOM和CORBA技术的远程过程调用（RPC）来进行相互通讯，但HTTP不被设计为这个目的。
+RPC在Internet上应用是非常困难的，它们会出现许多兼容性和安全性的问题，
+因为防火墙和代理服务器通常都会阻断（block）这些类型的流量。
+应用程序之间最好的通讯方式是通过HTTP协议，因为HTTP是支持所有Internet浏览器和服务器的。
+
+WSDL(可以理解为向别人提供web服务的方法、参数等):
+你会怎样向别人介绍你的Web service有什么功能，以及每个函数调用时的参数呢？解决方法是：用机器能阅读的方式提供一个正式的描述文档。
+Web service描述语言(WSDL)就是这样一个基于XML的语言，用于描述Web service及其函数、参数和返回值。
+因为是基于XML的，所以WSDL既是机器可阅读的，又是人可阅读的，这将是一个很大的好处。
+一些最新的开发工具既能根据你的Web service生成WSDL文档，又能导入WSDL文档，生成调用相应Web service的代码 
+
+UDD: 是一种目录服务，企业可以使用它对 Web services 进行注册和搜索。
+UDDI，英文为 "Universal Description, Discovery and Integration"，可译为“通用描述、发现与集成服务”。
+
+XFire是新一代的JavaWeb服务引擎，XFire使得在JavaEE应用中发布Web服务变得轻而易举。
+和其他Web服务引擎相比，XFire的配置非常简单，可以非常容易地和Spring集成.
+
+</pre>
+</div><div class="AI_common_title1">
+	<h2>代码示例</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:java;">
+用法体会:
+1.写法简单，开发难度低。相比axis的开发难度低很多。
+2.由于应用层采用http协议,防火墙一般情况下是允许这类协议的数据通过(当然也可以禁止),如果是其他协议还需要打通端口。
+3.在客户端需要写接口与服务器端保持一致，保持的粒度为,接口包路径、接口类名可以不一致，但是方法一定要一致。rmi包路径、接口类名、方法均要一致。
+4.建议学习下soapUI这款工具，人工发起web服务器请求,了解底层通信细节。
+
+===========================服务器端==========================================
+//书写java接口、实现类(假设已写好)
+//发布web服务
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+<bean id="helloService" class="com.asiainfo.webservice.impl.HelloServiceImpl"></bean>
+	
+<bean id="helloWebService" class="org.codehaus.xfire.spring.ServiceBean">
+        <property name="name" value="helloWebService"/>
+	<property name="serviceBean" ref="helloService"/><!-- 引用的真正的service实现类 -->
+	<property name="serviceClass" value="com.asiainfo.webservice.HelloService"/><!-- 接口路径 -->
+</bean>
+</beans>
+//在web.xml的参数contextConfigLocation，加入classpath:org/codehaus/xfire/spring/xfire.xml，
+//否则会报NoSuchBeanDefinitionException: No bean named 'xfire' is defined<context-param>
+<context-param>
+	<param-name>contextConfigLocation</param-name>
+	<param-value>
+		/WEB-INF/spring/*.xml /WEB-INF/spring/*/*.xml classpath:org/codehaus/xfire/spring/xfire.xml
+	</param-value>
+</context-param>
+
+//配置servlet访问入口
+<servlet> 
+        <servlet-name>xfire</servlet-name> 
+        <servlet-class>org.codehaus.xfire.spring.XFireSpringServlet</servlet-class> 
+</servlet>	
+<servlet-mapping>
+	    <servlet-name>xfire</servlet-name>
+	    <url-pattern>/services/*</url-pattern>
+</servlet-mapping>
+
+//重启web服务器,验证是否发布成功:http://yourIP:yourPort/工程名/services/helloWebService?wsdl
+
+===========================客户器端==========================================
+//前提还要书写一个HelloService的接口，与服务器端的接口从包路径、类名、方法等保持一致
+package com.asiainfo.webservice;
+
+import org.codehaus.xfire.client.XFireProxyFactory;
+import org.codehaus.xfire.service.Service;
+import org.codehaus.xfire.service.binding.ObjectServiceFactory;
+
+public class Client {
+
+	public static void main(String[] args){
+		Service serviceModel = new ObjectServiceFactory().create(HelloService.class);
+		String serviceURL = "http://10.9.236.104:8080/demo/services/helloWebService";
+		HelloService service = null;
+		try{
+			service = (HelloService)new XFireProxyFactory().create(serviceModel, serviceURL);
+			service.hello();
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+	}
+}
+</pre>
+</div>
+</body>
+</html>

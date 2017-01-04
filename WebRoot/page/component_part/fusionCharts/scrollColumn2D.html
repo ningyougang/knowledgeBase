@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title>柱状图(单个)</title>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>			
+		<script type="text/javascript" src='../../../common/fusionCharts/FusionCharts.js'></script>
+		<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<script type="text/javascript">SyntaxHighlighter.all();</script>		
+		<script language="javascript">		
+				$(document).ready(function(){
+				var chart = new FusionCharts("../../../common/fusionCharts/flash/ScrollColumn2D.swf", "scrollColumn2DChartId", "100%", "250", "0", "0");
+				//chart.setDataXML(xmldata);
+			   	chart.setDataURL("../../../common/fusionCharts/data/scrollColumn2D.xml");	 
+			   	chart.setTransparent(true);   
+			   	chart.render("scrollColumn2DDiv");
+			});	</script>	</head>
+	<body>
+		<div id="scrollColumn2DDiv"></div>
+
+<pre class="brush:js;">
+使用说明:
+1.确保系统中引入相关js
+<script type="text/javascript" src='../../../common/fusionCharts/FusionCharts.js'></script>
+<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+
+2.从服务器端获取xml串(此处模拟的是本地的1个xml文件)
+<?xml version='1.0' encoding='UTF-8'?>
+<chart palette='2' yAxisValuesStep='1' exportEnabled='1'
+	exportAtClient='0' exportAction='download'
+	exportHandler='common/jsp/fusioncharts/FCExporter.jsp' showValues='0'
+	shownames='1' chartRightMargin='30' chartLeftMargin='8' decimals='2'
+	numVisiblePlot='8' formatNumberScale='1'
+	numberScaleValue='1000,1000,1000' numberScaleUnit='千,百万,十亿'
+	showAlternateHGridColor='1' alternateHGridAlpha='5'
+	alternateHGridColor='1979F4' shadowAlpha='40' numvdivlines='5'
+	bgColor='f8f8f8' baseFontSize='12' baseFontColor='000000'
+	yAxisMaxValue='31152' yAxisMinValue='468' numDivLines='8'
+	adjustDiv='0'>
+	<categories>
+		<category label='台湾省' />
+		<category label='香港' />
+		<category label='日本' />
+		<category label='韩国' />
+		<category label='新加坡' />
+		<category label='菲律宾' />
+		<category label='美国/加拿大' />
+		<category label='马来西亚' />
+		<category label='印度尼西亚' />
+		<category label='德国' />
+		<category label='意大利' />
+		<category label='英国' />
+		<category label='荷兰' />
+		<category label='澳门' />
+		<category label='法国' />
+		<category label='西班牙' />
+		<category label='澳大利亚' />
+		<category label='泰国' />
+		<category label='印度' />
+		<category label='瑞典' />
+		<category label='瑞士' />
+		<category label='比利时' />
+		<category label='乌克兰' />
+		<category label='沙特阿拉伯' />
+		<category label='俄罗斯' />
+		<category label='尼日利亚' />
+		<category label='土耳其' />
+		<category label='丹麦' />
+		<category label='埃及' />
+		<category label='以色列' />
+	</categories>
+	<dataset seriesName='' Color='F1683C' anchorBorderColor='F1683C'
+		anchorBgColor='F1683C'>
+		<set value='28320.0' />
+		<set value='25317.0' />
+		<set value='12214.0' />
+		<set value='8965.0' />
+		<set value='7007.0' />
+		<set value='6037.0' />
+		<set value='4083.0' />
+		<set value='3893.0' />
+		<set value='3849.0' />
+		<set value='3302.0' />
+		<set value='3275.0' />
+		<set value='2911.0' />
+		<set value='2005.0' />
+		<set value='1920.0' />
+		<set value='1875.0' />
+		<set value='1647.0' />
+		<set value='1478.0' />
+		<set value='1190.0' />
+		<set value='989.0' />
+		<set value='783.0' />
+		<set value='754.0' />
+		<set value='744.0' />
+		<set value='677.0' />
+		<set value='661.0' />
+		<set value='632.0' />
+		<set value='610.0' />
+		<set value='547.0' />
+		<set value='528.0' />
+		<set value='497.0' />
+		<set value='493.0' />
+	</dataset>
+</chart> 
+单个柱状图xml的生成类似与单条趋势图
+
+3.调用FusionChart.js提供的方法,将xml串(或文件填充到flash进行展示)
+<script language="javascript">			
+     $(document).ready(function(){
+	var chart = new FusionCharts("../../../common/fusionCharts/flash/ScrollColumn2D.swf", "scrollColumn2DChartId", "100%", "250", "0", "0");
+	//chart.setDataXML(xmldata);
+	chart.setDataURL("../../../common/fusionCharts/data/scrollColumn2D.xml");
+	chart.setTransparent(true);   
+	chart.render("scrollColumn2DDiv");
+     });	
+   </script> 
+    
+4.亦可以调用扩展function showFusionChart(chartswf,divname,xmldata,chartid,width,height)来进行展示fusionChart  
+如:showFusionChart("common/flash/MSLine.swf","trendChart","<%=request.getAttribute("chartXML")%>",null,"100%",280);  
+此方法在FusionChart.js里有封装,如下
+function showFusionChart(chartswf,divname,xmldata,chartid,width,height){
+
+  var div=$('#'+divname).css('border',0).css("padding","0").css("margin","0");
+ 
+  if(chartid==null){
+  	chartid=divname;
+  }
+  if(width==null){
+  	width=div.width();
+  }
+  if(height==null){
+  	height=div.height();
+  }
+  var chart = new FusionCharts(chartswf,chartid, width,height, "0", "0");
+  chart.setTransparent(true);   
+  chart.setDataXML(xmldata);
+  chart.render(divname);
+  return width;
+ } 
+</pre>	
+</body>
+</html>

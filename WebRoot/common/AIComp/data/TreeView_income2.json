@@ -1,0 +1,145 @@
+[{
+			id : '3001',
+			title : '数据业务',
+			val : '1231233.99',
+			cycle : '23.45',
+			leaf : false,
+			warn : false,
+			children : [{
+						id : '10012',
+						title : '短信业务',
+						val : '1231233.99',
+						cycle : '23.45',
+						leaf : false,
+						warn : true,
+						children : [{
+									id : '101121',
+									title : '点对点短信',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}, {
+									id : '10112',
+									title : '梦网短信',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : true
+								}, {
+									id : '10113',
+									title : '其它',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}]
+					}, {
+						id : '10022',
+						title : '非短信业务',
+						val : '1231233.99',
+						cycle : '23.45',
+						leaf : false,
+						warn : false,
+						children : [{
+									id : '10212',
+									title : '彩信',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}, {
+									id : '10213',
+									title : '彩铃',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : true
+								}, {
+									id : '10214',
+									title : '移动气象站',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}, {
+									id : '10215',
+									title : '手机报',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : true
+								}, {
+									id : '10216',
+									title : '手机电视',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : true
+								}, {
+									id : '10217',
+									title : 'WLAN',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}, {
+									id : '10218',
+									title : 'GPRS',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}, {
+									id : '10219',
+									title : '飞信',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : true
+								}, {
+									id : '10220',
+									title : '其它信息费',
+									val : '1231233.99',
+									cycle : '23.45',
+									leaf : true,
+									warn : false
+								}]
+					}]
+		}, {
+			id : '3002',
+			title : '语音增值业务',
+			val : '1231233.99',
+			cycle : '23.45',
+			leaf : false,
+			warn : false,
+			children : [{
+						id : '12212',
+						title : '来电提醒',
+						val : '1231233.99',
+						cycle : '23.45',
+						leaf : true,
+						warn : false
+					}, {
+						id : '12212',
+						title : '主叫显示',
+						val : '1231233.99',
+						cycle : '23.45',
+						leaf : true,
+						warn : false
+					}, {
+						id : '12213',
+						title : '其它',
+						val : '1231233.99',
+						cycle : '23.45',
+						leaf : true,
+						warn : true
+					}]
+		}, {
+			id : '3003',
+			title : '其他',
+			val : '1231233.99',
+			cycle : '23.45',
+			leaf : true,
+			warn : false
+		}]

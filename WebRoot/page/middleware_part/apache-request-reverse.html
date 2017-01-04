@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>apache正向反向代理</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>apache正向代理</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+Apache提供了mod_proxy模块用于提供代理服务，能够支持的包括正向代理、反向代理、透明代理、缓存、负载均衡，
+HTTP代理、FTP代理、SSL代理等若干强大的功能。
+通常我们使用的比较多的，是正向代理。也就是在浏览器的网络连接属性框中，填写上一个代理服务器的ip和端口，
+即可通过代理服务器中转，去浏览网页。
+
+配置这种代理非常简单(apache2.2.X，2.2系列把代理功能都拆分成N个小模块)：
+
+1.打开apache/conf/httpd.conf，打开mod_proxy模块。
+2.打开apache/conf/httd.conf，打开mod_proxy_http的模块。
+3.打开apache/conf/httd.conf，加入
+ProxyRequests OnProxyVia On<Proxy your_apache_server_ip:80>Order deny,allowDeny from allAllow from all</Proxy>。
+
+重新启动服务器，在浏览器地址框中，填写上your_apache_server_ip的ip地址，端口是80，开始用代理了。
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>apache反向代理</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+
+
+如我在家里访问某个网站太慢，但是用公司服务器上很快，那么可以在公司服务器上将这个网站通过反向代理，映射到公司服务器上来访问。
+站点，也可以基于一个目录。首先在全局配置文件下，加入如下几行，打开反向代理。
+
+1.打开apache/conf/httpd.conf，加入ProxyRequests Off<Proxy your_apache_server_ip:80>Order deny,allowAllow from all</Proxy>
+2.打开apache/conf/httpd.conf，打开mod_proxy模块。
+3.打开apache/conf/httd.conf，打开mod_proxy_http的模块。
+4.打开apache/conf/httd.conf，加入ProxyPass /buop http://20.20.20.38:80/buop/
+                                 ProxyPassReverse  /buop http://20.20.20.38:80/buop/
+ProxyPass 很好理解，就是把所有来自客户端对http://10.9.105.2:8088/buop的请求转发给http://20.20.20.38/buop上进行处理，
+ProxyPassReverse 的配置总是和ProxyPass 一致，但用途很让人费解。
+似乎去掉它很能很好的工作，事实真的是这样么，其实不然，如果响应中有302重定向，ProxyPassReverse就派上用场。
+举例说明，假设用户访问http://10.9.105.2:8088/buop/p1.action，通过转发交给http://20.20.20.38/buop/p1.action处理，
+假定p1.action处理的结果是实现redirect到p2.action(使用相对路径,即省略了域名信息)，如果没有配置反向代理，
+客户端收到的请求响应是重定向操作，并且重定向目的url为http://20.20.20.38/buop/p2.action ，
+而这个地址只是代理服务器能访问到的，可想而知，客户端肯定是打不开的，反之如果配置了反向代理，则会在转交HTTP重定向应答到客户端之前调整它为
+http://10.9.105.2:8088/buop/p2.action，即是在原请求之后追加上了redirect的路径。当客户端再次请求http://10.9.105.2:8088/p2.action，
+代理服务器再次工作把其转发到http://10.9.105.2:8088/p2.action。
+
+如果是nginx反向代理服务器，加上如下配置即可。
+     proxy_set_header X-Forwarded-Host $host;    
+     proxy_set_header X-Forwarded-Server $host;
+     
+     
+nginx总体配置如下:
+server
+{
+listen 80;
+server_name *.newtouchx.com *.newtouchone.com;
+if ($http_host ~* "^(.*?)\.newtouchx\.com$") {
+     set $app $1;
+     set $domain http://$1.newtouchx.com;
+   }
+if ($http_host ~* "^(.*?)\.newtouchone\.com$") {
+     set $app2 $1;
+     set $domain2 http://$1.newtouchone.com;
+ }
+location / {
+if ($domain ~* "http://eds.newtouchx.com") {
+ proxy_pass http://192.168.202.143/newtoucheds$request_uri;
+}
+if ($domain ~* "http://test3.newtouchx.com") {
+ proxy_pass http://192.168.202.241:8080/$app$request_uri;
+}
+if ($domain2 ~* "http://git.newtouchone.com") {
+ proxy_pass http://192.168.202.146:8001$request_uri;
+}
+   proxy_pass http://192.168.202.241:8080/default/;
+   proxy_redirect off;
+   proxy_set_header X-Real-IP $remote_addr;
+   proxy_set_header X-Forwarded-Host $host;
+   proxy_set_header X-Forwarded-Server $host;
+   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+   }
+}
+
+请求转发是否配置成功:
+nt 10.9.105.2 8088  #在另外一台机器远程链接到10.9.105.2的8088端口
+GET /buop/monit.action http/1.0 #向10.9.105.2的8088端口发送GET请求
+
+注意事项
+在linux环境安装软件时，不要占用1~1024内的端口，因为这些端口被root占用(即只有root账号能够访问，由于root为根用户，权限较大，不易开放)，
+建议用1024以外的端口
+</pre>
+</div>
+<div class="AI_common_title1">
+	<h2>apache正向、反向代理区别</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+apache正向、反向代理区别:
+1 正向代理: 客户端无法直接访问外部的web,需要在客户端所在的网络内架设一台代理服务器,
+客户端通过代理服务器访问外部的web(需要在客户端的浏览器中设置代理服务器)
+适用于: 
+①局域网的代理服务器(一般是网关,相当于squid的一般用法)
+②访问某个受限网络的代理服务器,如教育网访问某些国外网站需要找代理
+2 反向代理: 客户端能访问外部的web,但是不能访问目标web,目标web所在的网络内一台机器充当目标web的代理,
+客户端直接访问代理就像访问目标web一样(此代理对客户端透明,即客户端不用做如何设置,并不知道实际访问的只是代理而已,以为就是访问的目标)
+适用于: 
+①idc的某台目标机器只对内开放web,外部的客户端要访问,就让另一台机器做proxy,外部直接访问proxy即相当于访问目标
+②idc的目标机器的某个特殊的web服务跑在非正常端口如9000,而防火墙上只对外开放了80,此时可在80上做proxy映射到9000,外部访问80即相当于9000
+</pre>
+<img src="images/正向代理.jpg"/>
+<img src="images/反向代理.jpg"/>
+</div>
+</body>
+</html>

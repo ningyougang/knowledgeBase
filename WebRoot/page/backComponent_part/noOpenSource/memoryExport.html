@@ -1,0 +1,1404 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>内存数据导出到response</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>背景知识</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:html;">
+前面讲解了大数据量导出，其基本原理是通过java.sql.ResultSet，将数据写入文件，由于ResultSet可以保持与数据库的持久连接，不用占用太多内存。
+有的时候，也需要将数据库里的数据存储在内存中，将内存里的数据写入文件。直接将内存里的数据写入文件，存在内存溢出的风险。
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+package com.asiainfo.base.extend.export;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.hssf.util.Region;
+import com.asiainfo.base.domain.ExportBean;
+import com.asiainfo.base.domain.HeadConfigBean;
+import com.asiainfo.base.util.ExcelUtil;
+import com.asiainfo.base.util.FileOperate;
+
+/**
+ * 导出公共类
+ * 
+ * @author shenli
+ * @since 2009-02-16
+ */
+public class ExportCsv {
+
+	private static final String CSV = ".CSV";
+
+	private static final String FILE_TEMP_DIR = System
+			.getProperty("java.io.tmpdir");
+
+	//private static final String DEFAULT_FILE_DIR = ConfigureFile.getInstance()
+			//.getProperty("SYSTEM.DEFAULT_FILE_DIR");
+	
+	private static final String DEFAULT_FILE_DIR = getDefaultFileDir();
+
+	private static final String DEFAULT_NUM_FORMAT = "#,##0.00";
+
+	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+	private static String DEFAULT_EXPRESSION = "";
+	
+	private static StringBuffer blank = new StringBuffer("     ");
+
+	public static Integer EXPORT_TYPE_BASIC = 1;//普通导出类型
+
+	public static Integer EXPORT_TYPE_TOTAL = 2;
+	
+	public static Integer EXPORT_TYPE_TREE = 3;//树形结构导出类型
+	
+	
+
+	/**
+	 * 标题行开始位置
+	 */
+	private static final int TITLEROW = 0;
+
+	/**
+	 * 抬头行开始位置
+	 */
+	private static int HEADROW = TITLEROW + 2;
+
+	/**
+	 * 数据行开始位置
+	 */
+	private static int DATAROW = HEADROW + 1;
+
+	/**
+	 * 列开始位置
+	 */
+	private static short CELLBEGION = 0;
+
+	private static ExportCsv exportCsv = new ExportCsv();
+	
+	public static ExportCsv getInstance(){
+		if(exportCsv != null){
+			return exportCsv;
+		}else{
+			exportCsv = new ExportCsv();
+			return exportCsv;
+		}
+	}
+	
+	/**
+	 * 生成CSV文件
+	 * @param path
+	 * @param fileName
+	 * @return
+	 */
+	public static String buildCsvFile(String path, String fileName) {
+		FileOutputStream out = null;
+		if (path == null || "".equals(path) || path.indexOf(":") < 0) {
+			if (!new File(DEFAULT_FILE_DIR).exists()) {
+				new File(DEFAULT_FILE_DIR).mkdirs();
+			}
+			path = DEFAULT_FILE_DIR;
+		}
+		File file = new File(path + File.separator + fileName + CSV);
+		try {
+			out = new FileOutputStream(file);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (null != out) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return fileName;
+	}
+
+	/**
+	 * 下载已生成文件到客户端
+	 * @param response
+	 * @param filename 下载全路径文件名
+	 * @param filedisplay 客户端显示的文件名
+	 * @throws Exception
+	 */
+	public void downLoadCsvFile(HttpServletResponse response,
+			String filename, String filedisplay) throws Exception {
+		// 将文件写到客户端
+		OutputStream out = null;
+		FileInputStream in = null;
+		try {
+			out = response.getOutputStream();
+			in = new FileInputStream(filename);
+			response.setContentType("application/x-download");
+			if (filedisplay.indexOf(".") == -1) {
+				filedisplay = filedisplay + ".csv";
+			}
+//			filedisplay = URLDecoder.decode(filedisplay, "UTF-8");
+			filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ filedisplay);
+			byte[] b = new byte[51200];
+			int i = 0;
+			while ((i = in.read(b)) > 0) {
+				out.write(b, 0, i);
+			}
+			out.flush();
+		} catch (FileNotFoundException fe) {
+			fe.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+	
+	/**
+	 * 从FTP上下载文件后导出到客户端
+	 * @param response
+	 * @param filename
+	 * @throws Exception
+	 */
+	public void downLoadFileFtp(HttpServletResponse response,
+			String filename) throws Exception {
+		// 将文件写到客户端
+		OutputStream out = null;
+		try {
+			out = response.getOutputStream();
+			response.setContentType("application/x-download");
+			String filedisplay = URLEncoder.encode(filename.substring(filename.lastIndexOf("/") + 1), "UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ filedisplay);
+			FileOperate.downLoadFileFTP(filename, out);
+			
+		} catch (FileNotFoundException fe) {
+			fe.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.flush();
+				out.close();
+			}
+			response.flushBuffer();
+		}
+	} 
+
+
+	/**
+	 * 将数据直接生成CSV格式文件导出到客户端
+	 * @param response 
+	 * @param filedisplay 客户端显示的文件名
+	 * @param exportBean  数据、表头等元素
+	 * @param exportType  导出类型
+	 * @throws Exception
+	 */
+	public void exportCsvFile(HttpServletResponse response,
+			String filedisplay, ExportBean exportBean, Integer exportType)
+			throws Exception {
+		// 将文件写到客户端
+		OutputStream out = null;
+		ByteArrayInputStream in = null;
+		HSSFWorkbook wb = null;
+		if (exportType == null) {
+			exportType = EXPORT_TYPE_BASIC;
+		}
+		try {
+			int byteRead;
+			out = response.getOutputStream();
+			response.setContentType("application/x-download");
+			if (filedisplay.indexOf(".") == -1) {
+				filedisplay = filedisplay + ".csv";
+			}
+			filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ filedisplay);
+			// if (wb == null) {
+			if (exportType == EXPORT_TYPE_BASIC) {
+				wb = buildCsvBasic(exportBean);
+			} else if (exportType == EXPORT_TYPE_TOTAL) {
+				wb = buildCsvDiversification(exportBean);
+			}else if (exportType == EXPORT_TYPE_TREE){
+				wb = buildCsvTree(exportBean);
+			}
+			// }
+			if(wb != null){
+				wb.write(out);
+				out.flush();
+			}
+		} catch (FileNotFoundException fe) {
+			//
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+
+	/**
+	 * 文件直接导出到客户端详细信息
+	 * @param response
+	 * @param filedisplay 客户端显示的文件名
+	 * @throws Exception
+	 */
+	public void exportCsvFileDetail(HttpServletResponse response,
+			String filedisplay, ExportBean exportBean) throws Exception {
+		// 将文件写到客户端
+		OutputStream out = null;
+		HSSFWorkbook wb = null;
+		try {
+			out = response.getOutputStream();
+			response.setContentType("application/x-download");
+			if (filedisplay.indexOf(".") == -1) {
+				filedisplay = filedisplay + ".csv";
+			}
+			filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ filedisplay);
+			wb = buildCsvDiversification(exportBean);
+			wb.write(out);
+			out.flush();
+		} catch (FileNotFoundException fe) {
+			//
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+	
+	/**
+	 * 根据制定的字段分sheet，直接导出到客户端
+	 * @param response  http响应
+	 * @param fileName  客户端显示的文件名
+	 * @param exportBean 数据、表头等元素
+	 * @param key 分sheet依据的字段
+	 * @throws Exception
+	 */
+	public void exportCsvFile4MulSheet(HttpServletResponse response,
+			String fileName, ExportBean exportBean, String key)
+			throws Exception {
+		OutputStream out = null;
+		HSSFWorkbook wb = null;
+		try {
+			out = response.getOutputStream();
+			response.setContentType("application/x-download");
+			if (fileName.indexOf(".") == -1) {
+				fileName = fileName + ".csv";
+			}
+			fileName = URLEncoder.encode(fileName, "UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ fileName);
+			wb = buildCsvBasic(exportBean, key);
+			if(wb != null){
+				wb.write(out);
+			}
+			out.flush();
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+
+	/**
+	 * 导出基本格式数据
+	 * @param exportBean 数据、表头信息
+	 * @return
+	 */
+	private static HSSFWorkbook buildCsvBasic(ExportBean exportBean) {
+		// 生成一个表格
+		HSSFWorkbook wb = buildWorkbook();
+		HSSFSheet sheet = buildHead(exportBean,wb, null);//生成sheet的头
+		HSSFCell cell;
+		// 填充单元格
+		try {
+			if (exportBean.getDataList() == null
+					|| exportBean.getDataList().size() < 1) {
+				return wb;
+			}
+			boolean isMap = isMap(exportBean.getDataList().get(0));//判断bean为Map类型
+			boolean isStringArray = false;
+			if(!isMap)
+				isStringArray = isStringArray(exportBean.getDataList().get(0));//判断bean是否为String[] 类型
+			for (int i = 0; i < exportBean.getDataList().size(); i++) {
+				int num = i;
+				if(num > ExportConfig.maxRow){
+					if(num%ExportConfig.maxRow == 1){//超过maxRow且求余等于1时,创建sheet
+						sheet = wb.createSheet();
+						
+					}
+					if(num%ExportConfig.maxRow == 0){
+						num = ExportConfig.maxRow - 1;
+					}else{
+						num = (num%ExportConfig.maxRow) - 1;
+					}
+				}
+				HSSFRow row = sheet.createRow(DATAROW + num);
+				for (short n = 0; n < exportBean.getHeadList().size(); n++) {//读取每行到obj
+					Object obj;
+					// 增加列中文名
+					if (exportBean.getCellNameCN() != null
+							&& exportBean.getCellNameCN().length > 0) {
+						cell = row.createCell((short) 0);
+						cell.setCellValue(new HSSFRichTextString(String
+								.valueOf(exportBean.getCellNameCN()[i])));
+					}
+
+					if (isMap) {
+						String key = exportBean.getHeadList().get(n)
+								.getRowName();
+						obj = ((Map) exportBean.getDataList().get(i)).get(key);
+					}else if(isStringArray){
+					    String tempobj = ((String[])exportBean.getDataList().get(i))[n];
+					    obj = handlerString(tempobj);
+					} else {
+						Method method = exportBean.getDataList().get(i)
+								.getClass().getMethod(
+										buildGetter(exportBean.getHeadList()
+												.get(n).getRowName()), null);
+						obj = method.invoke(exportBean.getDataList().get(i),
+								null);
+					}
+
+					if (obj instanceof Integer) {
+						cell = row.createCell((short) (n + CELLBEGION),
+								HSSFCell.CELL_TYPE_NUMERIC);
+						cell.setCellValue(Integer.valueOf(obj.toString()));
+					} else if (obj instanceof Double || obj instanceof BigDecimal) {
+						cell = row.createCell((short) (n + CELLBEGION),
+								HSSFCell.CELL_TYPE_STRING);
+						cell.setCellValue(Double.valueOf(obj.toString()));
+					} else {
+						cell = row.createCell((short) (n + CELLBEGION));
+						cell.setCellValue(new HSSFRichTextString(String
+								.valueOf(obj)));
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+			return null;
+		}
+
+		return wb;
+	}
+	
+	/**
+	 * 导出树型格式数据
+	 * @param exportBean
+	 * @return
+	 */
+	private static HSSFWorkbook buildCsvTree(ExportBean exportBean) {
+		// 生成一个表格
+		HSSFWorkbook wb = buildWorkbook();
+		HSSFSheet sheet = buildHead(exportBean,wb, null);
+		HSSFCell cell;
+		// 填充单元格
+		try {
+			if (exportBean.getDataList() == null
+					|| exportBean.getDataList().size() < 1) {
+				return wb;
+			}
+			boolean isMap = isMap(exportBean.getDataList().get(0));
+			boolean isStringArray = false;
+			if(!isMap)
+				isStringArray = isStringArray(exportBean.getDataList().get(0));
+			for (int i = 0; i < exportBean.getDataList().size(); i++) {
+				int num = i;
+				if(num > ExportConfig.maxRow){
+					if(num%ExportConfig.maxRow == 1){
+						sheet = wb.createSheet();
+					}
+					if(num%ExportConfig.maxRow == 0){
+						num = ExportConfig.maxRow - 1;
+					}else{
+						num = (num%ExportConfig.maxRow) - 1;
+					}
+				}
+				HSSFRow row = sheet.createRow(DATAROW + num);
+			
+				for (int n = 0; n < exportBean.getHeadList().size(); n++) {//     n 控制列数
+					Object obj;
+					Integer level  = null;
+					String key ="";
+					// 增加列中文名
+					if (exportBean.getCellNameCN() != null
+							&& exportBean.getCellNameCN().length > 0) {
+						cell = row.createCell((short) 0);
+						cell.setCellValue(new HSSFRichTextString(String
+								.valueOf(exportBean.getCellNameCN()[i])));
+					}
+
+					if (isMap) {
+						
+						key = exportBean.getHeadList().get(n)//key 为 NAME 、CUR_VALUE、 PRE_VALUE 、HUANBI、PRE_MONTH_VALUE、TONGBI  
+								.getRowName();
+						obj = ((Map) exportBean.getDataList().get(i)).get(key);//obj 为  基础通信类	680	1,458	-53%	0	  就是列值
+						if(((Map) exportBean.getDataList().get(i)).get("LEVEL") != null && !"".equals(((Map) exportBean.getDataList().get(i)).get("LEVEL")) ){
+							level = Integer.valueOf(((Map) exportBean.getDataList().get(i)).get("LEVEL").toString());//level 为层次  总共为 5  层
+						}
+						if (level>1&&key.equals("NAME")) {
+							n=level-1;
+						}
+						
+					}else {
+						Method method = exportBean.getDataList().get(i)
+								.getClass().getMethod(
+										buildGetter(exportBean.getHeadList()
+												.get(n).getRowName()), null);
+						obj = method.invoke(exportBean.getDataList().get(i),
+								null);
+					}
+
+					if (obj instanceof Integer) {
+						cell = row.createCell((short) (n + CELLBEGION),
+								HSSFCell.CELL_TYPE_NUMERIC);
+						cell.setCellValue(Integer.valueOf(obj.toString()));
+					} else if (obj instanceof Double || obj instanceof BigDecimal) {
+						cell = row.createCell((short) (n + CELLBEGION),
+								HSSFCell.CELL_TYPE_STRING);
+						cell.setCellValue(Double.valueOf(obj.toString()));
+					} else {
+						//把值填充到单元格内
+						cell = row.createCell((short) (n + CELLBEGION));
+						String temp = needLevelBlank(level,obj, exportBean.getHeadList().get(n));
+						temp = temp != null && !temp.equals("null")?temp :"";
+						cell.setCellValue(new HSSFRichTextString(temp));//向里面赋值、、第三个参数是title指定在那个列下
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+			return null;
+		}
+
+		return wb;
+	}
+	
+	
+	/**
+	 * 将字符串处理成Integer/Double/String等类型
+	 * */
+	private static Object handlerString(String str){
+	    //默认为String类型
+	    Object obj = str;
+	    try{
+		if(str.indexOf("%") != -1){
+		    //该str可能为百分数,比如:24.56%
+		    str = str.substring(0 , str.indexOf("%"));
+		    Double temp = Double.parseDouble(str);
+		    obj = temp/((double)100);
+                }else if(str.indexOf(".") != -1){
+                    //该str可能为Double,比如:23.45
+                    obj = Double.parseDouble(str);
+                }else{
+                    //可能形式为Integer
+                    obj = Long.parseLong(str);
+                }
+	    }catch(Exception e){
+//	    	e.printStackTrace();
+	    	return obj;
+	    }
+	    return obj;
+	}
+
+	/**
+	 * 创建图表
+	 * 
+	 * @param InputStream
+	 *            in
+	 * @return
+	 */
+	private static boolean buildChart(InputStream in, HSSFWorkbook wb, HSSFSheet sheet) {
+		BufferedImage image = null;
+		ByteArrayOutputStream byteOut = null;
+		try {
+			image = ImageIO.read(in);
+			image.flush();
+			byteOut = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", byteOut);
+			byteOut.flush();
+			byteOut.close();
+
+			int pBginRow = sheet.getLastRowNum() + 2;
+			int pEndRow = (image.getHeight() / 20) + pBginRow;
+			short pBginCell = 1;
+			short pEndCell = (short) ((image.getWidth() / 30));
+			HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 200, 200,
+					pBginCell, pBginRow, pEndCell, pEndRow);
+			anchor.setAnchorType(2);
+			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+			// 将统计图片添加到Excel文件中
+			patriarch.createPicture(anchor, wb.addPicture(image.toString()
+					.getBytes(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (byteOut != null) {
+				try {
+					byteOut.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 创建图表
+	 * 
+	 * @param String
+	 *            imagePath
+	 * @return
+	 */
+	private static boolean buildChart(String imagePath, HSSFWorkbook wb, HSSFSheet sheet) {
+		BufferedImage image = null;
+		ByteArrayOutputStream byteOut = null;
+		try {
+			image = ImageIO.read(new File(imagePath));
+			image.flush();
+			byteOut = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", byteOut);
+			byteOut.flush();
+			byteOut.close();
+
+			int pBginRow = sheet.getLastRowNum() + 2;
+			int pEndRow = (image.getHeight() / 20) + pBginRow;
+			short pBginCell = CELLBEGION;
+			short pEndCell = (short) ((image.getWidth() / 30));
+			HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 200, 200,
+					pBginCell, pBginRow, pEndCell, pEndRow);
+			anchor.setAnchorType(2);
+			HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+			// 将统计图片添加到Excel文件中
+			patriarch.createPicture(anchor, wb.addPicture(
+					byteOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (byteOut != null) {
+				try {
+					byteOut.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 导出数据多样化（计算合计、格式化等）
+	 * @param exportBean
+	 * @return
+	 */
+	private static HSSFWorkbook buildCsvDiversification(ExportBean exportBean) {
+		HSSFWorkbook wb = buildWorkbook();
+		HSSFSheet sheet = buildHead(exportBean,wb, null);
+
+		// HSSFRow totalRow = buildTotalRow(exportBean, sheet);
+		HSSFCell totalCell;
+		double totalVal = 0.00;
+		// boolean isShiftRows = false;
+		HSSFRow row = null;
+		HSSFCell cell;
+		Map subtotalMap = new HashMap();
+
+		try {
+			if (exportBean.getDataList() == null
+					|| exportBean.getDataList().size() < 1) {
+				return wb;
+			}
+			boolean isMap = isMap(exportBean.getDataList().get(0));
+			for (int i = 0; i < exportBean.getDataList().size() + 1; i++) {
+				row = sheet.createRow(DATAROW + i);
+
+				short[] subtotalCells = new short[exportBean.getHeadList()
+						.size()
+						+ CELLBEGION];
+				String[] ss = null;
+				int subtotalCellCount = 0;
+
+				for (short n = 0; n < exportBean.getHeadList().size(); n++) {
+
+					HeadConfigBean headBean = exportBean.getHeadList().get(n);
+					Object obj = "";
+
+					if (i < exportBean.getDataList().size()) {
+
+						// 增加列中文名
+						if (exportBean.getCellNameCN() != null
+								&& exportBean.getCellNameCN().length > 0) {
+							cell = row.createCell((short) 0);
+							cell.setCellValue(new HSSFRichTextString(String
+									.valueOf(exportBean.getCellNameCN()[i])));
+						}
+
+						if (isMap) {
+							String key = headBean.getRowName();
+							obj = ((Map) exportBean.getDataList().get(i))
+									.get(key);
+						} else {
+							Method method = exportBean.getDataList().get(i)
+									.getClass().getMethod(
+											buildGetter(headBean.getRowName()),
+											null);
+							obj = method.invoke(
+									exportBean.getDataList().get(i), null);
+						}
+					}
+					obj = formatValue(obj, (HeadConfigBean) exportBean
+							.getHeadList().get(n));
+
+					if (obj instanceof Integer) {
+						cell = row.createCell((short) (n + CELLBEGION),
+								HSSFCell.CELL_TYPE_NUMERIC);
+						cell.setCellValue(Integer.valueOf(obj.toString()));
+					} else if (obj instanceof Double || obj instanceof BigDecimal) {
+						cell = row.createCell((short) (n + CELLBEGION),
+								HSSFCell.CELL_TYPE_NUMERIC);
+						cell.setCellValue(Double.valueOf(obj.toString()));
+					} else {
+						cell = row.createCell((short) (n + CELLBEGION));
+						cell.setCellValue(new HSSFRichTextString(String
+								.valueOf(obj)));
+					}
+
+					if (headBean.isSubtotal()) {
+						String temp = "";
+						if (sheet.getRow(DATAROW + i - 1) != null) {
+							// System.out.println("==========================="+sheet.getRow(DATAROW
+							// + i - 1));
+							temp = sheet.getRow(DATAROW + i - 1).getCell(
+									(short) (n + CELLBEGION))
+									.getRichStringCellValue().getString();
+						}
+						// System.out.println("==上一行=="+(DATAROW + i -
+						// 1)+"==="+temp);
+						// System.out.println("===当前==="+(DATAROW +
+						// i)+"===="+obj.toString());
+						if (temp.equalsIgnoreCase(obj.toString())) {
+							sheet.addMergedRegion(new Region((DATAROW + i - 1),
+									(short) (n + CELLBEGION), (DATAROW + i),
+									(short) (n + CELLBEGION)));
+						}
+						if ((DATAROW + i) > DATAROW
+								&& !temp.equalsIgnoreCase(obj.toString())) {
+							DATAROW = DATAROW + 1;
+							row = sheet.createRow(DATAROW + i);
+							sheet.shiftRows(DATAROW + i - 1, DATAROW + i, 1);
+
+							// HSSFCell subCell =
+							// sheet.getRow(DATAROW+i-1).createCell((short)(n +
+							// CELLBEGION));
+							// subCell.setCellValue(new
+							// HSSFRichTextString("小计"));
+
+							subtotalCells[subtotalCellCount] = (short) (n + CELLBEGION);
+							// System.out.println("======================="+(DATAROW+i-1)+"==="+subtotalCells[0]);
+							subtotalMap.put(DATAROW + i - 1, subtotalCells);
+
+							subtotalCellCount++;
+							ss = (String[]) ((Map) headBean.getMap().get(
+									ExportConfig.EXPORT_SUBTOTAL))
+									.get(ExportConfig.EXPORT_IS_SUM);
+						}
+
+					}
+					// 计算小计的字段
+					if (ss != null) {
+						DEFAULT_EXPRESSION = "SUM";
+						for (int k = 0; k < ss.length; k++) {
+							if (ss[k].equals(headBean.getRowName())) {
+								// System.out.println("======小计字段======"+(DATAROW
+								// + i - 1)+"==" + ss[k] + "====="+
+								// headBean.getName()+"=subtotalCellCount==="+subtotalCellCount);
+								subtotalCells[subtotalCellCount] = (short) (n + CELLBEGION);
+								subtotalMap.put(DATAROW + i - 1, subtotalCells);
+								subtotalCellCount++;
+							}
+						}
+					}
+
+					// /*先不要总计
+
+					if (headBean.isTotal()) {
+						totalVal += totalValue(obj, headBean);
+						if (i == exportBean.getDataList().size()) {
+							sheet.getRow(sheet.getLastRowNum()).createCell(
+									(short) (CELLBEGION)).setCellValue(
+									new HSSFRichTextString("合计"));
+							sheet.getRow(sheet.getLastRowNum()).createCell(
+									(short) (n + CELLBEGION)).setCellValue(
+									totalVal);
+						}
+					}
+
+				}
+			}
+
+			Iterator it = subtotalMap.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				for (int k = 0; k < ((short[]) entry.getValue()).length; k++) {
+					// System.out.println("=======key====="+entry.getKey()+"=======val====="+((short[])entry.getValue())[k]);
+					if (((short[]) entry.getValue())[k] != 0) {
+						if (k == 0) {
+							sheet
+									.getRow(
+											Integer.valueOf((entry.getKey()
+													.toString()))).createCell(
+											((short[]) entry.getValue())[k])
+									.setCellValue(new HSSFRichTextString("小计"));
+						} else {
+							String expresson = buildExcelExpresson(Integer
+									.valueOf((entry.getKey().toString())),
+									((short[]) entry.getValue())[k],
+									DEFAULT_EXPRESSION, sheet);
+							sheet
+									.getRow(
+											Integer.valueOf((entry.getKey()
+													.toString()))).createCell(
+											((short[]) entry.getValue())[k])
+									.setCellFormula(expresson);
+						}
+					}
+				}
+
+			}
+
+			// System.out.println("==================="+getExcelCellIndex((HEADROW+1),(short)1));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return wb;
+	}
+
+	/**
+	 * 分sheet 导出基本格式数据
+	 * 
+	 * @param exportBean
+	 *            数据、表头等元素
+	 * @param keyName
+	 *            分sheet依据的字段
+	 */
+	private static HSSFWorkbook buildCsvBasic(ExportBean exportBean, String keyName)
+			throws Exception {
+		//	创建一个表格
+		HSSFWorkbook wb = buildWorkbook();
+		if (exportBean.getHeadList() == null
+				|| exportBean.getHeadList().isEmpty()) {
+			return wb;
+		}
+		if (exportBean.getDataList() == null
+				|| exportBean.getDataList().isEmpty()) {
+			HSSFSheet sheet = buildHead(exportBean, wb, null);
+			return wb;
+		}
+		if (StringUtils.isEmpty(keyName)) {
+			return wb;
+		}
+		HSSFSheet sheet = null;
+		try {
+			boolean isMap = isMap(exportBean.getDataList().get(0));
+			for (int i = 0; i < exportBean.getDataList().size(); i++) {
+				// 根据keyName查找sheet,如为空则新创建一个sheet;
+				int rowIndex = 0;
+				for (int n = 0; n < exportBean.getHeadList().size(); n++) {
+					String rowName = exportBean.getHeadList().get(n)
+							.getRowName();
+					Object obj;
+					if (!rowName.equalsIgnoreCase(keyName)) {
+						continue;
+					} else {
+						if (isMap) {
+							String key = exportBean.getHeadList().get(n)
+									.getRowName();
+							obj = ((Map) exportBean.getDataList().get(i))
+									.get(key);
+						} else {
+							Method method = exportBean.getDataList().get(i)
+									.getClass().getMethod(
+											buildGetter(exportBean
+													.getHeadList().get(n)
+													.getRowName()), null);
+							obj = method.invoke(
+									exportBean.getDataList().get(i), null);
+						}
+						String sheetName;
+						if (obj == null)
+							sheetName = "sheet0";
+						else
+							sheetName = String.valueOf(obj);
+						sheet = wb.getSheet(sheetName);
+						if (sheet == null) {
+							sheet = buildHead(exportBean, wb, sheetName);
+						}
+					}
+				}
+				// 如果根据指定字段未找到相关的sheet则新建一个sheet
+				if (wb.getNumberOfSheets() < 1) {
+					sheet = buildHead(exportBean, wb, null);
+				}
+				// 在当前sheet最后创建一行
+				rowIndex = sheet.getLastRowNum();
+				if (rowIndex == 0) {
+					rowIndex = DATAROW + 1;
+				} else {
+					rowIndex += 1;
+				}
+				HSSFRow row = sheet.createRow(rowIndex);
+				// 开始写入行数据
+				HSSFCell cell;
+				int cellIndex = 0;
+				for (short n = 0; n < exportBean.getHeadList().size(); n++) {
+					Object object;
+					String rowName = exportBean.getHeadList().get(n)
+							.getRowName();
+					boolean isExport = exportBean.getHeadList().get(n)
+							.isExport();
+					if (isExport) {
+						// 增加列中文名
+//						if (exportBean.getCellNameCN() != null
+//								&& exportBean.getCellNameCN().length > 0) {
+//							cell = row.createCell((short) 0);
+//							cell.setCellValue(new HSSFRichTextString(String
+//									.valueOf(exportBean.getCellNameCN()[i])));
+//						}
+						if (isMap) {
+							object = ((Map) exportBean.getDataList().get(i))
+									.get(rowName);
+						} else {
+							Method method = exportBean.getDataList().get(i)
+									.getClass().getMethod(buildGetter(rowName),
+											null);
+							object = method.invoke(exportBean.getDataList()
+									.get(i), null);
+						}
+						if (object instanceof Integer) {
+							cell = row.createCell(
+									(short) (cellIndex + CELLBEGION),
+									HSSFCell.CELL_TYPE_NUMERIC);
+							cell.setCellValue(Integer
+									.valueOf(object.toString()));
+						} else if (object instanceof Double) {
+							cell = row.createCell(
+									(short) (cellIndex + CELLBEGION),
+									HSSFCell.CELL_TYPE_NUMERIC);
+							cell
+									.setCellValue(Double.valueOf(object
+											.toString()));
+						} else if (object instanceof BigDecimal) {
+							cell = row.createCell(
+									(short) (cellIndex + CELLBEGION),
+									HSSFCell.CELL_TYPE_NUMERIC);
+							cell
+									.setCellValue(Double.valueOf(object
+											.toString()));
+						} else {
+							cell = row
+									.createCell((short) (cellIndex + CELLBEGION));
+							cell.setCellValue(new HSSFRichTextString(String
+									.valueOf(object)));
+						}
+						cellIndex += 1;
+					}
+
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return wb;
+	}
+	
+	
+	/**
+	 * 生成多个sheet文件
+	 * 
+	 * @param list
+	 * @param exportType
+	 *            EXPORT_TYPE_BASIC 、EXPORT_TYPE_TOTAL
+	 * @return
+
+	public static boolean buildCsvByList(List<ExportBean> list,
+			Integer exportType) {
+		for (int i = 0; i < list.size(); i++) {
+			if (exportType == EXPORT_TYPE_BASIC) {
+				buildCsvBasic(list.get(i));
+			} else if (exportType == EXPORT_TYPE_TOTAL) {
+				buildCsvNeedTotal(list.get(i));
+			}
+		}
+		return true;
+	}
+	 */
+
+	/**
+	 * 创建表达式
+	 * 
+	 * @param sheet
+	 * @param rowNum
+	 * @param cellNum
+	 * @param expresson
+	 * @return
+	 */
+	private static String buildExcelExpresson(int rowNum, short cellNum,
+			String expresson, HSSFSheet sheet) {
+		StringBuffer sb = new StringBuffer(expresson);
+		String sss = "";
+		sb.append("(");
+		for (int i = (rowNum - 1); i >= (HEADROW + 1); i--) {
+			// System.out.println(i+"========rowNum========="+rowNum+"========cellNum==="+(cellNum)+"==="+sheet.getRow(i).getCell(cellNum));
+			if (sheet.getRow(i).getCell((short) (cellNum)) != null) {
+				sb.append(getExcelCellIndex((i + 1), (short) (cellNum + 1)))
+						.append(",");
+			} else {
+				break;
+			}
+		}
+		sss = sb.substring(0, sb.length() - 1) + ")";
+		return sss;
+	}
+
+	/**
+	 * 获得当前单元格在excel中的索引 如:A1
+	 * @param rowNum
+	 * @param cellNum
+	 * @return
+	 */
+	private static String getExcelCellIndex(int rowNum, short cellNum) {
+		StringBuffer cellIndex = new StringBuffer();
+		try {
+			cellIndex.append(ExcelUtil.TransColIndexIntToStr(cellNum)).append(
+					rowNum);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cellIndex.toString().toUpperCase();
+	}
+
+	private static double totalValue(Object obj, HeadConfigBean headBean) {
+		double defVal = 0.00;
+		Map map = (Map) headBean.getMap().get(ExportConfig.EXPORT_TOTAL);
+		Iterator it = map.entrySet().iterator();
+		Object key = 0;
+		Object val = 0;
+		while (it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			key = entry.getKey();
+			val = entry.getValue();
+		}
+		switch (Integer.parseInt(key.toString())) {
+		case ExportConfig.EXPORT_IS_VALUE: {
+			break;
+		}
+		case ExportConfig.EXPORT_IS_SUM: {
+			if ("".equals(obj.toString())) {
+				break;
+			}
+			defVal = defVal + Double.parseDouble(obj.toString());
+			break;
+		}
+		case ExportConfig.EXPORT_IS_EXPRESSION: {
+			break;
+		}
+		}
+
+		return defVal;
+	}
+
+	/**
+	 * 根据值不同类型计算其对应方法值
+	 * 
+	 * @param object
+	 * @param headBean
+	 * @return
+	 */
+	private static Object formatValue(Object object, HeadConfigBean headBean) {
+		switch (headBean.getDataType()) {
+		case ExportConfig.EXPORT_IS_STRING:
+			break;
+		case ExportConfig.EXPORT_IS_INTEGER: {
+			object = Integer.parseInt(object.toString());
+			break;
+		}
+		case ExportConfig.EXPORT_IS_DOUBLE: {
+			object = numFormat(object, headBean.getFormat());
+			break;
+		}
+		case ExportConfig.EXPORT_IS_DATE: {
+			object = dateFormat(object, headBean.getFormat());
+			break;
+		}
+		default : break;
+		}
+		return object;
+	}
+
+	/**
+	 * 格式化日期类型
+	 * 
+	 * @param obj
+	 * @param format
+	 * @return
+	 */
+	private static String dateFormat(Object obj, String format) {
+		try {
+			if (format == null && "".equals(format)) {
+				format = DEFAULT_DATE_FORMAT;
+			}
+			SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+			return dateFormat.format(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return obj.toString();
+		}
+	}
+
+	/**
+	 * 格式化数据类型
+	 * 
+	 * @param obj
+	 * @param format
+	 * @return
+	 */
+	private static String numFormat(Object obj, String format) {
+		String res = "";
+		try {
+			if (format == null || "".equals(format)) {
+				format = DEFAULT_NUM_FORMAT;
+			}
+			DecimalFormat theFormat = new DecimalFormat(format);
+			if("".equals(obj)){
+				return "";
+			}
+			if(format == ExportConfig.EXPORT_IS_MULTIPLIER){
+				theFormat.setMultiplier(100);
+			}
+			if (obj.equals(new Double(Double.MIN_VALUE))){
+				return "-";
+			}
+			res = theFormat.format(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			res = (String) obj;
+		}
+		return res;
+	}
+
+	/**
+	 * 声明一个工作薄
+	 * 
+	 * @return
+	 */
+	private static HSSFWorkbook buildWorkbook() {
+		return new HSSFWorkbook();
+	}
+
+	/**
+	 * 创建基本表头元素
+	 * @param exportBean
+	 * @param HSSFWorkbook csv-工作薄
+	 * @return
+	 */
+	private static HSSFSheet buildHead(ExportBean exportBean, HSSFWorkbook wb, String sheetName) {
+		List<HeadConfigBean> headBeanList = exportBean.getHeadList();
+		HSSFSheet sheet = null;
+		if(sheetName != null){
+			sheet = wb.createSheet(sheetName);
+		}else{
+			sheet = wb.createSheet();
+		}
+		// 标题
+		HSSFRow rowHead = sheet.createRow(TITLEROW);
+		if (exportBean.getCellNameCN() != null
+				&& exportBean.getCellNameCN().length > 0) {
+			CELLBEGION = 1;
+		}
+		// HSSFCell cell = rowHead.createCell((short) 0);
+		HSSFCell cell = rowHead.createCell(CELLBEGION);
+		cell.setCellValue(new HSSFRichTextString(exportBean.getTitle()));
+		// 创建样式
+		HSSFCellStyle headStyle = wb.createCellStyle();
+		headStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		HSSFFont font = wb.createFont();
+		font.setColor(HSSFColor.VIOLET.index);
+		font.setFontHeightInPoints((short) 16);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		headStyle.setFont(font);
+		cell.setCellStyle(headStyle);
+		int maxCell = headBeanList.size() - 1;
+		sheet.addMergedRegion(new Region(TITLEROW, (short) 0, TITLEROW,
+				(short) maxCell));//合并
+
+		// 创建表头元素
+		rowHead = sheet.createRow(HEADROW);
+		int cellIndex = 0;
+		for (int k = 0; k < headBeanList.size(); k++) {
+			String key = headBeanList.get(k).getRowName();
+			String val = headBeanList.get(k).getRowNameCN();
+			if (headBeanList.get(k).getUnit() != null
+					&& !"".equals(headBeanList.get(k).getUnit())) {
+				val += "(" + headBeanList.get(k).getUnit().trim() + ")";
+			}
+			// 声明一个单元格
+			  boolean isExport = headBeanList.get(k).isExport();
+			  if (isExport) {
+				cell = rowHead.createCell((short) (cellIndex + CELLBEGION));
+				cell.setCellValue(new HSSFRichTextString(val));
+				cellIndex += 1;
+			}
+		}
+		return sheet;
+	}
+
+	/**
+	 * 创建Get方法
+	 * 
+	 * @param property
+	 * @return
+	 */
+	private static String buildGetter(String property) {
+		String proHead = property.substring(0, 1);
+		proHead = proHead.toUpperCase();
+		return "get" + proHead + property.substring(1, property.length());
+	}
+
+	/**
+	 * 判断数据类型
+	 * 
+	 * @param object
+	 * @return
+	 */
+	private static boolean isMap(Object object) {
+		boolean isMap = false;
+		if (object instanceof Map) {
+			isMap = true;
+		}
+		return isMap;
+	}
+	
+	/**
+	 * 判断是否为String数组
+	 * */
+	private static boolean isStringArray(Object object){
+	    boolean flag = false;
+	    if(object instanceof String[]){
+		flag = true;
+	    }
+	    return flag;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private static String needLevelBlank(Integer level, Object obj, HeadConfigBean configBean){
+		StringBuffer sb = new StringBuffer();
+		if(configBean.getIsNeedLevelBlank()){
+			sb.append(blank);
+			if(level != null){
+				for(int i = 1; i < level; i++ ){
+					sb.append(sb);
+				}
+			}
+		}
+		return sb.append(obj).toString();
+	}
+	
+	
+
+	/**
+	 * 
+	 * @param exportBean
+	 * @return
+	 */
+	private static HSSFRow buildTotalRow(ExportBean exportBean, HSSFWorkbook wb, HSSFSheet sheet) {
+		HSSFRow totalRow = sheet.createRow(exportBean.getDataList().size()
+				+ DATAROW);
+		HSSFCell cellTotal = totalRow.createCell(Short.valueOf("0"));
+		cellTotal.setCellValue(new HSSFRichTextString("合计"));
+		return totalRow;
+	}
+
+	//是否aix环境
+	private static boolean isAixEntironment() {
+	    Properties props=System.getProperties(); //获得系统属性集  
+	    String osName = props.getProperty("os.name"); //操作系统名称  
+	    if (osName.indexOf("Windows") >= 0) return false;
+	    return true;
+	}
+	
+	public static String getDefaultFileDir(){
+		String fileDir = "";
+		if(isAixEntironment()){//aix
+			fileDir = "/bass2/uploadfile/VGOP/file_download";
+		}else{//windows
+			fileDir = "D:" + File.separator + "VGOP" + File.separator + "file_download";
+		}
+		return fileDir;
+	}
+
+}
+
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+        <h2>action层调用</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+1.基本类型的导出
+List<Map> list = spService.getSpOrderList(spOrderQueryExport);
+HttpServletResponse response = ServletActionContext.getResponse();
+ExportBean exportBean = new ExportBean();
+String titleStr = "梦网SP订购用户数数据";
+exportBean.setTitle(titleStr);
+HeadConfigBean headConfigBean = new HeadConfigBean("OPTIME", "日期");
+exportBean.getHeadList().add(headConfigBean);
+headConfigBean = new HeadConfigBean("SPORGNAME", "企业名称");
+exportBean.getHeadList().add(headConfigBean);
+headConfigBean = new HeadConfigBean("SPORGID", "企业ID");
+exportBean.getHeadList().add(headConfigBean);
+exportBean.setDataList(list);
+ExportCsv.getInstance().exportCsvFile(response, titleStr, exportBean,null);
+
+2.树形结构导出
+List<Map> list = new ArrayList();
+Map map = new HashMap();
+map.put("NAME", "a");
+map.put("CURVALUE", 123);
+map.put("LEVEL", 1);
+list.add(map);
+Map map2 = new HashMap();
+map2.put("NAME", "b");
+map2.put("CURVALUE", 234);
+map2.put("LEVEL", 2);
+list.add(map2);
+Map map3 = new HashMap();
+map3.put("NAME", "c");
+map3.put("CURVALUE", 456);
+map3.put("LEVEL", 3);
+list.add(map3);
+Map map4 = new HashMap();
+map4.put("NAME", "d");
+map4.put("CURVALUE", 678);
+map4.put("LEVEL", 4);
+list.add(map4); --此处模拟,可以在从数据库里取出,NAME与LEVEL字段写死
+HttpServletResponse response = ServletActionContext.getResponse();
+ExportBean exportBean = new ExportBean();
+String titleStr = "梦网SP订购用户数数据";
+exportBean.setTitle(titleStr);
+HeadConfigBean headConfigBean = new HeadConfigBean("NAME", "名称(层级1)");
+exportBean.getHeadList().add(headConfigBean);
+headConfigBean = new HeadConfigBean("2", "名称(层级2)");
+exportBean.getHeadList().add(headConfigBean);
+headConfigBean = new HeadConfigBean("3", "名称(层级3)");
+exportBean.getHeadList().add(headConfigBean);
+headConfigBean = new HeadConfigBean("4", "名称(层级4)");
+exportBean.getHeadList().add(headConfigBean);
+headConfigBean = new HeadConfigBean("CURVALUE","当日值");
+exportBean.getHeadList().add(headConfigBean);
+exportBean.setDataList(list);
+ExportCsv.getInstance().exportCsvFile(response, titleStr, exportBean,3);
+</pre>
+</p>
+</div>
+</body>
+</html>

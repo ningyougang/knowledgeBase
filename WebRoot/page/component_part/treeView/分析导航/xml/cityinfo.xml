@@ -1,0 +1,155 @@
+﻿<citys>
+  <city citycode="A" cityname="合肥" longdeg="31.860063442571103" latdeg="117.279052734375">
+    <towns>
+      <town towncode="A0" townname="合肥市区" longdeg="31.860063442571103" latdeg="117.279052734375"/>
+      <town towncode="A1" townname="长丰县" longdeg="31.70947636001935" latdeg="117.15751647949219"/>
+      <town towncode="A2" townname="肥东县" longdeg="31.885720467145187" latdeg="117.46513366699219"/>
+      <town towncode="A3" townname="肥西县" longdeg="31.860063442571103" latdeg="117.279052734375"/>
+    </towns>
+  </city>
+  <city citycode="B" cityname="芜湖">
+    <towns>
+      <town towncode="B0" townname="芜湖市区"/>
+      <town towncode="B1" townname="繁昌县"/>
+      <town towncode="B2" townname="南陵县"/>
+      <town towncode="B3" townname="芜湖县"/>
+    </towns>
+  </city>
+  <city citycode="C" cityname="蚌埠">
+    <towns>
+      <town towncode="C0" townname="蚌埠市"/>
+      <town towncode="C1" townname="固镇县"/>
+      <town towncode="C2" townname="怀远县"/>
+      <town towncode="C3" townname="五河县"/>
+    </towns>
+  </city>
+  <city citycode="D" cityname="淮南" longdeg="32.63865210595732" latdeg="117.02095985412597">
+    <towns>
+      <town towncode="D0" townname="淮南市"/>
+      <town towncode="D1" townname="凤台县"/>
+      <town towncode="D2" townname="西部"/>
+      <town towncode="D3" townname="潘集"/>
+    </towns>
+  </city>
+  <city citycode="E" cityname="马鞍山">
+    <towns>
+      <town towncode="E0" townname="马鞍山市"/>
+      <town towncode="E1" townname="当涂县"/>
+    </towns>
+  </city>
+  <city citycode="F" cityname="淮北">
+    <towns>
+      <town towncode="F0" townname="淮北市"/>
+      <town towncode="F1" townname="濉溪县"/>
+    </towns>
+  </city>
+  <city citycode="G" cityname="铜陵">
+    <towns>
+      <town towncode="G0" townname="铜陵市"/>
+      <town towncode="G1" townname="铜陵县"/>
+    </towns>
+  </city>
+  <city citycode="H" cityname="安庆">
+    <towns>
+      <town towncode="H0" townname="安庆市"/>
+      <town towncode="H1" townname="怀宁县"/>
+      <town towncode="H2" townname="潜山县"/>
+      <town towncode="H3" townname="宿松县"/>
+      <town towncode="H4" townname="太湖县"/>
+      <town towncode="H5" townname="桐城市"/>
+      <town towncode="H6" townname="望江县"/>
+      <town towncode="H7" townname="岳西县"/>
+      <town towncode="H8" townname="枞阳县"/>
+    </towns>
+  </city>
+  <city citycode="J" cityname="黄山">
+    <towns>
+      <town towncode="J0" townname="黄山"/>
+      <town towncode="J1" townname="歙县"/>
+      <town towncode="J2" townname="黄山区"/>
+      <town towncode="J3" townname="休宁县"/>
+      <town towncode="J4" townname="黟县"/>
+      <town towncode="J5" townname="祁门县"/>
+      <town towncode="J6" townname="黄山风景区"/>
+      <town towncode="J7" townname="徽州区"/>
+    </towns>
+  </city>
+  <city citycode="K" cityname="阜阳" longdeg="32.901209061725034" latdeg="115.81632614135742">
+    <towns>
+      <town towncode="K0" townname="阜阳"/>
+      <town towncode="K1" townname="阜南"/>
+      <town towncode="K2" townname="界首"/>
+      <town towncode="K3" townname="临泉"/>
+      <town towncode="K4" townname="太和"/>
+      <town towncode="K5" townname="颍上"/>
+    </towns>
+  </city>
+  <city citycode="L" cityname="宿州">
+    <towns>
+      <town towncode="L0" townname="宿州"/>
+      <town towncode="L1" townname="肖县"/>
+      <town towncode="L2" townname="砀山"/>
+      <town towncode="L3" townname="灵壁县"/>
+      <town towncode="L4" townname="泗县"/>
+    </towns>
+  </city>
+  <city citycode="M" cityname="滁州">
+    <towns>
+      <town towncode="M0" townname="滁州市"/>
+      <town towncode="M1" townname="来安县"/>
+      <town towncode="M2" townname="全椒县"/>
+      <town towncode="M3" townname="定远县"/>
+      <town towncode="M4" townname="凤阳县"/>
+      <town towncode="M5" townname="明光市"/>
+      <town towncode="M6" townname="天长市"/>
+    </towns>
+  </city>
+  <city citycode="N" cityname="六安">
+    <towns>
+      <town towncode="N0" townname="六安市"/>
+      <town towncode="N1" townname="霍邱县"/>
+      <town towncode="N2" townname="霍山县"/>
+      <town towncode="N3" townname="金寨县"/>
+      <town towncode="N4" townname="寿县"/>
+      <town towncode="N5" townname="舒城县"/>
+      <town towncode="N6" townname="叶集实验区"/>
+    </towns>
+  </city>
+  <city citycode="P" cityname="宣城">
+    <towns>
+      <town towncode="P0" townname="宣城市"/>
+      <town towncode="P1" townname="广德县"/>
+      <town towncode="P2" townname="旌德县"/>
+      <town towncode="P3" townname="泾县县"/>
+      <town towncode="P4" townname="绩溪县"/>
+      <town towncode="P5" townname="郎溪县"/>
+      <town towncode="P6" townname="宁国县"/>
+    </towns>
+  </city>
+  <city citycode="Q" cityname="巢湖">
+    <towns>
+      <town towncode="Q0" townname="巢湖市"/>
+      <town towncode="Q1" townname="含山县"/>
+      <town towncode="Q2" townname="和县"/>
+      <town towncode="Q3" townname="庐江县"/>
+      <town towncode="Q4" townname="无为县"/>
+    </towns>
+  </city>
+  <city citycode="R" cityname="池州">
+    <towns>
+      <town towncode="R0" townname="贵池市"/>
+      <town towncode="R1" townname="石台县"/>
+      <town towncode="R2" townname="青阳县"/>
+      <town towncode="R3" townname="东至县"/>
+      <town towncode="R4" townname="九华山"/>
+    </towns>
+  </city>
+  <city citycode="S" cityname="亳州">
+    <towns>
+      <town towncode="S0" townname="亳州"/>
+      <town towncode="S1" townname="涡阳"/>
+      <town towncode="S2" townname="利辛"/>
+      <town towncode="S3" townname="蒙城"/>
+    </towns>
+  </city>
+</citys>

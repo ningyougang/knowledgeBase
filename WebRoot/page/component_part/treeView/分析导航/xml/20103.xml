@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption="总体收入分析" outCnvBaseFont ='黑体' outCnvBaseFontSize="12" outCnvBaseFontColor="ffffff" 
+bgColor="444444" borderColor="222222" numberSuffix='%' lineThickness="1" 
+divLineIsDashed="1" showAlternateHGridColor="1" alternateHGridAlpha="5" alternateHGridColor="CC3300" shadowAlpha="40"
+bgColor="FFFFFF,CC3300" legendBgColor="222222" legendShadow ="0" showValues='0'>
+  <categories>
+  	  <category label="0811" /> 
+	  <category label="0902" />
+  	  <category label="0903" /> 
+	  <category label="0905" />
+	  <category label="0907" /> 
+	  <category label="0909" /> 
+	  <category label="0911" /> 
+	  <category label="1001" />
+	  <category label="1002" /> 
+	  <category label="1003" />
+  </categories>
+  <dataset seriesName="湖南">
+  	<set value='20.5'/>
+	<set value='19.4'/>
+	<set value='15.1'/>
+	<set value='13.4'/>
+	<set value='13.4'/>
+	<set value='13.8'/>
+	<set value='14.0'/>
+	<set value='8.3'/>
+	<set value='9.33'/>
+	<set value='11.18'/>
+  </dataset>
+  <dataset seriesName="湖北">
+  	<set value='18.1'/>
+	<set value='15.1'/>
+	<set value='15.1'/>
+	<set value='12.5'/>
+	<set value='13.3'/>
+	<set value='14.7'/>
+	<set value='15.3'/>
+	<set value='0.3'/>
+	<set value='7.53'/>
+	<set value='8.23'/>
+  </dataset>
+  <dataset seriesName="安徽" showValues='1'>
+  	<set value='21.2'/>
+	<set value='21.2'/>
+	<set value='17.2'/>
+	<set value='17.6'/>
+	<set value='16.9'/>
+	<set value='17.4'/>
+	<set value='17.8'/>
+	<set value='9.1'/>
+	<set value='16.84'/>
+	<set value='18.42'/>
+  </dataset>
+  <dataset seriesName="江西">
+  	<set value='19.4'/>
+	<set value='20.2'/>
+	<set value='15.4'/>
+	<set value='15.0'/>
+	<set value='13.5'/>
+	<set value='13.6'/>
+	<set value='14.4'/>
+	<set value='10.8'/>
+	<set value='7.63'/>
+	<set value='10.23'/>
+  </dataset>
+  <dataset seriesName="集团">
+  	<set value='15.8'/>
+	<set value='9.3'/>
+	<set value='8.4'/>
+	<set value='8.9'/>
+	<set value='9.5'/>
+	<set value='9.9'/>
+	<set value='10.3'/>
+	<set value='6.1'/>
+	<set value='8.2'/>
+	<set value='8.85'/>
+  </dataset>
+</chart>

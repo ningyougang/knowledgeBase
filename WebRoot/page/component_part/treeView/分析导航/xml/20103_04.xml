@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月数据业务分析报表' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='流量增长率' SYAxisName='收入增长率' palette='1' 
+showValues='0' sNumberSuffix='%' numberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0">
+	<categories>
+	 	  <category label="4月" /> 
+		  <category label="5月" />
+	  	  <category label="6月" /> 
+		  <category label="7月" />
+		  <category label="8月" /> 
+		  <category label="9月" /> 
+		  <category label="10月" /> 
+		  <category label="11月" />
+		  <category label="12月" /> 
+		  <category label="1月" /> 
+		  <category label="2月" />
+		  <category label="3月" />  
+	</categories>
+ 
+	<dataset seriesName="GPRS流量增长率" color="AFD8F8">
+	  	 	<set value='332.73'/>
+			<set value='486.75'/>
+			<set value='501.42'/>
+			<set value='524.50'/>
+			<set value='542.37'/>
+			<set value='666.19'/>
+			<set value='660.39'/>
+			<set value='629.33'/>
+			<set value='641.36'/>
+			<set value='593.75'/>
+			<set value='380.43'/>
+			<set value='334.99'/>
+	</dataset>
+	 
+	<dataset lineThickness="2" seriesName="GPRS收入增长率" parentYAxis="S" >
+	   		<set value='10.87'/>
+			<set value='10.30'/>
+			<set value='1.09'/>
+			<set value='5.22'/>
+			<set value='6.35'/>
+			<set value='1.17'/>
+			<set value='-13.11'/>
+			<set value='-20.84'/>
+			<set value='-28.54'/>
+			<set value='-08.01'/>
+			<set value='18.65'/>
+			<set value='27.04'/>
+	</dataset>
+</chart>

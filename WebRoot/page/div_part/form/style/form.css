@@ -1,0 +1,80 @@
+﻿@charset "utf-8";
+body h2{
+	color:#0000ff;
+	font-size:14px;
+	line-height:30px;
+	text-indent:10px;
+}
+
+/* AI common form */
+.AI_form_table{
+    width:90%;
+	margin-left:auto;
+	margin-right:auto;
+	padding-bottom:20px;
+	line-height:24px;
+}
+
+.AI_form_table td{
+    border-bottom:1px solid #f2f2f2;
+	margin-bottom:2px;
+	padding-left:10px;
+	width:25%;
+}
+.selectName{
+    text-align:right;
+	background-color:#f9f9f9;
+	padding-right:10px;
+	width:25%;
+	color:#031d3a;
+}
+.inputText{
+	color:#9e9e9e;
+	width:150px;
+}
+.textAreaStyle{
+    width:80%;
+	height:50px;
+}
+
+/* 文本框样式 */
+.input_text{
+	background:url(../images/con_table_title.gif) repeat-x;
+	border:1px solid #bdd9f4;
+	color:#626262;
+	height:18px;
+	line-height:18px;
+	padding-left:4px;
+}
+/* 摹拟下拉框 */
+.selectModule{
+	float:right;
+}
+.selectIco{
+	background-color:#1d1d1d;
+	background-image:url(../images/pic/select_ico.gif);
+	background-position:right top;
+	background-repeat:no-repeat;
+	border:1px solid #4b4b4b;
+	cursor:pointer;
+	color:#8c8c8c;
+	height:15px;
+	line-height:18px;
+	padding-left:3px;
+	width:90px;
+}
+.selectBlock{
+	background-color:#1d1d1d;
+	border:1px solid #4b4b4b;
+	color:#8c8c8c;
+	padding:3px;
+	position:absolute;
+	z-index:9999;
+}
+.selectBlock p{
+	color:#8c8c8c;
+	line-height:18px;
+	text-align:left;
+	padding-right:10px;
+	width:100px;
+}

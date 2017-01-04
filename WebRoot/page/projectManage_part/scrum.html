@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>敏捷管理</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		
+<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>敏捷管理文档下载</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<a href="doc/scrum敏捷开发介绍.pptx">scrum敏捷开发介绍.pptx</href></br>
+<a href="doc/敏捷测试流程(王乐).ppt">敏捷测试流程.ppt</href>
+</div>
+
+<div class="AI_common_title1">
+	<h2>经验总结</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+经验说明:
+1.由于熟悉了瀑布流程的惯性思维，容易造成等开发做完了，在统一提交给测试人员测试。
+在敏捷管理中，提倡边设计、边开发、边测试，拥抱变化。当开发人员完成某部分功能后，
+可以即刻提交给测试人员测试，让每个人都动起来。保证每个人都动起来。
+
+2.在采用敏捷的过程中，出现了，UE、UI、测试资源被其他优先级项目占用的情况，可以采取
+先做逻辑，待资源补全后，在回头来做UI部分。然而这种“先做逻辑，后在UI”开发模式出现了前端
+人员抵制的心理，以后遇到类似的情况，需要项目经理提前给项目组人员通气，保证团队和谐。
+同时由于一般UI、测试资源是公共资源，在平时，要加强对公共资源的“争夺”。可以采取有事没事
+多找他们聊天，一起玩等措施。
+
+3.由于敏捷提倡边设计、边开发，没有对设计有个全盘的考虑，可以适当借鉴瀑布模型的优点，
+项目经理可以调动技术能力最强的技术人员先进行全部或大部分模块的表结构设计。以免后期
+的改动频繁。但是有个地方很难解决，由于没有类图、方法、伪sql设计，导致大家开发的代码很乱，相互冲突
+，项目组大多成员没有严格按照三层架构开发，给后期的代码重构造成难度。代码review需要每周严格进行。
+解决办法为:
+1.前期安排技术能力最强的人，以写个“简单模块”的方式，评审后，让大家严格按照这个简单模块来执行。
+2.每周必要的代码review.
+
+4.由于敏捷崇尚自由，对大家的管理都没有上家公司严格，在项目管理上，主要是提现在加班制度上的适应。
+经过第一个公司“非人道”的加班制度，以及现在该公司很放松的制度。
+个人比较倾向于灵活的加班制度，以是否完成任务的方式来加班，即没有完成任务的才加班。完成了任务的当然不要加班,
+回去好好陪陪老婆、孩子。
+
+5.目前做得不够到位的地方:
+A:对团队成员进行激励，保持团队成员活力。沟通要当面沟通，最好面对技术问题，不要再QQ上聊天来沟通。
+B:对每个团队成员指定合适的技术方向。(这个任务有点虚,但是为了缓解项目经理的压力以及让大家有发展,还是得布置)
+C:团队的组织，组织相关活动，提前做好准备，保持镇定。
+D:需要提高抗压能力以及释放压力的能力(可以定期或不定期找领导沟通,解决技术难题压力和进度压力)。
+E:保持研发、产品、测试3条线的顺畅。特别是当需求变更的情况下。在项目实施过程中，出现了对测试人员的沟通不顺畅，
+  主要是自己是从开发人员做上去的项目经理，思考问题习惯于从开发人员的角度去思考。需要注意这点，但是改变起来难度极大。
+F:【强调】代码review绝不能走过场,至少每周进行代码review。否则非常容易造成代码质量无法控制而不可逆转的情况。
+
+6.做得较好的地方
+A:对团队组员的细节掌控力.
+B:研发组员、产品组员的气氛。
+
+7.其他经验的积累
+A.在新致公司研发团队做某模块的详细设计时,由于优先级的安排不合理导致浪费一天时间。（该模块涉及到外部系统的接口）
+  解决办法为:工作优先级调整，从原来的“功能需求设计->详细设计(含概设)->设计实现时在看外部接口的情况”调整为
+             "功能需求设计->调研外部接口->根据接口情况调整功能需求设计或需求必须做时的接口改造可行性评估->详细设计(可能含接口改造)"
+            从变化后的流程可以看到,如果运气好或者团队本身对接口很了解，两个流程的时间是一样的。如果对接口不了解，当然
+            应该选择调整后的流程。
+</pre>
+</div>
+</body>
+</html>

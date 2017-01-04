@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='3月各地市收入分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='收入值(万元)' SYAxisName='同比增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0" showBorder='0' showLabels='1'>
+<categories>
+ 	<category label='阜阳'/>
+	<category label='亳州'/>
+	<category label='巢湖'/>
+	<category label='宿州'/>
+	<category label='池州'/>
+	<category label='芜湖'/>
+	<category label='黄山'/>
+	<category label='六安'/>
+	<category label='淮北'/>
+	<category label='安庆'/>
+	<category label='合肥'/>
+	<category label='宣城'/>
+	<category label='滁州'/>
+	<category label='蚌埠'/>
+	<category label='淮南'/>
+	<category label='铜陵'/>	
+	<category label='马鞍山'/>
+</categories>
+ 
+	 <dataset seriesName="收入值" color="AFD8F8">
+	  	<set value='11686.85' link='DemoLink1.html'/>
+		<set value='7192.85' link='javaScript:changeChart("20103_01.xml","MSCombiDY2D")'/>
+		<set value='6448.24' link='E-my_func,Hong Kong,235'/>
+		<set value='8386.42'/>
+		<set value='2873.92'/>
+		<set value='7338.07'/>
+		<set value='3100.76'/>
+		<set value='8572.42'/>
+		<set value='4418.74'/>
+		<set value='9127.59'/>
+		<set value='24173.48'/>
+		<set value='6202.98'/>
+		<set value='8403.82'/>
+		<set value='6433.95'/>
+		<set value='5859.31'/>
+		<set value='2447.42'/>
+		<set value='3806.93'/>
+	</dataset>
+	 
+	<dataset lineThickness="2" seriesName="增长率" parentYAxis="S" >
+	    <set value='22.24'/>
+		<set value='21.88'/>
+		<set value='18.31'/>
+		<set value='17.70'/>
+		<set value='17.19'/>
+		<set value='16.89'/>
+		<set value='16.72'/>
+		<set value='16.58'/>
+		<set value='15.11'/>
+		<set value='14.90'/>
+		<set value='14.75'/>
+		<set value='13.33'/>
+		<set value='12.55'/>
+		<set value='12.20'/>
+		<set value='11.21'/>
+		<set value='11.20'/>
+		<set value='10.00'/>
+	</dataset>
+</chart>

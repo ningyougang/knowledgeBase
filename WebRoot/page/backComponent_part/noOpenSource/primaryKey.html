@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>主键生成类</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+	<h2>方法预览</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+/**
+* 根据从1970年1月1日到现在返回的毫秒数和suff随机生成18位ID(Long型)
+* @return 18位随机生成的Long型ID
+*/
+public static synchronized Long genId()
+
+/**
+* 随机生成指定长度的ID
+* @param length 长度
+* @return 指定长度的ID(若指定位数小于1或大于18,则按照18位生成)
+*/
+public static Long genId(int length)
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+package com.asiainfo.base.util;
+
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+
+/**
+ * 产生ID的工具类
+ */
+public class IdGen {
+
+	private static Logger log = Logger.getLogger(IdGen.class);
+
+	private static long suff = 1000000;
+	
+	private static int idLength = 18;
+
+	private static final char DIGIT[] = {'1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0'};
+	
+	/**
+	 * 根据从1970年1月1日到现在返回的毫秒数和suff随机生成18位ID(Long型)
+	 * @return 18位随机生成的Long型ID
+	 */
+	public static synchronized Long genId() {
+		suff += 1;
+		if (suff > 9999999)
+			suff = 1000000;
+		// 产生一个18位的字符串
+		String id = (String.valueOf(new Date().getTime()).substring(0, idLength - String.valueOf(suff).length())) + suff;
+		return Long.valueOf(id);
+	}
+	
+	/**
+	 * 随机生成指定长度的ID
+	 * @param length 长度
+	 * @return 指定长度的ID(若指定位数小于1或大于18,则按照18位生成)
+	 */
+	public static Long genId(int length){
+		if(length < 1 || length > 18)
+			return genId();
+		String id = "" + DIGIT[(int)(Math.random()*9)];
+		for(int i = 1 ; i < length ; i++){
+			id += DIGIT[(int)(Math.random()*10)];
+		}
+		return Long.valueOf(id);
+	}
+
+}
+
+</pre>
+</p>
+</div>
+</body>
+</html>

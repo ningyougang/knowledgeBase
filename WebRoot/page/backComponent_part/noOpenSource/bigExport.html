@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>大数据量导出到response</title>
+<link type="text/css" rel="stylesheet" href="../../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+<div class="AI_common_title1">
+        <h2>背景知识</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:html;">
+从浏览器点击某个button去下载某个文件,可以有以下几种方式
+1.直接去请求Root(非WEB-INFO)下的文件，直接下载,如:http://主机IP或域名:PORT/工程名/文件名.xls(或.doc)
+ 注意下载的文件不能放在WEB-INFO下，因为该文件夹下的文件是受保护。如果要访问WEB-INFO下的文件，可以通过servlet或struts2框架来访问，见struts2例子
+ <action name="*TerminalType" method="{1}TerminalType" class="dimTerminalTypeAction">
+     <result name="preAdd">/WEB-INF/page/imei/mac/preTerminalType.jsp</result>
+     <result name="preModify">/WEB-INF/page/imei/mac/preTerminalType.jsp</result>
+ </action>
+2.通过http://主机IP或域名:PORT/工程名/${packName}/XXX.action
+  在action里拿到Response，在取出输出流，见示例代码
+OutputStream out = response.getOutputStream();
+response.setContentType("application/x-download");
+String filedisplay = URLEncoder.encode(filename.substring(filename
+		.lastIndexOf("/") + 1), "UTF-8");
+response.addHeader("Content-Disposition", "attachment;filename="+ filedisplay);
+FileInputStream in = new FileInputStream(Constants.DEFAULT_FILE_DIR + filerar);
+byte[] b = new byte[51200];
+int i = 0;
+while ((i = in.read(b)) > 0) {
+	out.write(b, 0, i);
+}
+out.flush();
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+	<h2>java-代码</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:java;">
+1.CSV大数据量导出的接口->ExportHugeDataCsvDao
+2.基本原理:通过java.sql.ResultSet，将数据写入文件，由于ResultSet可以保持与数据库的持久连接，不用占用太多内存。
+package com.asiainfo.base.dao;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.asiainfo.base.domain.ExportBean;
+
+public interface ExportHugeDataCsvDao {
+	/**
+	 * @param response
+	 *            用于相应客户端
+	 * @param exportBean
+	 *            导出的Excel的列名称
+	 * @param fileName
+	 *            导出的文件名称
+	 * @param callBack
+	 *            回调函数,用于需要对数据进行处理时调用
+	 * @throws Exception
+	 */
+	public void exportHugeDataCsv(HttpServletResponse response, final String sql,
+			final ExportBean exportBean, final String fileName,
+			final ExportCallBack callBack) throws Exception;
+}
+2.CSV大数据量导出的接口实现类
+package com.asiainfo.base.dao.impl;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.StatementCallback;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import com.asiainfo.base.Constants;
+import com.asiainfo.base.dao.ExportCallBack;
+import com.asiainfo.base.dao.ExportHugeDataCsvDao;
+import com.asiainfo.base.domain.ExportBean;
+import com.asiainfo.base.domain.HeadConfigBean;
+import com.asiainfo.base.util.FileOperate;
+import com.asiainfo.base.util.gZipUtil;
+
+/**
+ * 本类用于导出大数据量的Excel文件
+ */
+public class ExportHugeDataCsvDaoImpl extends JdbcDaoSupport implements ExportHugeDataCsvDao {
+
+	private final static Logger log = Logger.getLogger(ExportHugeDataCsvDaoImpl.class);
+	
+	private final static int MAXRECORDS = 65536;
+
+	/**
+	 * 利用传入的SQL,通过ResultSet取数据库记录,生成文件压缩(每个文件65536条记录),然后利用流打印到客户端
+	 * @param response 用于相应客户端,
+	 * @param exportBean 导出的Excel的列名称
+	 * @param fileName 导出的文件名称
+	 * @param callBack 回调函数,用于需要对数据进行处理时调用
+	 * @throws Exception
+	 */
+	public void exportHugeDataCsv(HttpServletResponse response, final String sql,
+			final ExportBean exportBean, final String fileName,
+			final ExportCallBack callBack) throws Exception {
+		log.debug("=============exportHugeDataCsv()===============");
+
+		UUID uuid = UUID.randomUUID();
+		final String uuidStr = uuid.toString();
+
+		final String fileDir = "hugedataFile";
+
+		// 存放文件的名称列表
+		final List<String> files = new ArrayList<String>();
+
+		this.getJdbcTemplate().execute(new StatementCallback() {
+			public Object doInStatement(Statement sm) throws SQLException,
+					DataAccessException {
+				PrintWriter out = null;
+				StringBuffer headtxt = new StringBuffer("");
+				StringBuffer bodytxt = new StringBuffer("");
+				boolean flag = (callBack == null) ? false : true;// 用于标识是否有回调函数
+
+				ResultSet st = null;
+				
+				try {
+					log.debug("sql:  " + sql);
+					st = sm.executeQuery(sql);
+
+					// 判断存放大数据量的文件夹是否存在
+					FileOperate.assureDirExit(Constants.DEFAULT_FILE_DIR
+							+ fileDir);
+
+					int k = 0;
+					int n = 0;
+
+					// 将文件头写入headtxt
+					for (HeadConfigBean headBean : (List<HeadConfigBean>) exportBean
+							.getHeadList()) {
+						headtxt.append(headBean.getRowNameCN()).append(",");
+					}
+					headtxt.append("\r\n");
+
+					while (st.next()) {
+						// 每五万行数据就生成一个文件
+						if (k == 0) {
+							// 创建新文件及输出流
+							String file = fileDir + File.separator + fileName
+									+ "_" + n + "_" + uuidStr + ".csv";
+							files.add(file);
+							out = new PrintWriter(
+									new BufferedWriter(new FileWriter(
+											Constants.DEFAULT_FILE_DIR
+													+ file.replace("/",
+															File.separator))));
+							out.write(headtxt.toString());
+							out.flush();
+						}
+						k++;
+
+						if (flag) {
+							// 调用回调函数处理数据
+							callBack.doInExport(st, bodytxt);
+						} else {
+							// 没有使用回调函数,不对数据进行处理
+							int i = 0;
+							for (HeadConfigBean headBean : (List<HeadConfigBean>) exportBean
+									.getHeadList()) {
+								if (i != 0) {
+									bodytxt.append(",");
+								}
+								i++;
+								Object content = st.getObject(headBean
+										.getRowName());
+								//csv文件,遇到","，则换单元格,需要对字符型数据进行处理，换成"，",遇到换行符也进行替换
+								if(content != null && content instanceof String){
+									content = content.toString().replace(",", "，");
+									content = content.toString().replace("\r\n" ,"，");
+									content = content.toString().replace("\n" ,"，");
+									content = content.toString().replace("\r" ,"，");
+								}
+								bodytxt.append("\t"+content);//防止0被截掉
+							}
+							bodytxt.append("\r\n");
+						}
+
+						if (k == MAXRECORDS) {
+							out.write(bodytxt.toString());
+							out.flush();
+							out.close();
+							k = 0;
+							bodytxt.setLength(0);
+							n++;
+						}
+
+					}
+					if (n == 0 && k == 0) {
+						// 说明没有数据
+						String file = fileDir + File.separator + fileName + "_"
+								+ n + "_" + uuidStr + ".csv";
+						files.add(file);
+						out = new PrintWriter(new BufferedWriter(
+								new FileWriter(Constants.DEFAULT_FILE_DIR
+										+ file.replace("/", File.separator))));
+						out.write(headtxt.toString());
+						out.flush();
+						out.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (bodytxt.length() != 0) {
+						out.write(bodytxt.toString());
+						out.flush();
+						bodytxt.setLength(0);
+					}
+					if (out != null)
+						out.close();
+					if (st != null)
+						st.close();
+				}
+				return null;
+			}
+		});
+
+		String[] filesStr = new String[files.size()];
+		for (int i = 0; i < files.size(); i++) {
+			filesStr[i] = Constants.DEFAULT_FILE_DIR + files.get(i);
+		}
+
+		String filerar = fileDir + File.separator + fileName + "_" + uuidStr
+				+ ".rar";
+		gZipUtil.createZip(Constants.DEFAULT_FILE_DIR + filerar, filesStr);
+		String filename = filerar.substring(
+				filerar.lastIndexOf(File.separator) + 1, filerar.length());
+		/*FileOperate.saveFile2FTP(Constants.DEFAULT_FILE_DIR + filerar, filerar
+				.replace(File.separator, "/"));*/
+
+		// 将文件写到客户端
+		OutputStream out = null;
+		FileInputStream in = null;
+		try {
+			out = response.getOutputStream();
+			response.setContentType("application/x-download");
+			String filedisplay = URLEncoder.encode(filename.substring(filename
+					.lastIndexOf("/") + 1), "UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename="
+					+ filedisplay);
+			in = new FileInputStream(Constants.DEFAULT_FILE_DIR + filerar);
+			byte[] b = new byte[51200];
+			int i = 0;
+			while ((i = in.read(b)) > 0) {
+				out.write(b, 0, i);
+			}
+			out.flush();
+			/*FileOperate.downLoadFileFTP(filerar.replace(File.separator, "/"),
+					out);*/
+		} catch (FileNotFoundException fe) {
+			fe.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+			if(in != null){
+				in.close();
+			}
+//			response.flushBuffer();
+		}
+		
+		for (int i = 0; i < filesStr.length; i++) {
+			// 删除excel文件
+			FileOperate.delFile(filesStr[i]);
+		}
+
+	}
+}
+3.其他相关类:gZipUtil.java、ExportBean.java、HeadConfigBean.java
+</pre>
+</p>
+</div>
+
+<div class="AI_common_title1">
+        <h2>调用</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div>
+<div class="AI_one_layout_border">
+<p>
+<pre class="brush:js;">
+ExportHugeDataCsvDao exportdao = (ExportHugeDataCsvDao) SpringContextUtil
+.getBean("exportHugeDataCsvDao");
+exportdao.exportHugeDataCsv(ServletActionContext.getResponse() , sql.toString() , exportBean, filedisplay, null);
+</pre>
+</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>联动下拉框</title>
+		<link rel="stylesheet" type="text/css"
+			href="../../../common/AIComp/css/AI.Comp.css" />
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../../common/AIComp/script/AI.Comp.js"></script>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+	</head>
+	<body>
+		<script type="text/javascript">
+			SyntaxHighlighter.all();
+			var dimCompanyAndGroup = [
+				{"val":"125965284561000001","pid":"-1","txt":"上海移动","children":[
+					{"val":"125965385521000016","pid":"125965284561000001","txt":"移动开发组","leaf":true},
+					{"val":"125965385521000017","pid":"125965284561000001","txt":"移动应用组","leaf":true}
+				],"leaf":false},
+				{"val":"125965284561000002","pid":"-1","txt":"亚信科技","children":[
+					{"val":"125965385521000006","pid":"125965284561000002","txt":"亚信应用组","leaf":true},
+					{"val":"125965385521000002","pid":"125965284561000002","txt":"亚信工单组","leaf":true},
+					{"val":"125965385521000003","pid":"125965284561000002","txt":"亚信系统组","leaf":true},
+					{"val":"125965385521000004","pid":"125965284561000002","txt":"亚信统计组","leaf":true},
+					{"val":"125965385521000005","pid":"125965284561000002","txt":"亚信仓库组","leaf":true},
+					{"val":"125965385521000001","pid":"125965284561000002","txt":"亚信前端组","leaf":true},
+					{"val":"125965385521000007","pid":"125965284561000002","txt":"亚信测试组","leaf":true},
+					{"val":"125965385521000008","pid":"125965284561000002","txt":"亚信运维组","leaf":true}
+				],"leaf":false},
+				{"val":"125965284561000003","pid":"-1","txt":"宽文","children":[
+					{"val":"125965385521000013","pid":"125965284561000003","txt":"宽文项目组","leaf":true},
+					{"val":"125965385521000014","pid":"125965284561000003","txt":"宽文测试组","leaf":true},
+					{"val":"125965385521000015","pid":"125965284561000003","txt":"宽文维护组","leaf":true}
+				],"leaf":false},
+				{"val":"125965284561000004","pid":"-1","txt":"鸿冠","children":[
+					{"val":"125965385521000009","pid":"125965284561000004","txt":"鸿冠应用组","leaf":true},
+					{"val":"125965385521000010","pid":"125965284561000004","txt":"鸿冠工单组","leaf":true},
+					{"val":"125965385521000011","pid":"125965284561000004","txt":"鸿冠测试组","leaf":true},
+					{"val":"125965385521000012","pid":"125965284561000004","txt":"鸿冠维护组","leaf":true}
+				],"leaf":false}];  
+				
+				</script>
+		<h1>
+			联动下拉框--效果展示
+		</h1>
+		<div class="effect">
+
+			单选:
+			<div id="companyId" name="baseUserInfo.companyId" class="AI-Comp"
+				type="combox" ds="dimCompanyAndGroup" cascade="groupId"
+				showall="true" alltxt="--请选择--" allval="-1">
+			</div>
+			<div id="groupId" name="baseUserInfo.groupId" class="AI-Comp"
+				value="" type="combox" showall="true" alltxt="--请选择--" allval="-1" multisel="false">
+			</div> 
+			多选:
+			<div id="companyId2" name="baseUserInfo.companyId" class="AI-Comp"
+				type="combox" ds="dimCompanyAndGroup" cascade="groupId2"
+				showall="true" alltxt="--请选择--" allval="-1">
+			</div>
+			<div id="groupId2" name="baseUserInfo.groupId" class="AI-Comp"
+				value="" type="combox" showall="true" alltxt="--请选择--" allval="-1" multisel="true">
+			</div> 
+		</div> 
+	
+ <h1>
+			使用解释
+		</h1>
+		<p>
+			引用的JS和CSS
+		</p>
+		<pre class="brush:js;">
+			<link rel="stylesheet" type="text/css"
+				href="common/AIComp/css/AI.Comp.css" />
+			<script type="text/javascript"
+				src="common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+			<script type="text/javascript" src="common/AIComp/script/AI.Comp.js"></script>
+				</pre>
+		<p>
+			下拉数据源(JSON格式)
+		</p>
+		<pre class="brush:js;">
+			var dimCompanyAndGroup = [
+				{"val":"125965284561000001","pid":"-1","txt":"上海移动","children":[
+					{"val":"125965385521000016","pid":"125965284561000001","txt":"移动开发组","leaf":true},
+					{"val":"125965385521000017","pid":"125965284561000001","txt":"移动应用组","leaf":true}
+				],"leaf":false},
+				{"val":"125965284561000002","pid":"-1","txt":"亚信科技","children":[
+					{"val":"125965385521000006","pid":"125965284561000002","txt":"亚信应用组","leaf":true},
+					{"val":"125965385521000002","pid":"125965284561000002","txt":"亚信工单组","leaf":true},
+					{"val":"125965385521000003","pid":"125965284561000002","txt":"亚信系统组","leaf":true},
+					{"val":"125965385521000004","pid":"125965284561000002","txt":"亚信统计组","leaf":true},
+					{"val":"125965385521000005","pid":"125965284561000002","txt":"亚信仓库组","leaf":true},
+					{"val":"125965385521000001","pid":"125965284561000002","txt":"亚信前端组","leaf":true},
+					{"val":"125965385521000007","pid":"125965284561000002","txt":"亚信测试组","leaf":true},
+					{"val":"125965385521000008","pid":"125965284561000002","txt":"亚信运维组","leaf":true}
+				],"leaf":false},
+				{"val":"125965284561000003","pid":"-1","txt":"宽文","children":[
+					{"val":"125965385521000013","pid":"125965284561000003","txt":"宽文项目组","leaf":true},
+					{"val":"125965385521000014","pid":"125965284561000003","txt":"宽文测试组","leaf":true},
+					{"val":"125965385521000015","pid":"125965284561000003","txt":"宽文维护组","leaf":true}
+				],"leaf":false},
+				{"val":"125965284561000004","pid":"-1","txt":"鸿冠","children":[
+					{"val":"125965385521000009","pid":"125965284561000004","txt":"鸿冠应用组","leaf":true},
+					{"val":"125965385521000010","pid":"125965284561000004","txt":"鸿冠工单组","leaf":true},
+					{"val":"125965385521000011","pid":"125965284561000004","txt":"鸿冠测试组","leaf":true},
+					{"val":"125965385521000012","pid":"125965284561000004","txt":"鸿冠维护组","leaf":true}
+				],"leaf":false}];
+		</pre>
+		<p>
+			使用(无需额外的调用JS)
+		</p>
+		<pre class="brush:html;">
+			&lt;div id="companyId" name="baseUserInfo.companyId" class="AI-Comp"
+				type="combox" ds="dimCompanyAndGroup" cascade="groupId"
+				showall="true" alltxt="--请选择--" allval="-1"&gt;&lt;/div&gt;
+			&lt;div id="groupId" name="baseUserInfo.groupId" class="AI-Comp"
+				value="" type="combox" showall="true" alltxt="--请选择--" allval="-1"&gt;&lt;/div&gt;
+		</pre>
+		<p>
+			属性说明
+		</p>
+		<pre class="brush:js;">
+			class		必须为AI-Comp
+			ds 			JSON数据ID
+			type		组件的类型
+						combox	表示下拉框
+			allowFilter	是否允许过滤
+			showall
+			alltxt		未选择时的中文展示
+			allval		未选择时的value值
+			multisel	是否多选
+			showstyle	显示类型
+						group 	分组显示
+						tree	树形显示
+			cascade		联动对应的下级ID
+		</pre>
+ 		<p>
+			方法说明
+		</p>
+		<pre class="brush:js;">
+                       创建对象     var comtmp = new AI.Comp.Combox({
+			                               el:'combox1',					
+			                               showAll:true,
+			                               ds:arr,//eval("[{txt:'M902',val:58920140},{txt:'T105',val:86202159}]")
+			                               multisel : true,
+			                               allowfilter : true,
+			                               value:arrayDimLevel2Str,
+			                               id:'combox1'
+		                          });
+                       获取对象        AI.getComp('id').getValue()  
+                       获取对象的值    AI.getComp('id').getValue().val (单个) 或AI.getComp('id').getValue()[i].val (数组需要遍历)
+                       销毁对象        AI.getComp('id').destory()
+		</pre>
+	</body>
+</html>

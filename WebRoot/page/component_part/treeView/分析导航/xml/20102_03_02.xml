@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="gbk"?>
+<chart caption='月租收入分析' outCnvBaseFont ='黑体' outCnvBaseFontSize ='12' outCnvBaseFontColor ='ffffff'  bgColor='444444' 
+borderColor='222222' useRoundEdges='1' PYAxisName='收入值' SYAxisName='环比增长率' palette='1' 
+showValues='0' sNumberSuffix='%' showPlotBorder="0" legendBgColor="222222" legendShadow ="0" showLegend="0">
+
+<categories>
+ 	<category label='芜湖'/>
+	<category label='亳州'/>
+	<category label='滁州'/>
+	<category label='宿州'/>
+	<category label='池州'/>
+	<category label='阜阳'/>
+	<category label='巢湖'/>
+	<category label='宣城'/>
+	<category label='蚌埠'/>
+	<category label='六安'/>
+	<category label='淮北'/>
+	<category label='黄山'/>
+	<category label='合肥'/>
+	<category label='马鞍山'/>
+	<category label='铜陵'/>
+	<category label='安庆'/>
+	<category label='淮南'/>
+</categories>
+ 
+<dataset seriesName="收入值" color="AFD8F8">
+  	<set value='10965611.12'/>
+	<set value='11436377.20'/>
+	<set value='18804228.42'/>
+	<set value='18661254.46'/>
+	<set value='5313884.35'/>
+	<set value='19616139.43'/>
+	<set value='11216119.77'/>
+	<set value='12267812.28'/>
+	<set value='11869569.24'/>
+	<set value='13496227.22'/>
+	<set value='7100253.77'/>
+	<set value='7156261.31'/>
+	<set value='29739224.75'/>
+	<set value='7032224.80'/>
+	<set value='5830273.00'/>
+	<set value='9055933.14'/>
+	<set value='8645908.19'/>
+</dataset>
+	 
+<dataset lineThickness="2" seriesName="增长率" parentYAxis="S" >
+  	<set value='7.20'/>
+	<set value='7.00'/>
+	<set value='6.34'/>
+	<set value='6.05'/>
+	<set value='6.01'/>
+	<set value='5.66'/>
+	<set value='4.78'/>
+	<set value='3.88'/>
+	<set value='3.54'/>
+	<set value='3.53'/>
+	<set value='3.32'/>
+	<set value='3.32'/>
+	<set value='3.14'/>
+	<set value='3.09'/>
+	<set value='3.03'/>
+	<set value='2.17'/>
+	<set value='1.88'/>
+</dataset>
+</chart>

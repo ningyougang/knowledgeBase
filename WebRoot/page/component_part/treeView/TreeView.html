@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="../../../common/css/cssreset.css" />
+		<link rel="stylesheet" type="text/css" href="../../../common/AIComp/css/AI.TreeView.css" />
+		<link rel="stylesheet" type="text/css" href="../../../common/AIComp/css/mopTip-2.2.css" />
+		<style type="text/css">
+			html,body{
+				width:100%;
+				height:100%;
+				overflow-y:hidden;
+			}
+		</style>
+		<script type="text/javascript" src="../../../common/AIComp/script/lib/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="../../../common/AIComp/script/lib/jquery/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="../../../common/AIComp/script/lib/jquery/jquery.mopTip-2.2.js"></script>
+		<script type="text/javascript" src="../../../common/AIComp/script/lib/jquery//jquery.pngFix-1.2.js"></script>
+		<script type="text/javascript" src="../../../common/AIComp/script/lib/excanvas.js"></script>
+		<script type="text/javascript" src="../../../common/AIComp/script/AI.TreeView.js"></script>
+		<script type="text/javascript" src="../../../common/AIComp/script/AI.ViewNode.js"></script>
+		<script type="text/javascript">
+			var GLOAB_PATH="../../../";
+			var incomeTotal={
+				id : '100',
+				title : '出账收入',
+				val : '23444345.99',
+				guage:55.33,
+				cycle : '35.32',
+				leaf : false,
+				warn : false
+			};
+			$(document).ready(function(){
+				$("#container").draggable({scroll:true});
+				var dataModel={
+						dm1 : [{
+							txt : '本月:',
+							val : '#VAL# 亿元'
+						}, {
+							txt : '日均环比增长率:',
+							val : '#CYCLE#%'
+						}],
+						dm2:[{
+							txt : '本月:',
+							val : '#VAL# 亿元'
+						}, {
+							txt : '日均环比增长率:',
+							val : '#CYCLE#%'
+						},{
+							txt:'<br/><font color="blue">目标完成进度：</font>',
+							val:''
+						}]
+					};
+				var treeConfig={
+				    nodeId:'-1',
+				    nodeTitle:'出账收入',
+				    nodeType:'ProgressNode',
+				    top:10,
+				    expandDir:'bottom',
+				    color:'green',
+				    initExpand:true,
+					expandMode:'horizontal',
+				    dm:'dm2',
+				    ds:incomeTotal,
+				    childMargin:150,
+				    childAlign:'center',
+					children:[{
+						nodeId:'dept',
+						nodeTitle:'属地',
+						nodeType:'NormalNode',
+						expandDir:'left',
+						expandMode:'vertical',
+						expandUrl:'../../../common/AIComp/data/TreeView_dept.json',
+						initExpand:true,
+						clickFunc:function(){},
+						expandConfig:{
+							_default:{nodeType:'MiniNode',align:'center',overFunc : showTips}
+						}							
+					},{
+						nodeId:'income',
+						nodeTitle:'收入结构',
+						nodeType:'NormalNode',
+						clickFunc:function(){},
+						expandDir:'bottom',
+						expandMode:'horizontal',
+						overFunc : showTips,
+						initExpand:true,
+						expandUrl:'../../../common/AIComp/data/TreeView_income.json',
+						space:80,
+						expandConfig:{
+							_default:{nodeType:'LongNode',space:30,expandDir:'right',align:'center',
+									expandUrl:'../../../common/AIComp/data/TreeView_income2.json',
+									expandType:'vertical',dm:'dm1',margin:10,overFunc : showTips},
+							level1:{nodeType:'DataNode',expandDir:'bottom',expandMode:'vertical',margin:60,expandOne:true},
+							level2:{nodeType:'NormalNode'}
+						}		
+				    },{
+						nodeId:'brand',
+						nodeTitle:'品牌',
+						nodeType:'NormalNode',
+						expandDir:'right',
+						expandMode:'vertical',
+						expandUrl:'../../../common/AIComp/data/TreeView_brand.json',
+						clickFunc:function(){},
+						initExpand:true,
+						expandConfig:{
+							_default:{nodeType:'MiniNode',align:'center',overFunc : showTips}
+						}		
+				    }]
+				}
+				$('#container').AI_TreeView({
+					dm:dataModel,
+					config:treeConfig
+				});
+			});
+			function showTips(id, target) {
+				var div = $('#' + id, $('#container'));
+				var desc = div.attr("desc");
+				var tips = "";
+				if (desc && desc != "") {
+					tips = '<span style="color:blue;font-weight:bold;">业务口径：</span>' + desc;
+				}
+				var val = div.attr("val");
+				var cycle = div.attr("cycle");
+				if (val && cycle) {
+					tips += (tips != '')
+							? '<hr style="height:1px;border:1px solid gray;">'
+							: '';
+					tips += '本月值: ' + val + " 亿元"
+					var color = (parseFloat(cycle) > 0 ? 'red' : 'green');
+					tips += "<br><span style='color:" + color
+							+ ";font-weight:bold;'>日均环比增长率: " + cycle + " %</span>";
+				}
+				if (tips != "") {
+					$('#tips').html(tips);
+					// style:"overOut"
+					$(target).mopTip({
+						w : 250,
+						style : "overOut",
+						get : "#tips"
+					});
+				}
+			}			
+		</script>
+	</head>
+	<body>
+		<div class="panelContainer" style="height:100%;">
+			<div id="container" class="container">
+				<canvas id="canvas" width="3500" height="1500"></canvas>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>osi-整体介绍</title>
+<link type="text/css" rel="stylesheet" href="../../common/css/cssreset.css"/>
+<link type="text/css" rel="stylesheet" href="style/common_title.css" />
+<link type="text/css" rel="stylesheet" href="style/common_layout.css" />		
+<script type="text/javascript"
+			src="../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../common/Syntax/scripts/shBrushXml.js"></script>
+	<link type="text/css" rel="stylesheet"
+			href="../../common/Syntax/styles/shCoreDefault.css" />
+<script language="javascript">
+SyntaxHighlighter.all();
+</script>
+	</head>
+
+<body>
+
+<div class="AI_common_title1">
+	<h2>osi-参考模型</h2>
+	<span class="shrinkage_down_ico1"></span>
+</div> 
+<div class="AI_one_layout_border">
+<pre class="brush:js;">
+OSI是Open System Interconnect的缩写，意为开放式系统互联。在OSI出现之前，计算机网络中存在众多的体系结构，
+其中以IBM公司的SNA(系统网络体系结构)和DEC公司的DNA(Digital Network Architecture)数字网络体系结构最为著名。
+为了解决不同体系结构的网络的互联问题，国际标准化组织ISO(注意不要与OSI搞混））于1981年制定了开放系统互连参考模型
+（Open System Interconnection Reference Model，OSI/RM）。这个模型把网络通信的工作分为7层,
+它们由低到高分别是物理层（Physical Layer),数据链路层（Data Link Layer),网络层(Network Layer),传输层（Transport Layer),
+会话层（Session Layer），表示层（Presen tation Layer)和应用层（Application Layer)。
+第一层到第三层属于OSI参考模型的低三层，负责创建网络通信连接的链路；
+第四层到第七层为OSI参考模型的高四层，具体负责端到端的数据通信。
+每层完成一定的功能，每层都直接为其上层提供服务，并且所有层次都互相支持，
+而网络通信则可以自上而下（在发送端）或者自下而上（在接收端）双向进行。
+当然并不是每一通信都需要经过OSI的全部七层，有的甚至只需要双方对应的某一层即可。
+物理接口之间的转接，以及中继器与中继器之间的连接就只需在物理层中进行即可；
+而路由器与路由器之间的连接则只需经过网络层以下的三层即可。
+总的来说，双方的通信是在对等层次上进行的，不能在不对称层次上进行通信。
+
+由于OSI是一个理想的模型，因此一般网络系统只涉及其中的几层，很少有系统能够具有所有的7层，并完全遵循它的规定。
+在7层模型中，每一层都提供一个特殊的网络功能。从网络功能的角度观察：下面4层（物理层、数据链路层、网络层和传输层）
+主要提供数据传输和交换功能，即以节点到节点之间的通信为主；
+第4层作为上下两部分的桥梁，是整个网络体系结构中最关键的部分；
+而上3层（会话层、表示层和应用层）则以提供用户与应用程序之间的信息和数据处理功能为主。
+简言之，下4层主要完成通信子网的功能，上3层主要完成资源子网的功能。
+
+而tcp/ip协议簇是对osi的具体实现，包含5层(物理层、数据链路层、网络层、传输层、应用层)，所以这里我们只介绍5层
+</pre>
+</div>
+
+<img src="./doc/osi.gif"/>
+</body>
+</html>

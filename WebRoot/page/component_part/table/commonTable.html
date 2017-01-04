@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+		<title>普通表格</title>
+		<link rel="stylesheet" type="text/css"
+			href="../../../common/ext/css/ext-all.css" />
+		<script type="text/javascript"
+			src="../../../common/ext/script/ext-base.js"></script>
+		<script type="text/javascript"
+			src="../../../common/ext/script/ext-all.js"></script>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+		<style type=text/css>
+	        /* style rows on mouseover */
+	        .x-grid3-row-over .x-grid3-cell-inner {
+	            font-weight: bold;
+	        }
+	
+	        /* style for the "buy" ActionColumn icon */
+	        .x-action-col-cell img.buy-col {
+	            height: 16px;
+	            width: 16px;
+	            background-image: url(images/accept.png);
+	        }
+	
+	        /* style for the "alert" ActionColumn icon */
+	        .x-action-col-cell img.alert-col {
+	            height: 16px;
+	            width: 16px;
+	            background-image: url(images/error.png);
+	        }
+	
+	    </style>
+
+		<script>
+		Ext.onReady(function(){
+		    Ext.QuickTips.init();
+		
+		    // 静态数据
+		    var myData = [
+		        ['3m Co',                               71.72, 0.02,  0.03,  '9/1 12:00am' , 'Y'],
+		        ['Alcoa Inc',                           29.01, 0.42,  1.47,  '9/1 12:00am' , 'Y'],
+		        ['Altria Group Inc',                    83.81, 0.28,  0.34,  '9/1 12:00am' , 'Y'],
+		        ['American Express Company',            52.55, 0.01,  0.02,  '9/1 12:00am' , 'N'],
+		        ['American International Group, Inc.',  64.13, 0.31,  0.49,  '9/1 12:00am' , 'Y'],
+		        ['AT&T Inc.',                           31.61, -0.48, -1.54, '9/1 12:00am' , 'Y'],
+		        ['Boeing Co.',                          75.43, 0.53,  0.71,  '9/1 12:00am' , 'Y'],
+		        ['Caterpillar Inc.',                    67.27, 0.92,  1.39,  '9/1 12:00am' , 'N'],
+		        ['Citigroup, Inc.',                     49.37, 0.02,  0.04,  '9/1 12:00am' , 'N'],
+		        ['E.I. du Pont de Nemours and Company', 40.48, 0.51,  1.28,  '9/1 12:00am' , 'Y'],
+		        ['Exxon Mobil Corp',                    68.1,  -0.43, -0.64, '9/1 12:00am' , 'Y'],
+		        ['General Electric Company',            34.14, -0.08, -0.23, '9/1 12:00am' , 'N'],
+		        ['General Motors Corporation',          30.27, 1.09,  3.74,  '9/1 12:00am' , 'Y'],
+		        ['Hewlett-Packard Co.',                 36.53, -0.03, -0.08, '9/1 12:00am' , 'N'],
+		        ['Honeywell Intl Inc',                  38.77, 0.05,  0.13,  '9/1 12:00am' , 'N'],
+		        ['Intel Corporation',                   19.88, 0.31,  1.58,  '9/1 12:00am' , 'Y'],
+		        ['International Business Machines',     81.41, 0.44,  0.54,  '9/1 12:00am' , 'Y'],
+		        ['Johnson & Johnson',                   64.72, 0.06,  0.09,  '9/1 12:00am' , 'Y'],
+		        ['JP Morgan & Chase & Co',              45.73, 0.07,  0.15,  '9/1 12:00am' , 'N'],
+		        ['McDonald\'s Corporation',             36.76, 0.86,  2.40,  '9/1 12:00am' , 'N'],
+		        ['Merck & Co., Inc.',                   40.96, 0.41,  1.01,  '9/1 12:00am' , 'N'],
+		        ['Microsoft Corporation',               25.84, 0.14,  0.54,  '9/1 12:00am' , 'Y'],
+		        ['Pfizer Inc',                          27.96, 0.4,   1.45,  '9/1 12:00am' , 'Y'],
+		        ['The Coca-Cola Company',               45.07, 0.26,  0.58,  '9/1 12:00am' , 'Y'],
+		        ['The Home Depot, Inc.',                34.64, 0.35,  1.02,  '9/1 12:00am' , 'N'],
+		        ['The Procter & Gamble Company',        61.91, 0.01,  0.02,  '9/1 12:00am' , 'N'],
+		        ['United Technologies Corporation',     63.26, 0.55,  0.88,  '9/1 12:00am' , 'N'],
+		        ['Verizon Communications',              35.57, 0.39,  1.11,  '9/1 12:00am' , 'N'],            
+		        ['Wal-Mart Stores, Inc.',               45.45, 0.73,  1.63,  '9/1 12:00am' , 'Y']
+		    ];
+		
+		    function change(val) {
+		        if (val > 0) {
+		            return '<span style="color:green;">' + val + '</span>';
+		        } else if (val < 0) {
+		            return '<span style="color:red;">' + val + '</span>';
+		        }
+		        return val;
+		    }
+
+		    function pctChange(val) {
+		        if (val > 0) {
+		            return '<span style="color:green;">' + val + '%</span>';
+		        } else if (val < 0) {
+		            return '<span style="color:red;">' + val + '%</span>';
+		        }
+		        return val;
+		    }
+		
+		    // store用于定义数据格式
+		    var store = new Ext.data.ArrayStore({
+		        fields: [
+		           {name: 'company'},
+		           {name: 'price',      type: 'float'},
+		           {name: 'change',     type: 'float'},
+		           {name: 'pctChange',  type: 'float'},
+		           {name: 'lastChange', type: 'date', dateFormat: 'n/j h:ia'},
+		           {name: 'select'}
+		        ]
+		    });
+		    //一般来说对于我们的应用采用下面这种方式来存储数据
+		    //􀃢􀀈􀀉􀀐􀁡􀄕􀀉􀄕􀀐􀈩􀀉􀁞􀁠􀀇Ext.data.Store 把任何数据格式转化为grid可以使用的形式
+			//url从哪里取数据 reader如何去解析数据􀃢􀀈􀀉􀀐􀁡􀄕􀀉􀄕􀀐􀈩􀀉􀁞􀁠􀀇
+			//var store = new Ext.data.Store({
+			//	url : 'camp/queryCampMonthAjax.action',
+			//	reader : reader
+			//});
+		
+		    // manually load local data
+		    store.loadData(myData);
+			
+		    // 创建GridPanel
+		    // 一般展示的表格，使用GridPanel
+		    // 如果是单元格可编辑的话，我们使用EditorGridPanel
+		    var grid = new Ext.grid.EditorGridPanel({
+		        store: store,
+		        columns: [
+		            {
+		                id       :'company',
+		                header   : '公司名', 
+		                width    : 160, 
+		                sortable : true, //是否允许排序
+		                dataIndex: 'company' //数据索引,和store中对应
+		            },
+		            {
+		                header   : '价格', 
+		                width    : 75, 
+		                sortable : true, 
+		                renderer : 'usMoney', 
+		                dataIndex: 'price',
+		                editor: new Ext.form.NumberField({
+			                allowBlank: false,
+			                allowNegative: false,
+			                maxValue: 100000
+			            })
+		            },
+		            {
+		                header   : '变化', 
+		                width    : 75, 
+		                sortable : true, 
+		                renderer : change, //该函数用于加工单元格的原始数据，转换成为HTML并返回给GridView进一步处理，此处调用change()方法
+		                dataIndex: 'change'
+		            },
+		            {
+		                header   : '百分比', 
+		                width    : 75, 
+		                sortable : true, 
+		                renderer : pctChange,
+		                dataIndex: 'pctChange'
+		            },
+		            {
+		                header   : '最后更新时间', 
+		                width    : 100, 
+		                sortable : true, 
+		                renderer : Ext.util.Format.dateRenderer('Y-m-d'), 
+		                dataIndex: 'lastChange'
+		            },
+		            {
+		                header   : 'YN标识', 
+		                width    : 50, 
+		                sortable : false, 
+		                dataIndex: 'select'
+		            },
+		            {
+		                xtype: 'actioncolumn',
+		                width: 50,
+		                items: [{
+		                    icon   : 'images/delete.gif',  // Use a URL in the icon config
+		                    tooltip: 'Sell stock',
+		                    handler: function(grid, rowIndex, colIndex) {
+		                        var rec = store.getAt(rowIndex);
+		                        alert("Sell " + rec.get('company'));
+		                    }
+		                }, {
+		                    getClass: function(v, meta, rec) {// Or return a class from a function
+		                        if (rec.get('change') < 0) {
+		                            this.items[1].tooltip = 'Do not buy!';
+		                            return 'alert-col';
+		                        } else {
+		                            this.items[1].tooltip = 'Buy stock';
+		                            return 'buy-col';
+		                        }
+		                    },
+		                    handler: function(grid, rowIndex, colIndex) {
+		                        var rec = store.getAt(rowIndex);
+		                        alert("Buy " + rec.get('company'));
+		                    }
+		                }]
+		            }
+		        ],
+		        stripeRows: true,//True表示为显示行的分隔符（默认为true）。
+		        autoExpandColumn: 'company',//指定某个列之id,grid就会在这一列自动扩展宽度，以填满空白的位置，该id不能为0。
+		        height: 350,
+		        width: 640,
+		        title: 'AI测试表格',//表格的Title
+		        clicksToEdit: 2,//要转换单元格为编辑状态所需的鼠标点击数（默认为两下，即双击）。
+		        renderTo: 'grid-example',//设置渲染的ID
+		        viewConfig: {
+		            forceFit:true
+		        }
+		    });
+		});
+		
+		SyntaxHighlighter.all();
+	</script>
+	<body>
+		<h1>
+			普通表格--效果展示
+		</h1>
+		<div class="effect">
+			<div id="grid-example"></div>
+		</div>
+		<h1>
+			使用解释
+		</h1>
+		<p>
+			引用的JS和CSS
+		</p>
+		<pre class="brush:js;">
+			&lt;link rel="stylesheet" type="text/css"
+				href="../../../common/ext/css/ext-all.css" /&gt;
+			&lt;script type="text/javascript"
+					src="../../../common/ext/script/ext-base.js"&gt;&lt;/script&gt;
+			&lt;script type="text/javascript"
+					src="../../../common/ext/script/ext-all.js"&gt;&lt;/script&gt;
+		</pre>
+		<p>
+			使用(页面元素)
+		</p>
+		<pre class="brush:html;">
+			&lt;div id="grid-example"&gt;&lt;/div&gt;
+		</pre>
+		<p>
+			使用(JavaScript代码)
+		</p>
+		<pre class="brush:js;">
+		Ext.onReady(function(){
+		    Ext.QuickTips.init();
+		
+		    // 静态数据
+		    var myData = [
+		        ['3m Co',                               71.72, 0.02,  0.03,  '9/1 12:00am' , 'Y'],
+		        ['Alcoa Inc',                           29.01, 0.42,  1.47,  '9/1 12:00am' , 'Y'],
+		        ['Altria Group Inc',                    83.81, 0.28,  0.34,  '9/1 12:00am' , 'Y'],
+		        ['American Express Company',            52.55, 0.01,  0.02,  '9/1 12:00am' , 'N'],
+		        ['American International Group, Inc.',  64.13, 0.31,  0.49,  '9/1 12:00am' , 'Y'],
+		        ['AT&T Inc.',                           31.61, -0.48, -1.54, '9/1 12:00am' , 'Y'],
+		        ['Boeing Co.',                          75.43, 0.53,  0.71,  '9/1 12:00am' , 'Y'],
+		        ['Caterpillar Inc.',                    67.27, 0.92,  1.39,  '9/1 12:00am' , 'N'],
+		        ['Citigroup, Inc.',                     49.37, 0.02,  0.04,  '9/1 12:00am' , 'N'],
+		        ['E.I. du Pont de Nemours and Company', 40.48, 0.51,  1.28,  '9/1 12:00am' , 'Y'],
+		        ['Exxon Mobil Corp',                    68.1,  -0.43, -0.64, '9/1 12:00am' , 'Y'],
+		        ['General Electric Company',            34.14, -0.08, -0.23, '9/1 12:00am' , 'N'],
+		        ['General Motors Corporation',          30.27, 1.09,  3.74,  '9/1 12:00am' , 'Y'],
+		        ['Hewlett-Packard Co.',                 36.53, -0.03, -0.08, '9/1 12:00am' , 'N'],
+		        ['Honeywell Intl Inc',                  38.77, 0.05,  0.13,  '9/1 12:00am' , 'N'],
+		        ['Intel Corporation',                   19.88, 0.31,  1.58,  '9/1 12:00am' , 'Y'],
+		        ['International Business Machines',     81.41, 0.44,  0.54,  '9/1 12:00am' , 'Y'],
+		        ['Johnson & Johnson',                   64.72, 0.06,  0.09,  '9/1 12:00am' , 'Y'],
+		        ['JP Morgan & Chase & Co',              45.73, 0.07,  0.15,  '9/1 12:00am' , 'N'],
+		        ['McDonald\'s Corporation',             36.76, 0.86,  2.40,  '9/1 12:00am' , 'N'],
+		        ['Merck & Co., Inc.',                   40.96, 0.41,  1.01,  '9/1 12:00am' , 'N'],
+		        ['Microsoft Corporation',               25.84, 0.14,  0.54,  '9/1 12:00am' , 'Y'],
+		        ['Pfizer Inc',                          27.96, 0.4,   1.45,  '9/1 12:00am' , 'Y'],
+		        ['The Coca-Cola Company',               45.07, 0.26,  0.58,  '9/1 12:00am' , 'Y'],
+		        ['The Home Depot, Inc.',                34.64, 0.35,  1.02,  '9/1 12:00am' , 'N'],
+		        ['The Procter & Gamble Company',        61.91, 0.01,  0.02,  '9/1 12:00am' , 'N'],
+		        ['United Technologies Corporation',     63.26, 0.55,  0.88,  '9/1 12:00am' , 'N'],
+		        ['Verizon Communications',              35.57, 0.39,  1.11,  '9/1 12:00am' , 'N'],            
+		        ['Wal-Mart Stores, Inc.',               45.45, 0.73,  1.63,  '9/1 12:00am' , 'Y']
+		    ];
+		
+		    function change(val) {
+		        if (val > 0) {
+		            return '<span style="color:green;">' + val + '</span>';
+		        } else if (val < 0) {
+		            return '<span style="color:red;">' + val + '</span>';
+		        }
+		        return val;
+		    }
+
+		    function pctChange(val) {
+		        if (val > 0) {
+		            return '<span style="color:green;">' + val + '%</span>';
+		        } else if (val < 0) {
+		            return '<span style="color:red;">' + val + '%</span>';
+		        }
+		        return val;
+		    }
+		
+		    // store用于定义数据格式
+		    var store = new Ext.data.ArrayStore({
+		        fields: [
+		           {name: 'company'},
+		           {name: 'price',      type: 'float'},
+		           {name: 'change',     type: 'float'},
+		           {name: 'pctChange',  type: 'float'},
+		           {name: 'lastChange', type: 'date', dateFormat: 'n/j h:ia'},
+		           {name: 'select'}
+		        ]
+		    });
+		    //一般来说对于我们的应用采用下面这种方式来存储数据
+		    //Ext.data.Store 把任何数据格式转化为grid可以使用的形式
+			//url从哪里取数据 reader如何去解析数据
+			//var store = new Ext.data.Store({
+			//	url : 'camp/queryCampMonthAjax.action',
+			//	reader : reader
+			//});
+		
+		    // manually load local data
+		    store.loadData(myData);
+		    
+		    //selModel 选择模式
+			var sm = new Ext.grid.CheckboxSelectionModel({
+				//允许多选	
+				singleSelect:false
+			});
+			
+		    // 创建GridPanel
+		    // 一般展示的表格，使用GridPanel
+		    // 如果是单元格可编辑的话，我们使用EditorGridPanel
+		    var grid = new Ext.grid.GridPanel({
+		        store: store,
+		        columns: [
+		            {
+		                id       :'company',
+		                header   : '公司名', 
+		                width    : 160, 
+		                sortable : true, //是否允许排序
+		                dataIndex: 'company' //数据索引,和store中对应
+		            },
+		            {
+		                header   : '价格', 
+		                width    : 75, 
+		                sortable : true, 
+		                renderer : 'usMoney', 
+		                dataIndex: 'price',
+		                editor: new Ext.form.NumberField({
+			                allowBlank: false,
+			                allowNegative: false,
+			                maxValue: 100000
+			            })
+		            },
+		            {
+		                header   : '变化', 
+		                width    : 75, 
+		                sortable : true, 
+		                renderer : change, //该函数用于加工单元格的原始数据，转换成为HTML并返回给GridView进一步处理，此处调用change()方法
+		                dataIndex: 'change',
+		                editor: new Ext.form.TextField({
+			            })
+		            },
+		            {
+		                header   : '百分比', 
+		                width    : 75, 
+		                sortable : true, 
+		                renderer : pctChange,
+		                dataIndex: 'pctChange',
+		                editor: new Ext.form.TextField({
+			            })
+		            },
+		            {
+		                header   : '最后更新时间', 
+		                width    : 100, 
+		                sortable : true, 
+		                renderer : Ext.util.Format.dateRenderer('Y-m-d'), 
+		                dataIndex: 'lastChange'
+		            },
+		            {
+		                header   : 'YN标识', 
+		                width    : 50, 
+		                sortable : false, 
+		                dataIndex: 'select'
+		            },
+		            {
+		                xtype: 'actioncolumn',
+		                width: 50,
+		                items: [{
+		                    icon   : 'images/delete.gif',  // Use a URL in the icon config
+		                    tooltip: 'Sell stock',
+		                    handler: function(grid, rowIndex, colIndex) {
+		                        var rec = store.getAt(rowIndex);
+		                        alert("Sell " + rec.get('company'));
+		                    }
+		                }, {
+		                    getClass: function(v, meta, rec) {// Or return a class from a function
+		                        if (rec.get('change') < 0) {
+		                            this.items[1].tooltip = 'Do not buy!';
+		                            return 'alert-col';
+		                        } else {
+		                            this.items[1].tooltip = 'Buy stock';
+		                            return 'buy-col';
+		                        }
+		                    },
+		                    handler: function(grid, rowIndex, colIndex) {
+		                        var rec = store.getAt(rowIndex);
+		                        alert("Buy " + rec.get('company'));
+		                    }
+		                }]
+		            }
+		        ],
+		        stripeRows: true,//True表示为显示行的分隔符（默认为true）。
+		        autoExpandColumn: 'company',//指定某个列之id,grid就会在这一列自动扩展宽度，以填满空白的位置，该id不能为0。
+		        height: 350,
+		        width: 640,
+		        title: 'AI测试表格',//表格的Title
+		        sm: sm,
+		        clicksToEdit: 2,//要转换单元格为编辑状态所需的鼠标点击数（默认为两下，即双击）。
+		        renderTo: 'grid-example',//设置渲染的ID
+		        viewConfig: {
+		            forceFit:true
+		        }
+		    });
+		});
+		</pre>
+	</body>
+</html>

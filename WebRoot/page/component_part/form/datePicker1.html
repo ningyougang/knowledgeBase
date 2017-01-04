@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>jquery日历</title>
+
+                <link type="text/css" rel="stylesheet"
+			href="../../../common/css/component.css" />
+		<link type="text/css" rel="stylesheet"
+			href="style/date.css" />
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/jquery/jquery-ui-1.7.custom.css" />
+		<script type="text/javascript"
+			src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript"
+			src="../../../common/jquery/jquery-ui.min.js"></script>
+		<script type="text/javascript"
+			src="../../../common/jquery/ui.datepicker-zh-CN.min.js"></script>
+
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shCore.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJScript.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushJava.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushCss.js"></script>
+		<script type="text/javascript"
+			src="../../../common/Syntax/scripts/shBrushXml.js"></script>
+		<link type="text/css" rel="stylesheet"
+			href="../../../common/Syntax/styles/shCoreDefault.css" />
+
+   <script language="javascript">
+		$(document).ready(function(){
+			$("#opTime1").datepicker({
+				changeMonth : true,
+				changeYear : true,
+				minDate :'-24M',
+				maxDate :'-1M',
+				dateFormat : 'yy-mm-dd',
+				duration : ''
+			});
+			$("#opTime2").datepicker({
+				changeMonth : true,
+				changeYear : true,
+				dateFormat : 'yymm',
+				duration : ''
+			});
+		});
+		</script>
+
+	</head>
+	<body>
+		<script type="text/javascript">
+			SyntaxHighlighter.all();
+		</script>
+		<h1>
+			jquery日历效果展示
+		</h1>
+		<div class="effect">
+日期(yyyy-MM-dd):</br><input type="text" class="dateBtn" id="opTime1" value="2012-01-01"></input></br>
+月份(yyyyMM):</br><input type="text" class="dateBtn" id="opTime2" value="201207"></input>
+		</div>
+		<h1>
+			使用解释
+		</h1>
+		<p>
+			引用的JS和CSS
+		</p>
+		<pre class="brush:js;">
+<link type="text/css" rel="stylesheet" href="style/date.css" />
+<link type="text/css" rel="stylesheet" href="../../../common/jquery/jquery-ui-1.7.custom.css" />
+<script type="text/javascript" src="../../../common/jquery/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="../../../common/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../../common/jquery/ui.datepicker-zh-CN.min.js"></script>
+		</pre>
+		
+		<p>
+			使用
+        	</p>
+		<pre class="brush:html;">
+页面上的input元素:
+日期(yyyy-MM-dd):<input type="text" class="dateBtn" id="opTime1"></input>
+月份(yyyyMM):<input type="text" class="dateBtn" id="opTime2"></input>	
+
+在文档加载完成时执行:	
+<script language="javascript">
+$(document).ready(function(){
+	$("#opTime1").datepicker({
+	   changeMonth : true,
+	   changeYear : true,
+	   dateFormat : 'yy-mm-dd',
+	   duration : ''
+	});
+	$("#opTime2").datepicker({
+	   changeMonth :true,
+	   changeYear : true,
+	   dateFormat : 'yymm',
+	   duration : ''
+	  });
+});
+</script>
+		</pre>
+		<p>
+			属性说明(其他相关参数请到网站查阅)		
+                </p>
+		<pre class="brush:html;">
+changeMonth : true, //是否改变月份
+changeYear : true,//是否改变年份
+minDate :'-24M',//日期最小值
+maxDate :'-1M',//日期最大值
+dateFormat : 'yy-mm-dd',//展现的格式
+duration : ''
+		</pre>
+ 		<p>
+			方法说明
+		</p>
+<pre class="brush:js;">
+文档加载完成后执行:
+	$("#domId").datepicker({
+	   changeMonth : true,
+	   changeYear : true,
+	   dateFormat : 'yy-mm-dd',
+	   duration : ''
+	});
+</pre>		
+	</body>
+</html>
+

@@ -1,0 +1,13 @@
+/* iframe */
+#head{
+	background:#00FF00;
+	height:40px; 
+}
+#right{
+	background:#CC99FF;
+	padding:10px;
+	text-align:center;
+	height:1200px;
+	margin:0;
+	padding:0;
+}

@@ -1,0 +1,73 @@
+[{
+			id : '40001',
+			title : '白水',
+			desc : '白水',
+			value : 31233,
+			cycle : 0.97,
+			same : 0.65,
+			allowdrill:true
+		}, {
+			id : '40002',
+			title : '潼关',
+			desc : '潼关',
+			value : 12342,
+			cycle : 0.77,
+			same : -0.01,
+			allowdrill:true
+		}, {
+			id : '40003',
+			title : '华县',
+			desc : '华县',
+			value : 12343,
+			cycle : 0.64,
+			same : 0.15,
+			allowdrill:true
+		}, {
+			id : '40004',
+			title : '韩城',
+			desc : '韩城',
+			value : 13241,
+			cycle : -0.07,
+			same : -0.05,
+			allowdrill:true
+		}, {
+			id : '40005',
+			title : '澄城',
+			desc : '澄城',
+			value : 13414,
+			cycle : 0.56,
+			same : 0.03,
+			allowdrill:true
+		}, {
+			id : '40006',
+			title : '富平',
+			desc : '富平',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '40007',
+			title : '浦城',
+			desc : '浦城',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '40008',
+			title : '华阴',
+			desc : '华阴',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}, {
+			id : '40009',
+			title : '大荔',
+			desc : '大荔',
+			value : 4321,
+			cycle : -0.2,
+			same : 0.13,
+			allowdrill:true
+		}]
