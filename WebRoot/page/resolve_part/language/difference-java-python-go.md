@@ -1,3 +1,7 @@
+## 前置
+* 学习网站: http://www.runoob.com/
+* markdown在线编辑: http://dillinger.io/
+
 ## java/python/go比较点
 * 一、静态语言/动态语言
 * 二、函数式编程
@@ -5,7 +9,8 @@
 * 四、数据类型
 * 五、访问权限
 * 六、异常处理
-* 七、细节不同处
+* 七、依赖
+* 八、细节不同处
 
 ## 一、静态语言/动态语言
 ### 1.知识点说明:
@@ -132,6 +137,27 @@ go中没有继承这个概念，可以用组合来模拟多继承,请参考:http://www.01happy.com/golan
 请参考: http://www.runoob.com/python/python-exceptions.html，对于打开的IO资源，还可以通过with来处理，自动释放.
 * go的异常处理比java和python更为简洁，请参考:http://blog.csdn.net/wuwenxiang91322/article/details/9042503，待仔细研究
 
+## 六、依赖
+* 在java中，java依赖的jar包，将其放到${CLASSPATH}下
+* 在python中，python依赖的package，放到/usr/lib/python2.7/site-packages/下
+* 在go中，go直接依赖源码，可以通过godep在结合go自身的vendor来管理，参见:https://github.com/tools/godep，比如:
+
+  ```
+  go get github.com/tools/godep  (下载到${GOPATH}/pkg下面，然后安装到${GOPATH}/bin下面)
+  cp ${GOPATH}/bin/godep /usr/local/bin  (拷贝到path下面)
+  sudo yum install  -y librados2-devel and librbd1-devel #或许需要这步,go连注释的代码也会扫描
+  go get ${remoteLibUrl}
+  godep save 
+  ```
+  
+  说明:godep save:在未指定包名的情况下，godep会自动扫描当前目录所属包中import的所有外部依赖库（非系统库），
+并查看其是否属于某个代码管理工具（比如git，hg）。若是，则把此库获取路径和当前对应的revision（commit id）记录到当前目录
+Godeps下的Godeps.json，同时，把不含代码管理信息（如.git目录）的代码拷贝到Godeps/_workspace/src下，
+用于后继godep go build等命令执行时固定查找依赖包的路径。
+因此，godep save能否成功执行需要有两个要素：
+  * 当前或者需扫描的包均能够编译成功：因此所有依赖包事先都应该已经或go get或手工操作保存到当前GOPATH路径下
+  * 依赖包必须使用了某个代码管理工具（如git，hg）：这是因为godep需要记录revision  
+  
 ## 七、细节不同处
 * 代码块
   * java是以大括号来划分代码块。
