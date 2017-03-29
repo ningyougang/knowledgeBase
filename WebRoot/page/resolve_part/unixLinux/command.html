@@ -168,6 +168,11 @@ tcpdump常用命令地址:http://www.cnblogs.com/ggjucheng/archive/2012/01/14/23
 其他:
 底层拷贝(比cp拷贝更底层) dd:备份分区表:dd if=/dev/sda of=/root/mbr.bak bs=256 count=2
 8、其他
+向linux shell script中默认传输y/n(一般在脚本中包含需要确认y/n的情况)
+yes | ./script, 举例:yes|docker plugin install ${plugin_full_name} --alias ${plugin_alias_name}
+yes n | ./script
+参考:http://askubuntu.com/questions/338857/automatically-enter-input-in-command-line
+
 ps -aux | grep "^apache" | awk '{print $2}' | xargs -i kill -9 {}   //杀死进程
 ps -aux | grep "^keystone" | awk '{print $2}' | xargs -i kill -9 {}
 hostname -F /etc/hostname:在不重启linux服务器的情况下,使/etc/hostname文件生效;如果不知道通过man cmd或者cmd --help或者度娘
