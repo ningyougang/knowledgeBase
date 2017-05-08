@@ -161,14 +161,14 @@ ceph.client.${user}.keyring到/etc/ceph下，就可以执行ceph的相关命令了，如ceph -s 
 我司的一个案例，在只有public网络时，增加OSD，由于ceph需要“搬数据”到新的OSD，导致升级
 达5小时，如果有专门的集群网络(需要配备万兆交换机和光纤)，几分钟即可升级完成。
 
-### crush算法
+### crush算法(参考下面的文章即可)
+* http://xuxiaopang.com/2016/11/08/easy-ceph-CRUSH/#more
+* http://www.cnblogs.com/sammyliu/p/4836014.html
+* https://my.oschina.net/u/2460844/blog/531722
+* http://www.cnblogs.com/sammyliu/p/5568989.html (crush rule详细解释)
+
 #### 如何调整pool的PG_NUM/PGP_NUM以便Crush算法能够将PG进行全局的数据平衡
 * 如何调整所有pool的PG_NUM到合适的值，请参考:http://ceph.com/pgcalc/
 * 增加某个池的PG_NUM会导致该池的PG产生分裂，产生的子PG会继承父PG的OSD映射关系，所以不会导致数据迁移。实验:https://sanwen8.cn/p/450w3u5.html
 * 增加某个池的PGP_NUM，会导致分裂后的子PG按照Crush规则进行数据迁移，进行全局的数据平衡。参考:https://www.ustack.com/blog/ceph-pg-fenlie/
 * 在修改PG_NUM/PGP_NUM时，一方面应该先调整PG_NUM，在调整PGP_NUM，并且幅度不要太大，调整后的PG_NUM应该等于PGP_NUM。参考:http://blog.csdn.net/xiongwenwu/article/details/53942164
- 
-待写
-* https://my.oschina.net/u/2460844/blog/531722
-* http://www.cnblogs.com/sammyliu/p/4836014.html
-* http://www.cnblogs.com/sammyliu/p/5568989.html (结尾也有类似的内容)
